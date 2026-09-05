@@ -1,20 +1,41 @@
 # Solar atlas
 
-A browser solar-system explorer built from `../solar-system-de9006d2/`. It retains all 71 source bodies, seven ring systems, physical dimensions, source records, and the cached year of JPL motion data.
+A browser solar-system explorer covering 71 bodies, seven ring systems, physical dimensions, source records, and a cached year of JPL motion data.
 
-The Blender and Unreal projects are inputs, not runtime dependencies. The release lives in `dist/` and includes its data and assets.
+Meshes and maps are converted ahead of time, so no modeling tool is a runtime dependency. `npm run build` writes the release to `dist/` with its data and assets included.
+
+![Earth in the Solar atlas explorer](docs/screenshots/desktop-earth.png)
+
+## Screenshots
+
+<table>
+	<tr>
+		<td><img src="docs/screenshots/desktop-saturn.png" alt="Saturn and its rings in Explore mode"></td>
+		<td><img src="docs/screenshots/desktop-ship-chase.png" alt="Spaceship chase view above the Moon"></td>
+	</tr>
+	<tr>
+		<td align="center"><sub>Explore Saturn and its ring system</sub></td>
+		<td align="center"><sub>Fly in cockpit or chase view</sub></td>
+	</tr>
+	<tr>
+		<td colspan="2" align="center">
+			<img src="docs/screenshots/phone-earth.png" alt="Earth explorer interface on a phone" width="360"><br>
+			<sub>Responsive phone layout with touch controls</sub>
+		</td>
+	</tr>
+</table>
 
 ## Run the release
 
-From this folder:
-
 ```sh
-python3 -m http.server 4173 --bind 127.0.0.1 --directory dist
+npm ci
+npm run build
+npm run preview
 ```
 
-Open <http://127.0.0.1:4173/?scoutTheme=dark>. Stop the server with Ctrl+C. On macOS, `launch.command` starts the same local server.
+Open the address the preview server prints and append `?scoutTheme=dark` for the dark theme. Stop the server with Ctrl+C. On macOS, `launch.command` serves an already built `dist/` the same way.
 
-Use HTTP rather than opening `index.html` as a `file://` URL. Browsers restrict local-file fetches, workers, and model loading. No account, external API, or CDN is needed at runtime.
+Serve the release over HTTP. Opening the page straight from disk fails, because browsers restrict local-file fetches, workers, and model loading. No account, external API, or CDN is needed at runtime.
 
 To host the app, upload the entire `dist/` directory to a static HTTPS host. Keep the directory layout intact. Assets load on demand, so visiting every body transfers more data than opening the initial Earth view.
 
@@ -87,16 +108,16 @@ No n-body spacecraft dynamics, fuel accounting, relativistic optics, live epheme
 
 ```sh
 npm ci
-npm run dev -- --host 127.0.0.1
+npm run dev
 npm run typecheck
 npm test
 npm run build
 npm run test:browser
 ```
 
-Source and rendering contracts live in `src/contracts.ts`. Conversion and export scripts live in `scripts/`. Scientific inputs remain in the original project; generated output belongs to this app.
+Source and rendering contracts live in `src/contracts.ts`. Conversion and export scripts live in `scripts/`. Scientific inputs come from the upstream records listed in `CREDITS.md`; generated output belongs to this app.
 
-The browser suite uses installed Google Chrome through Playwright. It exercises desktop and emulated phone viewports. Emulated touch tests do not establish performance on a physical phone. Screenshots and reports live in `artifacts/`.
+The browser suite uses installed Google Chrome through Playwright. It exercises desktop and emulated phone viewports. Emulated touch tests do not establish performance on a physical phone. Runs write screenshots and a JSON report to `artifacts/`, which is not tracked.
 
 ## Credits
 

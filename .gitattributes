@@ -9,7 +9,6 @@
 launch.command text eol=lf
 public/assets/** linguist-generated=true
 public/data/** linguist-generated=true
-artifacts/** linguist-generated=true
 package-lock.json linguist-generated=true
 *.png filter=lfs diff=lfs merge=lfs -text
 *.jpg filter=lfs diff=lfs merge=lfs -text

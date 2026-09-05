@@ -14,10 +14,13 @@ dist-ssr
 *.tsbuildinfo
 
 # Test output
+artifacts
 test-results
 playwright-report
 blob-report
 .playwright
+tests/render-browser-evidence.json
+tests/render-handshake-evidence.json
 
 # Python
 __pycache__/
