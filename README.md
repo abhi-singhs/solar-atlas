@@ -33,7 +33,7 @@ npm run build
 npm run preview
 ```
 
-Open the address the preview server prints and append `?scoutTheme=dark` for the dark theme. Stop the server with Ctrl+C. On macOS, `launch.command` serves an already built `dist/` the same way.
+Open the address the preview server prints and append `?scoutTheme=dark` for the dark theme. Stop the server with Ctrl+C.
 
 Serve the release over HTTP. Opening the page straight from disk fails, because browsers restrict local-file fetches, workers, and model loading. No account, external API, or CDN is needed at runtime.
 

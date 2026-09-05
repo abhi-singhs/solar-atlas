@@ -6,7 +6,6 @@
 *.tif binary
 *.glb binary
 *.bin binary
-launch.command text eol=lf
 public/assets/** linguist-generated=true
 public/data/** linguist-generated=true
 package-lock.json linguist-generated=true
