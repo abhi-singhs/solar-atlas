@@ -1,0 +1,104 @@
+{
+  "body_count": 71,
+  "center_id": 0,
+  "corrections": "NONE",
+  "end_jd_tdb": 2461653.500800724,
+  "end_utc": "2027-09-05T00:00:00+00:00",
+  "epoch_rounding_tolerance_days": 2e-09,
+  "files": {
+    "CREDITS.md": {
+      "bytes": 13866,
+      "sha256": "a463cf30f971d1474fb20553cc40f0908c863b50dc7afc5e835b6cd16d9e0dbe"
+    },
+    "asset_manifest.json": {
+      "bytes": 145969,
+      "sha256": "c28cd21ca6f32f4f09dd0ced3d12c6accf7f91d976a9df4aeb8f3966b50fc4f3"
+    },
+    "catalog.json": {
+      "bytes": 118634,
+      "sha256": "1d0fbbac0de4c799ae3c4cb9c1a9c0b3969f837a0b6fccce713ae9d57aa79cdd"
+    },
+    "ephemeris_validation.json": {
+      "bytes": 6786,
+      "sha256": "69c7da9dc6f9273a3eb6452cf88beb7105aa2380c9a0634b5d742a13635c95ad"
+    },
+    "naif0012.tls": {
+      "bytes": 5257,
+      "sha256": "678e32bdb5a744117a467cd9601cd6b373f0e9bc9bbde1371d5eee39600a039b"
+    },
+    "orientations.json": {
+      "bytes": 54645,
+      "sha256": "4779536969c12643b61edce2a13ce4b63aefb4791ae243c06775577da668793a"
+    },
+    "pck00011.tpc": {
+      "bytes": 131226,
+      "sha256": "3dff7b1dbeceaa01f25467767d3fa25816051c85d162d1edf04acb310ee28bb1"
+    },
+    "provenance.json": {
+      "bytes": 7980,
+      "sha256": "62b809945ef296d6f54ec20a166b26d9d5c02ae00ec3bbdba69316a4107df542"
+    },
+    "ring-poles.json": {
+      "bytes": 357,
+      "sha256": "4fc346851e322b726270c73b00f00acdece0a1bb392be2bfa493cd2f7baf5c23"
+    },
+    "rings.py.txt": {
+      "bytes": 3654,
+      "sha256": "ad5bf08986ca0876da4897ca75e074a5b065df04e0ea0e613d445b0a03a2574d"
+    },
+    "sources.json": {
+      "bytes": 335963,
+      "sha256": "f9f35125230d2c0192d2cd0bf17f2d4598b8ed3fa496200f247e1504a7883df7"
+    },
+    "states.bin": {
+      "bytes": 36796943,
+      "sha256": "d02d178bf85f11cb8179e123c89775ca369bca36010c098c8bebf89560eb45f4"
+    },
+    "time.json": {
+      "bytes": 2879,
+      "sha256": "0073c4ce5fec1aedf71d82e12c72bb8af892a5ef8f03f1d80d7c3450a18bac4c"
+    },
+    "validation.json": {
+      "bytes": 69199,
+      "sha256": "080cbfa6b0a07aab0d71cab5d8e6f092e3e356a5e9109f324b6f64a06bd4494e"
+    }
+  },
+  "frame": "ICRF",
+  "geometric": true,
+  "id": "bundled",
+  "label": "Bundled 2026-09-05 to 2027-09-05",
+  "phobos_refinement_required": true,
+  "record_count": 72,
+  "reference_plane": "FRAME",
+  "schema_version": 1,
+  "source_copies": {
+    "CREDITS.md": "CREDITS.md",
+    "asset_manifest.json": "data/asset_manifest.json",
+    "catalog.json": "data/catalog.json",
+    "ephemeris_validation.json": "data/ephemeris_validation.json",
+    "naif0012.tls": "data/kernels/naif0012.tls",
+    "orientations.json": "data/orientations.json",
+    "pck00011.tpc": "data/kernels/pck00011.tpc",
+    "rings.py.txt": "scripts/rings.py",
+    "sources.json": "sources.json",
+    "validation.json": "validation.json"
+  },
+  "source_sha256": {
+    "CREDITS.md": "a463cf30f971d1474fb20553cc40f0908c863b50dc7afc5e835b6cd16d9e0dbe",
+    "data/asset_manifest.json": "c28cd21ca6f32f4f09dd0ced3d12c6accf7f91d976a9df4aeb8f3966b50fc4f3",
+    "data/catalog.json": "1d0fbbac0de4c799ae3c4cb9c1a9c0b3969f837a0b6fccce713ae9d57aa79cdd",
+    "data/ephemerides.json.gz": "78cb490dbfce40673d55074bab2c95092cd2bfcdedaf3ebd808b7fa22617ef30",
+    "data/ephemeris_validation.json": "69c7da9dc6f9273a3eb6452cf88beb7105aa2380c9a0634b5d742a13635c95ad",
+    "data/horizons/phobos-refined.json.gz": "6380d7ff1acfbeead68a70d945647d9a5f782feaabbbc3db1fb67da5171c7b8b",
+    "data/kernels/naif0012.tls": "678e32bdb5a744117a467cd9601cd6b373f0e9bc9bbde1371d5eee39600a039b",
+    "data/kernels/pck00011.tpc": "3dff7b1dbeceaa01f25467767d3fa25816051c85d162d1edf04acb310ee28bb1",
+    "data/orientations.json": "4779536969c12643b61edce2a13ce4b63aefb4791ae243c06775577da668793a",
+    "scripts/rings.py": "ad5bf08986ca0876da4897ca75e074a5b065df04e0ea0e613d445b0a03a2574d",
+    "sources.json": "f9f35125230d2c0192d2cd0bf17f2d4598b8ed3fa496200f247e1504a7883df7",
+    "validation.json": "080cbfa6b0a07aab0d71cab5d8e6f092e3e356a5e9109f324b6f64a06bd4494e"
+  },
+  "start_jd_tdb": 2461288.500800724,
+  "start_utc": "2026-09-05T00:00:00+00:00",
+  "time_scale": "TDB",
+  "units": "KM-S"
+}

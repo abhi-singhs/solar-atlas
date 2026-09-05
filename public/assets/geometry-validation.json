@@ -1,0 +1,5766 @@
+{
+  "schema_version": 1,
+  "source_file_sha256": {
+    "solar_system.blend": "570318095ff1ab61b6eec5987e45c9c2d2e3238b435e47c7b873ad7b163448b4",
+    "data/catalog.json": "1d0fbbac0de4c799ae3c4cb9c1a9c0b3969f837a0b6fccce713ae9d57aa79cdd",
+    "data/asset_manifest.json": "c28cd21ca6f32f4f09dd0ced3d12c6accf7f91d976a9df4aeb8f3966b50fc4f3",
+    "scripts/materials.py": "6d0bb6c5877d531bd1c4c6a64f67b0e3730e6740f1d2e5320c7bf1e3bf85dfd7",
+    "scripts/rings.py": "ad5bf08986ca0876da4897ca75e074a5b065df04e0ea0e613d445b0a03a2574d"
+  },
+  "source_unchanged": true,
+  "coordinate_contract": "GLB stores (x,z,-y). Loader restores (x,-z,y) exactly once.",
+  "uv_contract": "GLB stores (u,1-v). Textures use flipY=false. No image registration transform.",
+  "bodies": {
+    "sun": {
+      "mesh": "assets/meshes/sun.glb",
+      "mesh_low": "assets/meshes/sun.low.glb",
+      "normalization_radius_km": 695700.0,
+      "radii_km": [
+        695700.0,
+        695700.0,
+        695700.0
+      ],
+      "vertices": 12642,
+      "triangles": 25280,
+      "source_mesh": "Sun | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -695698.875,
+          695700.0
+        ],
+        [
+          -695700.0,
+          695698.8125
+        ],
+        [
+          -695700.0,
+          695700.0
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9999999403953552,
+            -1.452865490136901e-07,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            -1.2458717719709966e-06,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            2.7939697133660957e-07,
+            0.9999982714653015,
+            0.0
+          ],
+          "source_uv": [
+            0.7499999403953552,
+            0.5
+          ],
+          "source_normal": [
+            -4.136376082897186e-05,
+            1.0,
+            2.0505827706074342e-05
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            0.9999999403953552
+          ],
+          "source_uv": [
+            0.746874988079071,
+            1.0
+          ],
+          "source_normal": [
+            -4.842627845391689e-07,
+            -7.165859905455818e-09,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "f94f92e97e78d5b88cd5d004ee2587e5e40fe87cff10fcb5523ee8e74ed2a1e6",
+      "low_sha256": "4672635343d5de09c097d5d61241bf188bf086565a2ea1d7223a248b75d659f0"
+    },
+    "mercury": {
+      "mesh": "assets/meshes/mercury.glb",
+      "mesh_low": "assets/meshes/mercury.low.glb",
+      "normalization_radius_km": 2440.53,
+      "radii_km": [
+        2440.53,
+        2440.53,
+        2438.26
+      ],
+      "vertices": 12642,
+      "triangles": 25280,
+      "source_mesh": "Mercury | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -2440.526123046875,
+          2440.530029296875
+        ],
+        [
+          -2440.530029296875,
+          2440.52587890625
+        ],
+        [
+          -2438.260009765625,
+          2438.260009765625
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            1.0,
+            -1.452865490136901e-07,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            -1.2458725677788607e-06,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            2.79396999758319e-07,
+            0.9999983310699463,
+            0.0
+          ],
+          "source_uv": [
+            0.7499999403953552,
+            0.5
+          ],
+          "source_normal": [
+            -4.136467396165244e-05,
+            1.0,
+            1.9917610188713297e-05
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            0.99906986951828
+          ],
+          "source_uv": [
+            0.746874988079071,
+            1.0
+          ],
+          "source_normal": [
+            6.522858484458993e-07,
+            2.497327322714682e-08,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "238fc5f1c98caef40e4b88dc4ecb3e27ab7a0e6889152a12127eb9b5c9ad9db5",
+      "low_sha256": "2bc982ccd6332138142ff42535b10f3f52a2178297760c463fe63312ef83ec63"
+    },
+    "venus": {
+      "mesh": "assets/meshes/venus.glb",
+      "mesh_low": "assets/meshes/venus.low.glb",
+      "normalization_radius_km": 6051.8,
+      "radii_km": [
+        6051.8,
+        6051.8,
+        6051.8
+      ],
+      "vertices": 12642,
+      "triangles": 25280,
+      "source_mesh": "Venus | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -6051.7900390625,
+          6051.7998046875
+        ],
+        [
+          -6051.7998046875,
+          6051.78955078125
+        ],
+        [
+          -6051.7998046875,
+          6051.7998046875
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            1.0,
+            -1.452865632245448e-07,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            -3.5596340097754364e-08,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            2.79396999758319e-07,
+            0.9999982714653015,
+            0.0
+          ],
+          "source_uv": [
+            0.7499999403953552,
+            0.5
+          ],
+          "source_normal": [
+            -4.136405186727643e-05,
+            1.0,
+            2.1109774024807848e-05
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "source_uv": [
+            0.746874988079071,
+            1.0
+          ],
+          "source_normal": [
+            -3.020134187181611e-08,
+            9.054217997572778e-08,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "5a63229b3dfc0c1fbbaa631398d854c62a375f9cac49c1c8ad4e144bab9fd812",
+      "low_sha256": "195c98eb081ea1dcf9461498ec40b6f1a0c989148a12b5a6ef2cfee16b873076"
+    },
+    "earth": {
+      "mesh": "assets/meshes/earth.glb",
+      "mesh_low": "assets/meshes/earth.low.glb",
+      "normalization_radius_km": 6378.1366,
+      "radii_km": [
+        6378.1366,
+        6378.1366,
+        6356.7519
+      ],
+      "vertices": 12642,
+      "triangles": 25280,
+      "source_mesh": "Earth | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -6378.12646484375,
+          6378.13671875
+        ],
+        [
+          -6378.13671875,
+          6378.12548828125
+        ],
+        [
+          -6356.751953125,
+          6356.751953125
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9999999403953552,
+            -1.452865490136901e-07,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            -3.5003139942091366e-08,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            2.7939697133660957e-07,
+            0.9999982118606567,
+            0.0
+          ],
+          "source_uv": [
+            0.7499999403953552,
+            0.5
+          ],
+          "source_normal": [
+            -4.136325151193887e-05,
+            1.0,
+            2.0574985683197156e-05
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            0.9966471195220947
+          ],
+          "source_uv": [
+            0.746874988079071,
+            1.0
+          ],
+          "source_normal": [
+            1.0802661165598693e-07,
+            4.635160311128317e-10,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "0c40208e08a487821ef5cd8e23f5fbf2fd99745ac69bd11101590e4191013314",
+      "low_sha256": "c5246340237e4ef9f69f0916a8ef71055a6be39603235d7056c024434659bcab"
+    },
+    "mars": {
+      "mesh": "assets/meshes/mars.glb",
+      "mesh_low": "assets/meshes/mars.low.glb",
+      "normalization_radius_km": 3396.19,
+      "radii_km": [
+        3396.19,
+        3396.19,
+        3376.2
+      ],
+      "vertices": 12642,
+      "triangles": 25280,
+      "source_mesh": "Mars | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -3396.1845703125,
+          3396.18994140625
+        ],
+        [
+          -3396.18994140625,
+          3396.18408203125
+        ],
+        [
+          -3376.199951171875,
+          3376.199951171875
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            1.0,
+            -1.452865632245448e-07,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            -2.467428657837445e-06,
+            8.8991169988617e-10
+          ]
+        },
+        {
+          "source_position": [
+            2.79396999758319e-07,
+            0.9999983310699463,
+            0.0
+          ],
+          "source_uv": [
+            0.7499999403953552,
+            0.5
+          ],
+          "source_normal": [
+            -4.0985698433360085e-05,
+            1.0,
+            2.0017934730276465e-05
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            0.9941140413284302
+          ],
+          "source_uv": [
+            0.746874988079071,
+            1.0
+          ],
+          "source_normal": [
+            3.4494981093757815e-08,
+            -3.395658509930399e-08,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "50a79f990c540d52cbdba24c8ef4bd56b0e6ff3d310ed95c72311c322f04ffb5",
+      "low_sha256": "aee47e53eda5304428ec4554f78f5a7943a0d36abaf15a799e2fc2667466cda0"
+    },
+    "jupiter": {
+      "mesh": "assets/meshes/jupiter.glb",
+      "mesh_low": "assets/meshes/jupiter.low.glb",
+      "normalization_radius_km": 71492.0,
+      "radii_km": [
+        71492.0,
+        71492.0,
+        66854.0
+      ],
+      "vertices": 12642,
+      "triangles": 25280,
+      "source_mesh": "Jupiter | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -71491.8828125,
+          71492.0
+        ],
+        [
+          -71492.0,
+          71491.875
+        ],
+        [
+          -66854.0,
+          66854.0
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            1.0,
+            -1.452865632245448e-07,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            -1.3325490044735488e-06,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            2.7939697133660957e-07,
+            0.9999982714653015,
+            0.0
+          ],
+          "source_uv": [
+            0.7499999403953552,
+            0.5
+          ],
+          "source_normal": [
+            -4.0983810322359204e-05,
+            1.0,
+            2.1925312466919422e-05
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            0.9351256489753723
+          ],
+          "source_uv": [
+            0.746874988079071,
+            1.0
+          ],
+          "source_normal": [
+            -8.285735475510592e-07,
+            -1.1887244255603946e-07,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "0f0a4f5e4b40b699617da34b20aa6a01c28c9cab1c39ea1a8bb7cb5e64b94dab",
+      "low_sha256": "ec31d8a01c98133fe859e21064c98faf5366b3cca265a1e0eb1c0de25b46fffb"
+    },
+    "saturn": {
+      "mesh": "assets/meshes/saturn.glb",
+      "mesh_low": "assets/meshes/saturn.low.glb",
+      "normalization_radius_km": 60268.0,
+      "radii_km": [
+        60268.0,
+        60268.0,
+        54364.0
+      ],
+      "vertices": 12642,
+      "triangles": 25280,
+      "source_mesh": "Saturn | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -60267.90234375,
+          60268.0
+        ],
+        [
+          -60268.0,
+          60267.89453125
+        ],
+        [
+          -54364.0,
+          54364.0
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            1.0,
+            -1.452865632245448e-07,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            -3.9752048763830317e-08,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            2.79396999758319e-07,
+            0.9999982714653015,
+            0.0
+          ],
+          "source_uv": [
+            0.7499999403953552,
+            0.5
+          ],
+          "source_normal": [
+            -4.098546924069524e-05,
+            1.0,
+            2.2059377442928962e-05
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            0.9020376205444336
+          ],
+          "source_uv": [
+            0.746874988079071,
+            1.0
+          ],
+          "source_normal": [
+            -1.3848505204805406e-06,
+            -5.754311160899306e-08,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "15ebb9b875fcd8057db43bdd7a7c8012d8ec48d835d39ec55c3d25c06abbf462",
+      "low_sha256": "f4f845081f23adf076327dc3e626f0bdbdd8528c8148a8632d8d85813602e9d0"
+    },
+    "uranus": {
+      "mesh": "assets/meshes/uranus.glb",
+      "mesh_low": "assets/meshes/uranus.low.glb",
+      "normalization_radius_km": 25559.0,
+      "radii_km": [
+        25559.0,
+        25559.0,
+        24973.0
+      ],
+      "vertices": 12642,
+      "triangles": 25280,
+      "source_mesh": "Uranus | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -25558.958984375,
+          25559.0
+        ],
+        [
+          -25559.0,
+          25558.955078125
+        ],
+        [
+          -24973.0,
+          24973.0
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9999999403953552,
+            -1.452865490136901e-07,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            -2.510172635084018e-06,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            2.7939697133660957e-07,
+            0.9999982118606567,
+            0.0
+          ],
+          "source_uv": [
+            0.7499999403953552,
+            0.5
+          ],
+          "source_normal": [
+            -4.1361705370945856e-05,
+            1.0,
+            2.0366711396491155e-05
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            0.9770725965499878
+          ],
+          "source_uv": [
+            0.746874988079071,
+            1.0
+          ],
+          "source_normal": [
+            -7.141348987715901e-07,
+            6.294291665653873e-08,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "802f4d94d9d02b530ef4bba3ffb8ea36042fb5cc23eb2ceaad6cf00fe0af0dde",
+      "low_sha256": "8893613955b5b056b2dc3a88faf81da5e219ab7c222a17150da6faf880cd7f0e"
+    },
+    "neptune": {
+      "mesh": "assets/meshes/neptune.glb",
+      "mesh_low": "assets/meshes/neptune.low.glb",
+      "normalization_radius_km": 24764.0,
+      "radii_km": [
+        24764.0,
+        24764.0,
+        24341.0
+      ],
+      "vertices": 12642,
+      "triangles": 25280,
+      "source_mesh": "Neptune | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -24763.9609375,
+          24764.0
+        ],
+        [
+          -24764.0,
+          24763.95703125
+        ],
+        [
+          -24341.0,
+          24341.0
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            1.0,
+            -1.452865490136901e-07,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            -1.2672436469074455e-06,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            2.79396999758319e-07,
+            0.9999982118606567,
+            0.0
+          ],
+          "source_uv": [
+            0.7499999403953552,
+            0.5
+          ],
+          "source_normal": [
+            -4.098362478544004e-05,
+            1.0,
+            2.0246196072548628e-05
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            0.9829187393188477
+          ],
+          "source_uv": [
+            0.746874988079071,
+            1.0
+          ],
+          "source_normal": [
+            1.227165284944931e-07,
+            -1.4504936984849337e-07,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "d47e0f403189bab5d1f6fa9d6e6855fc4788c3daea075c8751428828165559aa",
+      "low_sha256": "c62667242a2093feaac82c6c04fc7b740adc0f4adf89182f2b0831f15f6a28cb"
+    },
+    "ceres": {
+      "mesh": "assets/meshes/ceres.glb",
+      "mesh_low": "assets/meshes/ceres.low.glb",
+      "normalization_radius_km": 482.2,
+      "radii_km": [
+        482.2,
+        482.1,
+        445.9
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Ceres | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -482.20001220703125,
+          482.19970703125
+        ],
+        [
+          -482.1000061035156,
+          482.0997009277344
+        ],
+        [
+          -445.8999938964844,
+          445.8999938964844
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9999993443489075,
+            -9.683739676802361e-08,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            4.6809131504232937e-07,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.9997919201850891,
+            0.0
+          ],
+          "source_uv": [
+            0.75,
+            0.5
+          ],
+          "source_normal": [
+            1.222856644744752e-05,
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            0.9247199296951294
+          ],
+          "source_uv": [
+            0.7447916269302368,
+            1.0
+          ],
+          "source_normal": [
+            4.617736415468698e-09,
+            -1.884657940820489e-08,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "51142e191ddc3287cf37de9c1bcfc516db5875734add91734ee85d06f1b54948",
+      "low_sha256": "0607daec02a49fb689c5be334ac248e718f9ef9fc8c3cd8129f6f06d772e6ff8"
+    },
+    "pluto": {
+      "mesh": "assets/meshes/pluto.glb",
+      "mesh_low": "assets/meshes/pluto.low.glb",
+      "normalization_radius_km": 1188.3,
+      "radii_km": [
+        1188.3,
+        1188.3,
+        1188.3
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Pluto | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -1188.300048828125,
+          1188.29931640625
+        ],
+        [
+          -1188.300048828125,
+          1188.29931640625
+        ],
+        [
+          -1188.300048828125,
+          1188.300048828125
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9999994039535522,
+            -9.685748381116355e-08,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            -5.939375657959545e-09,
+            1.187875131591909e-09
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.9999994039535522,
+            0.0
+          ],
+          "source_uv": [
+            0.75,
+            0.5
+          ],
+          "source_normal": [
+            1.1775400707847439e-05,
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "source_uv": [
+            0.7447916269302368,
+            1.0
+          ],
+          "source_normal": [
+            -5.526404720512801e-07,
+            2.549123223616334e-08,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "b0f4d7629f7d7877145b8b362e32d0a5606f3eef0247dd11aedfde082ee35668",
+      "low_sha256": "cfcd473c067fa4bb848325302980d034291e77f4cea92bf01e33c456e5b381c0"
+    },
+    "haumea": {
+      "mesh": "assets/meshes/haumea.glb",
+      "mesh_low": "assets/meshes/haumea.low.glb",
+      "normalization_radius_km": 1161,
+      "radii_km": [
+        1161,
+        852,
+        513
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Haumea | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -1161.0,
+          1160.999267578125
+        ],
+        [
+          -852.0,
+          851.99951171875
+        ],
+        [
+          -513.0,
+          513.0
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9999994039535522,
+            -7.107887967094939e-08,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            -7.156314651979301e-09,
+            1.192719145670651e-09
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.7338497042655945,
+            0.0
+          ],
+          "source_uv": [
+            0.75,
+            0.5
+          ],
+          "source_normal": [
+            8.83333632373251e-06,
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            0.44186046719551086
+          ],
+          "source_uv": [
+            0.7447916269302368,
+            1.0
+          ],
+          "source_normal": [
+            -1.617739258108486e-07,
+            2.2116354969625718e-08,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "31058e302bec6981ce174eb72435bba41783f6fbae4c420c1163915e7c20b749",
+      "low_sha256": "a34d7c18b4386e59b6e31ac04dbca5761ae994b2bef686ea9e32df0b348e07fd"
+    },
+    "makemake": {
+      "mesh": "assets/meshes/makemake.glb",
+      "mesh_low": "assets/meshes/makemake.low.glb",
+      "normalization_radius_km": 715,
+      "radii_km": [
+        715,
+        715,
+        715
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Makemake | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -715.0,
+          714.9995727539062
+        ],
+        [
+          -715.0,
+          714.9995727539062
+        ],
+        [
+          -715.0,
+          715.0
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.999999463558197,
+            -9.68574909165909e-08,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            -3.5636258388649367e-09,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.999999463558197,
+            0.0
+          ],
+          "source_uv": [
+            0.75,
+            0.5
+          ],
+          "source_normal": [
+            1.2230356333020609e-05,
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "source_uv": [
+            0.7447916269302368,
+            1.0
+          ],
+          "source_normal": [
+            -3.9169015053630574e-07,
+            4.9239126553857204e-08,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "94c08b38eaa63ac02f5ba3fb4ff15c7c6595cb3181848129862d0c368a047660",
+      "low_sha256": "6a41eb3e34a00d1f1b2894e85ae3a75aced3d964ec26210e716f0f9d3166b00f"
+    },
+    "eris": {
+      "mesh": "assets/meshes/eris.glb",
+      "mesh_low": "assets/meshes/eris.low.glb",
+      "normalization_radius_km": 1163,
+      "radii_km": [
+        1163,
+        1163,
+        1163
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Eris | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -1163.0,
+          1162.999267578125
+        ],
+        [
+          -1163.0,
+          1162.999267578125
+        ],
+        [
+          -1163.0,
+          1163.0
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9999994039535522,
+            -9.685749802201826e-08,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            -3.5636256168203317e-09,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.9999994039535522,
+            0.0
+          ],
+          "source_uv": [
+            0.75,
+            0.5
+          ],
+          "source_normal": [
+            1.2003471056232229e-05,
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "source_uv": [
+            0.7447916269302368,
+            1.0
+          ],
+          "source_normal": [
+            5.222678964855731e-07,
+            -3.3134760712982825e-08,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "8e395dfef2ce24487138696a10937a48dfce8a649b1252d4980ec375956c3172",
+      "low_sha256": "1a0f41fac7be8776d800429b785547dc11b135b38479e01e2168465581c811a9"
+    },
+    "orcus": {
+      "mesh": "assets/meshes/orcus.glb",
+      "mesh_low": "assets/meshes/orcus.low.glb",
+      "normalization_radius_km": 458.5,
+      "radii_km": [
+        458.5,
+        458.5,
+        458.5
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Orcus | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -458.5,
+          458.4997253417969
+        ],
+        [
+          -458.5,
+          458.4997253417969
+        ],
+        [
+          -458.5,
+          458.5
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9999993443489075,
+            -9.68574909165909e-08,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            8.647731419841875e-07,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.9999993443489075,
+            0.0
+          ],
+          "source_uv": [
+            0.75,
+            0.5
+          ],
+          "source_normal": [
+            1.2003471056232229e-05,
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            0.9999999403953552
+          ],
+          "source_uv": [
+            0.7447916269302368,
+            1.0
+          ],
+          "source_normal": [
+            1.366193629337431e-07,
+            -4.040800405391565e-08,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "b6639a6ded68e6091c88f434e6e6fe6c8665af1b9332dfe78ffd07e8be124672",
+      "low_sha256": "bb4cd906bfddd56e89b274f08671d869fc22329c8600f768450d15267e167f8a"
+    },
+    "quaoar": {
+      "mesh": "assets/meshes/quaoar.glb",
+      "mesh_low": "assets/meshes/quaoar.low.glb",
+      "normalization_radius_km": 555,
+      "radii_km": [
+        555,
+        555,
+        555
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Quaoar | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -555.0,
+          554.9996948242188
+        ],
+        [
+          -555.0,
+          554.9996948242188
+        ],
+        [
+          -555.0,
+          555.0
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.999999463558197,
+            -9.68574909165909e-08,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            8.647731988276064e-07,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.999999463558197,
+            0.0
+          ],
+          "source_uv": [
+            0.75,
+            0.5
+          ],
+          "source_normal": [
+            1.1770647688535973e-05,
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "source_uv": [
+            0.7447916269302368,
+            1.0
+          ],
+          "source_normal": [
+            2.740446234383853e-07,
+            -6.192925638970337e-08,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "67db951a4c2a95ad24ef63304b2a80f67485996c7ae44d0c90ba431d0ebabeb8",
+      "low_sha256": "7bba00802f4caf9b8792163ac59e5b990e5d8a5bbbf14ce222c4f39fc8d1953d"
+    },
+    "gonggong": {
+      "mesh": "assets/meshes/gonggong.glb",
+      "mesh_low": "assets/meshes/gonggong.low.glb",
+      "normalization_radius_km": 615,
+      "radii_km": [
+        615,
+        615,
+        615
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Gonggong | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -615.0,
+          614.9996337890625
+        ],
+        [
+          -615.0,
+          614.9996337890625
+        ],
+        [
+          -615.0,
+          615.0
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9999994039535522,
+            -9.685748381116355e-08,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            -2.375750263183818e-09,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.9999994039535522,
+            0.0
+          ],
+          "source_uv": [
+            0.75,
+            0.5
+          ],
+          "source_normal": [
+            1.20010963655659e-05,
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "source_uv": [
+            0.7447916269302368,
+            1.0
+          ],
+          "source_normal": [
+            6.480914294115792e-07,
+            -1.6066532992908833e-08,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "2f88d5b4c879225e448259a1775330c02b6327f92826f8cdb64bd1a50a16c547",
+      "low_sha256": "a3f747607b5677fcc4548eb2fa81a3ade01763dbbad909a2c9d984fbe62f8970"
+    },
+    "sedna": {
+      "mesh": "assets/meshes/sedna.glb",
+      "mesh_low": "assets/meshes/sedna.low.glb",
+      "normalization_radius_km": 497.5,
+      "radii_km": [
+        497.5,
+        497.5,
+        497.5
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Sedna | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -497.5,
+          497.49969482421875
+        ],
+        [
+          -497.5,
+          497.49969482421875
+        ],
+        [
+          -497.5,
+          497.5
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9999994039535522,
+            -9.68574909165909e-08,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            -5.939375657959545e-09,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.9999994039535522,
+            0.0
+          ],
+          "source_uv": [
+            0.75,
+            0.5
+          ],
+          "source_normal": [
+            1.2004659765807446e-05,
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "source_uv": [
+            0.7447916269302368,
+            1.0
+          ],
+          "source_normal": [
+            8.094489203358535e-07,
+            -7.243019695124531e-08,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "f0d474d12c34a940c2dc6ffe22d1e84549bdd324dd9a52c31612d4423967789a",
+      "low_sha256": "aa0feb1053a315a74afe626b160d12bf0d9350d5a34eeda4e78763cdd682e338"
+    },
+    "salacia": {
+      "mesh": "assets/meshes/salacia.glb",
+      "mesh_low": "assets/meshes/salacia.low.glb",
+      "normalization_radius_km": 427,
+      "radii_km": [
+        427,
+        427,
+        427
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Salacia | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -427.0,
+          426.999755859375
+        ],
+        [
+          -427.0,
+          426.999755859375
+        ],
+        [
+          -427.0,
+          427.0
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9999994039535522,
+            -9.685748381116355e-08,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            8.647731988276064e-07,
+            1.1878752426142114e-09
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.9999994039535522,
+            0.0
+          ],
+          "source_uv": [
+            0.75,
+            0.5
+          ],
+          "source_normal": [
+            1.2001095456071198e-05,
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            0.9999999403953552
+          ],
+          "source_uv": [
+            0.7447916269302368,
+            1.0
+          ],
+          "source_normal": [
+            -2.3494483514241438e-07,
+            -3.012978311289771e-08,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "204fcf8d14523422c3dcabdf044351486f7872dc66f30d4e92a9228d11ef19dc",
+      "low_sha256": "79a01fc5765dcaa39ffc94cb7672b51dd43720582497fe45292819fbf801e335"
+    },
+    "varda": {
+      "mesh": "assets/meshes/varda.glb",
+      "mesh_low": "assets/meshes/varda.low.glb",
+      "normalization_radius_km": 370,
+      "radii_km": [
+        370,
+        370,
+        370
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Varda | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -370.0,
+          369.9997863769531
+        ],
+        [
+          -370.0,
+          369.9997863769531
+        ],
+        [
+          -370.0,
+          370.0
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.999999463558197,
+            -9.68574909165909e-08,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            -3.5636258388649367e-09,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.999999463558197,
+            0.0
+          ],
+          "source_uv": [
+            0.75,
+            0.5
+          ],
+          "source_normal": [
+            1.2230356333020609e-05,
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "source_uv": [
+            0.7447916269302368,
+            1.0
+          ],
+          "source_normal": [
+            -3.2402317629021127e-07,
+            2.8014701669576425e-08,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "072092356d2b4b260916dda017cbc2d2c9dc49a2f09e76ce65fa4631ffd90a78",
+      "low_sha256": "ca06ef1a1029ea59729e2fb78bfc45395887ad64cf23ae870ed157fd1fa8c570"
+    },
+    "varuna": {
+      "mesh": "assets/meshes/varuna.glb",
+      "mesh_low": "assets/meshes/varuna.low.glb",
+      "normalization_radius_km": 450.0,
+      "radii_km": [
+        450.0,
+        450.0,
+        450.0
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Varuna | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -450.0,
+          449.9997253417969
+        ],
+        [
+          -450.0,
+          449.9997253417969
+        ],
+        [
+          -450.0,
+          450.0
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9999994039535522,
+            -9.68574909165909e-08,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            -2.375750263183818e-09,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.9999994039535522,
+            0.0
+          ],
+          "source_uv": [
+            0.75,
+            0.5
+          ],
+          "source_normal": [
+            1.2004659765807446e-05,
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "source_uv": [
+            0.7447916269302368,
+            1.0
+          ],
+          "source_normal": [
+            -1.209390920742237e-09,
+            -5.3802242661049604e-08,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "3cc11a1b31c2ef6b86b89ac69354e5667c65415d2b36eaedbb27f4d89048f640",
+      "low_sha256": "a67ec5c68f567d004e9fef4627584e1f04c7990c5e011190c8b35403bc284b14"
+    },
+    "ixion": {
+      "mesh": "assets/meshes/ixion.glb",
+      "mesh_low": "assets/meshes/ixion.low.glb",
+      "normalization_radius_km": 348.39,
+      "radii_km": [
+        348.39,
+        348.39,
+        348.39
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Ixion | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -348.3900146484375,
+          348.3898010253906
+        ],
+        [
+          -348.3900146484375,
+          348.3898010253906
+        ],
+        [
+          -348.3900146484375,
+          348.3900146484375
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9999994039535522,
+            -9.68574909165909e-08,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            -2.375750263183818e-09,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.9999994039535522,
+            0.0
+          ],
+          "source_uv": [
+            0.75,
+            0.5
+          ],
+          "source_normal": [
+            1.2459616300475318e-05,
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "source_uv": [
+            0.7447916269302368,
+            1.0
+          ],
+          "source_normal": [
+            5.478537445924303e-07,
+            -9.528718436513373e-08,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "aacfc972a24bd913a2684e7d29bebaf38e6e763a82927096f42d4749d15dc150",
+      "low_sha256": "0d1a920f6b6f737778b398cb8b7e976435fb8e1098b5ebdd134c0f46fc8f8006"
+    },
+    "moon": {
+      "mesh": "assets/meshes/moon.glb",
+      "mesh_low": "assets/meshes/moon.low.glb",
+      "normalization_radius_km": 1737.4,
+      "radii_km": [
+        1737.4,
+        1737.4,
+        1737.4
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Moon | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -1737.4000244140625,
+          1737.39892578125
+        ],
+        [
+          -1737.4000244140625,
+          1737.39892578125
+        ],
+        [
+          -1737.4000244140625,
+          1737.4000244140625
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9999993443489075,
+            -9.68574909165909e-08,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            8.647731988276064e-07,
+            1.1878752426142114e-09
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.9999993443489075,
+            0.0
+          ],
+          "source_uv": [
+            0.75,
+            0.5
+          ],
+          "source_normal": [
+            1.2002283256151713e-05,
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            0.9999999403953552
+          ],
+          "source_uv": [
+            0.7447916269302368,
+            1.0
+          ],
+          "source_normal": [
+            7.862549296078214e-07,
+            -5.257863833207921e-08,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "ad7f09324b956872d89847e34862d54ba13edb7624904e956ef7495d048c38ec",
+      "low_sha256": "cc724ebc4675131275b64739f342ccb4fb03c408e9b13fff93c728c9943f68b1"
+    },
+    "phobos": {
+      "mesh": "assets/meshes/phobos.glb",
+      "mesh_low": "assets/meshes/phobos.low.glb",
+      "normalization_radius_km": 13.0,
+      "radii_km": [
+        13.0,
+        11.4,
+        9.1
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Phobos | physical geometry",
+      "geometry_note": "RECONSTRUCTION: modest irregularity fitted inside catalog axes.",
+      "source_bounds_km": [
+        [
+          -13.0,
+          12.901790618896484
+        ],
+        [
+          -11.202162742614746,
+          11.399999618530273
+        ],
+        [
+          -9.100000381469727,
+          8.952437400817871
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9924454689025879,
+            0.056887637823820114,
+            0.0904574990272522
+          ],
+          "source_uv": [
+            0.5104166269302368,
+            0.5416666269302368
+          ],
+          "source_normal": [
+            0.9995167851448059,
+            0.03040863759815693,
+            -0.006451552268117666
+          ]
+        },
+        {
+          "source_position": [
+            -0.1320100575685501,
+            0.8769230842590332,
+            0.0
+          ],
+          "source_uv": [
+            0.7708332538604736,
+            0.5
+          ],
+          "source_normal": [
+            -0.06046699360013008,
+            0.9972333908081055,
+            -0.04323682188987732
+          ]
+        },
+        {
+          "source_position": [
+            0.07587895542383194,
+            0.16020624339580536,
+            0.68864905834198
+          ],
+          "source_uv": [
+            0.6875,
+            0.9375000596046448
+          ],
+          "source_normal": [
+            0.01473281066864729,
+            0.04320413991808891,
+            0.998957633972168
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "1d75ec86c41b3c2073a8931a772a9d8e25ad986eda4f1951eb9f34db030f16de",
+      "low_sha256": "8b78e8d9ce933702fe4642dfe98eea571615eb87d259e0bffb438c9ed4831094"
+    },
+    "deimos": {
+      "mesh": "assets/meshes/deimos.glb",
+      "mesh_low": "assets/meshes/deimos.low.glb",
+      "normalization_radius_km": 7.8,
+      "radii_km": [
+        7.8,
+        6.0,
+        5.1
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Deimos | physical geometry",
+      "geometry_note": "RECONSTRUCTION: modest irregularity fitted inside catalog axes.",
+      "source_bounds_km": [
+        [
+          -7.800000190734863,
+          7.741074562072754
+        ],
+        [
+          -5.895874977111816,
+          6.0
+        ],
+        [
+          -5.099999904632568,
+          5.017300128936768
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9924454092979431,
+            0.049901433289051056,
+            0.08449326455593109
+          ],
+          "source_uv": [
+            0.5104166269302368,
+            0.5416666269302368
+          ],
+          "source_normal": [
+            0.9993846416473389,
+            0.034386392682790756,
+            -0.00692411232739687
+          ]
+        },
+        {
+          "source_position": [
+            -0.13201004266738892,
+            0.7692307233810425,
+            0.0
+          ],
+          "source_uv": [
+            0.7708332538604736,
+            0.5
+          ],
+          "source_normal": [
+            -0.053229786455631256,
+            0.9977545738220215,
+            -0.040649618953466415
+          ]
+        },
+        {
+          "source_position": [
+            0.07587895542383194,
+            0.14053179323673248,
+            0.6432435512542725
+          ],
+          "source_uv": [
+            0.6875,
+            0.9375000596046448
+          ],
+          "source_normal": [
+            0.013585339300334454,
+            0.045861996710300446,
+            0.9988554120063782
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "aac9c12aa884845a340369a4fe2be02d4d04e806c7006ec329a036c56bebf4cc",
+      "low_sha256": "a207c24f7db62a8f06777b8a60830037062c0ee18a7fec8c9584606cd4759d4d"
+    },
+    "io": {
+      "mesh": "assets/meshes/io.glb",
+      "mesh_low": "assets/meshes/io.low.glb",
+      "normalization_radius_km": 1829.4,
+      "radii_km": [
+        1829.4,
+        1819.4,
+        1815.7
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Io | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -1829.4000244140625,
+          1829.39892578125
+        ],
+        [
+          -1819.4000244140625,
+          1819.39892578125
+        ],
+        [
+          -1815.699951171875,
+          1815.699951171875
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.999999463558197,
+            -9.632804420789398e-08,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            8.778598612479982e-07,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.9945331811904907,
+            0.0
+          ],
+          "source_uv": [
+            0.75,
+            0.5
+          ],
+          "source_normal": [
+            1.2003401025140192e-05,
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            0.9925112128257751
+          ],
+          "source_uv": [
+            0.7447916269302368,
+            1.0
+          ],
+          "source_normal": [
+            2.6692510424197735e-09,
+            7.762395881627526e-08,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "97d168b69104cf645fca70bf16bf44cb7e1ef2ba262f5841f0189347e00ad40a",
+      "low_sha256": "1873ad359368a48599c9bb2016a80c00a747ce49a3c7993d1f372c00dd2e8886"
+    },
+    "europa": {
+      "mesh": "assets/meshes/europa.glb",
+      "mesh_low": "assets/meshes/europa.low.glb",
+      "normalization_radius_km": 1562.6,
+      "radii_km": [
+        1562.6,
+        1560.3,
+        1559.5
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Europa | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -1562.5999755859375,
+          1562.59912109375
+        ],
+        [
+          -1560.300048828125,
+          1560.299072265625
+        ],
+        [
+          -1559.5,
+          1559.5
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.999999463558197,
+            -9.671493472751536e-08,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            -5.939412073274752e-09,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.9985275268554688,
+            0.0
+          ],
+          "source_uv": [
+            0.75,
+            0.5
+          ],
+          "source_normal": [
+            1.22327119242982e-05,
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            0.9980161786079407
+          ],
+          "source_uv": [
+            0.7447916269302368,
+            1.0
+          ],
+          "source_normal": [
+            -3.440877449634172e-08,
+            -9.721748739366376e-09,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "9ac9ddee5e9187f00f2d42203590fc7aff9bbb4257fd33673d9c9df3fa3ba0c2",
+      "low_sha256": "3259cca48443bf67bc083faa762cb480ae38879499c64989afeac914406e9cd2"
+    },
+    "ganymede": {
+      "mesh": "assets/meshes/ganymede.glb",
+      "mesh_low": "assets/meshes/ganymede.low.glb",
+      "normalization_radius_km": 2631.2,
+      "radii_km": [
+        2631.2,
+        2631.2,
+        2631.2
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Ganymede | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -2631.199951171875,
+          2631.198486328125
+        ],
+        [
+          -2631.199951171875,
+          2631.198486328125
+        ],
+        [
+          -2631.199951171875,
+          2631.199951171875
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9999994039535522,
+            -9.685748381116355e-08,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            -2.375750263183818e-09,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.9999994039535522,
+            0.0
+          ],
+          "source_uv": [
+            0.75,
+            0.5
+          ],
+          "source_normal": [
+            1.2003471056232229e-05,
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "source_uv": [
+            0.7447916269302368,
+            1.0
+          ],
+          "source_normal": [
+            4.4453727809923294e-07,
+            -1.0612188461323058e-08,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "4c3fdb1dadad46f89f7ff243fc15be6965fe21b8ab12327703c7dcb502dc2240",
+      "low_sha256": "206feb515cc5095410972058c699c317728f641561fb366e813441e8a2f95181"
+    },
+    "callisto": {
+      "mesh": "assets/meshes/callisto.glb",
+      "mesh_low": "assets/meshes/callisto.low.glb",
+      "normalization_radius_km": 2410.3,
+      "radii_km": [
+        2410.3,
+        2410.3,
+        2410.3
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Callisto | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -2410.300048828125,
+          2410.298583984375
+        ],
+        [
+          -2410.300048828125,
+          2410.298583984375
+        ],
+        [
+          -2410.300048828125,
+          2410.300048828125
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9999994039535522,
+            -9.685748381116355e-08,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            8.683367695994093e-07,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.9999994039535522,
+            0.0
+          ],
+          "source_uv": [
+            0.75,
+            0.5
+          ],
+          "source_normal": [
+            1.20010963655659e-05,
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "source_uv": [
+            0.7447916269302368,
+            1.0
+          ],
+          "source_normal": [
+            4.2502463770688337e-07,
+            -4.972146783188691e-08,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "9bcc6180b415706072279c97ea555df887fc9ba7e16ea509fbb3b510b58d7239",
+      "low_sha256": "dffb49fa1943e60c0763375166fa71845db521accc899541545b55b006a69e6d"
+    },
+    "amalthea": {
+      "mesh": "assets/meshes/amalthea.glb",
+      "mesh_low": "assets/meshes/amalthea.low.glb",
+      "normalization_radius_km": 125.0,
+      "radii_km": [
+        125.0,
+        73.0,
+        64.0
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Amalthea | physical geometry",
+      "geometry_note": "RECONSTRUCTION: modest irregularity fitted inside catalog axes.",
+      "source_bounds_km": [
+        [
+          -125.0,
+          124.05567932128906
+        ],
+        [
+          -71.73314666748047,
+          73.0
+        ],
+        [
+          -64.0,
+          62.962196350097656
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9924454689025879,
+            0.03788517042994499,
+            0.06616320461034775
+          ],
+          "source_uv": [
+            0.5104166269302368,
+            0.5416666269302368
+          ],
+          "source_normal": [
+            0.9989819526672363,
+            0.04420853406190872,
+            -0.008975503034889698
+          ]
+        },
+        {
+          "source_position": [
+            -0.13201004266738892,
+            0.5840000510215759,
+            0.0
+          ],
+          "source_uv": [
+            0.7708332538604736,
+            0.5
+          ],
+          "source_normal": [
+            -0.040709733963012695,
+            0.9983938336372375,
+            -0.03940177336335182
+          ]
+        },
+        {
+          "source_position": [
+            0.07587896287441254,
+            0.10669174790382385,
+            0.5036975741386414
+          ],
+          "source_uv": [
+            0.6875,
+            0.9375000596046448
+          ],
+          "source_normal": [
+            0.010375398211181164,
+            0.04711288586258888,
+            0.9988356828689575
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "753501637531cf79a374f09e97235611e5ca8d44daf3480d2d8ff43ccd45edb7",
+      "low_sha256": "8e54f022c760dad9c88be24c522b3f0a0e99add5256fc75c8bc98e2cd4f80bf0"
+    },
+    "thebe": {
+      "mesh": "assets/meshes/thebe.glb",
+      "mesh_low": "assets/meshes/thebe.low.glb",
+      "normalization_radius_km": 58.0,
+      "radii_km": [
+        58.0,
+        49.0,
+        42.0
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Thebe | physical geometry",
+      "geometry_note": "RECONSTRUCTION: modest irregularity fitted inside catalog axes.",
+      "source_bounds_km": [
+        [
+          -58.0,
+          57.56183624267578
+        ],
+        [
+          -48.1496467590332,
+          49.0
+        ],
+        [
+          -42.0,
+          41.31894302368164
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9924454689025879,
+            0.05480554327368736,
+            0.09357672184705734
+          ],
+          "source_uv": [
+            0.5104166269302368,
+            0.5416666269302368
+          ],
+          "source_normal": [
+            0.9994847178459167,
+            0.03148922324180603,
+            -0.006223134230822325
+          ]
+        },
+        {
+          "source_position": [
+            -0.13201004266738892,
+            0.8448275923728943,
+            0.0
+          ],
+          "source_uv": [
+            0.7708332538604736,
+            0.5
+          ],
+          "source_normal": [
+            -0.058289043605327606,
+            0.9974846839904785,
+            -0.04033064469695091
+          ]
+        },
+        {
+          "source_position": [
+            0.07587895542383194,
+            0.1543426811695099,
+            0.7123955488204956
+          ],
+          "source_uv": [
+            0.6875,
+            0.9375000596046448
+          ],
+          "source_normal": [
+            0.015166571363806725,
+            0.04629821702837944,
+            0.9988125562667847
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "46256a0f8456258db99b5666726b8c11fb5fe5abeba9aa8e655212c21164a479",
+      "low_sha256": "1f5a9740c982776c899eaaf2b2f3d2c79873c076f73148e9303e529085ebf47f"
+    },
+    "himalia": {
+      "mesh": "assets/meshes/himalia.glb",
+      "mesh_low": "assets/meshes/himalia.low.glb",
+      "normalization_radius_km": 85.0,
+      "radii_km": [
+        85.0,
+        85.0,
+        85.0
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Himalia | physical geometry",
+      "geometry_note": "RECONSTRUCTION: modest irregularity fitted inside catalog axes.",
+      "source_bounds_km": [
+        [
+          -85.0,
+          84.35786437988281
+        ],
+        [
+          -83.52489471435547,
+          85.0
+        ],
+        [
+          -85.0,
+          83.62166595458984
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9924454689025879,
+            0.06487186998128891,
+            0.1292249858379364
+          ],
+          "source_uv": [
+            0.5104166269302368,
+            0.5416666269302368
+          ],
+          "source_normal": [
+            0.9996311068534851,
+            0.026797134429216385,
+            -0.004430363420397043
+          ]
+        },
+        {
+          "source_position": [
+            -0.13201004266738892,
+            1.0,
+            0.0
+          ],
+          "source_uv": [
+            0.7708332538604736,
+            0.5
+          ],
+          "source_normal": [
+            -0.06854427605867386,
+            0.9970446228981018,
+            -0.03469458594918251
+          ]
+        },
+        {
+          "source_position": [
+            0.07587895542383194,
+            0.18269133567810059,
+            0.9837843179702759
+          ],
+          "source_uv": [
+            0.6875,
+            0.9375000596046448
+          ],
+          "source_normal": [
+            0.021138345822691917,
+            0.05391545593738556,
+            0.9983217716217041
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "b3a09be2adf641f1669bd00b02fb4e189e79e485426f8c056e97d650df7c8702",
+      "low_sha256": "7bd4b18744ba871759caa15139716e4eb1076521c1e8c3492540023033b4b2c2"
+    },
+    "elara": {
+      "mesh": "assets/meshes/elara.glb",
+      "mesh_low": "assets/meshes/elara.low.glb",
+      "normalization_radius_km": 40.0,
+      "radii_km": [
+        40.0,
+        40.0,
+        40.0
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Elara | physical geometry",
+      "geometry_note": "RECONSTRUCTION: modest irregularity fitted inside catalog axes.",
+      "source_bounds_km": [
+        [
+          -40.0,
+          39.697818756103516
+        ],
+        [
+          -39.30583190917969,
+          40.0
+        ],
+        [
+          -40.0,
+          39.35137176513672
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9924454689025879,
+            0.06487186998128891,
+            0.1292250007390976
+          ],
+          "source_uv": [
+            0.5104166269302368,
+            0.5416666269302368
+          ],
+          "source_normal": [
+            0.9996311664581299,
+            0.02679714933037758,
+            -0.004430234432220459
+          ]
+        },
+        {
+          "source_position": [
+            -0.13201004266738892,
+            1.0,
+            0.0
+          ],
+          "source_uv": [
+            0.7708332538604736,
+            0.5
+          ],
+          "source_normal": [
+            -0.06854386627674103,
+            0.9970446228981018,
+            -0.034695010632276535
+          ]
+        },
+        {
+          "source_position": [
+            0.07587895542383194,
+            0.18269133567810059,
+            0.9837843179702759
+          ],
+          "source_uv": [
+            0.6875,
+            0.9375000596046448
+          ],
+          "source_normal": [
+            0.021138682961463928,
+            0.0539151206612587,
+            0.9983217716217041
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "85b1f741f83ee6bc1626077df73e57c57fca0c47b0ad9b167c61bce2bbbef13a",
+      "low_sha256": "0235b5b2f065705738a52dad03ee56e3f186f091b7d8d53d6531e47495e990a0"
+    },
+    "mimas": {
+      "mesh": "assets/meshes/mimas.glb",
+      "mesh_low": "assets/meshes/mimas.low.glb",
+      "normalization_radius_km": 207.8,
+      "radii_km": [
+        207.8,
+        196.7,
+        190.6
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Mimas | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -207.8000030517578,
+          207.7998809814453
+        ],
+        [
+          -196.6999969482422,
+          196.69989013671875
+        ],
+        [
+          -190.60000610351562,
+          190.60000610351562
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9999994039535522,
+            -9.168366688072638e-08,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            4.990404249838321e-07,
+            -5.940957170658123e-10
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.9465826749801636,
+            0.0
+          ],
+          "source_uv": [
+            0.75,
+            0.5
+          ],
+          "source_normal": [
+            1.1323594662826508e-05,
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            0.917228102684021
+          ],
+          "source_uv": [
+            0.7447916269302368,
+            1.0
+          ],
+          "source_normal": [
+            4.1850623233585793e-07,
+            -5.943580205780563e-08,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "5acafe6b33135093a370f075c659d187f20ec92097749eca6c6865b74fc88cbe",
+      "low_sha256": "d032e8a9d721fadb62298bd0d8fa04c55ab01d2d52486bb84939346590ae6fc9"
+    },
+    "enceladus": {
+      "mesh": "assets/meshes/enceladus.glb",
+      "mesh_low": "assets/meshes/enceladus.low.glb",
+      "normalization_radius_km": 256.6,
+      "radii_km": [
+        256.6,
+        251.4,
+        248.3
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Enceladus | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -256.6000061035156,
+          256.599853515625
+        ],
+        [
+          -251.39999389648438,
+          251.3998565673828
+        ],
+        [
+          -248.3000030517578,
+          248.3000030517578
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9999994039535522,
+            -9.489466634704513e-08,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            -2.3759787470822857e-09,
+            1.1879893735411429e-09
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.9797344207763672,
+            0.0
+          ],
+          "source_uv": [
+            0.75,
+            0.5
+          ],
+          "source_normal": [
+            1.2000934475508984e-05,
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            0.9676539301872253
+          ],
+          "source_uv": [
+            0.7447916269302368,
+            1.0
+          ],
+          "source_normal": [
+            -5.431841145764338e-07,
+            2.166878587672727e-08,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "1397a75fa33f2a77c8c1d61ed9eebd89b6d4da40b72749487fa395726d97b5bf",
+      "low_sha256": "0d9a099a3bf8ed142ab497dc27fe88d6f489442d77967b4f8180c5a9fd3a28b5"
+    },
+    "tethys": {
+      "mesh": "assets/meshes/tethys.glb",
+      "mesh_low": "assets/meshes/tethys.low.glb",
+      "normalization_radius_km": 538.4,
+      "radii_km": [
+        538.4,
+        528.3,
+        526.3
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Tethys | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -538.4000244140625,
+          538.399658203125
+        ],
+        [
+          -528.2999877929688,
+          528.2996826171875
+        ],
+        [
+          -526.2999877929688,
+          526.2999877929688
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9999992847442627,
+            -9.504050524355989e-08,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            -3.5638907380786122e-09,
+            -5.939818081834858e-10
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.9812400341033936,
+            0.0
+          ],
+          "source_uv": [
+            0.75,
+            0.5
+          ],
+          "source_normal": [
+            1.2232412700541317e-05,
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            0.9775258898735046
+          ],
+          "source_uv": [
+            0.7447916269302368,
+            1.0
+          ],
+          "source_normal": [
+            6.066471200938395e-07,
+            -3.773571677356813e-08,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "0b51fc2cfd17da62d9a5ec0b4cee502d442b85c904ca3099b40be5fc688e5bba",
+      "low_sha256": "d73cb4233c22966bcbe5e7e2e10b60a6af17ae807cfaef90fcecb1c7a51a3a07"
+    },
+    "dione": {
+      "mesh": "assets/meshes/dione.glb",
+      "mesh_low": "assets/meshes/dione.low.glb",
+      "normalization_radius_km": 563.4,
+      "radii_km": [
+        563.4,
+        561.3,
+        559.6
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Dione | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -563.4000244140625,
+          563.399658203125
+        ],
+        [
+          -561.2999877929688,
+          561.2996826171875
+        ],
+        [
+          -559.5999755859375,
+          559.5999755859375
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9999994039535522,
+            -9.64964641525512e-08,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            -4.751588900120396e-09,
+            5.939486125150495e-10
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.9962720274925232,
+            0.0
+          ],
+          "source_uv": [
+            0.75,
+            0.5
+          ],
+          "source_normal": [
+            1.199870621348964e-05,
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            0.9932551980018616
+          ],
+          "source_uv": [
+            0.7447916269302368,
+            1.0
+          ],
+          "source_normal": [
+            -2.4009287358239817e-07,
+            9.13906248456442e-08,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "200757e21b714ed511a9e1aeae63a2f639d81981b36ecb099ff2546baf9ac025",
+      "low_sha256": "bf1a208f219d272a3ebdc5f5d9c4740e02665c64f42b0a180b118e91960648ba"
+    },
+    "rhea": {
+      "mesh": "assets/meshes/rhea.glb",
+      "mesh_low": "assets/meshes/rhea.low.glb",
+      "normalization_radius_km": 765.0,
+      "radii_km": [
+        765.0,
+        763.1,
+        762.4
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Rhea | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -765.0,
+          764.9995727539062
+        ],
+        [
+          -763.0999755859375,
+          763.0995483398438
+        ],
+        [
+          -762.4000244140625,
+          762.4000244140625
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.999999463558197,
+            -9.661692956797197e-08,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            -3.5636624762247493e-09,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.9975157976150513,
+            0.0
+          ],
+          "source_uv": [
+            0.75,
+            0.5
+          ],
+          "source_normal": [
+            1.1781307875935454e-05,
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            0.9966013431549072
+          ],
+          "source_uv": [
+            0.7447916269302368,
+            1.0
+          ],
+          "source_normal": [
+            2.2929147291961272e-07,
+            -3.291196293275789e-08,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "7e508020518fa5c1277c917288a9734a31e006795509e4769073781296a7123f",
+      "low_sha256": "a2116e853945d57dc85d696c3e98d881a426bcf3dbd5d2c862da7865e724bf11"
+    },
+    "titan": {
+      "mesh": "assets/meshes/titan.glb",
+      "mesh_low": "assets/meshes/titan.low.glb",
+      "normalization_radius_km": 2575.15,
+      "radii_km": [
+        2575.15,
+        2574.78,
+        2574.47
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Titan | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -2575.14990234375,
+          2575.1484375
+        ],
+        [
+          -2574.780029296875,
+          2574.778564453125
+        ],
+        [
+          -2574.469970703125,
+          2574.469970703125
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9999994039535522,
+            -9.684357848982472e-08,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            -9.503009046341049e-09,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.9998558163642883,
+            0.0
+          ],
+          "source_uv": [
+            0.75,
+            0.5
+          ],
+          "source_normal": [
+            1.2007036275463179e-05,
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            0.999735951423645
+          ],
+          "source_uv": [
+            0.7447916269302368,
+            1.0
+          ],
+          "source_normal": [
+            -8.711298704611181e-08,
+            3.5658739960808816e-08,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "e80b09b77d88fb06d394b3ea6790e699c64d10f1eff19d4ccaee8700471038d8",
+      "low_sha256": "e5be5feb20018651ab2a7e4d9fec6b1b64accc1f71deabf8e0f62e319007acce"
+    },
+    "hyperion": {
+      "mesh": "assets/meshes/hyperion.glb",
+      "mesh_low": "assets/meshes/hyperion.low.glb",
+      "normalization_radius_km": 180.1,
+      "radii_km": [
+        180.1,
+        133.0,
+        102.7
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Hyperion | physical geometry",
+      "geometry_note": "RECONSTRUCTION: modest irregularity fitted inside catalog axes.",
+      "source_bounds_km": [
+        [
+          -180.10000610351562,
+          178.7394256591797
+        ],
+        [
+          -130.69189453125,
+          133.0
+        ],
+        [
+          -102.69999694824219,
+          101.03465270996094
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9924454092979431,
+            0.047906484454870224,
+            0.07368909567594528
+          ],
+          "source_uv": [
+            0.5104166269302368,
+            0.5416666269302368
+          ],
+          "source_normal": [
+            0.9993297457695007,
+            0.03572718799114227,
+            -0.007983328774571419
+          ]
+        },
+        {
+          "source_position": [
+            -0.13201004266738892,
+            0.7384786009788513,
+            0.0
+          ],
+          "source_uv": [
+            0.7708332538604736,
+            0.5
+          ],
+          "source_normal": [
+            -0.05121862515807152,
+            0.9976896047592163,
+            -0.04463392496109009
+          ]
+        },
+        {
+          "source_position": [
+            0.07587895542383194,
+            0.13491365313529968,
+            0.5609919428825378
+          ],
+          "source_uv": [
+            0.6875,
+            0.9375000596046448
+          ],
+          "source_normal": [
+            0.011827713809907436,
+            0.04171711951494217,
+            0.9990594387054443
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "443715042b45e8019d4b82147760a1bb90e50de156fa29617e75d31fae7717eb",
+      "low_sha256": "a4a59207ac56223f89ab7f5e2c7c49a24fc357fab84677fa6c261ba7ba547b53"
+    },
+    "iapetus": {
+      "mesh": "assets/meshes/iapetus.glb",
+      "mesh_low": "assets/meshes/iapetus.low.glb",
+      "normalization_radius_km": 745.7,
+      "radii_km": [
+        745.7,
+        745.7,
+        712.1
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Iapetus | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -745.7000122070312,
+          745.6995849609375
+        ],
+        [
+          -745.7000122070312,
+          745.6995849609375
+        ],
+        [
+          -712.0999755859375,
+          712.0999755859375
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.999999463558197,
+            -9.685748381116355e-08,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            9.123647259912104e-07,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.999999463558197,
+            0.0
+          ],
+          "source_uv": [
+            0.75,
+            0.5
+          ],
+          "source_normal": [
+            1.17716363092768e-05,
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            0.9549416303634644
+          ],
+          "source_uv": [
+            0.7447916269302368,
+            1.0
+          ],
+          "source_normal": [
+            -4.1722518062670133e-07,
+            -2.2521064124703116e-08,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "5dac94b0d2d9ffd76c0a126bf238419657b9c27469266a2eab2cbce7313cf64f",
+      "low_sha256": "6e8ad456ac9551a430af9b9c220e13b03c7bc01e0ee5d3ae9ef237db47bd8f61"
+    },
+    "phoebe": {
+      "mesh": "assets/meshes/phoebe.glb",
+      "mesh_low": "assets/meshes/phoebe.low.glb",
+      "normalization_radius_km": 109.4,
+      "radii_km": [
+        109.4,
+        108.5,
+        101.8
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Phoebe | physical geometry",
+      "geometry_note": "RECONSTRUCTION: modest irregularity fitted inside catalog axes.",
+      "source_bounds_km": [
+        [
+          -109.4000015258789,
+          108.57353210449219
+        ],
+        [
+          -106.61707305908203,
+          108.5
+        ],
+        [
+          -101.80000305175781,
+          100.14924621582031
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9924454689025879,
+            0.06433818489313126,
+            0.12024775892496109
+          ],
+          "source_uv": [
+            0.5104166269302368,
+            0.5416666269302368
+          ],
+          "source_normal": [
+            0.9996234178543091,
+            0.027017705142498016,
+            -0.004786500707268715
+          ]
+        },
+        {
+          "source_position": [
+            -0.1320100575685501,
+            0.9917733669281006,
+            0.0
+          ],
+          "source_uv": [
+            0.7708332538604736,
+            0.5
+          ],
+          "source_normal": [
+            -0.06802317500114441,
+            0.9969998598098755,
+            -0.03693266957998276
+          ]
+        },
+        {
+          "source_position": [
+            0.07587896287441254,
+            0.18118838965892792,
+            0.9154410362243652
+          ],
+          "source_uv": [
+            0.6875,
+            0.9375000596046448
+          ],
+          "source_normal": [
+            0.01970488950610161,
+            0.05067474767565727,
+            0.9985207915306091
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "9acd6cd031ce98bdb8dd0db2ff669506d701f6e817413614bc87410e753c5026",
+      "low_sha256": "3c14710234b8f1bc0923ecf2a8041f414c656ead65a71fdfc9b641c1ba4431ae"
+    },
+    "janus": {
+      "mesh": "assets/meshes/janus.glb",
+      "mesh_low": "assets/meshes/janus.low.glb",
+      "normalization_radius_km": 101.7,
+      "radii_km": [
+        101.7,
+        93.0,
+        76.3
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Janus | physical geometry",
+      "geometry_note": "RECONSTRUCTION: modest irregularity fitted inside catalog axes.",
+      "source_bounds_km": [
+        [
+          -101.69999694824219,
+          100.93170166015625
+        ],
+        [
+          -91.38606262207031,
+          93.0
+        ],
+        [
+          -76.30000305175781,
+          75.062744140625
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9924455285072327,
+            0.059322357177734375,
+            0.09695051610469818
+          ],
+          "source_uv": [
+            0.5104166269302368,
+            0.5416666269302368
+          ],
+          "source_normal": [
+            0.9995551109313965,
+            0.029217161238193512,
+            -0.006002726033329964
+          ]
+        },
+        {
+          "source_position": [
+            -0.1320100575685501,
+            0.9144543409347534,
+            0.0
+          ],
+          "source_uv": [
+            0.7708332538604736,
+            0.5
+          ],
+          "source_normal": [
+            -0.06295176595449448,
+            0.9971281290054321,
+            -0.04210197180509567
+          ]
+        },
+        {
+          "source_position": [
+            0.07587896287441254,
+            0.1670628935098648,
+            0.7380801439285278
+          ],
+          "source_uv": [
+            0.6875,
+            0.9375000596046448
+          ],
+          "source_normal": [
+            0.015836015343666077,
+            0.044406045228242874,
+            0.9988880753517151
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "7343abe28989b8594620155d16ee4423fdadcdb9f9bb1c49d67b38473764225a",
+      "low_sha256": "49a0e78dc38a1b9f695c9d42b7a58a25e34fa6a9201bd832ce730fbe14f01c3e"
+    },
+    "epimetheus": {
+      "mesh": "assets/meshes/epimetheus.glb",
+      "mesh_low": "assets/meshes/epimetheus.low.glb",
+      "normalization_radius_km": 64.9,
+      "radii_km": [
+        64.9,
+        57.3,
+        53.0
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Epimetheus | physical geometry",
+      "geometry_note": "RECONSTRUCTION: modest irregularity fitted inside catalog axes.",
+      "source_bounds_km": [
+        [
+          -64.9000015258789,
+          64.40970611572266
+        ],
+        [
+          -56.305606842041016,
+          57.29999923706055
+        ],
+        [
+          -53.0,
+          52.140567779541016
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9924454092979431,
+            0.057275157421827316,
+            0.10553042590618134
+          ],
+          "source_uv": [
+            0.5104166269302368,
+            0.5416666269302368
+          ],
+          "source_normal": [
+            0.9995290637016296,
+            0.030192403122782707,
+            -0.00548327062278986
+          ]
+        },
+        {
+          "source_position": [
+            -0.1320100575685501,
+            0.8828967213630676,
+            0.0
+          ],
+          "source_uv": [
+            0.7708332538604736,
+            0.5
+          ],
+          "source_normal": [
+            -0.06079510599374771,
+            0.9974477887153625,
+            -0.037439435720443726
+          ]
+        },
+        {
+          "source_position": [
+            0.07587895542383194,
+            0.16129758954048157,
+            0.8033985495567322
+          ],
+          "source_uv": [
+            0.6875,
+            0.9375000596046448
+          ],
+          "source_normal": [
+            0.017132893204689026,
+            0.04990023747086525,
+            0.9986072182655334
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "4b4822fa77f321fd92f50c3a887169c3c45994d6df3eb0df5b019bfeaf5c4cbc",
+      "low_sha256": "6f7d3057ee701d4e04c7e81b67e83f502948ed9eabb8f5613994b9ef76aea080"
+    },
+    "miranda": {
+      "mesh": "assets/meshes/miranda.glb",
+      "mesh_low": "assets/meshes/miranda.low.glb",
+      "normalization_radius_km": 240.4,
+      "radii_km": [
+        240.4,
+        234.2,
+        232.9
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Miranda | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -240.39999389648438,
+          240.3998565673828
+        ],
+        [
+          -234.1999969482422,
+          234.19985961914062
+        ],
+        [
+          -232.89999389648438,
+          232.89999389648438
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9999993443489075,
+            -9.435949976932534e-08,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            9.183232236864569e-07,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.9742090106010437,
+            0.0
+          ],
+          "source_uv": [
+            0.75,
+            0.5
+          ],
+          "source_normal": [
+            1.1774987797252834e-05,
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            0.9688019156455994
+          ],
+          "source_uv": [
+            0.7447916269302368,
+            1.0
+          ],
+          "source_normal": [
+            -2.7742274255615484e-07,
+            -6.589716150529057e-08,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "aa7a081641c08afe672f237c03c9a26c2035d89a03144c6a8a1b122dc3d14ce9",
+      "low_sha256": "29642e6299cefce1a801c5db6a9cbbe24c2b3dc5b504d79e42ac068c8525b83a"
+    },
+    "ariel": {
+      "mesh": "assets/meshes/ariel.glb",
+      "mesh_low": "assets/meshes/ariel.low.glb",
+      "normalization_radius_km": 581.1,
+      "radii_km": [
+        581.1,
+        577.9,
+        577.7
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Ariel | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -581.0999755859375,
+          581.0996704101562
+        ],
+        [
+          -577.9000244140625,
+          577.899658203125
+        ],
+        [
+          -577.7000122070312,
+          577.7000122070312
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.999999463558197,
+            -9.632411490656523e-08,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            -8.315293342775476e-09,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.9944926500320435,
+            0.0
+          ],
+          "source_uv": [
+            0.75,
+            0.5
+          ],
+          "source_normal": [
+            1.2005738426523749e-05,
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            0.9941490292549133
+          ],
+          "source_uv": [
+            0.7447916269302368,
+            1.0
+          ],
+          "source_normal": [
+            -6.385608344317006e-07,
+            -4.6196316105806545e-08,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "373920f495d000ccec451b9189e713a7a7a71d1b9cfe6cc6f93da1975f4e2570",
+      "low_sha256": "7de4b2572c591ba630e0bf5c2598a89b922f97bcc8597883221cb356a2e8679f"
+    },
+    "umbriel": {
+      "mesh": "assets/meshes/umbriel.glb",
+      "mesh_low": "assets/meshes/umbriel.low.glb",
+      "normalization_radius_km": 584.7,
+      "radii_km": [
+        584.7,
+        584.7,
+        584.7
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Umbriel | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -584.7000122070312,
+          584.6996459960938
+        ],
+        [
+          -584.7000122070312,
+          584.6996459960938
+        ],
+        [
+          -584.7000122070312,
+          584.7000122070312
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9999994039535522,
+            -9.68574909165909e-08,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            -2.375750263183818e-09,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.9999994039535522,
+            0.0
+          ],
+          "source_uv": [
+            0.75,
+            0.5
+          ],
+          "source_normal": [
+            1.1775400707847439e-05,
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "source_uv": [
+            0.7447916269302368,
+            1.0
+          ],
+          "source_normal": [
+            2.527337699120835e-07,
+            -6.159515208992161e-08,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "e21491bb2b208fa5f99bf2500657e28766376e120a7b96f7284f14e7daa06dfd",
+      "low_sha256": "bf2064c13fe7cb0a83e3bbef3e5b00a0b3a5f89b88bced7430756648b0c9e209"
+    },
+    "titania": {
+      "mesh": "assets/meshes/titania.glb",
+      "mesh_low": "assets/meshes/titania.low.glb",
+      "normalization_radius_km": 788.9,
+      "radii_km": [
+        788.9,
+        788.9,
+        788.9
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Titania | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -788.9000244140625,
+          788.8995361328125
+        ],
+        [
+          -788.9000244140625,
+          788.8995361328125
+        ],
+        [
+          -788.9000244140625,
+          788.9000244140625
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9999994039535522,
+            -9.68574909165909e-08,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            -2.375750263183818e-09,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.9999994039535522,
+            0.0
+          ],
+          "source_uv": [
+            0.75,
+            0.5
+          ],
+          "source_normal": [
+            1.2229168532940093e-05,
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "source_uv": [
+            0.7447916269302368,
+            1.0
+          ],
+          "source_normal": [
+            2.1649807990797854e-07,
+            -5.020379845177558e-08,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "bbd597eef3aa88cd452e9a8e593e7a3f87b87536604188742c63e349b41cf6d8",
+      "low_sha256": "ee64175de35405bda3580b97725d85e65ff7876731b69961bec98dc45eac8ae0"
+    },
+    "oberon": {
+      "mesh": "assets/meshes/oberon.glb",
+      "mesh_low": "assets/meshes/oberon.low.glb",
+      "normalization_radius_km": 761.4,
+      "radii_km": [
+        761.4,
+        761.4,
+        761.4
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Oberon | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -761.4000244140625,
+          761.3995361328125
+        ],
+        [
+          -761.4000244140625,
+          761.3995361328125
+        ],
+        [
+          -761.4000244140625,
+          761.4000244140625
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9999993443489075,
+            -9.68574909165909e-08,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            8.683367695994093e-07,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.9999993443489075,
+            0.0
+          ],
+          "source_uv": [
+            0.75,
+            0.5
+          ],
+          "source_normal": [
+            1.1546139830898028e-05,
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "source_uv": [
+            0.7447916269302368,
+            1.0
+          ],
+          "source_normal": [
+            -4.913744646728446e-07,
+            -2.2893834383808098e-08,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "45af49fb6420039a1a9d42502d4c180c89e1308984e56441a8c5607f75558d1f",
+      "low_sha256": "c367e7abf2bfa5088b2179ab05e260ca87395711e64ae79858c60c1f69fd64e0"
+    },
+    "puck": {
+      "mesh": "assets/meshes/puck.glb",
+      "mesh_low": "assets/meshes/puck.low.glb",
+      "normalization_radius_km": 77.0,
+      "radii_km": [
+        77.0,
+        77.0,
+        77.0
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Puck | physical geometry",
+      "geometry_note": "RECONSTRUCTION: modest irregularity fitted inside catalog axes.",
+      "source_bounds_km": [
+        [
+          -77.0,
+          76.41829681396484
+        ],
+        [
+          -75.66372680664062,
+          77.0
+        ],
+        [
+          -77.0,
+          75.75138854980469
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9924454092979431,
+            0.06487186998128891,
+            0.1292250007390976
+          ],
+          "source_uv": [
+            0.5104166269302368,
+            0.5416666269302368
+          ],
+          "source_normal": [
+            0.9996311068534851,
+            0.026796268299221992,
+            -0.004429991357028484
+          ]
+        },
+        {
+          "source_position": [
+            -0.1320100575685501,
+            1.0,
+            0.0
+          ],
+          "source_uv": [
+            0.7708332538604736,
+            0.5
+          ],
+          "source_normal": [
+            -0.06854398548603058,
+            0.9970446228981018,
+            -0.03469499945640564
+          ]
+        },
+        {
+          "source_position": [
+            0.07587895542383194,
+            0.18269133567810059,
+            0.9837842583656311
+          ],
+          "source_uv": [
+            0.6875,
+            0.9375000596046448
+          ],
+          "source_normal": [
+            0.021142473444342613,
+            0.05391484498977661,
+            0.9983216524124146
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "d2472a9b8be8570122df111c38164e0376013bec494143a4d9dba2b864673996",
+      "low_sha256": "4520eb91f4407a3dc65258328f0c72dbc7f3944dc6bb4dd3abd1e37094aed6c8"
+    },
+    "triton": {
+      "mesh": "assets/meshes/triton.glb",
+      "mesh_low": "assets/meshes/triton.low.glb",
+      "normalization_radius_km": 1352.6,
+      "radii_km": [
+        1352.6,
+        1352.6,
+        1352.6
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Triton | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -1352.5999755859375,
+          1352.5992431640625
+        ],
+        [
+          -1352.5999755859375,
+          1352.5992431640625
+        ],
+        [
+          -1352.5999755859375,
+          1352.5999755859375
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9999994039535522,
+            -9.685748381116355e-08,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            -2.375750263183818e-09,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.9999994039535522,
+            0.0
+          ],
+          "source_uv": [
+            0.75,
+            0.5
+          ],
+          "source_normal": [
+            1.200347196572693e-05,
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "source_uv": [
+            0.7447916269302368,
+            1.0
+          ],
+          "source_normal": [
+            -1.0943494288540023e-07,
+            -3.413718019373846e-08,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "bc252ed457415506487bf332aa72eef854f932273cc3618caed0678f7047e699",
+      "low_sha256": "c5ca42956d8a26a9ee19a9e27fdb088a2ca7f1a30bb0ae8cbfd1a01dd4852b6e"
+    },
+    "nereid": {
+      "mesh": "assets/meshes/nereid.glb",
+      "mesh_low": "assets/meshes/nereid.low.glb",
+      "normalization_radius_km": 170.0,
+      "radii_km": [
+        170.0,
+        170.0,
+        170.0
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Nereid | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -170.0,
+          169.99989318847656
+        ],
+        [
+          -170.0,
+          169.99989318847656
+        ],
+        [
+          -170.0,
+          170.0
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9999994039535522,
+            -9.685749802201826e-08,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            -4.751500526367636e-09,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.9999994039535522,
+            0.0
+          ],
+          "source_uv": [
+            0.75,
+            0.5
+          ],
+          "source_normal": [
+            1.2227979823364876e-05,
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "source_uv": [
+            0.7447916269302368,
+            1.0
+          ],
+          "source_normal": [
+            3.6330212083157676e-07,
+            -1.0808862072053671e-07,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "95e37854247cdda21316ca9f61cd4d5eacf22b5bbe40231e8fb5acc2fddc5880",
+      "low_sha256": "5a0ae7097f2a75f1fff22315bffd1d3159beb767efc998c31e52d131692a8ea2"
+    },
+    "proteus": {
+      "mesh": "assets/meshes/proteus.glb",
+      "mesh_low": "assets/meshes/proteus.low.glb",
+      "normalization_radius_km": 218.0,
+      "radii_km": [
+        218.0,
+        208.0,
+        201.0
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Proteus | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -218.0,
+          217.99986267089844
+        ],
+        [
+          -208.0,
+          207.9998779296875
+        ],
+        [
+          -201.0,
+          201.0
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9999993443489075,
+            -9.241448140073771e-08,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            9.861730632110266e-07,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.954127848148346,
+            0.0
+          ],
+          "source_uv": [
+            0.75,
+            0.5
+          ],
+          "source_normal": [
+            1.1550678209459875e-05,
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            0.92201828956604
+          ],
+          "source_uv": [
+            0.7447916269302368,
+            1.0
+          ],
+          "source_normal": [
+            6.26393386937707e-07,
+            -2.15928146474198e-08,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "8875aa42ad869d8b1783a4eec2523f9ef94f764524c0d6f57a441c70016e6eb0",
+      "low_sha256": "c970fa07f5cf9400129ec451ef50c510e9b803f528446d6d5414fa04601292fe"
+    },
+    "charon": {
+      "mesh": "assets/meshes/charon.glb",
+      "mesh_low": "assets/meshes/charon.low.glb",
+      "normalization_radius_km": 606.0,
+      "radii_km": [
+        606.0,
+        606.0,
+        606.0
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Charon | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -606.0,
+          605.9996337890625
+        ],
+        [
+          -606.0,
+          605.9996337890625
+        ],
+        [
+          -606.0,
+          606.0
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9999994039535522,
+            -9.68574909165909e-08,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            -4.751500526367636e-09,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.9999994039535522,
+            0.0
+          ],
+          "source_uv": [
+            0.75,
+            0.5
+          ],
+          "source_normal": [
+            1.2230355423525907e-05,
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "source_uv": [
+            0.7447916269302368,
+            1.0
+          ],
+          "source_normal": [
+            1.5060817304402008e-07,
+            -1.9035175213844013e-08,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "cc72a9825a7e4df9d7aee35faa48307c8fbc558ff4830119972209a3188cafc9",
+      "low_sha256": "21d3f723de3cca91b441d18d4ffae38827a3a704b7440c7abc21cb0cf64c4ee1"
+    },
+    "styx": {
+      "mesh": "assets/meshes/styx.glb",
+      "mesh_low": "assets/meshes/styx.low.glb",
+      "normalization_radius_km": 8,
+      "radii_km": [
+        8,
+        4.5,
+        5
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Styx | physical geometry",
+      "geometry_note": "RECONSTRUCTION: modest irregularity fitted inside catalog axes.",
+      "source_bounds_km": [
+        [
+          -8.0,
+          7.939563274383545
+        ],
+        [
+          -4.421905994415283,
+          4.5
+        ],
+        [
+          -5.0,
+          4.91892147064209
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9924454092979431,
+            0.03649042546749115,
+            0.08076561987400055
+          ],
+          "source_uv": [
+            0.5104166269302368,
+            0.5416666269302368
+          ],
+          "source_normal": [
+            0.9989269375801086,
+            0.045734960585832596,
+            -0.00728765269741416
+          ]
+        },
+        {
+          "source_position": [
+            -0.13201004266738892,
+            0.5625,
+            0.0
+          ],
+          "source_uv": [
+            0.7708332538604736,
+            0.5
+          ],
+          "source_normal": [
+            -0.03912527486681938,
+            0.998746395111084,
+            -0.031220832839608192
+          ]
+        },
+        {
+          "source_position": [
+            0.07587895542383194,
+            0.10276387631893158,
+            0.6148651838302612
+          ],
+          "source_uv": [
+            0.6875,
+            0.9375000596046448
+          ],
+          "source_normal": [
+            0.012537281960248947,
+            0.05929676443338394,
+            0.9981616735458374
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "ba65b2aa9cacef310652ba99a84414af6e5dd3c1f4de790eeedcb5783d3141ef",
+      "low_sha256": "86d08f6c356ee5ec6d9cf966c665bf3740aa8a65290dfd05dcbd4e6bb1ea8335"
+    },
+    "nix": {
+      "mesh": "assets/meshes/nix.glb",
+      "mesh_low": "assets/meshes/nix.low.glb",
+      "normalization_radius_km": 24.9,
+      "radii_km": [
+        24.9,
+        16.6,
+        15.55
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Nix | physical geometry",
+      "geometry_note": "RECONSTRUCTION: modest irregularity fitted inside catalog axes.",
+      "source_bounds_km": [
+        [
+          -24.899999618530273,
+          24.711891174316406
+        ],
+        [
+          -16.311920166015625,
+          16.600000381469727
+        ],
+        [
+          -15.550000190734863,
+          15.297845840454102
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9924454689025879,
+            0.04324791207909584,
+            0.08070075511932373
+          ],
+          "source_uv": [
+            0.5104166269302368,
+            0.5416666269302368
+          ],
+          "source_normal": [
+            0.9992034435272217,
+            0.03923862800002098,
+            -0.007271834649145603
+          ]
+        },
+        {
+          "source_position": [
+            -0.1320100575685501,
+            0.6666667461395264,
+            0.0
+          ],
+          "source_uv": [
+            0.7708332538604736,
+            0.5
+          ],
+          "source_normal": [
+            -0.04627033323049545,
+            0.9982455372810364,
+            -0.03694367781281471
+          ]
+        },
+        {
+          "source_position": [
+            0.07587896287441254,
+            0.12179423123598099,
+            0.6143713593482971
+          ],
+          "source_uv": [
+            0.6875,
+            0.9375000596046448
+          ],
+          "source_normal": [
+            0.012781187891960144,
+            0.05033687502145767,
+            0.9986504912376404
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "4983c9526fe067ed900b925017fa56e9da2e5e4d130cc632ed47ea44e4816bcd",
+      "low_sha256": "d960b149e30b2e24d61364c5f342589fb64fc49feddb68eebcb4778e81352a97"
+    },
+    "kerberos": {
+      "mesh": "assets/meshes/kerberos.glb",
+      "mesh_low": "assets/meshes/kerberos.low.glb",
+      "normalization_radius_km": 9.5,
+      "radii_km": [
+        9.5,
+        5,
+        4.5
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Kerberos | physical geometry",
+      "geometry_note": "RECONSTRUCTION: modest irregularity fitted inside catalog axes.",
+      "source_bounds_km": [
+        [
+          -9.5,
+          9.428231239318848
+        ],
+        [
+          -4.913228988647461,
+          5.0
+        ],
+        [
+          -4.5,
+          4.427029609680176
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9924454092979431,
+            0.03414308652281761,
+            0.06121183559298515
+          ],
+          "source_uv": [
+            0.5104166269302368,
+            0.5416666269302368
+          ],
+          "source_normal": [
+            0.9987785816192627,
+            0.04843297600746155,
+            -0.009770922362804413
+          ]
+        },
+        {
+          "source_position": [
+            -0.13201004266738892,
+            0.5263158082962036,
+            0.0
+          ],
+          "source_uv": [
+            0.7708332538604736,
+            0.5
+          ],
+          "source_normal": [
+            -0.036775536835193634,
+            0.9985858798027039,
+            -0.038388896733522415
+          ]
+        },
+        {
+          "source_position": [
+            0.07587896287441254,
+            0.09615333378314972,
+            0.4660031199455261
+          ],
+          "source_uv": [
+            0.6875,
+            0.9375000596046448
+          ],
+          "source_normal": [
+            0.00950917974114418,
+            0.04828622564673424,
+            0.9987882971763611
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "173e4ffe42a8c519c3dd29e0bc418fba1289b850bb1cf022d57eec25e7c63f96",
+      "low_sha256": "98c8f7270bb679379e89ccabb3be258d9be338492e4c7a4a1b96c5d5bc2a871b"
+    },
+    "hydra": {
+      "mesh": "assets/meshes/hydra.glb",
+      "mesh_low": "assets/meshes/hydra.low.glb",
+      "normalization_radius_km": 25.45,
+      "radii_km": [
+        25.45,
+        18.05,
+        15.45
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Hydra | physical geometry",
+      "geometry_note": "RECONSTRUCTION: modest irregularity fitted inside catalog axes.",
+      "source_bounds_km": [
+        [
+          -25.450000762939453,
+          25.257736206054688
+        ],
+        [
+          -17.736757278442383,
+          18.049999237060547
+        ],
+        [
+          -15.449999809265137,
+          15.199467658996582
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9924454092979431,
+            0.04600932076573372,
+            0.07844896614551544
+          ],
+          "source_uv": [
+            0.5104166269302368,
+            0.5416666269302368
+          ],
+          "source_normal": [
+            0.9992844462394714,
+            0.03707478567957878,
+            -0.0074860346503555775
+          ]
+        },
+        {
+          "source_position": [
+            -0.13201004266738892,
+            0.7092337608337402,
+            0.0
+          ],
+          "source_uv": [
+            0.7708332538604736,
+            0.5
+          ],
+          "source_normal": [
+            -0.04919110983610153,
+            0.9979735016822815,
+            -0.040363360196352005
+          ]
+        },
+        {
+          "source_position": [
+            0.07587895542383194,
+            0.129570871591568,
+            0.5972285866737366
+          ],
+          "source_uv": [
+            0.6875,
+            0.9375000596046448
+          ],
+          "source_normal": [
+            0.012519185431301594,
+            0.04612701013684273,
+            0.9988571405410767
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "499e976cb05d2d6326623bbf2e9f104f0448926e38f58e465022052ba00ae30e",
+      "low_sha256": "82f143de5e4c2b73da9499041376f882ec66539a23c5cab3d34b58f1deaf9890"
+    },
+    "vesta": {
+      "mesh": "assets/meshes/vesta.glb",
+      "mesh_low": "assets/meshes/vesta.low.glb",
+      "normalization_radius_km": 284.62,
+      "radii_km": [
+        284.62,
+        277.24,
+        226.33
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Vesta | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -284.6199951171875,
+          284.6198425292969
+        ],
+        [
+          -277.239990234375,
+          277.2398376464844
+        ],
+        [
+          -226.3300018310547,
+          226.3300018310547
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.999999463558197,
+            -9.434604208991004e-08,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            -4.754055371591903e-09,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.974070131778717,
+            0.0
+          ],
+          "source_uv": [
+            0.75,
+            0.5
+          ],
+          "source_normal": [
+            1.2234901078045368e-05,
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            0.7952006459236145
+          ],
+          "source_uv": [
+            0.7447916269302368,
+            1.0
+          ],
+          "source_normal": [
+            1.3514031707018148e-06,
+            4.3508663338798215e-08,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "863ae17c61cb64a548ee84f865cf30d35fdbec91c6910f2b6504ebb1f35dffbf",
+      "low_sha256": "46ab90817f492f38dab15600d50f4ebd55d9120d07756f10dd80bd7ca95949f3"
+    },
+    "pallas": {
+      "mesh": "assets/meshes/pallas.glb",
+      "mesh_low": "assets/meshes/pallas.low.glb",
+      "normalization_radius_km": 284.0,
+      "radii_km": [
+        284.0,
+        266.0,
+        224.0
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Pallas | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -284.0,
+          283.99981689453125
+        ],
+        [
+          -266.0,
+          265.9998474121094
+        ],
+        [
+          -224.0,
+          224.0
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9999993443489075,
+            -9.071863615872644e-08,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            5.859973839505983e-07,
+            1.1886356343637772e-09
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.9366191625595093,
+            0.0
+          ],
+          "source_uv": [
+            0.75,
+            0.5
+          ],
+          "source_normal": [
+            1.0866799129871652e-05,
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            0.7887324094772339
+          ],
+          "source_uv": [
+            0.7447916269302368,
+            1.0
+          ],
+          "source_normal": [
+            2.933724658760184e-07,
+            3.028558381856783e-08,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "6449b4cf78fab208c9a59013a366b131193ac11146e37a74eff3da96802dce5d",
+      "low_sha256": "b7eb25e0876373ee4b5be314e5ee15043008eefa2f74ba54f8a81cd7b58ae9bb"
+    },
+    "hygiea": {
+      "mesh": "assets/meshes/hygiea.glb",
+      "mesh_low": "assets/meshes/hygiea.low.glb",
+      "normalization_radius_km": 203.56,
+      "radii_km": [
+        203.56,
+        203.56,
+        203.56
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Hygiea | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -203.55999755859375,
+          203.55987548828125
+        ],
+        [
+          -203.55999755859375,
+          203.55987548828125
+        ],
+        [
+          -203.55999755859375,
+          203.55999755859375
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9999994039535522,
+            -9.68574909165909e-08,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            -2.375750263183818e-09,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.9999994039535522,
+            0.0
+          ],
+          "source_uv": [
+            0.75,
+            0.5
+          ],
+          "source_normal": [
+            1.2230355423525907e-05,
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "source_uv": [
+            0.7447916269302368,
+            1.0
+          ],
+          "source_normal": [
+            4.462270908334176e-07,
+            -4.4712109570355096e-08,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "5150ddd7520d1e12187c7aad145c08e945e4aa3461b3671be8ef974a69bfac26",
+      "low_sha256": "fd98f852539f84999bde4eff7af4f57dc5351369bc500808ff1c0a9dc5dc6874"
+    },
+    "eros": {
+      "mesh": "assets/meshes/eros.glb",
+      "mesh_low": "assets/meshes/eros.low.glb",
+      "normalization_radius_km": 17.2,
+      "radii_km": [
+        17.2,
+        5.6,
+        5.6
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Eros | physical geometry",
+      "geometry_note": "RECONSTRUCTION: modest irregularity fitted inside catalog axes.",
+      "source_bounds_km": [
+        [
+          -17.200000762939453,
+          17.07006072998047
+        ],
+        [
+          -5.502816677093506,
+          5.599999904632568
+        ],
+        [
+          -5.599999904632568,
+          5.509191989898682
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9924453496932983,
+            0.02112107165157795,
+            0.04207325354218483
+          ],
+          "source_uv": [
+            0.5104166269302368,
+            0.5416666269302368
+          ],
+          "source_normal": [
+            0.9973752498626709,
+            0.07084736227989197,
+            -0.014943222515285015
+          ]
+        },
+        {
+          "source_position": [
+            -0.13201004266738892,
+            0.3255813717842102,
+            0.0
+          ],
+          "source_uv": [
+            0.7708332538604736,
+            0.5
+          ],
+          "source_normal": [
+            -0.023002514615654945,
+            0.9991384744644165,
+            -0.03454134985804558
+          ]
+        },
+        {
+          "source_position": [
+            0.07587895542383194,
+            0.059480901807546616,
+            0.3203018605709076
+          ],
+          "source_uv": [
+            0.6875,
+            0.9375000596046448
+          ],
+          "source_normal": [
+            0.0062750703655183315,
+            0.05335445702075958,
+            0.9985559582710266
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "60532b82dca7f3f740efd900c3813326f83437ede2d3785b61fe85ee6a8da15b",
+      "low_sha256": "03eb264746f45100ca9f27a8707fff78c2da0d938cd5f27ffc4c9ec786718178"
+    },
+    "itokawa": {
+      "mesh": "assets/meshes/itokawa.glb",
+      "mesh_low": "assets/meshes/itokawa.low.glb",
+      "normalization_radius_km": 0.2675,
+      "radii_km": [
+        0.2675,
+        0.147,
+        0.1045
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Itokawa | physical geometry",
+      "geometry_note": "RECONSTRUCTION: modest irregularity fitted inside catalog axes.",
+      "source_bounds_km": [
+        [
+          -0.26750001311302185,
+          0.2654791474342346
+        ],
+        [
+          -0.14444893598556519,
+          0.1469999998807907
+        ],
+        [
+          -0.10450000315904617,
+          0.10280545800924301
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9924453496932983,
+            0.03564920648932457,
+            0.050482284277677536
+          ],
+          "source_uv": [
+            0.5104166269302368,
+            0.5416666269302368
+          ],
+          "source_normal": [
+            0.9988423585891724,
+            0.04662700742483139,
+            -0.01182603370398283
+          ]
+        },
+        {
+          "source_position": [
+            -0.13201002776622772,
+            0.5495326519012451,
+            0.0
+          ],
+          "source_uv": [
+            0.7708332538604736,
+            0.5
+          ],
+          "source_normal": [
+            -0.03850812464952469,
+            0.9980897307395935,
+            -0.048311907798051834
+          ]
+        },
+        {
+          "source_position": [
+            0.07587894797325134,
+            0.10039485991001129,
+            0.3843194544315338
+          ],
+          "source_uv": [
+            0.6875,
+            0.9375000596046448
+          ],
+          "source_normal": [
+            0.007906511425971985,
+            0.03832019492983818,
+            0.9992341995239258
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "0c58f1b819bfa4f05113989c34327aa3b7b321927da24ae8a42058ee5aa212e6",
+      "low_sha256": "8042d52ec802f42cfdab7f1b746e96265916f515f5b0d947e05d768e67313d6b"
+    },
+    "bennu": {
+      "mesh": "assets/meshes/bennu.glb",
+      "mesh_low": "assets/meshes/bennu.low.glb",
+      "normalization_radius_km": 0.25235,
+      "radii_km": [
+        0.25235,
+        0.2459,
+        0.22835
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Bennu | physical geometry",
+      "geometry_note": "RECONSTRUCTION: modest irregularity fitted inside catalog axes. Qualitative equatorial ridge; not a mission shape model.",
+      "source_bounds_km": [
+        [
+          -0.25235000252723694,
+          0.24782955646514893
+        ],
+        [
+          -0.2416326105594635,
+          0.2459000051021576
+        ],
+        [
+          -0.22834999859333038,
+          0.2246471494436264
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9820865988731384,
+            0.062200311571359634,
+            0.0
+          ],
+          "source_uv": [
+            0.5104166269302368,
+            0.5
+          ],
+          "source_normal": [
+            0.9850717782974243,
+            -0.04271667078137398,
+            -0.16676001250743866
+          ]
+        },
+        {
+          "source_position": [
+            -0.13276061415672302,
+            0.9744402766227722,
+            0.0
+          ],
+          "source_uv": [
+            0.7708332538604736,
+            0.5
+          ],
+          "source_normal": [
+            -0.06730490177869797,
+            0.9973215460777283,
+            -0.02862962894141674
+          ]
+        },
+        {
+          "source_position": [
+            0.06937307119369507,
+            0.16183799505233765,
+            0.8902205228805542
+          ],
+          "source_uv": [
+            0.6875,
+            0.9375000596046448
+          ],
+          "source_normal": [
+            0.020853158086538315,
+            0.055015455931425095,
+            0.9982677102088928
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "3977955c0344d6158be7aefa06209a8334d32bc5612f94d8fc3e53c0d7019b19",
+      "low_sha256": "8e4016fac9a20f90f3e0205ffb22269e92f0580ff8a5ae3088e228f1224962b0"
+    },
+    "ryugu": {
+      "mesh": "assets/meshes/ryugu.glb",
+      "mesh_low": "assets/meshes/ryugu.low.glb",
+      "normalization_radius_km": 0.448,
+      "radii_km": [
+        0.448,
+        0.448,
+        0.448
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Ryugu | physical geometry",
+      "geometry_note": "RECONSTRUCTION: modest irregularity fitted inside catalog axes. Qualitative equatorial ridge; not a mission shape model.",
+      "source_bounds_km": [
+        [
+          -0.4480000138282776,
+          0.4399748146533966
+        ],
+        [
+          -0.4402253329753876,
+          0.4480000138282776
+        ],
+        [
+          -0.4480000138282776,
+          0.4407353699207306
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9820865392684937,
+            0.06383182853460312,
+            0.0
+          ],
+          "source_uv": [
+            0.5104166269302368,
+            0.5
+          ],
+          "source_normal": [
+            0.9867745041847229,
+            -0.042053353041410446,
+            -0.15654905140399933
+          ]
+        },
+        {
+          "source_position": [
+            -0.13276059925556183,
+            0.9999999403953552,
+            0.0
+          ],
+          "source_uv": [
+            0.7708332538604736,
+            0.5
+          ],
+          "source_normal": [
+            -0.06879060715436935,
+            0.9972538352012634,
+            -0.02743401564657688
+          ]
+        },
+        {
+          "source_position": [
+            0.06937306374311447,
+            0.16608302295207977,
+            0.9837842583656311
+          ],
+          "source_uv": [
+            0.6875,
+            0.9375000596046448
+          ],
+          "source_normal": [
+            0.023017987608909607,
+            0.05910935252904892,
+            0.9979861378669739
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "3e25010d6089a8bd58352a2b475e628d3ab271f195ff717f9edb9ada59bd1923",
+      "low_sha256": "66e4aa9cad75d3df382a3e08ae922e9b6d91bfd78b35365057704576616d9640"
+    },
+    "arrokoth": {
+      "mesh": "assets/meshes/arrokoth.glb",
+      "mesh_low": "assets/meshes/arrokoth.low.glb",
+      "normalization_radius_km": 18,
+      "radii_km": [
+        18,
+        10,
+        5
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Arrokoth | physical geometry",
+      "geometry_note": "RECONSTRUCTION: contact-binary waist; not a resolved mission shape.",
+      "source_bounds_km": [
+        [
+          -18.0,
+          17.999988555908203
+        ],
+        [
+          -9.999993324279785,
+          10.0
+        ],
+        [
+          -5.0,
+          5.0
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9999993443489075,
+            -7.10779559653929e-08,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            -1.43364475846397e-08,
+            2.3894077827435467e-09
+          ]
+        },
+        {
+          "source_position": [
+            -0.38268327713012695,
+            0.5555555820465088,
+            0.0
+          ],
+          "source_uv": [
+            0.8124999403953552,
+            0.5
+          ],
+          "source_normal": [
+            0.003089871956035495,
+            0.9999952912330627,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            -0.38268375396728516,
+            4.4802447973779636e-08,
+            0.2777777910232544
+          ],
+          "source_uv": [
+            0.0,
+            0.8749997615814209
+          ],
+          "source_normal": [
+            0.0013895189622417092,
+            -1.1120146581333756e-08,
+            0.9999991059303284
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "168425123fc0afcabbd862ab5e40a3e5ee0311c777cd27a07f7feecd49664fb8",
+      "low_sha256": "94ac433726cf137dd498a71d770dc03193872a1331baa7b6c275fdf3b99a8732"
+    },
+    "chariklo": {
+      "mesh": "assets/meshes/chariklo.glb",
+      "mesh_low": "assets/meshes/chariklo.low.glb",
+      "normalization_radius_km": 151.0,
+      "radii_km": [
+        151.0,
+        151.0,
+        151.0
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Chariklo | physical geometry",
+      "geometry_note": "Ellipsoid using catalog axes; no exaggerated terrain.",
+      "source_bounds_km": [
+        [
+          -151.0,
+          150.99990844726562
+        ],
+        [
+          -151.0,
+          150.99990844726562
+        ],
+        [
+          -151.0,
+          151.0
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9999994039535522,
+            -9.68574909165909e-08,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            -2.375750263183818e-09,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.9999994039535522,
+            0.0
+          ],
+          "source_uv": [
+            0.75,
+            0.5
+          ],
+          "source_normal": [
+            1.2457240700314287e-05,
+            1.0,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "source_uv": [
+            0.7447916269302368,
+            1.0
+          ],
+          "source_normal": [
+            -3.1948860623742803e-07,
+            -2.8830957177206074e-08,
+            1.0
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "255cc12d79e8f12301796ceefe6bfb862c3a49589e9ca13f2573eb33d3633cec",
+      "low_sha256": "18f5ef5e57c7d56177cc30dcca44205925c03540839146d1c294699c282d576c"
+    },
+    "chiron": {
+      "mesh": "assets/meshes/chiron.glb",
+      "mesh_low": "assets/meshes/chiron.low.glb",
+      "normalization_radius_km": 83.0,
+      "radii_km": [
+        83.0,
+        83.0,
+        83.0
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "Chiron | physical geometry",
+      "geometry_note": "RECONSTRUCTION: modest irregularity fitted inside catalog axes.",
+      "source_bounds_km": [
+        [
+          -83.0,
+          82.37297058105469
+        ],
+        [
+          -81.55960083007812,
+          83.0
+        ],
+        [
+          -83.0,
+          81.65409851074219
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9924454092979431,
+            0.06487186253070831,
+            0.1292249858379364
+          ],
+          "source_uv": [
+            0.5104166269302368,
+            0.5416666269302368
+          ],
+          "source_normal": [
+            0.9996311068534851,
+            0.026796236634254456,
+            -0.00443012872710824
+          ]
+        },
+        {
+          "source_position": [
+            -0.13201004266738892,
+            0.9999999403953552,
+            0.0
+          ],
+          "source_uv": [
+            0.7708332538604736,
+            0.5
+          ],
+          "source_normal": [
+            -0.06854387372732162,
+            0.9970446825027466,
+            -0.03469414263963699
+          ]
+        },
+        {
+          "source_position": [
+            0.07587895542383194,
+            0.1826913207769394,
+            0.9837842583656311
+          ],
+          "source_uv": [
+            0.6875,
+            0.9375000596046448
+          ],
+          "source_normal": [
+            0.02113994210958481,
+            0.05391534045338631,
+            0.9983217716217041
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "129f72453c14d96a78e4210f356ce73e6c0094987bce826c88fc2a2f9684a7e0",
+      "low_sha256": "8ceaeedadcccf2f317a482c7c1af425c858d57b2c9527a7383d607b92832c3db"
+    },
+    "halley": {
+      "mesh": "assets/meshes/halley.glb",
+      "mesh_low": "assets/meshes/halley.low.glb",
+      "normalization_radius_km": 8.0,
+      "radii_km": [
+        8.0,
+        4.0,
+        4.0
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "1P/Halley | physical geometry",
+      "geometry_note": "RECONSTRUCTION: modest irregularity fitted inside catalog axes.",
+      "source_bounds_km": [
+        [
+          -8.0,
+          7.939563274383545
+        ],
+        [
+          -3.9305832386016846,
+          4.0
+        ],
+        [
+          -4.0,
+          3.9351372718811035
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9924454092979431,
+            0.032435931265354156,
+            0.0646125003695488
+          ],
+          "source_uv": [
+            0.5104166269302368,
+            0.5416666269302368
+          ],
+          "source_normal": [
+            0.9986737370491028,
+            0.05064454674720764,
+            -0.009269418194890022
+          ]
+        },
+        {
+          "source_position": [
+            -0.13201004266738892,
+            0.5,
+            0.0
+          ],
+          "source_uv": [
+            0.7708332538604736,
+            0.5
+          ],
+          "source_normal": [
+            -0.03492504730820656,
+            0.9987903237342834,
+            -0.03461618721485138
+          ]
+        },
+        {
+          "source_position": [
+            0.07587895542383194,
+            0.09134566783905029,
+            0.49189215898513794
+          ],
+          "source_uv": [
+            0.6875,
+            0.9375000596046448
+          ],
+          "source_normal": [
+            0.009966672398149967,
+            0.053485207259655,
+            0.9985188841819763
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "5c295047fb6aad4fe18f357d521c2d959b55b4b5fef0339437b1f538e66f1049",
+      "low_sha256": "008a66c67aae9df34b77bf2bf68664ecef4993123ff1f642f3c646a9d6836073"
+    },
+    "encke": {
+      "mesh": "assets/meshes/encke.glb",
+      "mesh_low": "assets/meshes/encke.low.glb",
+      "normalization_radius_km": 2.4,
+      "radii_km": [
+        2.4,
+        2.4,
+        2.4
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "2P/Encke | physical geometry",
+      "geometry_note": "RECONSTRUCTION: modest irregularity fitted inside catalog axes.",
+      "source_bounds_km": [
+        [
+          -2.4000000953674316,
+          2.381869077682495
+        ],
+        [
+          -2.3583500385284424,
+          2.4000000953674316
+        ],
+        [
+          -2.4000000953674316,
+          2.3610823154449463
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9924454092979431,
+            0.06487186253070831,
+            0.1292249858379364
+          ],
+          "source_uv": [
+            0.5104166269302368,
+            0.5416666269302368
+          ],
+          "source_normal": [
+            0.9996311068534851,
+            0.026797102764248848,
+            -0.0044304849579930305
+          ]
+        },
+        {
+          "source_position": [
+            -0.13201004266738892,
+            1.0,
+            0.0
+          ],
+          "source_uv": [
+            0.7708332538604736,
+            0.5
+          ],
+          "source_normal": [
+            -0.06854409724473953,
+            0.9970446228981018,
+            -0.03469457849860191
+          ]
+        },
+        {
+          "source_position": [
+            0.07587895542383194,
+            0.18269133567810059,
+            0.9837842583656311
+          ],
+          "source_uv": [
+            0.6875,
+            0.9375000596046448
+          ],
+          "source_normal": [
+            0.021138692274689674,
+            0.05391509458422661,
+            0.9983217716217041
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "b54cc83fedc883cbc8cfbac72f4b94c742464f1b0d432930862e42ba980368c3",
+      "low_sha256": "8e66f3f860506e979a2a94fc00f959e354aa6f680989aec4e3f496c277c209b9"
+    },
+    "churyumov-gerasimenko": {
+      "mesh": "assets/meshes/churyumov-gerasimenko.glb",
+      "mesh_low": "assets/meshes/churyumov-gerasimenko.low.glb",
+      "normalization_radius_km": 2.4,
+      "radii_km": [
+        2.4,
+        1.55,
+        1.2
+      ],
+      "vertices": 4514,
+      "triangles": 9024,
+      "source_mesh": "67P/Churyumov-Gerasimenko | physical geometry",
+      "geometry_note": "RECONSTRUCTION: contact-binary waist; not a resolved mission shape.",
+      "source_bounds_km": [
+        [
+          -2.4000000953674316,
+          2.399998664855957
+        ],
+        [
+          -1.5499989986419678,
+          1.5499999523162842
+        ],
+        [
+          -1.2000000476837158,
+          1.2000000476837158
+        ]
+      ],
+      "cardinal_probes": [
+        {
+          "source_position": [
+            0.9999994039535522,
+            -8.262812656312235e-08,
+            0.0
+          ],
+          "source_uv": [
+            0.4999999701976776,
+            0.5
+          ],
+          "source_normal": [
+            1.0,
+            1.5440567722180276e-06,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            -0.38268327713012695,
+            0.6458333134651184,
+            0.0
+          ],
+          "source_uv": [
+            0.8124999403953552,
+            0.5
+          ],
+          "source_normal": [
+            0.00412162346765399,
+            0.9999914765357971,
+            0.0
+          ]
+        },
+        {
+          "source_position": [
+            -0.38268375396728516,
+            5.2082839374634204e-08,
+            0.5
+          ],
+          "source_uv": [
+            0.0,
+            0.8749997615814209
+          ],
+          "source_normal": [
+            0.0026678319554775953,
+            -2.6704560784907017e-09,
+            0.9999964237213135
+          ]
+        }
+      ],
+      "inward_triangles": 0,
+      "sha256": "d362288df926acc8ea22171e13858073219278a875e1ab7dd44881de14a37c2c",
+      "low_sha256": "66a48f007ea1f7e581df2dd52186af02e004fbb214b39173ad7743114144a12f"
+    }
+  }
+}

@@ -1,0 +1,1939 @@
+{
+  "bodies": [
+    {
+      "id": "sun",
+      "name": "Sun",
+      "horizons_id": "10",
+      "category": "star",
+      "parent_id": null,
+      "spice_id": 10,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%2710%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. Signed rotation period is derived from the PCK linear prime-meridian coefficient; a negative value denotes retrograde rotation.",
+      "resolved_horizons_identity": "Sun (10)",
+      "ephemeris_source": "DE441",
+      "radii_km": [
+        695700.0,
+        695700.0,
+        695700.0
+      ],
+      "radius_km": 695699.9999999995,
+      "rotation_period_hours": 609.1198781760244
+    },
+    {
+      "id": "mercury",
+      "name": "Mercury",
+      "horizons_id": "199",
+      "category": "planet",
+      "parent_id": "sun",
+      "spice_id": 199,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27199%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. Signed rotation period is derived from the PCK linear prime-meridian coefficient; a negative value denotes retrograde rotation.",
+      "resolved_horizons_identity": "Mercury (199)",
+      "ephemeris_source": "DE441",
+      "radii_km": [
+        2440.53,
+        2440.53,
+        2438.26
+      ],
+      "radius_km": 2439.773098613627,
+      "rotation_period_hours": 1407.5075016565909
+    },
+    {
+      "id": "venus",
+      "name": "Venus",
+      "horizons_id": "299",
+      "category": "planet",
+      "parent_id": "sun",
+      "spice_id": 299,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27299%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. Signed rotation period is derived from the PCK linear prime-meridian coefficient; a negative value denotes retrograde rotation.",
+      "resolved_horizons_identity": "Venus (299)",
+      "ephemeris_source": "DE441",
+      "radii_km": [
+        6051.8,
+        6051.8,
+        6051.8
+      ],
+      "radius_km": 6051.799999999997,
+      "rotation_period_hours": -5832.443615661407
+    },
+    {
+      "id": "earth",
+      "name": "Earth",
+      "horizons_id": "399",
+      "category": "planet",
+      "parent_id": "sun",
+      "spice_id": 399,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27399%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. Signed rotation period is derived from the PCK linear prime-meridian coefficient; a negative value denotes retrograde rotation.",
+      "resolved_horizons_identity": "Earth (399)",
+      "ephemeris_source": "DE441",
+      "radii_km": [
+        6378.1366,
+        6378.1366,
+        6356.7519
+      ],
+      "radius_km": 6371.000385249618,
+      "obliquity_deg": 23.4392911,
+      "rotation_period_hours": 23.93447117430703
+    },
+    {
+      "id": "mars",
+      "name": "Mars",
+      "horizons_id": "499",
+      "category": "planet",
+      "parent_id": "sun",
+      "spice_id": 499,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27499%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. Signed rotation period is derived from the PCK linear prime-meridian coefficient; a negative value denotes retrograde rotation.",
+      "resolved_horizons_identity": "Mars (499)",
+      "ephemeris_source": "mar099",
+      "radii_km": [
+        3396.19,
+        3396.19,
+        3376.2
+      ],
+      "radius_km": 3389.5135502710796,
+      "rotation_period_hours": 24.622962143046955
+    },
+    {
+      "id": "jupiter",
+      "name": "Jupiter",
+      "horizons_id": "599",
+      "category": "planet",
+      "parent_id": "sun",
+      "spice_id": 599,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27599%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. Signed rotation period is derived from the PCK linear prime-meridian coefficient; a negative value denotes retrograde rotation.",
+      "resolved_horizons_identity": "Jupiter (599)",
+      "ephemeris_source": "jup365_merged",
+      "radii_km": [
+        71492.0,
+        71492.0,
+        66854.0
+      ],
+      "radius_km": 69911.30840807078,
+      "rotation_period_hours": 9.924919819513496
+    },
+    {
+      "id": "saturn",
+      "name": "Saturn",
+      "horizons_id": "699",
+      "category": "planet",
+      "parent_id": "sun",
+      "spice_id": 699,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27699%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. Signed rotation period is derived from the PCK linear prime-meridian coefficient; a negative value denotes retrograde rotation.",
+      "resolved_horizons_identity": "Saturn (699)",
+      "ephemeris_source": "sat441l",
+      "radii_km": [
+        60268.0,
+        60268.0,
+        54364.0
+      ],
+      "radius_km": 58231.99302231827,
+      "rotation_period_hours": 10.656222221732387
+    },
+    {
+      "id": "uranus",
+      "name": "Uranus",
+      "horizons_id": "799",
+      "category": "planet",
+      "parent_id": "sun",
+      "spice_id": 799,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27799%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. Signed rotation period is derived from the PCK linear prime-meridian coefficient; a negative value denotes retrograde rotation.",
+      "resolved_horizons_identity": "Uranus (799)",
+      "ephemeris_source": "ura184_merged",
+      "radii_km": [
+        25559.0,
+        25559.0,
+        24973.0
+      ],
+      "radius_km": 25362.154531444972,
+      "rotation_period_hours": -17.240000000255407
+    },
+    {
+      "id": "neptune",
+      "name": "Neptune",
+      "horizons_id": "899",
+      "category": "planet",
+      "parent_id": "sun",
+      "spice_id": 899,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27899%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. Signed rotation period is derived from the PCK linear prime-meridian coefficient; a negative value denotes retrograde rotation.",
+      "resolved_horizons_identity": "Neptune (899)",
+      "ephemeris_source": "nep098_merged",
+      "radii_km": [
+        24764.0,
+        24764.0,
+        24341.0
+      ],
+      "radius_km": 24622.189475123592,
+      "rotation_period_hours": 15.966299998597572
+    },
+    {
+      "id": "ceres",
+      "name": "Ceres",
+      "horizons_id": "1;",
+      "category": "dwarf_planet",
+      "parent_id": "sun",
+      "spice_id": 20000001,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%271%3B%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://ssd-api.jpl.nasa.gov/sbdb.api?sstr=1&phys-par=true&full-prec=true",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. Adopted semiaxes use half the three SBDB full extents, reference Nature vol. 537, pp515-517 (22 September 2016). These supersede older PCK size values where present. fit w.r.t. center of mass and in body-fixed frame radius_km is the equal-volume radius of the adopted semiaxes. Rotation period from SBDB/LCDB, often synodic. derived from published value: 952.1532 +/- 0.0001 deg./day Signed rotation period is derived from the PCK linear prime-meridian coefficient; a negative value denotes retrograde rotation.",
+      "resolved_horizons_identity": "1 Ceres (A801 AA)",
+      "ephemeris_source": "JPL#48",
+      "physical_parameter_source_identity": "1 Ceres (A801 AA)",
+      "pck_id": 2000001,
+      "orbit_solution_context": {
+        "orbit_id": "48",
+        "soln_date": "2021-04-13 11:04:44",
+        "first_obs": "1995-01-05",
+        "last_obs": "2021-01-28",
+        "n_obs_used": 1075,
+        "condition_code": "0",
+        "rms": ".43153",
+        "source": "JPL",
+        "pe_used": "DE441",
+        "sb_used": "SB441-N373",
+        "note": "SBDB context was retrieved separately from the Horizons vectors. Its latest solution may differ from the cached Horizons solution. The Horizons header is authoritative for these trajectories. Fit RMS and orbit condition code are not Cartesian position uncertainties."
+      },
+      "radii_km": [
+        482.2,
+        482.1,
+        445.9
+      ],
+      "radius_km": 469.7505204694077,
+      "albedo": 0.09,
+      "rotation_period_hours": 9.074169997013087
+    },
+    {
+      "id": "pluto",
+      "name": "Pluto",
+      "horizons_id": "999",
+      "category": "dwarf_planet",
+      "parent_id": "sun",
+      "spice_id": 999,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27999%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. Signed rotation period is derived from the PCK linear prime-meridian coefficient; a negative value denotes retrograde rotation.",
+      "resolved_horizons_identity": "Pluto (999)",
+      "ephemeris_source": "plu060_merged",
+      "radii_km": [
+        1188.3,
+        1188.3,
+        1188.3
+      ],
+      "radius_km": 1188.2999999999995,
+      "rotation_period_hours": 153.29335197870182
+    },
+    {
+      "id": "haumea",
+      "name": "Haumea",
+      "horizons_id": "136108;",
+      "category": "dwarf_planet",
+      "parent_id": "sun",
+      "spice_id": 20136108,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27136108%3B%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://ssd-api.jpl.nasa.gov/sbdb.api?sstr=136108&phys-par=true&full-prec=true",
+        "https://doi.org/10.1038/nature24051",
+        "https://arxiv.org/abs/1811.09476"
+      ],
+      "physical_notes": "Occultation-derived triaxial semiaxes. Shape solution is model-dependent. radius_km is the equal-volume radius of the adopted semiaxes. Rotation period from SBDB/LCDB, often synodic. REFERENCE LIST:[Rabinowitz, D.L.; Barkume, K.; Brown, M.E.; Roe, H.; et al. (2006) Astrophys. J. 639, 1238-1251.], [Rabinowitz, D.L.; Schaefer, B.E.; Tourtellotte, S.W. (2007) Astron. J. 133, 26-43.], [Lellouch, E.; Kiss, C.; Santos-Sanz, P.; Muller, T.G.; et al. (2010) Astron. Astrophys. 518, L147.], [Thirouin, A.; Ortiz, J.L.; Duffard, R.; Santos-Sanz, P.; et al. (2010) Astron. Astrophys. 522, A93.], [Behrend, R. (2011) Observatoire de Geneve web site, http://obswww.unige.ch/~behrend/page_cou.html], [Behrend, R. (2014) Observatoire de Geneve web site, http://obswww.unige.ch/~behrend/page_cou.html], [Lockwood, A.C.; Brown, M.E.; Stansberry, J. (2014) Earth, Moon, and Planets 111, 127-37.], [Clark, M. (2016) Minor Planet Bull. 43, 2-5.], [Behrend, R. (2017) Observatoire de Geneve web site, http://obswww.unige.ch/~behrend/page_cou.html], [Ortiz, J.L.; Santos-Sanz, P.; Sicardy, B.; Benedetti-Rossi, G.; et al. (2017) Nature 550, 219-223.] Published preferred equatorial pole RA 285.1 deg, DEC -10.6 deg, and rotation period 3.915341 h. Absolute rotational phase remains unconstrained; this is not a complete prime-meridian attitude model.",
+      "resolved_horizons_identity": "136108 Haumea (2003 EL61)",
+      "ephemeris_source": "JPL#132",
+      "physical_parameter_source_identity": "136108 Haumea (2003 EL61)",
+      "pck_id": 2136108,
+      "orbit_solution_context": {
+        "orbit_id": "132",
+        "soln_date": "2026-06-06 21:06:04",
+        "first_obs": "1955-03-22",
+        "last_obs": "2026-04-14",
+        "n_obs_used": 6692,
+        "condition_code": "1",
+        "rms": ".25427",
+        "source": "JPL",
+        "pe_used": "DE441",
+        "sb_used": "SB441-N16",
+        "note": "SBDB context was retrieved separately from the Horizons vectors. Its latest solution may differ from the cached Horizons solution. The Horizons header is authoritative for these trajectories. Fit RMS and orbit condition code are not Cartesian position uncertainties."
+      },
+      "radii_km": [
+        1161,
+        852,
+        513
+      ],
+      "radius_km": 797.6206575106592,
+      "rotation_period_hours": 3.915341
+    },
+    {
+      "id": "makemake",
+      "name": "Makemake",
+      "horizons_id": "136472;",
+      "category": "dwarf_planet",
+      "parent_id": "sun",
+      "spice_id": 20136472,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27136472%3B%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://ssd-api.jpl.nasa.gov/sbdb.api?sstr=136472&phys-par=true&full-prec=true",
+        "https://doi.org/10.1038/nature11597"
+      ],
+      "physical_notes": "Adopted radius is half the 1430 +/- 9 km occultation diameter reported by Ortiz et al. 2012. A spherical approximation is used; the projected-ellipse fit also permits a longer axis. Rotation period from SBDB/LCDB, often synodic. [Result based on less than full coverage, so that the period may be wrong by 30 percent or so.]  REFERENCE LIST:[Hromakina, T.A.; Belskaya, I.N.; Krugly, Yu.N.; Shevchenko, V.G.; et al. (2019) Astron. Astrophys. 625, A46.] No supported published pole and phase for this interval. Static orientation is unconstrained.",
+      "resolved_horizons_identity": "136472 Makemake (2005 FY9)",
+      "ephemeris_source": "JPL#130",
+      "physical_parameter_source_identity": "136472 Makemake (2005 FY9)",
+      "pck_id": 2136472,
+      "orbit_solution_context": {
+        "orbit_id": "130",
+        "soln_date": "2026-06-06 21:09:02",
+        "first_obs": "1955-01-29",
+        "last_obs": "2026-04-05",
+        "n_obs_used": 6348,
+        "condition_code": "1",
+        "rms": ".23296",
+        "source": "JPL",
+        "pe_used": "DE441",
+        "sb_used": "SB441-N16",
+        "note": "SBDB context was retrieved separately from the Horizons vectors. Its latest solution may differ from the cached Horizons solution. The Horizons header is authoritative for these trajectories. Fit RMS and orbit condition code are not Cartesian position uncertainties."
+      },
+      "radius_km": 715,
+      "rotation_period_hours": 22.8266
+    },
+    {
+      "id": "eris",
+      "name": "Eris",
+      "horizons_id": "136199;",
+      "category": "dwarf_planet",
+      "parent_id": "sun",
+      "spice_id": 20136199,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27136199%3B%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://ssd-api.jpl.nasa.gov/sbdb.api?sstr=136199&phys-par=true&full-prec=true",
+        "https://doi.org/10.1038/nature10550"
+      ],
+      "physical_notes": "Radius 1163 +/- 6 km from the Sicardy et al. 2011 occultation. Rotation period from SBDB/LCDB, often synodic. [Result based on less than full coverage, so that the period may be wrong by 30 percent or so.]  REFERENCE LIST:[Roe, H. G.; Pike, R.E.; Brown, M.E. (2008) Icarus 198, 459-464.] No supported published pole and phase for this interval. Static orientation is unconstrained.",
+      "resolved_horizons_identity": "136199 Eris (2003 UB313)",
+      "ephemeris_source": "JPL#103",
+      "physical_parameter_source_identity": "136199 Eris (2003 UB313)",
+      "pck_id": 2136199,
+      "orbit_solution_context": {
+        "orbit_id": "103",
+        "soln_date": "2026-06-06 21:06:42",
+        "first_obs": "1954-09-03",
+        "last_obs": "2026-02-06",
+        "n_obs_used": 4064,
+        "condition_code": "3",
+        "rms": ".36712",
+        "source": "JPL",
+        "pe_used": "DE441",
+        "sb_used": "SB441-N16",
+        "note": "SBDB context was retrieved separately from the Horizons vectors. Its latest solution may differ from the cached Horizons solution. The Horizons header is authoritative for these trajectories. Fit RMS and orbit condition code are not Cartesian position uncertainties."
+      },
+      "radius_km": 1163,
+      "rotation_period_hours": 25.9
+    },
+    {
+      "id": "orcus",
+      "name": "Orcus",
+      "horizons_id": "90482;",
+      "category": "dwarf_candidate",
+      "parent_id": "sun",
+      "spice_id": 20090482,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%2790482%3B%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://ssd-api.jpl.nasa.gov/sbdb.api?sstr=90482&phys-par=true&full-prec=true",
+        "https://arxiv.org/abs/1305.0449"
+      ],
+      "physical_notes": "Half the 917 +/- 25 km primary-body diameter from Fornasier et al. 2013. Thermal binary decomposition assumes equal component albedos; this is not the unresolved Orcus-Vanth system diameter. Rotation period from SBDB/LCDB, often synodic. [Result based on less than full coverage, so that the period may be wrong by 30 percent or so.]  REFERENCE LIST:[Rabinowitz, D.L.; Schaefer, B.E.; Tourtellotte, S.W. (2007) Astron. J. 133, 26-43.] No supported published pole and phase for this interval. Static orientation is unconstrained.",
+      "resolved_horizons_identity": "90482 Orcus (2004 DW)",
+      "ephemeris_source": "JPL#61",
+      "physical_parameter_source_identity": "90482 Orcus (2004 DW)",
+      "pck_id": 2090482,
+      "orbit_solution_context": {
+        "orbit_id": "61",
+        "soln_date": "2026-06-06 14:13:31",
+        "first_obs": "1951-11-08",
+        "last_obs": "2026-04-13",
+        "n_obs_used": 2158,
+        "condition_code": "1",
+        "rms": ".62374",
+        "source": "JPL",
+        "pe_used": "DE441",
+        "sb_used": "SB441-N16",
+        "note": "SBDB context was retrieved separately from the Horizons vectors. Its latest solution may differ from the cached Horizons solution. The Horizons header is authoritative for these trajectories. Fit RMS and orbit condition code are not Cartesian position uncertainties."
+      },
+      "radius_km": 458.5,
+      "rotation_period_hours": 13.188
+    },
+    {
+      "id": "quaoar",
+      "name": "Quaoar",
+      "horizons_id": "50000;",
+      "category": "dwarf_candidate",
+      "parent_id": "sun",
+      "spice_id": 20050000,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%2750000%3B%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://ssd-api.jpl.nasa.gov/sbdb.api?sstr=50000&phys-par=true&full-prec=true",
+        "https://doi.org/10.1088/0004-637X/773/1/26",
+        "https://arxiv.org/abs/2304.09237"
+      ],
+      "physical_notes": "Half the 1110 +/- 5 km area-equivalent occultation diameter from Braga-Ribas et al. 2013. Spherical approximation; published occultation shape solutions differ. Rotation period from SBDB/LCDB, often synodic. [Result based on less than full coverage, so that the period may be wrong by 30 percent or so.]  REFERENCE LIST:[Rabinowitz, D.L.; Schaefer, B.E.; Tourtellotte, S.W. (2007) Astron. J. 133, 26-43.] Published preferred ICRS ring pole RA 259.82 deg, DEC +53.45 deg. Using that ring pole for the body assumes an equatorial ring. The ring fit does not measure the body's prime meridian; absolute rotational phase remains unconstrained.",
+      "resolved_horizons_identity": "50000 Quaoar (2002 LM60)",
+      "ephemeris_source": "JPL#51",
+      "physical_parameter_source_identity": "50000 Quaoar (2002 LM60)",
+      "pck_id": 2050000,
+      "orbit_solution_context": {
+        "orbit_id": "51",
+        "soln_date": "2026-06-06 04:23:41",
+        "first_obs": "1954-05-25",
+        "last_obs": "2025-08-31",
+        "n_obs_used": 1059,
+        "condition_code": "0",
+        "rms": ".38953",
+        "source": "JPL",
+        "pe_used": "DE441",
+        "sb_used": "SB441-N16",
+        "note": "SBDB context was retrieved separately from the Horizons vectors. Its latest solution may differ from the cached Horizons solution. The Horizons header is authoritative for these trajectories. Fit RMS and orbit condition code are not Cartesian position uncertainties."
+      },
+      "radius_km": 555,
+      "rotation_period_hours": 8.84
+    },
+    {
+      "id": "gonggong",
+      "name": "Gonggong",
+      "horizons_id": "225088;",
+      "category": "dwarf_candidate",
+      "parent_id": "sun",
+      "spice_id": 20225088,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27225088%3B%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://ssd-api.jpl.nasa.gov/sbdb.api?sstr=225088&phys-par=true&full-prec=true",
+        "https://arxiv.org/abs/1903.05439"
+      ],
+      "physical_notes": "Half the 1230 +/- 50 km thermophysical-model diameter from Kiss et al. 2019. Model-dependent effective size, not resolved terrain. Rotation period from SBDB/LCDB, often synodic. [Result based on less than full coverage, so that the period may be wrong by 30 percent or so.]  REFERENCE LIST:[Pal, A.; Csaba, K.; Muller, T.G.; Molnar, L.; et al. (2016) Astron. J. 151, A117.] No supported published pole and phase for this interval. Static orientation is unconstrained.",
+      "resolved_horizons_identity": "225088 Gonggong (2007 OR10)",
+      "ephemeris_source": "JPL#25",
+      "physical_parameter_source_identity": "225088 Gonggong (2007 OR10)",
+      "pck_id": 2225088,
+      "orbit_solution_context": {
+        "orbit_id": "25",
+        "soln_date": "2026-08-27 09:12:03",
+        "first_obs": "1985-08-19",
+        "last_obs": "2025-10-15",
+        "n_obs_used": 574,
+        "condition_code": "3",
+        "rms": ".44448",
+        "source": "JPL",
+        "pe_used": "DE441",
+        "sb_used": "SB441-N16",
+        "note": "SBDB context was retrieved separately from the Horizons vectors. Its latest solution may differ from the cached Horizons solution. The Horizons header is authoritative for these trajectories. Fit RMS and orbit condition code are not Cartesian position uncertainties."
+      },
+      "radius_km": 615,
+      "rotation_period_hours": 22.4
+    },
+    {
+      "id": "sedna",
+      "name": "Sedna",
+      "horizons_id": "90377;",
+      "category": "dwarf_candidate",
+      "parent_id": "sun",
+      "spice_id": 20090377,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%2790377%3B%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://ssd-api.jpl.nasa.gov/sbdb.api?sstr=90377&phys-par=true&full-prec=true",
+        "https://arxiv.org/abs/1204.0899"
+      ],
+      "physical_notes": "Half the 995 +/- 80 km Herschel thermal-model diameter from Pal et al. 2012. Model-dependent spherical effective size. Rotation period from SBDB/LCDB, often synodic. [Result based on less than full coverage, so that the period may be wrong by 30 percent or so.]  REFERENCE LIST:[Gaudi, B.S.; Stanek, K.Z.; Hartman, J.D.; Holman, M.J.; McLeod, B.A. (2005) Astrophys. J. Let. 629, L49-L52.] No supported published pole and phase for this interval. Static orientation is unconstrained.",
+      "resolved_horizons_identity": "90377 Sedna (2003 VB12)",
+      "ephemeris_source": "JPL#51",
+      "physical_parameter_source_identity": "90377 Sedna (2003 VB12)",
+      "pck_id": 2090377,
+      "orbit_solution_context": {
+        "orbit_id": "51",
+        "soln_date": "2026-06-06 14:12:24",
+        "first_obs": "1990-09-25",
+        "last_obs": "2026-02-27",
+        "n_obs_used": 671,
+        "condition_code": "1",
+        "rms": ".38596",
+        "source": "JPL",
+        "pe_used": "DE441",
+        "sb_used": "SB441-N16",
+        "note": "SBDB context was retrieved separately from the Horizons vectors. Its latest solution may differ from the cached Horizons solution. The Horizons header is authoritative for these trajectories. Fit RMS and orbit condition code are not Cartesian position uncertainties."
+      },
+      "radius_km": 497.5,
+      "rotation_period_hours": 10.273
+    },
+    {
+      "id": "salacia",
+      "name": "Salacia",
+      "horizons_id": "120347;",
+      "category": "dwarf_candidate",
+      "parent_id": "sun",
+      "spice_id": 20120347,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27120347%3B%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://ssd-api.jpl.nasa.gov/sbdb.api?sstr=120347&phys-par=true&full-prec=true",
+        "https://arxiv.org/abs/1305.0449"
+      ],
+      "physical_notes": "Half the 854 +/- 45 km primary-body diameter from Fornasier et al. 2013. Binary decomposition assumes equal component albedos; not the 901 km unresolved Salacia-Actaea system diameter. Rotation period from SBDB/LCDB, often synodic. [Result based on less than full coverage, so that the period may be wrong by 30 percent or so.]  REFERENCE LIST:[Thirouin, A.; Ortiz, J.L.; Duffard, R.; Santos-Sanz, P.; et al. (2010) Astron. Astrophys. 522, A93.] No supported published pole and phase for this interval. Static orientation is unconstrained.",
+      "resolved_horizons_identity": "120347 Salacia (2004 SB60)",
+      "ephemeris_source": "JPL#42",
+      "physical_parameter_source_identity": "120347 Salacia (2004 SB60)",
+      "pck_id": 2120347,
+      "orbit_solution_context": {
+        "orbit_id": "42",
+        "soln_date": "2025-11-07 12:48:45",
+        "first_obs": "1982-07-25",
+        "last_obs": "2025-11-01",
+        "n_obs_used": 751,
+        "condition_code": "1",
+        "rms": ".6377",
+        "source": "JPL",
+        "pe_used": "DE441",
+        "sb_used": "SB441-N16",
+        "note": "SBDB context was retrieved separately from the Horizons vectors. Its latest solution may differ from the cached Horizons solution. The Horizons header is authoritative for these trajectories. Fit RMS and orbit condition code are not Cartesian position uncertainties."
+      },
+      "radius_km": 427,
+      "rotation_period_hours": 6.09
+    },
+    {
+      "id": "varda",
+      "name": "Varda",
+      "horizons_id": "174567;",
+      "category": "dwarf_candidate",
+      "parent_id": "sun",
+      "spice_id": 20174567,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27174567%3B%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://ssd-api.jpl.nasa.gov/sbdb.api?sstr=174567&phys-par=true&full-prec=true",
+        "https://arxiv.org/abs/2008.04818"
+      ],
+      "physical_notes": "Area-equivalent occultation radius 370 +/- 7 km from Souami et al. 2020. The projected ellipse does not fix all three-dimensional axes. Rotation period from SBDB/LCDB, often synodic. [Result based on less than full coverage, so that the period may be wrong by 30 percent or so.]  REFERENCE LIST:[Thirouin, A.; Ortiz, J.L.; Duffard, R.; Santos-Sanz, P.; et al. (2010) Astron. Astrophys. 522, A93.], [Thirouin, A.; Noll, K.S.; Ortiz, J.L.; Morales, N. (2014) Astron. Astrophys. 563, A3.] No supported published pole and phase for this interval. Static orientation is unconstrained.",
+      "resolved_horizons_identity": "174567 Varda (2003 MW12)",
+      "ephemeris_source": "JPL#17",
+      "physical_parameter_source_identity": "174567 Varda (2003 MW12)",
+      "pck_id": 2174567,
+      "orbit_solution_context": {
+        "orbit_id": "17",
+        "soln_date": "2024-10-11 19:47:55",
+        "first_obs": "1980-03-19",
+        "last_obs": "2024-08-11",
+        "n_obs_used": 747,
+        "condition_code": "1",
+        "rms": ".59884",
+        "source": "JPL",
+        "pe_used": "DE441",
+        "sb_used": "SB441-N16",
+        "note": "SBDB context was retrieved separately from the Horizons vectors. Its latest solution may differ from the cached Horizons solution. The Horizons header is authoritative for these trajectories. Fit RMS and orbit condition code are not Cartesian position uncertainties."
+      },
+      "radius_km": 370,
+      "rotation_period_hours": 5.91
+    },
+    {
+      "id": "varuna",
+      "name": "Varuna",
+      "horizons_id": "20000;",
+      "category": "dwarf_candidate",
+      "parent_id": "sun",
+      "spice_id": 20020000,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%2720000%3B%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://ssd-api.jpl.nasa.gov/sbdb.api?sstr=20000&phys-par=true&full-prec=true"
+      ],
+      "physical_notes": "Radius is half the SBDB effective diameter, reference Earth, Moon, and Planets, v. 89, Issue 1, p. 117-134 (2002), diameter uncertainty 140 km. Spherical size estimate, not a resolved shape measurement. Rotation period from SBDB/LCDB, often synodic. REFERENCE LIST:[Farnham, T.L. (2001) IAUC 7583.], [Jewitt, D.C.; Sheppard, S.S. (2002) Astron. J. 123, 2110-2120.], [Lellouch, E.; Moreno, R.; Ortiz, J.L.; Paubert, G.; et al. (2002) Astron. Astrophys. 391, 1133-1139.], [Sheppard, S.S.; Jewitt, D.C. (2002) Astron. J. 124, 1757-1775; Proc. ACM 2002, ESA SP 500, 21-24; Sheppard, S.S. (2001) IAUC 7619.], [Ortiz, J.L.; Gutierrez, P.J.; Casanova, V.; Sota, A. (2003) Astron. Astrophys. 407, 1149-1155.], [Hicks, M.D.; Simonelli, D.P.; Buratti, B.J. (2005) Icarus 176, 492-498.], [Rabinowitz, D.L.; Schaefer, B.E.; Tourtellotte, S.W. (2007) Astron. J. 133, 26-43.], [Behrend, R. (2008) Observatoire de Geneve web site, http://obswww.unige.ch/~behrend/page_cou.html], [Thirouin, A.; Ortiz, J.L.; Duffard, R.; Santos-Sanz, P.; et al. (2010) Astron. Astrophys. 522, A93.], [Fernandez-Valenzuela, E.; Ortiz, J.L.; Morales, N.; Santos-Sanz, P.; et al. (2019) Ap. J. Letters 883, id. L21.] No supported published pole and phase for this interval. Static orientation is unconstrained.",
+      "resolved_horizons_identity": "20000 Varuna (2000 WR106)",
+      "ephemeris_source": "JPL#65",
+      "physical_parameter_source_identity": "20000 Varuna (2000 WR106)",
+      "pck_id": 2020000,
+      "orbit_solution_context": {
+        "orbit_id": "65",
+        "soln_date": "2026-06-05 17:43:19",
+        "first_obs": "1954-11-24",
+        "last_obs": "2026-03-09",
+        "n_obs_used": 1364,
+        "condition_code": "0",
+        "rms": ".45268",
+        "source": "JPL",
+        "pe_used": "DE441",
+        "sb_used": "SB441-N16",
+        "note": "SBDB context was retrieved separately from the Horizons vectors. Its latest solution may differ from the cached Horizons solution. The Horizons header is authoritative for these trajectories. Fit RMS and orbit condition code are not Cartesian position uncertainties."
+      },
+      "radius_km": 450.0,
+      "albedo": 0.07,
+      "rotation_period_hours": 6.3436
+    },
+    {
+      "id": "ixion",
+      "name": "Ixion",
+      "horizons_id": "28978;",
+      "category": "dwarf_candidate",
+      "parent_id": "sun",
+      "spice_id": 20028978,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%2728978%3B%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://ssd-api.jpl.nasa.gov/sbdb.api?sstr=28978&phys-par=true&full-prec=true",
+        "https://arxiv.org/abs/2601.09639"
+      ],
+      "physical_notes": "Area-equivalent occultation radius 348.39 +5.37/-4.43 km, published in 2026. Spherical approximation to the projected ellipse. No supported published pole and phase for this interval. Static orientation is unconstrained.",
+      "resolved_horizons_identity": "28978 Ixion (2001 KX76)",
+      "ephemeris_source": "JPL#22",
+      "physical_parameter_source_identity": "28978 Ixion (2001 KX76)",
+      "pck_id": 2028978,
+      "orbit_solution_context": {
+        "orbit_id": "22",
+        "soln_date": "2026-06-05 21:15:49",
+        "first_obs": "1982-07-17",
+        "last_obs": "2022-06-02",
+        "n_obs_used": 587,
+        "condition_code": "0",
+        "rms": ".43568",
+        "source": "JPL",
+        "pe_used": "DE441",
+        "sb_used": "SB441-N16",
+        "note": "SBDB context was retrieved separately from the Horizons vectors. Its latest solution may differ from the cached Horizons solution. The Horizons header is authoritative for these trajectories. Fit RMS and orbit condition code are not Cartesian position uncertainties."
+      },
+      "radius_km": 348.39
+    },
+    {
+      "id": "moon",
+      "name": "Moon",
+      "horizons_id": "301",
+      "category": "moon",
+      "parent_id": "earth",
+      "spice_id": 301,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27301%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. Signed rotation period is derived from the PCK linear prime-meridian coefficient; a negative value denotes retrograde rotation.",
+      "resolved_horizons_identity": "Moon (301)",
+      "ephemeris_source": "DE441",
+      "radii_km": [
+        1737.4,
+        1737.4,
+        1737.4
+      ],
+      "radius_km": 1737.3999999999994,
+      "rotation_period_hours": 655.7198811418161
+    },
+    {
+      "id": "phobos",
+      "name": "Phobos",
+      "horizons_id": "401",
+      "category": "moon",
+      "parent_id": "mars",
+      "spice_id": 401,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27401%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. Signed rotation period is derived from the PCK linear prime-meridian coefficient; a negative value denotes retrograde rotation.",
+      "resolved_horizons_identity": "Phobos (401)",
+      "ephemeris_source": "mar099",
+      "radii_km": [
+        13.0,
+        11.4,
+        9.1
+      ],
+      "radius_km": 11.048327313131487,
+      "rotation_period_hours": 7.653842504890368
+    },
+    {
+      "id": "deimos",
+      "name": "Deimos",
+      "horizons_id": "402",
+      "category": "moon",
+      "parent_id": "mars",
+      "spice_id": 402,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27402%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. Signed rotation period is derived from the PCK linear prime-meridian coefficient; a negative value denotes retrograde rotation.",
+      "resolved_horizons_identity": "Deimos (402)",
+      "ephemeris_source": "mar099",
+      "radii_km": [
+        7.8,
+        6.0,
+        5.1
+      ],
+      "radius_km": 6.203050874487247,
+      "rotation_period_hours": 30.29857892512062
+    },
+    {
+      "id": "io",
+      "name": "Io",
+      "horizons_id": "501",
+      "category": "moon",
+      "parent_id": "jupiter",
+      "spice_id": 501,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27501%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. Signed rotation period is derived from the PCK linear prime-meridian coefficient; a negative value denotes retrograde rotation.",
+      "resolved_horizons_identity": "Io (501)",
+      "ephemeris_source": "jup365_merged",
+      "radii_km": [
+        1829.4,
+        1819.4,
+        1815.7
+      ],
+      "radius_km": 1821.4908175629496,
+      "rotation_period_hours": 42.45930719409891
+    },
+    {
+      "id": "europa",
+      "name": "Europa",
+      "horizons_id": "502",
+      "category": "moon",
+      "parent_id": "jupiter",
+      "spice_id": 502,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27502%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. Signed rotation period is derived from the PCK linear prime-meridian coefficient; a negative value denotes retrograde rotation.",
+      "resolved_horizons_identity": "Europa (502)",
+      "ephemeris_source": "jup365_merged",
+      "radii_km": [
+        1562.6,
+        1560.3,
+        1559.5
+      ],
+      "radius_km": 1560.7994470247513,
+      "rotation_period_hours": 85.228345900248
+    },
+    {
+      "id": "ganymede",
+      "name": "Ganymede",
+      "horizons_id": "503",
+      "category": "moon",
+      "parent_id": "jupiter",
+      "spice_id": 503,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27503%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. Signed rotation period is derived from the PCK linear prime-meridian coefficient; a negative value denotes retrograde rotation.",
+      "resolved_horizons_identity": "Ganymede (503)",
+      "ephemeris_source": "jup365_merged",
+      "radii_km": [
+        2631.2,
+        2631.2,
+        2631.2
+      ],
+      "radius_km": 2631.199999999999,
+      "rotation_period_hours": 171.70927486912876
+    },
+    {
+      "id": "callisto",
+      "name": "Callisto",
+      "horizons_id": "504",
+      "category": "moon",
+      "parent_id": "jupiter",
+      "spice_id": 504,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27504%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. Signed rotation period is derived from the PCK linear prime-meridian coefficient; a negative value denotes retrograde rotation.",
+      "resolved_horizons_identity": "Callisto (504)",
+      "ephemeris_source": "jup365_merged",
+      "radii_km": [
+        2410.3,
+        2410.3,
+        2410.3
+      ],
+      "radius_km": 2410.2999999999993,
+      "rotation_period_hours": 400.53643139609454
+    },
+    {
+      "id": "amalthea",
+      "name": "Amalthea",
+      "horizons_id": "505",
+      "category": "moon",
+      "parent_id": "jupiter",
+      "spice_id": 505,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27505%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. Signed rotation period is derived from the PCK linear prime-meridian coefficient; a negative value denotes retrograde rotation.",
+      "resolved_horizons_identity": "Amalthea (505)",
+      "ephemeris_source": "jup365_merged",
+      "radii_km": [
+        125.0,
+        73.0,
+        64.0
+      ],
+      "radius_km": 83.58678392762462,
+      "rotation_period_hours": 11.956302107059122
+    },
+    {
+      "id": "thebe",
+      "name": "Thebe",
+      "horizons_id": "514",
+      "category": "moon",
+      "parent_id": "jupiter",
+      "spice_id": 514,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27514%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. Signed rotation period is derived from the PCK linear prime-meridian coefficient; a negative value denotes retrograde rotation.",
+      "resolved_horizons_identity": "Thebe (514)",
+      "ephemeris_source": "jup365_merged",
+      "radii_km": [
+        58.0,
+        49.0,
+        42.0
+      ],
+      "radius_km": 49.23694759198363,
+      "rotation_period_hours": 16.188857715136475
+    },
+    {
+      "id": "himalia",
+      "name": "Himalia",
+      "horizons_id": "506",
+      "category": "moon",
+      "parent_id": "jupiter",
+      "spice_id": 506,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27506%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. No supported published pole and phase for this interval. Static orientation is unconstrained.",
+      "resolved_horizons_identity": "Himalia (506)",
+      "ephemeris_source": "jup347_merged_DE442",
+      "radii_km": [
+        85.0,
+        85.0,
+        85.0
+      ],
+      "radius_km": 84.99999999999999
+    },
+    {
+      "id": "elara",
+      "name": "Elara",
+      "horizons_id": "507",
+      "category": "moon",
+      "parent_id": "jupiter",
+      "spice_id": 507,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27507%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. No supported published pole and phase for this interval. Static orientation is unconstrained.",
+      "resolved_horizons_identity": "Elara (507)",
+      "ephemeris_source": "jup347_merged_DE442",
+      "radii_km": [
+        40.0,
+        40.0,
+        40.0
+      ],
+      "radius_km": 39.99999999999999
+    },
+    {
+      "id": "mimas",
+      "name": "Mimas",
+      "horizons_id": "601",
+      "category": "moon",
+      "parent_id": "saturn",
+      "spice_id": 601,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27601%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. Signed rotation period is derived from the PCK linear prime-meridian coefficient; a negative value denotes retrograde rotation.",
+      "resolved_horizons_identity": "Mimas (601)",
+      "ephemeris_source": "sat441l",
+      "radii_km": [
+        207.8,
+        196.7,
+        190.6
+      ],
+      "radius_km": 198.2398375514887,
+      "rotation_period_hours": 22.61812344419412
+    },
+    {
+      "id": "enceladus",
+      "name": "Enceladus",
+      "horizons_id": "602",
+      "category": "moon",
+      "parent_id": "saturn",
+      "spice_id": 602,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27602%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. Signed rotation period is derived from the PCK linear prime-meridian coefficient; a negative value denotes retrograde rotation.",
+      "resolved_horizons_identity": "Enceladus (602)",
+      "ephemeris_source": "sat441l",
+      "radii_km": [
+        256.6,
+        251.4,
+        248.3
+      ],
+      "radius_km": 252.07680267996926,
+      "rotation_period_hours": 32.885234009094795
+    },
+    {
+      "id": "tethys",
+      "name": "Tethys",
+      "horizons_id": "603",
+      "category": "moon",
+      "parent_id": "saturn",
+      "spice_id": 603,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27603%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. Signed rotation period is derived from the PCK linear prime-meridian coefficient; a negative value denotes retrograde rotation.",
+      "resolved_horizons_identity": "Tethys (603)",
+      "ephemeris_source": "sat441l",
+      "radii_km": [
+        538.4,
+        528.3,
+        526.3
+      ],
+      "radius_km": 530.973700422152,
+      "rotation_period_hours": 45.30726145850729
+    },
+    {
+      "id": "dione",
+      "name": "Dione",
+      "horizons_id": "604",
+      "category": "moon",
+      "parent_id": "saturn",
+      "spice_id": 604,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27604%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. Signed rotation period is derived from the PCK linear prime-meridian coefficient; a negative value denotes retrograde rotation.",
+      "resolved_horizons_identity": "Dione (604)",
+      "ephemeris_source": "sat441l",
+      "radii_km": [
+        563.4,
+        561.3,
+        559.6
+      ],
+      "radius_km": 561.4311825935977,
+      "rotation_period_hours": 65.6859732612656
+    },
+    {
+      "id": "rhea",
+      "name": "Rhea",
+      "horizons_id": "605",
+      "category": "moon",
+      "parent_id": "saturn",
+      "spice_id": 605,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27605%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. Signed rotation period is derived from the PCK linear prime-meridian coefficient; a negative value denotes retrograde rotation.",
+      "resolved_horizons_identity": "Rhea (605)",
+      "ephemeris_source": "sat441l",
+      "radii_km": [
+        765.0,
+        763.1,
+        762.4
+      ],
+      "radius_km": 763.499210156109,
+      "rotation_period_hours": 108.42006296299398
+    },
+    {
+      "id": "titan",
+      "name": "Titan",
+      "horizons_id": "606",
+      "category": "moon",
+      "parent_id": "saturn",
+      "spice_id": 606,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27606%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. Signed rotation period is derived from the PCK linear prime-meridian coefficient; a negative value denotes retrograde rotation.",
+      "resolved_horizons_identity": "Titan (606)",
+      "ephemeris_source": "sat441l",
+      "radii_km": [
+        2575.15,
+        2574.78,
+        2574.47
+      ],
+      "radius_km": 2574.799984995713,
+      "rotation_period_hours": 382.69074183572707
+    },
+    {
+      "id": "hyperion",
+      "name": "Hyperion",
+      "horizons_id": "607",
+      "category": "moon",
+      "parent_id": "saturn",
+      "spice_id": 607,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27607%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. Rotation is chaotic, complex, or not constrained here. No tidy synchronous orientation is assigned. No supported published pole and phase for this interval. Static orientation is unconstrained.",
+      "resolved_horizons_identity": "Hyperion (607)",
+      "ephemeris_source": "sat441l",
+      "radii_km": [
+        180.1,
+        133.0,
+        102.7
+      ],
+      "radius_km": 134.9932124616678
+    },
+    {
+      "id": "iapetus",
+      "name": "Iapetus",
+      "horizons_id": "608",
+      "category": "moon",
+      "parent_id": "saturn",
+      "spice_id": 608,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27608%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. Signed rotation period is derived from the PCK linear prime-meridian coefficient; a negative value denotes retrograde rotation.",
+      "resolved_horizons_identity": "Iapetus (608)",
+      "ephemeris_source": "sat441l",
+      "radii_km": [
+        745.7,
+        745.7,
+        712.1
+      ],
+      "radius_km": 734.3274404996201,
+      "rotation_period_hours": 1903.9403897418865
+    },
+    {
+      "id": "phoebe",
+      "name": "Phoebe",
+      "horizons_id": "609",
+      "category": "moon",
+      "parent_id": "saturn",
+      "spice_id": 609,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27609%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. Signed rotation period is derived from the PCK linear prime-meridian coefficient; a negative value denotes retrograde rotation.",
+      "resolved_horizons_identity": "Phoebe (609)",
+      "ephemeris_source": "sat441l",
+      "radii_km": [
+        109.4,
+        108.5,
+        101.8
+      ],
+      "radius_km": 106.51193618192612,
+      "rotation_period_hours": 9.27397844014688
+    },
+    {
+      "id": "janus",
+      "name": "Janus",
+      "horizons_id": "610",
+      "category": "moon",
+      "parent_id": "saturn",
+      "spice_id": 610,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27610%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. Signed rotation period is derived from the PCK linear prime-meridian coefficient; a negative value denotes retrograde rotation.",
+      "resolved_horizons_identity": "Janus (610)",
+      "ephemeris_source": "sat415_merged_DE437",
+      "radii_km": [
+        101.7,
+        93.0,
+        76.3
+      ],
+      "radius_km": 89.69663413953855,
+      "rotation_period_hours": 16.671941367894302
+    },
+    {
+      "id": "epimetheus",
+      "name": "Epimetheus",
+      "horizons_id": "611",
+      "category": "moon",
+      "parent_id": "saturn",
+      "spice_id": 611,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27611%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. Signed rotation period is derived from the PCK linear prime-meridian coefficient; a negative value denotes retrograde rotation.",
+      "resolved_horizons_identity": "Epimetheus (611)",
+      "ephemeris_source": "sat415_merged_DE437",
+      "radii_km": [
+        64.9,
+        57.3,
+        53.0
+      ],
+      "radius_km": 58.19581162806689,
+      "rotation_period_hours": 16.66375038498543
+    },
+    {
+      "id": "miranda",
+      "name": "Miranda",
+      "horizons_id": "705",
+      "category": "moon",
+      "parent_id": "uranus",
+      "spice_id": 705,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27705%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. Signed rotation period is derived from the PCK linear prime-meridian coefficient; a negative value denotes retrograde rotation.",
+      "resolved_horizons_identity": "Miranda (705)",
+      "ephemeris_source": "ura184_merged",
+      "radii_km": [
+        240.4,
+        234.2,
+        232.9
+      ],
+      "radius_km": 235.81075794484332,
+      "rotation_period_hours": -33.92350158986495
+    },
+    {
+      "id": "ariel",
+      "name": "Ariel",
+      "horizons_id": "701",
+      "category": "moon",
+      "parent_id": "uranus",
+      "spice_id": 701,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27701%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. Signed rotation period is derived from the PCK linear prime-meridian coefficient; a negative value denotes retrograde rotation.",
+      "resolved_horizons_identity": "Ariel (701)",
+      "ephemeris_source": "ura184_merged",
+      "radii_km": [
+        581.1,
+        577.9,
+        577.7
+      ],
+      "radius_km": 578.8979066892538,
+      "rotation_period_hours": -60.48909292006175
+    },
+    {
+      "id": "umbriel",
+      "name": "Umbriel",
+      "horizons_id": "702",
+      "category": "moon",
+      "parent_id": "uranus",
+      "spice_id": 702,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27702%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. Signed rotation period is derived from the PCK linear prime-meridian coefficient; a negative value denotes retrograde rotation.",
+      "resolved_horizons_identity": "Umbriel (702)",
+      "ephemeris_source": "ura184_merged",
+      "radii_km": [
+        584.7,
+        584.7,
+        584.7
+      ],
+      "radius_km": 584.6999999999998,
+      "rotation_period_hours": -99.46022990787003
+    },
+    {
+      "id": "titania",
+      "name": "Titania",
+      "horizons_id": "703",
+      "category": "moon",
+      "parent_id": "uranus",
+      "spice_id": 703,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27703%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. Signed rotation period is derived from the PCK linear prime-meridian coefficient; a negative value denotes retrograde rotation.",
+      "resolved_horizons_identity": "Titania (703)",
+      "ephemeris_source": "ura184_merged",
+      "radii_km": [
+        788.9,
+        788.9,
+        788.9
+      ],
+      "radius_km": 788.8999999999996,
+      "rotation_period_hours": -208.94077098892993
+    },
+    {
+      "id": "oberon",
+      "name": "Oberon",
+      "horizons_id": "704",
+      "category": "moon",
+      "parent_id": "uranus",
+      "spice_id": 704,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27704%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. Signed rotation period is derived from the PCK linear prime-meridian coefficient; a negative value denotes retrograde rotation.",
+      "resolved_horizons_identity": "Oberon (704)",
+      "ephemeris_source": "ura184_merged",
+      "radii_km": [
+        761.4,
+        761.4,
+        761.4
+      ],
+      "radius_km": 761.3999999999997,
+      "rotation_period_hours": -323.11756753863983
+    },
+    {
+      "id": "puck",
+      "name": "Puck",
+      "horizons_id": "715",
+      "category": "moon",
+      "parent_id": "uranus",
+      "spice_id": 715,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27715%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. Signed rotation period is derived from the PCK linear prime-meridian coefficient; a negative value denotes retrograde rotation.",
+      "resolved_horizons_identity": "Puck (715)",
+      "ephemeris_source": "ura184_merged",
+      "radii_km": [
+        77.0,
+        77.0,
+        77.0
+      ],
+      "radius_km": 76.99999999999999,
+      "rotation_period_hours": -18.28397028517083
+    },
+    {
+      "id": "triton",
+      "name": "Triton",
+      "horizons_id": "801",
+      "category": "moon",
+      "parent_id": "neptune",
+      "spice_id": 801,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27801%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. Signed rotation period is derived from the PCK linear prime-meridian coefficient; a negative value denotes retrograde rotation.",
+      "resolved_horizons_identity": "Triton (801)",
+      "ephemeris_source": "nep098_merged",
+      "radii_km": [
+        1352.6,
+        1352.6,
+        1352.6
+      ],
+      "radius_km": 1352.5999999999995,
+      "rotation_period_hours": -141.0444978788695
+    },
+    {
+      "id": "nereid",
+      "name": "Nereid",
+      "horizons_id": "802",
+      "category": "moon",
+      "parent_id": "neptune",
+      "spice_id": 802,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27802%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. No supported published pole and phase for this interval. Static orientation is unconstrained.",
+      "resolved_horizons_identity": "Nereid (802)",
+      "ephemeris_source": "nep098_merged",
+      "radii_km": [
+        170.0,
+        170.0,
+        170.0
+      ],
+      "radius_km": 169.99999999999994
+    },
+    {
+      "id": "proteus",
+      "name": "Proteus",
+      "horizons_id": "808",
+      "category": "moon",
+      "parent_id": "neptune",
+      "spice_id": 808,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27808%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. Signed rotation period is derived from the PCK linear prime-meridian coefficient; a negative value denotes retrograde rotation.",
+      "resolved_horizons_identity": "Proteus (808)",
+      "ephemeris_source": "nep098_merged",
+      "radii_km": [
+        218.0,
+        208.0,
+        201.0
+      ],
+      "radius_km": 208.88405769890483,
+      "rotation_period_hours": 26.935571560613983
+    },
+    {
+      "id": "charon",
+      "name": "Charon",
+      "horizons_id": "901",
+      "category": "moon",
+      "parent_id": "pluto",
+      "spice_id": 901,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27901%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. Signed rotation period is derived from the PCK linear prime-meridian coefficient; a negative value denotes retrograde rotation.",
+      "resolved_horizons_identity": "Charon (901)",
+      "ephemeris_source": "plu060_merged",
+      "radii_km": [
+        606.0,
+        606.0,
+        606.0
+      ],
+      "radius_km": 605.9999999999998,
+      "rotation_period_hours": 153.29335197870182
+    },
+    {
+      "id": "styx",
+      "name": "Styx",
+      "horizons_id": "905",
+      "category": "moon",
+      "parent_id": "pluto",
+      "spice_id": 905,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27905%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://doi.org/10.1038/nature15797"
+      ],
+      "physical_notes": "Approximate New Horizons semiaxes, with large image-resolution uncertainty. radius_km is the equal-volume radius of the adopted semiaxes. Rotation is chaotic, complex, or not constrained here. No tidy synchronous orientation is assigned. No supported published pole and phase for this interval. Static orientation is unconstrained.",
+      "resolved_horizons_identity": "Styx (905)",
+      "ephemeris_source": "plu060_merged",
+      "radii_km": [
+        8,
+        4.5,
+        5
+      ],
+      "radius_km": 5.64621617328617
+    },
+    {
+      "id": "nix",
+      "name": "Nix",
+      "horizons_id": "902",
+      "category": "moon",
+      "parent_id": "pluto",
+      "spice_id": 902,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27902%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://doi.org/10.1038/nature15797"
+      ],
+      "physical_notes": "Approximate New Horizons triaxial semiaxes. radius_km is the equal-volume radius of the adopted semiaxes. Rotation is chaotic, complex, or not constrained here. No tidy synchronous orientation is assigned. No supported published pole and phase for this interval. Static orientation is unconstrained.",
+      "resolved_horizons_identity": "Nix (902)",
+      "ephemeris_source": "plu060_merged",
+      "radii_km": [
+        24.9,
+        16.6,
+        15.55
+      ],
+      "radius_km": 18.59284902585348
+    },
+    {
+      "id": "kerberos",
+      "name": "Kerberos",
+      "horizons_id": "904",
+      "category": "moon",
+      "parent_id": "pluto",
+      "spice_id": 904,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27904%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://doi.org/10.1038/nature15797"
+      ],
+      "physical_notes": "Approximate New Horizons semiaxes. Ellipsoid does not represent the bilobed shape. radius_km is the equal-volume radius of the adopted semiaxes. Rotation is chaotic, complex, or not constrained here. No tidy synchronous orientation is assigned. No supported published pole and phase for this interval. Static orientation is unconstrained.",
+      "resolved_horizons_identity": "Kerberos (904)",
+      "ephemeris_source": "plu060_merged",
+      "radii_km": [
+        9.5,
+        5,
+        4.5
+      ],
+      "radius_km": 5.979093907151744
+    },
+    {
+      "id": "hydra",
+      "name": "Hydra",
+      "horizons_id": "903",
+      "category": "moon",
+      "parent_id": "pluto",
+      "spice_id": 903,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27903%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://doi.org/10.1038/nature15797"
+      ],
+      "physical_notes": "Approximate New Horizons triaxial semiaxes. radius_km is the equal-volume radius of the adopted semiaxes. Rotation is chaotic, complex, or not constrained here. No tidy synchronous orientation is assigned. No supported published pole and phase for this interval. Static orientation is unconstrained.",
+      "resolved_horizons_identity": "Hydra (903)",
+      "ephemeris_source": "plu060_merged",
+      "radii_km": [
+        25.45,
+        18.05,
+        15.45
+      ],
+      "radius_km": 19.217541409886234
+    },
+    {
+      "id": "vesta",
+      "name": "Vesta",
+      "horizons_id": "4;",
+      "category": "asteroid",
+      "parent_id": "sun",
+      "spice_id": 20000004,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%274%3B%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://ssd-api.jpl.nasa.gov/sbdb.api?sstr=4&phys-par=true&full-prec=true",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. Adopted semiaxes use half the three SBDB full extents, reference Park, R.S. et al. 2025, Nat Astron, DOI: 10.1038/s41550-025-02533-7. These supersede older PCK size values where present. radius_km is the equal-volume radius of the adopted semiaxes. Rotation period from SBDB/LCDB, often synodic. Rotation rate (deg/day): 1617.33312922 +/- 0.00000013 Signed rotation period is derived from the PCK linear prime-meridian coefficient; a negative value denotes retrograde rotation.",
+      "resolved_horizons_identity": "4 Vesta (A807 FA)",
+      "ephemeris_source": "JPL#36",
+      "physical_parameter_source_identity": "4 Vesta (A807 FA)",
+      "pck_id": 2000004,
+      "orbit_solution_context": {
+        "orbit_id": "36",
+        "soln_date": "2021-04-13 11:15:57",
+        "first_obs": "1950-09-23",
+        "last_obs": "2021-03-17",
+        "n_obs_used": 9451,
+        "condition_code": "0",
+        "rms": ".40095",
+        "source": "JPL",
+        "pe_used": "DE441",
+        "sb_used": "SB441-N16",
+        "note": "SBDB context was retrieved separately from the Horizons vectors. Its latest solution may differ from the cached Horizons solution. The Horizons header is authoritative for these trajectories. Fit RMS and orbit condition code are not Cartesian position uncertainties."
+      },
+      "radii_km": [
+        284.62,
+        277.24,
+        226.33
+      ],
+      "radius_km": 261.3893021604696,
+      "albedo": 0.4228,
+      "rotation_period_hours": 5.342128247905494
+    },
+    {
+      "id": "pallas",
+      "name": "Pallas",
+      "horizons_id": "2;",
+      "category": "asteroid",
+      "parent_id": "sun",
+      "spice_id": 20000002,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%272%3B%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://ssd-api.jpl.nasa.gov/sbdb.api?sstr=2&phys-par=true&full-prec=true"
+      ],
+      "physical_notes": "Adopted semiaxes use half the three SBDB full extents, reference Marsset et al., Nature Astronomy 4, 569-576 (2020). These supersede older PCK size values where present. radius_km is the equal-volume radius of the adopted semiaxes. Rotation period from SBDB/LCDB, often synodic. No uncertainty supplied by the source. Signed rotation period is derived from the PCK linear prime-meridian coefficient; a negative value denotes retrograde rotation.",
+      "resolved_horizons_identity": "2 Pallas (A802 FA)",
+      "ephemeris_source": "JPL#74",
+      "physical_parameter_source_identity": "2 Pallas (A802 FA)",
+      "pck_id": 2000002,
+      "orbit_solution_context": {
+        "orbit_id": "74",
+        "soln_date": "2026-06-05 03:03:25",
+        "first_obs": "1804-08-27",
+        "last_obs": "2025-12-14",
+        "n_obs_used": 9772,
+        "condition_code": "0",
+        "rms": ".35838",
+        "source": "JPL",
+        "pe_used": "DE441",
+        "sb_used": "SB441-N16",
+        "note": "SBDB context was retrieved separately from the Horizons vectors. Its latest solution may differ from the cached Horizons solution. The Horizons header is authoritative for these trajectories. Fit RMS and orbit condition code are not Cartesian position uncertainties."
+      },
+      "radii_km": [
+        284.0,
+        266.0,
+        224.0
+      ],
+      "radius_km": 256.7335730076913,
+      "albedo": 0.155,
+      "rotation_period_hours": 7.81332236574379
+    },
+    {
+      "id": "hygiea",
+      "name": "Hygiea",
+      "horizons_id": "10;",
+      "category": "asteroid",
+      "parent_id": "sun",
+      "spice_id": 20000010,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%2710%3B%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://ssd-api.jpl.nasa.gov/sbdb.api?sstr=10&phys-par=true&full-prec=true"
+      ],
+      "physical_notes": "Radius is half the SBDB effective diameter, reference IRAS-A-FPA-3-RDR-IMPS-V6.0, diameter uncertainty 6.8 km. Spherical size estimate, not a resolved shape measurement. IRAS observations used: 22 Rotation period from SBDB/LCDB, often synodic. REFERENCE LIST:[Pilcher, F. (2020) Minor Planet Bull. 47, 133-135.], [Vernazza, P.; Jorda, L.; Sevecek, P.; Broz, M.; et al. (2020) Nature Astronomy 4, 136-141.], [Ferrais, M.; Jehin, E.; Vernazza, P.; Jorda, L.; et al. (2021) Minor Planet Bull. 48, 166-167.], [Vernazza, P.; Ferrais, M.; Jorda, L.; Hanus, J.; et al. (2021) Astron. Astrophys 654, id. A56.] No supported published pole and phase for this interval. Static orientation is unconstrained.",
+      "resolved_horizons_identity": "10 Hygiea (A849 GA)",
+      "ephemeris_source": "JPL#129",
+      "physical_parameter_source_identity": "10 Hygiea (A849 GA)",
+      "pck_id": 2000010,
+      "orbit_solution_context": {
+        "orbit_id": "129",
+        "soln_date": "2026-06-16 11:32:04",
+        "first_obs": "1849-05-26",
+        "last_obs": "2026-04-07",
+        "n_obs_used": 5207,
+        "condition_code": "0",
+        "rms": ".47797",
+        "source": "JPL",
+        "pe_used": "DE441",
+        "sb_used": "SB441-N16",
+        "note": "SBDB context was retrieved separately from the Horizons vectors. Its latest solution may differ from the cached Horizons solution. The Horizons header is authoritative for these trajectories. Fit RMS and orbit condition code are not Cartesian position uncertainties."
+      },
+      "radius_km": 203.56,
+      "albedo": 0.0717,
+      "rotation_period_hours": 13.828
+    },
+    {
+      "id": "eros",
+      "name": "Eros",
+      "horizons_id": "433;",
+      "category": "asteroid",
+      "parent_id": "sun",
+      "spice_id": 20000433,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27433%3B%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://ssd-api.jpl.nasa.gov/sbdb.api?sstr=433&phys-par=true&full-prec=true",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. Adopted semiaxes use half the three SBDB full extents, reference Veverka et al. (2000) Science v.289,pp.2088-2097. These supersede older PCK size values where present. radius_km is the equal-volume radius of the adopted semiaxes. Rotation period from SBDB/LCDB, often synodic. REFERENCE LIST:[Campa, M. (1938) Mem. Soc. Astron. Ital. 11, 285-301.], [Beyer, M. (1953) Astron. Nachr. 281, 121-130.], [Cailliate, C. (1956) Publ. Observ. Lyon 3, fasc. 28.], [Cristescu, C. (1976) Icarus 28, 39-42.], [Dunlap, J.L. (1976) Icarus 28, 69-78.], [Millis, R.L.; Bowell, E.; Thompson, D.T. (1976) Icarus 28, 53-67.], [Scaltriti, F.; Zappala, V. (1976) Icarus 28, 29-35.], [Taylor, R.C. (1985) Icarus 61, 3, 490-496.], [Hicks, M.; Buratti, B.J.; Rabinowitz, D.L.; Genevier, G. (1999) Icarus 141, 411-414.], [Yeomans, D.K.; Antreasian, P.G.; Bariiot, J.-P.; Chesley, S.R.; et al. (2000) Science 289, 2085-2087.], [Kaasalainen, M.; Torppa, J.; Muinonen, K. (2001) Icarus 153, 37-51.], [Miller, J.K.; Konopliv, A.S.; Antreasian, P.G.; Bordi, J.J.; et al. (2002) Icarus 155, 3-17.], [Wolters, S.D.; Green, S.F.; McBride, N.; Davies, J.K. (2008) Icarus 193, 535-552.], [Behrend, R. (2009) Observatoire de Geneve web site, http://obswww.unige.ch/~behrend/page_cou.html], [Koehn, B.W.; Bowell, E.L.G.; Skiff, B.A.; Sanborn, J.J.; et al. (2014) Minor Planet Bull. 41, 286-300.], [Warner, B.D. (2017) Minor Planet Bull. 44, 22-36.], [Aznar, A.M.; Predatu, M.; Vaduvescu, O.; Oey, J. (2018) arXiv:1801.09420. Romanian J. Phys. 62, 904 (2017).], [Hasegawa, S.; Kuroda, D.; Kitazato, K.; Kasuga, T.; et al. (2018) Pub. Astron. Soc. Japan 70, A114.], [Skiff, B.A.; McLelland, K.P.; Sanborn, J.J.; Pravec, P.; Koehn, B.W. (2019) Minor Planet Bull. 46, 238-265.], [Warner, B.D.; Stephens, R.D. (2019) Minor Planet Bull. 46, 27-40.] Signed rotation period is derived from the PCK linear prime-meridian coefficient; a negative value denotes retrograde rotation.",
+      "resolved_horizons_identity": "433 Eros (A898 PA)",
+      "ephemeris_source": "JPL#659",
+      "physical_parameter_source_identity": "433 Eros (A898 PA)",
+      "pck_id": 2000433,
+      "orbit_solution_context": {
+        "orbit_id": "659",
+        "soln_date": "2021-05-24 17:55:05",
+        "first_obs": "1893-10-29",
+        "last_obs": "2021-05-13",
+        "n_obs_used": 9130,
+        "condition_code": "0",
+        "rms": ".29796",
+        "source": "JPL",
+        "pe_used": "DE441",
+        "sb_used": "SB441-N16",
+        "note": "SBDB context was retrieved separately from the Horizons vectors. Its latest solution may differ from the cached Horizons solution. The Horizons header is authoritative for these trajectories. Fit RMS and orbit condition code are not Cartesian position uncertainties."
+      },
+      "radii_km": [
+        17.2,
+        5.6,
+        5.6
+      ],
+      "radius_km": 8.140195468867661,
+      "albedo": 0.25,
+      "rotation_period_hours": 5.270257308075883
+    },
+    {
+      "id": "itokawa",
+      "name": "Itokawa",
+      "horizons_id": "25143;",
+      "category": "asteroid",
+      "parent_id": "sun",
+      "spice_id": 20025143,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%2725143%3B%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://ssd-api.jpl.nasa.gov/sbdb.api?sstr=25143&phys-par=true&full-prec=true",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. Adopted semiaxes use half the three SBDB full extents, reference Science 312:1330-1334. These supersede older PCK size values where present. radius_km is the equal-volume radius of the adopted semiaxes. Rotation period from SBDB/LCDB, often synodic. REFERENCE LIST:[Lambert, J.S.; Tholen, D.J. (2001) Bull. Amer. Astron. Soc. 33, 1402.], [Lowry, S.C.; Weissman, P.R.; Hicks, M.D. (2001) Bull. Amer. Astron. Soc. 33, 1150.], [Dermawan, B.; Nakamura, T.; Fukushima, H.; Sato, H.; et al. (2002) Pub. Astron. Soc. Japan 54, 635-640.], [Kaasalainen, M.; et al. (2003) Astron. Astrophys. 405, L29-L32.], [Ohba, Y.; Abe, M.; Hasagawa, S.; Ishiguro, M.; et al. (2005) Earth Planets Space 55, 341-347.], [Warner, B.D. (2004) Minor Planet Bull. 31, 67-70.], [Lowry, S.; Weissman, P.R.; Hicks, M.D.; Whiteley, R.J.; Larson, S. (2005) Icarus 176, 408-417.], [Nishihara, S.; Abe, M.; Hasagawa, S.; Ishiguro, M.; et al. (2005) Lunar & Planetary Sci. XXXVI, 1833.], [Durech, J.; Vokrouhlicky, D.; Kaasalainen, M.; Weissman, P.; et al. (2008) Astron. Astrophys. 488, 345-350.], [Higgins, D.J. (2011) http://www.david-higgins.com/Astronomy/asteroid/lightcurves.htm], [Nishihara, S.; Kitzato, K.; Abe, M.; Hasegawa, S.; et al. (2018) ArXiv:2018.80202742.] Signed rotation period is derived from the PCK linear prime-meridian coefficient; a negative value denotes retrograde rotation.",
+      "resolved_horizons_identity": "25143 Itokawa (1998 SF36)",
+      "ephemeris_source": "JPL#237",
+      "physical_parameter_source_identity": "25143 Itokawa (1998 SF36)",
+      "pck_id": 2025143,
+      "orbit_solution_context": {
+        "orbit_id": "237",
+        "soln_date": "2025-05-22 17:09:17",
+        "first_obs": "1998-09-19",
+        "last_obs": "2024-12-19",
+        "n_obs_used": 1025,
+        "condition_code": "0",
+        "rms": ".37455",
+        "source": "JPL",
+        "pe_used": "DE441",
+        "sb_used": "SB441-N16",
+        "note": "SBDB context was retrieved separately from the Horizons vectors. Its latest solution may differ from the cached Horizons solution. The Horizons header is authoritative for these trajectories. Fit RMS and orbit condition code are not Cartesian position uncertainties."
+      },
+      "radii_km": [
+        0.2675,
+        0.147,
+        0.1045
+      ],
+      "radius_km": 0.1601717069396669,
+      "rotation_period_hours": 12.132394757794431
+    },
+    {
+      "id": "bennu",
+      "name": "Bennu",
+      "horizons_id": "101955;",
+      "category": "asteroid",
+      "parent_id": "sun",
+      "spice_id": 20101955,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27101955%3B%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://ssd-api.jpl.nasa.gov/sbdb.api?sstr=101955&phys-par=true&full-prec=true"
+      ],
+      "physical_notes": "Adopted semiaxes use half the three SBDB full extents, reference Daly, M.G., et al., Sci. Adv. 6, eabd3649 (2020). These supersede older PCK size values where present. radius_km is the equal-volume radius of the adopted semiaxes. Rotation period from SBDB/LCDB, often synodic. J2000 epoch No supported published pole and phase for this interval. Static orientation is unconstrained.",
+      "resolved_horizons_identity": "101955 Bennu (1999 RQ36) (2101955)",
+      "ephemeris_source": "ORX_merged_DE424",
+      "physical_parameter_source_identity": "101955 Bennu (1999 RQ36)",
+      "pck_id": 2101955,
+      "orbit_solution_context": {
+        "orbit_id": "118",
+        "soln_date": "2021-01-07 11:18:06",
+        "first_obs": "1999-09-11",
+        "last_obs": "2020-10-03",
+        "n_obs_used": 554,
+        "condition_code": "0",
+        "rms": ".29146",
+        "source": "JPL",
+        "pe_used": "DE424",
+        "sb_used": "SB424-N343",
+        "note": "SBDB context was retrieved separately from the Horizons vectors. Its latest solution may differ from the cached Horizons solution. The Horizons header is authoritative for these trajectories. Fit RMS and orbit condition code are not Cartesian position uncertainties."
+      },
+      "radii_km": [
+        0.25235,
+        0.2459,
+        0.22835
+      ],
+      "radius_km": 0.24198453856293412,
+      "albedo": 0.044,
+      "rotation_period_hours": 4.296061
+    },
+    {
+      "id": "ryugu",
+      "name": "Ryugu",
+      "horizons_id": "162173;",
+      "category": "asteroid",
+      "parent_id": "sun",
+      "spice_id": 20162173,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27162173%3B%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://ssd-api.jpl.nasa.gov/sbdb.api?sstr=162173&phys-par=true&full-prec=true"
+      ],
+      "physical_notes": "Radius is half the SBDB effective diameter, reference Watanabe, S.; Hirabayashi, M.; Hirata, N.; Hirata, Na.; et al. (2019) Science 364, 267-272., diameter uncertainty 0.004 km. Spherical size estimate, not a resolved shape measurement. Rotation period from SBDB/LCDB, often synodic. No uncertainty supplied by the source. No supported published pole and phase for this interval. Static orientation is unconstrained.",
+      "resolved_horizons_identity": "162173 Ryugu (1999 JU3)",
+      "ephemeris_source": "JPL#270",
+      "physical_parameter_source_identity": "162173 Ryugu (1999 JU3)",
+      "pck_id": 2162173,
+      "orbit_solution_context": {
+        "orbit_id": "270",
+        "soln_date": "2026-08-11 13:41:47",
+        "first_obs": "1986-04-14",
+        "last_obs": "2025-07-23",
+        "n_obs_used": 5124,
+        "condition_code": "0",
+        "rms": ".23497",
+        "source": "JPL",
+        "pe_used": "DE441",
+        "sb_used": "SB441-N16",
+        "note": "SBDB context was retrieved separately from the Horizons vectors. Its latest solution may differ from the cached Horizons solution. The Horizons header is authoritative for these trajectories. Fit RMS and orbit condition code are not Cartesian position uncertainties."
+      },
+      "radius_km": 0.448,
+      "albedo": 0.045,
+      "rotation_period_hours": 7.63262
+    },
+    {
+      "id": "arrokoth",
+      "name": "Arrokoth",
+      "horizons_id": "486958;",
+      "category": "tno",
+      "parent_id": "sun",
+      "spice_id": 20486958,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27486958%3B%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://ssd-api.jpl.nasa.gov/sbdb.api?sstr=486958&phys-par=true&full-prec=true",
+        "https://doi.org/10.1126/science.aay3999"
+      ],
+      "physical_notes": "Approximate 36 by 20 by 10 km envelope of a contact binary. Ellipsoid is an envelope, not the measured two-lobe surface. radius_km is the equal-volume radius of the adopted semiaxes. Rotation period from SBDB/LCDB, often synodic. [Result based on less than full coverage, so that the period may be wrong by 30 percent or so.]  REFERENCE LIST:[Porter, S.; Beyer, R.; Keane, J.; Umurhan, O.; et al. (2019) EPSC-DPS Joint Meeting, 2019 September 15-20. Geneva, Switzerland, id. EPSC-DPS2019-311.], [Buie, M.W.; Porter, S.B.; Tamblyn, P.; Terrell, D.; and 129 co-authors. (2020) Astron. J. 159, id. 130.] No supported published pole and phase for this interval. Static orientation is unconstrained.",
+      "resolved_horizons_identity": "486958 Arrokoth (2014 MU69)",
+      "ephemeris_source": "JPL#3",
+      "physical_parameter_source_identity": "486958 Arrokoth (2014 MU69)",
+      "pck_id": 2486958,
+      "orbit_solution_context": {
+        "orbit_id": "3",
+        "soln_date": "2024-02-21 21:21:36",
+        "first_obs": "2014-06-26",
+        "last_obs": "2018-08-04",
+        "n_obs_used": 112,
+        "condition_code": "4",
+        "rms": ".023764",
+        "source": "JPL",
+        "pe_used": "DE441",
+        "sb_used": "SB441-N16",
+        "note": "SBDB context was retrieved separately from the Horizons vectors. Its latest solution may differ from the cached Horizons solution. The Horizons header is authoritative for these trajectories. Fit RMS and orbit condition code are not Cartesian position uncertainties."
+      },
+      "radii_km": [
+        18,
+        10,
+        5
+      ],
+      "radius_km": 9.654893846056297,
+      "rotation_period_hours": 15.918
+    },
+    {
+      "id": "chariklo",
+      "name": "Chariklo",
+      "horizons_id": "10199;",
+      "category": "centaur",
+      "parent_id": "sun",
+      "spice_id": 20010199,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%2710199%3B%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://ssd-api.jpl.nasa.gov/sbdb.api?sstr=10199&phys-par=true&full-prec=true",
+        "https://arxiv.org/abs/1409.7259"
+      ],
+      "physical_notes": "Radius is half the SBDB effective diameter, reference Earth, Moon, and Planets, v. 89, Issue 1, p. 117-134 (2002), diameter uncertainty 30 km. Spherical size estimate, not a resolved shape measurement. Rotation period from SBDB/LCDB, often synodic. [Result based on less than full coverage, so that the period may be wrong by 30 percent or so.]  REFERENCE LIST:[Fornasier, S.; Lazzaro, D.; Alvarez-Candal, A.; Snodgrass, C.; et al. (2014) Astron. Astrophys. 568, L11.], [Leiva, R.; Sicardy, B.; Camargo, J.I.B.; Desmars, J.; et al. (2017) Astron. J. 154, A159.] Published ring pole RA 151.30 deg, DEC +41.48 deg. Using that ring pole for the body assumes an equatorial ring. Absolute rotational phase remains unconstrained.",
+      "resolved_horizons_identity": "10199 Chariklo (1997 CU26)",
+      "ephemeris_source": "JPL#61",
+      "physical_parameter_source_identity": "10199 Chariklo (1997 CU26)",
+      "pck_id": 2010199,
+      "orbit_solution_context": {
+        "orbit_id": "61",
+        "soln_date": "2025-11-06 06:24:01",
+        "first_obs": "1988-11-05",
+        "last_obs": "2025-10-23",
+        "n_obs_used": 2726,
+        "condition_code": "0",
+        "rms": ".48195",
+        "source": "JPL",
+        "pe_used": "DE441",
+        "sb_used": "SB441-N16",
+        "note": "SBDB context was retrieved separately from the Horizons vectors. Its latest solution may differ from the cached Horizons solution. The Horizons header is authoritative for these trajectories. Fit RMS and orbit condition code are not Cartesian position uncertainties."
+      },
+      "radius_km": 151.0,
+      "albedo": 0.045,
+      "rotation_period_hours": 7.004
+    },
+    {
+      "id": "chiron",
+      "name": "Chiron",
+      "horizons_id": "2060;",
+      "category": "centaur",
+      "parent_id": "sun",
+      "spice_id": 20002060,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%272060%3B%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://ssd-api.jpl.nasa.gov/sbdb.api?sstr=2060&phys-par=true&full-prec=true"
+      ],
+      "physical_notes": "Radius is half the SBDB effective diameter, reference Dunham occultation list: Duham 1998, diameter uncertainty None km. Spherical size estimate, not a resolved shape measurement. Yeomans E-mail 2001-Apr-04 Rotation period from SBDB/LCDB, often synodic. REFERENCE LIST:[Bus, S.J.; Bowell, E.; Harris, A.W.; Hewitt, A.V. (1989) Icarus 77, 223-238.], [Luu, J.X.; Jewitt, D.C. (1990) Astron. J. 100, 913-932.], [Marcialis, R.L.; Buratti, B.J. (1993) Icarus 104, 234-243.], [Lazzaro, D.; Florczak, M.A.; Angeli, C.A.; Carvano, J.M.; et al. (1997) Planet. Space Sci. 45, 1607-1614.], [Skiff, B.A.; McLelland, K.P.; Sanborn, J.J.; Koehn, B.W. (2023) Minor Planet Bull. 50, 74-101.] No supported published pole and phase for this interval. Static orientation is unconstrained.",
+      "resolved_horizons_identity": "2060 Chiron (1977 UB)",
+      "ephemeris_source": "JPL#171",
+      "physical_parameter_source_identity": "2060 Chiron (1977 UB)",
+      "pck_id": 2002060,
+      "orbit_solution_context": {
+        "orbit_id": "171",
+        "soln_date": "2026-06-05 06:09:00",
+        "first_obs": "1895-04-24",
+        "last_obs": "2026-02-06",
+        "n_obs_used": 6026,
+        "condition_code": "0",
+        "rms": ".40919",
+        "source": "JPL",
+        "pe_used": "DE441",
+        "sb_used": "SB441-N16",
+        "note": "SBDB context was retrieved separately from the Horizons vectors. Its latest solution may differ from the cached Horizons solution. The Horizons header is authoritative for these trajectories. Fit RMS and orbit condition code are not Cartesian position uncertainties."
+      },
+      "radius_km": 83.0,
+      "albedo": 0.15,
+      "rotation_period_hours": 5.918
+    },
+    {
+      "id": "halley",
+      "name": "1P/Halley",
+      "horizons_id": "DES=1P; CAP;",
+      "category": "comet",
+      "parent_id": "sun",
+      "spice_id": 1000036,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27DES%3D1P%3B+CAP%3B%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://ssd-api.jpl.nasa.gov/sbdb.api?sstr=1P&phys-par=true&full-prec=true",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. Rotation is chaotic, complex, or not constrained here. No tidy synchronous orientation is assigned. No supported published pole and phase for this interval. Static orientation is unconstrained.",
+      "resolved_horizons_identity": "1P/Halley",
+      "ephemeris_source": "JPL#75",
+      "physical_parameter_source_identity": "1P/Halley",
+      "pck_id": 1000036,
+      "orbit_solution_context": {
+        "orbit_id": "75",
+        "soln_date": "2025-11-21 15:57:34",
+        "first_obs": "1835-08-21",
+        "last_obs": "1994-01-11",
+        "n_obs_used": 8518,
+        "condition_code": "0",
+        "rms": ".61032",
+        "source": "JPL",
+        "pe_used": "DE441",
+        "sb_used": "SB441-N16",
+        "note": "SBDB context was retrieved separately from the Horizons vectors. Its latest solution may differ from the cached Horizons solution. The Horizons header is authoritative for these trajectories. Fit RMS and orbit condition code are not Cartesian position uncertainties."
+      },
+      "radii_km": [
+        8.0,
+        4.0,
+        4.0
+      ],
+      "radius_km": 5.039684199579492,
+      "albedo": 0.04
+    },
+    {
+      "id": "encke",
+      "name": "2P/Encke",
+      "horizons_id": "DES=2P; CAP;",
+      "category": "comet",
+      "parent_id": "sun",
+      "spice_id": 1000025,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27DES%3D2P%3B+CAP%3B%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://ssd-api.jpl.nasa.gov/sbdb.api?sstr=2P&phys-par=true&full-prec=true"
+      ],
+      "physical_notes": "Radius is half the SBDB effective diameter, reference Lamy,P.L.;Toth,I.;Fernandez,Y.R.;Weaver,H.A. (2004) Comets II, pp. 223-264, diameter uncertainty None km. Spherical size estimate, not a resolved shape measurement. Rotation period from SBDB/LCDB, often synodic. [Result based on less than full coverage, so that the period may be wrong by 30 percent or so.]  REFERENCE LIST:[Fernandez, Y.R.; Lowry, S.C.; Weissman, P.R.; Mueller, B.E.A.; et al. (2005) Icarus 175, 194-214.], [Lowry, S.C.; Weissman, P.R. (2007) Icarus 188, 212-223.] No supported published pole and phase for this interval. Static orientation is unconstrained.",
+      "resolved_horizons_identity": "2P/Encke",
+      "ephemeris_source": "JPL#K273/12",
+      "physical_parameter_source_identity": "2P/Encke",
+      "pck_id": 1000025,
+      "orbit_solution_context": {
+        "orbit_id": "K273/12",
+        "soln_date": "2026-09-04 10:26:37",
+        "first_obs": "2018-11-05",
+        "last_obs": "2026-08-24",
+        "n_obs_used": 670,
+        "condition_code": "1",
+        "rms": ".44845",
+        "source": "JPL",
+        "pe_used": "DE441",
+        "sb_used": "SB441-N16",
+        "note": "SBDB context was retrieved separately from the Horizons vectors. Its latest solution may differ from the cached Horizons solution. The Horizons header is authoritative for these trajectories. Fit RMS and orbit condition code are not Cartesian position uncertainties."
+      },
+      "radius_km": 2.4,
+      "albedo": 0.046,
+      "rotation_period_hours": 11.083
+    },
+    {
+      "id": "churyumov-gerasimenko",
+      "name": "67P/Churyumov-Gerasimenko",
+      "horizons_id": "DES=67P; CAP;",
+      "category": "comet",
+      "parent_id": "sun",
+      "spice_id": 1000012,
+      "source_urls": [
+        "https://ssd.jpl.nasa.gov/api/horizons.api?format=json&COMMAND=%27DES%3D67P%3B+CAP%3B%27&EPHEM_TYPE=%27VECTORS%27&CENTER=%27500%400%27&REF_SYSTEM=%27ICRF%27&REF_PLANE=%27FRAME%27&VEC_CORR=%27NONE%27&OUT_UNITS=%27KM-S%27&VEC_TABLE=%272%27&CSV_FORMAT=%27YES%27&TIME_TYPE=%27TDB%27&OBJ_DATA=%27YES%27&START_TIME=%27JD2461288.500800724141%27&STOP_TIME=%27JD2461653.500800724141%27&STEP_SIZE=%278760%27",
+        "https://ssd-api.jpl.nasa.gov/sbdb.api?sstr=67P&phys-par=true&full-prec=true",
+        "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc"
+      ],
+      "physical_notes": "Triaxial semiaxes from NAIF pck00011.tpc, including its cited IAU reports and measurement limitations. radius_km is the equal-volume radius of the adopted semiaxes. Rotation period from SBDB/LCDB, often synodic. Pre-perihelion in 2015 value, post-perihelion period is 12.4043 +- 0.0007 h PCK rotation fit is valid only 2014-03-03 to 2014-09-03. Static orientation is unconstrained.",
+      "resolved_horizons_identity": "67P/Churyumov-Gerasimenko",
+      "ephemeris_source": "JPL#K284/1",
+      "physical_parameter_source_identity": "67P/Churyumov-Gerasimenko",
+      "pck_id": 1000012,
+      "orbit_solution_context": {
+        "orbit_id": "K284/1",
+        "soln_date": "2026-09-04 10:25:07",
+        "first_obs": "2008-06-01",
+        "last_obs": "2025-06-21",
+        "n_obs_used": 8610,
+        "condition_code": "0",
+        "rms": ".55084",
+        "source": "JPL",
+        "pe_used": "DE441",
+        "sb_used": "SB441-N16",
+        "note": "SBDB context was retrieved separately from the Horizons vectors. Its latest solution may differ from the cached Horizons solution. The Horizons header is authoritative for these trajectories. Fit RMS and orbit condition code are not Cartesian position uncertainties."
+      },
+      "radii_km": [
+        2.4,
+        1.55,
+        1.2
+      ],
+      "radius_km": 1.6465492621378144,
+      "rotation_period_hours": 12.76129
+    }
+  ],
+  "metadata": {
+    "frame": "ICRF",
+    "reference_plane": "FRAME",
+    "center": "Solar System Barycenter",
+    "center_id": 0,
+    "positions_units": "km",
+    "velocities_units": "km/s",
+    "time_scale": "TDB",
+    "corrections": "NONE",
+    "geometric": true,
+    "start_utc": "2026-09-05T00:00:00+00:00",
+    "stop_utc": "2027-09-05T00:00:00+00:00",
+    "utc_boundary_conversion": [
+      {
+        "utc": "2026-09-05T00:00:00+00:00",
+        "jd_tdb": 2461288.500800724,
+        "tai_minus_utc_seconds": 37,
+        "tt_minus_tai_seconds": 32.184,
+        "tdb_minus_tt_seconds": -0.0014333709403822827
+      },
+      {
+        "utc": "2027-09-05T00:00:00+00:00",
+        "jd_tdb": 2461653.500800724,
+        "tai_minus_utc_seconds": 37,
+        "tt_minus_tai_seconds": 32.184,
+        "tdb_minus_tt_seconds": -0.0014296743482451685
+      }
+    ],
+    "utc_conversion_source": "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/lsk/naif0012.tls",
+    "utc_conversion_method": "NAIF LSK DELTET periodic model, solved by fixed-point iteration. TDB-TT accuracy is about 30 microseconds, excluding floating-point Julian-date rounding. Horizons printed epochs have 1e-9 day precision.",
+    "leap_second_warning": "Pinned naif0012.tls has TAI-UTC=37 s from 2017-01-01. UTC dates beyond its last entry assume no unannounced leap seconds. Future leap seconds would change the UTC interpretation, not stored TDB states.",
+    "intervals": 8760,
+    "epoch_count": 8761,
+    "nominal_step_seconds": 3600.0,
+    "sampling": "Equal TDB intervals between the two converted UTC boundaries.",
+    "api_url": "https://ssd.jpl.nasa.gov/api/horizons.api",
+    "raw_source_directory": "data/horizons",
+    "kernel_sha256": {
+      "pck00011.tpc": "3dff7b1dbeceaa01f25467767d3fa25816051c85d162d1edf04acb310ee28bb1",
+      "naif0012.tls": "678e32bdb5a744117a467cd9601cd6b373f0e9bc9bbde1371d5eee39600a039b"
+    },
+    "retrieval_is_serial": true,
+    "no_fabricated_fallbacks": true,
+    "optional_phobos_refinement": "data/horizons/phobos-refined.json.gz",
+    "api_signature": {
+      "version": "1.2",
+      "source": "NASA/JPL Horizons API"
+    },
+    "complete": true
+  }
+}

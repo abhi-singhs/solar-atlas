@@ -1,0 +1,2366 @@
+{
+  "delivery": {
+    "file": "solar_system.blend",
+    "sha256": "570318095ff1ab61b6eec5987e45c9c2d2e3238b435e47c7b873ad7b163448b4",
+    "file_bytes": 385432874,
+    "opened_in_interactive_blender": true,
+    "active_scene": "04 | Earth",
+    "missing_external_files": 0,
+    "main_previews": 12,
+    "rendered_catalog_bodies": 71,
+    "original_portrait_sha256": "0ba68a5df38159c16cb19b8e3e179873070571ae7d56d28fc66409de6ff6d8f8",
+    "original_portrait_unchanged": true
+  },
+  "body_count": 71,
+  "scene_count": 73,
+  "blend_path": "/Users/abhisingh/workbench/solar-system-de9006d2/solar_system.blend",
+  "failures": [],
+  "position_checks": [
+    {
+      "scene": "00 | Inner Solar System",
+      "frame": 1.0,
+      "worst_position_error_km": 528.4739062631879,
+      "body": "gonggong",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "00 | Inner Solar System",
+      "frame": 2191.0,
+      "worst_position_error_km": 735.4615727704261,
+      "body": "sedna",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "00 | Inner Solar System",
+      "frame": 4381.0,
+      "worst_position_error_km": 1120.4123830971757,
+      "body": "gonggong",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "00 | Inner Solar System",
+      "frame": 8761.0,
+      "worst_position_error_km": 310.10063485116507,
+      "body": "eris",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "00 | Solar System",
+      "frame": 1.0,
+      "worst_position_error_km": 528.4739062631879,
+      "body": "gonggong",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "00 | Solar System",
+      "frame": 2191.0,
+      "worst_position_error_km": 735.4615727704261,
+      "body": "sedna",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "00 | Solar System",
+      "frame": 4381.0,
+      "worst_position_error_km": 1120.4123830971757,
+      "body": "gonggong",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "00 | Solar System",
+      "frame": 8761.0,
+      "worst_position_error_km": 310.10063485116507,
+      "body": "eris",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "01 | Sun",
+      "frame": 1.0,
+      "worst_position_error_km": 386.90928209855963,
+      "body": "eris",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "01 | Sun",
+      "frame": 2191.0,
+      "worst_position_error_km": 1103.0294493458518,
+      "body": "sedna",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "01 | Sun",
+      "frame": 4381.0,
+      "worst_position_error_km": 414.57244183801146,
+      "body": "salacia",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "01 | Sun",
+      "frame": 8761.0,
+      "worst_position_error_km": 406.9480705066364,
+      "body": "eris",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "02 | Mercury",
+      "frame": 1.0,
+      "worst_position_error_km": 1.842906736984054,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "02 | Mercury",
+      "frame": 2191.0,
+      "worst_position_error_km": 0.7963204876978833,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "02 | Mercury",
+      "frame": 4381.0,
+      "worst_position_error_km": 9.187195052251207,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "02 | Mercury",
+      "frame": 8761.0,
+      "worst_position_error_km": 1.59220145279121,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "03 | Venus",
+      "frame": 1.0,
+      "worst_position_error_km": 1.174724389516002,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "03 | Venus",
+      "frame": 2191.0,
+      "worst_position_error_km": 6.997666793580211,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "03 | Venus",
+      "frame": 4381.0,
+      "worst_position_error_km": 3.2694148981771454,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "03 | Venus",
+      "frame": 8761.0,
+      "worst_position_error_km": 0.30354743747939494,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "04 | Earth",
+      "frame": 1.0,
+      "worst_position_error_km": 6.69595528102037,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "04 | Earth",
+      "frame": 2191.0,
+      "worst_position_error_km": 6.440359781275727,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "04 | Earth",
+      "frame": 4381.0,
+      "worst_position_error_km": 3.44291300831725,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "04 | Earth",
+      "frame": 8761.0,
+      "worst_position_error_km": 1.402041856620651,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "05 | Mars",
+      "frame": 1.0,
+      "worst_position_error_km": 3.487534196574512,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "05 | Mars",
+      "frame": 2191.0,
+      "worst_position_error_km": 8.594164367354153,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "05 | Mars",
+      "frame": 4381.0,
+      "worst_position_error_km": 7.8367916586858275,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "05 | Mars",
+      "frame": 8761.0,
+      "worst_position_error_km": 4.081944691656324,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "06 | Jupiter",
+      "frame": 1.0,
+      "worst_position_error_km": 31.301356348184424,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "06 | Jupiter",
+      "frame": 2191.0,
+      "worst_position_error_km": 13.20154834036847,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "06 | Jupiter",
+      "frame": 4381.0,
+      "worst_position_error_km": 27.77673081652111,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "06 | Jupiter",
+      "frame": 8761.0,
+      "worst_position_error_km": 31.52743050342436,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "07 | Saturn",
+      "frame": 1.0,
+      "worst_position_error_km": 42.691300814918314,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "07 | Saturn",
+      "frame": 2191.0,
+      "worst_position_error_km": 26.306215528738836,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "07 | Saturn",
+      "frame": 4381.0,
+      "worst_position_error_km": 14.957724783961387,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "07 | Saturn",
+      "frame": 8761.0,
+      "worst_position_error_km": 59.945808967155706,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "08 | Uranus",
+      "frame": 1.0,
+      "worst_position_error_km": 60.77584129084617,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "08 | Uranus",
+      "frame": 2191.0,
+      "worst_position_error_km": 122.60651389103846,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "08 | Uranus",
+      "frame": 4381.0,
+      "worst_position_error_km": 168.85590584727902,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "08 | Uranus",
+      "frame": 8761.0,
+      "worst_position_error_km": 136.25075642305333,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "09 | Neptune",
+      "frame": 1.0,
+      "worst_position_error_km": 99.1739724834645,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "09 | Neptune",
+      "frame": 2191.0,
+      "worst_position_error_km": 122.32215019827046,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "09 | Neptune",
+      "frame": 4381.0,
+      "worst_position_error_km": 185.37731269319994,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "09 | Neptune",
+      "frame": 8761.0,
+      "worst_position_error_km": 113.06021513895094,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "10 | Ceres",
+      "frame": 1.0,
+      "worst_position_error_km": 14.93620147452214,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "10 | Ceres",
+      "frame": 2191.0,
+      "worst_position_error_km": 7.39931786318128,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "10 | Ceres",
+      "frame": 4381.0,
+      "worst_position_error_km": 18.721722821757023,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "10 | Ceres",
+      "frame": 8761.0,
+      "worst_position_error_km": 14.809539876655174,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "11 | Pluto",
+      "frame": 1.0,
+      "worst_position_error_km": 98.51949103358152,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "11 | Pluto",
+      "frame": 2191.0,
+      "worst_position_error_km": 156.96183602414072,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "11 | Pluto",
+      "frame": 4381.0,
+      "worst_position_error_km": 202.58498173041593,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "11 | Pluto",
+      "frame": 8761.0,
+      "worst_position_error_km": 78.78808041606007,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "12 | Haumea",
+      "frame": 1.0,
+      "worst_position_error_km": 251.2412088950801,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "12 | Haumea",
+      "frame": 2191.0,
+      "worst_position_error_km": 717.5783979691234,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "12 | Haumea",
+      "frame": 4381.0,
+      "worst_position_error_km": 158.60732261388657,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "12 | Haumea",
+      "frame": 8761.0,
+      "worst_position_error_km": 280.6225932528085,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "13 | Makemake",
+      "frame": 1.0,
+      "worst_position_error_km": 262.86981086024673,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "13 | Makemake",
+      "frame": 2191.0,
+      "worst_position_error_km": 147.93312938440732,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "13 | Makemake",
+      "frame": 4381.0,
+      "worst_position_error_km": 132.8436236916452,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "13 | Makemake",
+      "frame": 8761.0,
+      "worst_position_error_km": 179.82305147596753,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "14 | Eris",
+      "frame": 1.0,
+      "worst_position_error_km": 386.90928209855963,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "14 | Eris",
+      "frame": 2191.0,
+      "worst_position_error_km": 207.48694273595214,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "14 | Eris",
+      "frame": 4381.0,
+      "worst_position_error_km": 208.5544182702211,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "14 | Eris",
+      "frame": 8761.0,
+      "worst_position_error_km": 406.9480705066364,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "15 | Orcus",
+      "frame": 1.0,
+      "worst_position_error_km": 144.73457121511728,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "15 | Orcus",
+      "frame": 2191.0,
+      "worst_position_error_km": 224.53798215348291,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "15 | Orcus",
+      "frame": 4381.0,
+      "worst_position_error_km": 226.8535873516473,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "15 | Orcus",
+      "frame": 8761.0,
+      "worst_position_error_km": 187.37528740898313,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "16 | Quaoar",
+      "frame": 1.0,
+      "worst_position_error_km": 135.09510842370864,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "16 | Quaoar",
+      "frame": 2191.0,
+      "worst_position_error_km": 131.4057687109648,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "16 | Quaoar",
+      "frame": 4381.0,
+      "worst_position_error_km": 67.8910727670919,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "16 | Quaoar",
+      "frame": 8761.0,
+      "worst_position_error_km": 172.46493630907574,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "17 | Gonggong",
+      "frame": 1.0,
+      "worst_position_error_km": 385.27972680012164,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "17 | Gonggong",
+      "frame": 2191.0,
+      "worst_position_error_km": 619.8310360953144,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "17 | Gonggong",
+      "frame": 4381.0,
+      "worst_position_error_km": 276.72341882021163,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "17 | Gonggong",
+      "frame": 8761.0,
+      "worst_position_error_km": 399.39886744233394,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "18 | Sedna",
+      "frame": 1.0,
+      "worst_position_error_km": 338.1286063402956,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "18 | Sedna",
+      "frame": 2191.0,
+      "worst_position_error_km": 1103.0294493458518,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "18 | Sedna",
+      "frame": 4381.0,
+      "worst_position_error_km": 253.70118727117637,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "18 | Sedna",
+      "frame": 8761.0,
+      "worst_position_error_km": 97.9416694066999,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "19 | Salacia",
+      "frame": 1.0,
+      "worst_position_error_km": 12.30033824559166,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "19 | Salacia",
+      "frame": 2191.0,
+      "worst_position_error_km": 467.6830378468033,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "19 | Salacia",
+      "frame": 4381.0,
+      "worst_position_error_km": 414.57244183801146,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "19 | Salacia",
+      "frame": 8761.0,
+      "worst_position_error_km": 248.88167783979895,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "20 | Varda",
+      "frame": 1.0,
+      "worst_position_error_km": 134.9943427000189,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "20 | Varda",
+      "frame": 2191.0,
+      "worst_position_error_km": 283.58233624367983,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "20 | Varda",
+      "frame": 4381.0,
+      "worst_position_error_km": 157.92918985004238,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "20 | Varda",
+      "frame": 8761.0,
+      "worst_position_error_km": 57.069761829775636,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "21 | Varuna",
+      "frame": 1.0,
+      "worst_position_error_km": 94.48288142061527,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "21 | Varuna",
+      "frame": 2191.0,
+      "worst_position_error_km": 371.90685466300476,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "21 | Varuna",
+      "frame": 4381.0,
+      "worst_position_error_km": 129.92559177344933,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "21 | Varuna",
+      "frame": 8761.0,
+      "worst_position_error_km": 174.8678690189944,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "22 | Ixion",
+      "frame": 1.0,
+      "worst_position_error_km": 210.2806363491421,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "22 | Ixion",
+      "frame": 2191.0,
+      "worst_position_error_km": 165.37873897593025,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "22 | Ixion",
+      "frame": 4381.0,
+      "worst_position_error_km": 32.881906897874224,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "22 | Ixion",
+      "frame": 8761.0,
+      "worst_position_error_km": 37.280876608888235,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "23 | Moon",
+      "frame": 1.0,
+      "worst_position_error_km": 7.500481922582836,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "23 | Moon",
+      "frame": 2191.0,
+      "worst_position_error_km": 7.628930144901226,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "23 | Moon",
+      "frame": 4381.0,
+      "worst_position_error_km": 15.032129733350985,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "23 | Moon",
+      "frame": 8761.0,
+      "worst_position_error_km": 5.70569407824089,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "24 | Phobos",
+      "frame": 1.0,
+      "worst_position_error_km": 4.079010375024891,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "24 | Phobos",
+      "frame": 2191.0,
+      "worst_position_error_km": 5.319049374162017,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "24 | Phobos",
+      "frame": 4381.0,
+      "worst_position_error_km": 4.883117539946343,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "24 | Phobos",
+      "frame": 8761.0,
+      "worst_position_error_km": 7.107863301144238,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "25 | Deimos",
+      "frame": 1.0,
+      "worst_position_error_km": 5.980636571640716,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "25 | Deimos",
+      "frame": 2191.0,
+      "worst_position_error_km": 6.804649650588758,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "25 | Deimos",
+      "frame": 4381.0,
+      "worst_position_error_km": 4.261062942632038,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "25 | Deimos",
+      "frame": 8761.0,
+      "worst_position_error_km": 4.2473809566415675,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "26 | Io",
+      "frame": 1.0,
+      "worst_position_error_km": 9.28191614952662,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "26 | Io",
+      "frame": 2191.0,
+      "worst_position_error_km": 23.620074004910542,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "26 | Io",
+      "frame": 4381.0,
+      "worst_position_error_km": 11.894636628148508,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "26 | Io",
+      "frame": 8761.0,
+      "worst_position_error_km": 24.755952995062547,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "27 | Europa",
+      "frame": 1.0,
+      "worst_position_error_km": 12.048747311375429,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "27 | Europa",
+      "frame": 2191.0,
+      "worst_position_error_km": 13.350023990153895,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "27 | Europa",
+      "frame": 4381.0,
+      "worst_position_error_km": 32.321715588981,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "27 | Europa",
+      "frame": 8761.0,
+      "worst_position_error_km": 22.509329476722733,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "28 | Ganymede",
+      "frame": 1.0,
+      "worst_position_error_km": 25.907764151889904,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "28 | Ganymede",
+      "frame": 2191.0,
+      "worst_position_error_km": 12.484075397213621,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "28 | Ganymede",
+      "frame": 4381.0,
+      "worst_position_error_km": 24.665716930727307,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "28 | Ganymede",
+      "frame": 8761.0,
+      "worst_position_error_km": 9.093062780609479,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "29 | Callisto",
+      "frame": 1.0,
+      "worst_position_error_km": 31.907225922724894,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "29 | Callisto",
+      "frame": 2191.0,
+      "worst_position_error_km": 36.01660829731223,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "29 | Callisto",
+      "frame": 4381.0,
+      "worst_position_error_km": 28.071480720240086,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "29 | Callisto",
+      "frame": 8761.0,
+      "worst_position_error_km": 6.256541448877063,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "30 | Amalthea",
+      "frame": 1.0,
+      "worst_position_error_km": 29.9854996027921,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "30 | Amalthea",
+      "frame": 2191.0,
+      "worst_position_error_km": 26.202405712159702,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "30 | Amalthea",
+      "frame": 4381.0,
+      "worst_position_error_km": 28.62031759562125,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "30 | Amalthea",
+      "frame": 8761.0,
+      "worst_position_error_km": 29.306694605655753,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "31 | Thebe",
+      "frame": 1.0,
+      "worst_position_error_km": 10.594733023935367,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "31 | Thebe",
+      "frame": 2191.0,
+      "worst_position_error_km": 10.371610989262317,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "31 | Thebe",
+      "frame": 4381.0,
+      "worst_position_error_km": 10.535228856655667,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "31 | Thebe",
+      "frame": 8761.0,
+      "worst_position_error_km": 26.09103520969249,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "32 | Himalia",
+      "frame": 1.0,
+      "worst_position_error_km": 12.677858616796655,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "32 | Himalia",
+      "frame": 2191.0,
+      "worst_position_error_km": 56.03896408016773,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "32 | Himalia",
+      "frame": 4381.0,
+      "worst_position_error_km": 41.95259226506509,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "32 | Himalia",
+      "frame": 8761.0,
+      "worst_position_error_km": 28.14396067330589,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "33 | Elara",
+      "frame": 1.0,
+      "worst_position_error_km": 17.418898560143777,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "33 | Elara",
+      "frame": 2191.0,
+      "worst_position_error_km": 23.645799527558474,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "33 | Elara",
+      "frame": 4381.0,
+      "worst_position_error_km": 14.651325996499125,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "33 | Elara",
+      "frame": 8761.0,
+      "worst_position_error_km": 7.470435076120908,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "34 | Mimas",
+      "frame": 1.0,
+      "worst_position_error_km": 44.1575448717062,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "34 | Mimas",
+      "frame": 2191.0,
+      "worst_position_error_km": 36.798791361558266,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "34 | Mimas",
+      "frame": 4381.0,
+      "worst_position_error_km": 12.794262578738904,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "34 | Mimas",
+      "frame": 8761.0,
+      "worst_position_error_km": 48.40496081803544,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "35 | Enceladus",
+      "frame": 1.0,
+      "worst_position_error_km": 12.052517243812918,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "35 | Enceladus",
+      "frame": 2191.0,
+      "worst_position_error_km": 9.594576651660509,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "35 | Enceladus",
+      "frame": 4381.0,
+      "worst_position_error_km": 16.048272625090764,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "35 | Enceladus",
+      "frame": 8761.0,
+      "worst_position_error_km": 14.074840367348491,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "36 | Tethys",
+      "frame": 1.0,
+      "worst_position_error_km": 57.34092890327501,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "36 | Tethys",
+      "frame": 2191.0,
+      "worst_position_error_km": 28.96652868793443,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "36 | Tethys",
+      "frame": 4381.0,
+      "worst_position_error_km": 24.351734357566293,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "36 | Tethys",
+      "frame": 8761.0,
+      "worst_position_error_km": 31.965785646134503,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "37 | Dione",
+      "frame": 1.0,
+      "worst_position_error_km": 22.733502310609033,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "37 | Dione",
+      "frame": 2191.0,
+      "worst_position_error_km": 34.48490832283282,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "37 | Dione",
+      "frame": 4381.0,
+      "worst_position_error_km": 17.946809643353443,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "37 | Dione",
+      "frame": 8761.0,
+      "worst_position_error_km": 37.176848357972524,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "38 | Rhea",
+      "frame": 1.0,
+      "worst_position_error_km": 48.839469390995816,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "38 | Rhea",
+      "frame": 2191.0,
+      "worst_position_error_km": 24.435548485795408,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "38 | Rhea",
+      "frame": 4381.0,
+      "worst_position_error_km": 5.650428486641952,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "38 | Rhea",
+      "frame": 8761.0,
+      "worst_position_error_km": 50.52063802058771,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "39 | Titan",
+      "frame": 1.0,
+      "worst_position_error_km": 24.5419303389558,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "39 | Titan",
+      "frame": 2191.0,
+      "worst_position_error_km": 50.42589082806209,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "39 | Titan",
+      "frame": 4381.0,
+      "worst_position_error_km": 26.509779797644523,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "39 | Titan",
+      "frame": 8761.0,
+      "worst_position_error_km": 16.51024290366134,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "40 | Hyperion",
+      "frame": 1.0,
+      "worst_position_error_km": 60.57450015290713,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "40 | Hyperion",
+      "frame": 2191.0,
+      "worst_position_error_km": 19.784687344974582,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "40 | Hyperion",
+      "frame": 4381.0,
+      "worst_position_error_km": 116.77660686739365,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "40 | Hyperion",
+      "frame": 8761.0,
+      "worst_position_error_km": 16.01840146932199,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "41 | Iapetus",
+      "frame": 1.0,
+      "worst_position_error_km": 9.35881951523022,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "41 | Iapetus",
+      "frame": 2191.0,
+      "worst_position_error_km": 83.16526974816797,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "41 | Iapetus",
+      "frame": 4381.0,
+      "worst_position_error_km": 60.28892062353583,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "41 | Iapetus",
+      "frame": 8761.0,
+      "worst_position_error_km": 44.7034336606683,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "42 | Phoebe",
+      "frame": 1.0,
+      "worst_position_error_km": 27.54717755846995,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "42 | Phoebe",
+      "frame": 2191.0,
+      "worst_position_error_km": 33.149970112306285,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "42 | Phoebe",
+      "frame": 4381.0,
+      "worst_position_error_km": 19.021119564690547,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "42 | Phoebe",
+      "frame": 8761.0,
+      "worst_position_error_km": 13.53444236753623,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "43 | Janus",
+      "frame": 1.0,
+      "worst_position_error_km": 1.2775231774326583,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "43 | Janus",
+      "frame": 2191.0,
+      "worst_position_error_km": 15.898605993587031,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "43 | Janus",
+      "frame": 4381.0,
+      "worst_position_error_km": 39.17521780355031,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "43 | Janus",
+      "frame": 8761.0,
+      "worst_position_error_km": 28.218832000605147,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "44 | Epimetheus",
+      "frame": 1.0,
+      "worst_position_error_km": 23.382270266413197,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "44 | Epimetheus",
+      "frame": 2191.0,
+      "worst_position_error_km": 24.13120314518859,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "44 | Epimetheus",
+      "frame": 4381.0,
+      "worst_position_error_km": 41.29982606711679,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "44 | Epimetheus",
+      "frame": 8761.0,
+      "worst_position_error_km": 14.485439606294854,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "45 | Miranda",
+      "frame": 1.0,
+      "worst_position_error_km": 130.57690747993394,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "45 | Miranda",
+      "frame": 2191.0,
+      "worst_position_error_km": 107.58502099382056,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "45 | Miranda",
+      "frame": 4381.0,
+      "worst_position_error_km": 118.5217704646878,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "45 | Miranda",
+      "frame": 8761.0,
+      "worst_position_error_km": 94.52016765223593,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "46 | Ariel",
+      "frame": 1.0,
+      "worst_position_error_km": 84.20418363884316,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "46 | Ariel",
+      "frame": 2191.0,
+      "worst_position_error_km": 130.50647638368315,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "46 | Ariel",
+      "frame": 4381.0,
+      "worst_position_error_km": 116.69510089824607,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "46 | Ariel",
+      "frame": 8761.0,
+      "worst_position_error_km": 109.92529718141438,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "47 | Umbriel",
+      "frame": 1.0,
+      "worst_position_error_km": 81.02582796113033,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "47 | Umbriel",
+      "frame": 2191.0,
+      "worst_position_error_km": 102.62346244015072,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "47 | Umbriel",
+      "frame": 4381.0,
+      "worst_position_error_km": 183.1429885231769,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "47 | Umbriel",
+      "frame": 8761.0,
+      "worst_position_error_km": 35.66874660650136,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "48 | Titania",
+      "frame": 1.0,
+      "worst_position_error_km": 77.70757064266614,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "48 | Titania",
+      "frame": 2191.0,
+      "worst_position_error_km": 90.36492789543507,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "48 | Titania",
+      "frame": 4381.0,
+      "worst_position_error_km": 96.66644497077473,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "48 | Titania",
+      "frame": 8761.0,
+      "worst_position_error_km": 113.49471100256174,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "49 | Oberon",
+      "frame": 1.0,
+      "worst_position_error_km": 129.0477629544982,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "49 | Oberon",
+      "frame": 2191.0,
+      "worst_position_error_km": 137.22043507140444,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "49 | Oberon",
+      "frame": 4381.0,
+      "worst_position_error_km": 84.99684961970213,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "49 | Oberon",
+      "frame": 8761.0,
+      "worst_position_error_km": 124.66845511125676,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "50 | Puck",
+      "frame": 1.0,
+      "worst_position_error_km": 52.120207996562726,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "50 | Puck",
+      "frame": 2191.0,
+      "worst_position_error_km": 39.803542237925654,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "50 | Puck",
+      "frame": 4381.0,
+      "worst_position_error_km": 106.97119014174663,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "50 | Puck",
+      "frame": 8761.0,
+      "worst_position_error_km": 109.69568539246752,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "51 | Triton",
+      "frame": 1.0,
+      "worst_position_error_km": 203.6703186580956,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "51 | Triton",
+      "frame": 2191.0,
+      "worst_position_error_km": 5.584622400369383,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "51 | Triton",
+      "frame": 4381.0,
+      "worst_position_error_km": 332.08074051594656,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "51 | Triton",
+      "frame": 8761.0,
+      "worst_position_error_km": 40.87578088848451,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "52 | Nereid",
+      "frame": 1.0,
+      "worst_position_error_km": 248.04693673459337,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "52 | Nereid",
+      "frame": 2191.0,
+      "worst_position_error_km": 126.46663279570134,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "52 | Nereid",
+      "frame": 4381.0,
+      "worst_position_error_km": 97.68598319457364,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "52 | Nereid",
+      "frame": 8761.0,
+      "worst_position_error_km": 251.96877957246156,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "53 | Proteus",
+      "frame": 1.0,
+      "worst_position_error_km": 8.46061683358869,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "53 | Proteus",
+      "frame": 2191.0,
+      "worst_position_error_km": 40.128427274811344,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "53 | Proteus",
+      "frame": 4381.0,
+      "worst_position_error_km": 76.19399151438104,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "53 | Proteus",
+      "frame": 8761.0,
+      "worst_position_error_km": 189.13842795149435,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "54 | Charon",
+      "frame": 1.0,
+      "worst_position_error_km": 64.3393074195837,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "54 | Charon",
+      "frame": 2191.0,
+      "worst_position_error_km": 119.73238615411766,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "54 | Charon",
+      "frame": 4381.0,
+      "worst_position_error_km": 216.32845714866002,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "54 | Charon",
+      "frame": 8761.0,
+      "worst_position_error_km": 143.60862436168313,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "55 | Styx",
+      "frame": 1.0,
+      "worst_position_error_km": 149.98870280554465,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "55 | Styx",
+      "frame": 2191.0,
+      "worst_position_error_km": 161.7918116678128,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "55 | Styx",
+      "frame": 4381.0,
+      "worst_position_error_km": 223.13697766784978,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "55 | Styx",
+      "frame": 8761.0,
+      "worst_position_error_km": 111.47369653639957,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "56 | Nix",
+      "frame": 1.0,
+      "worst_position_error_km": 50.48428562011516,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "56 | Nix",
+      "frame": 2191.0,
+      "worst_position_error_km": 171.41530816466914,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "56 | Nix",
+      "frame": 4381.0,
+      "worst_position_error_km": 17.903031814952115,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "56 | Nix",
+      "frame": 8761.0,
+      "worst_position_error_km": 93.22785715936588,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "57 | Kerberos",
+      "frame": 1.0,
+      "worst_position_error_km": 83.21823567340677,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "57 | Kerberos",
+      "frame": 2191.0,
+      "worst_position_error_km": 135.83505006743889,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "57 | Kerberos",
+      "frame": 4381.0,
+      "worst_position_error_km": 154.6321578547967,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "57 | Kerberos",
+      "frame": 8761.0,
+      "worst_position_error_km": 113.80490960485211,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "58 | Hydra",
+      "frame": 1.0,
+      "worst_position_error_km": 116.7791343132951,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "58 | Hydra",
+      "frame": 2191.0,
+      "worst_position_error_km": 50.169512336102166,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "58 | Hydra",
+      "frame": 4381.0,
+      "worst_position_error_km": 113.67315962993833,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "58 | Hydra",
+      "frame": 8761.0,
+      "worst_position_error_km": 113.64691464987501,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "59 | Vesta",
+      "frame": 1.0,
+      "worst_position_error_km": 8.798997649204859,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "59 | Vesta",
+      "frame": 2191.0,
+      "worst_position_error_km": 25.158990786738897,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "59 | Vesta",
+      "frame": 4381.0,
+      "worst_position_error_km": 6.240484708859375,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "59 | Vesta",
+      "frame": 8761.0,
+      "worst_position_error_km": 3.3265748643511457,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "60 | Pallas",
+      "frame": 1.0,
+      "worst_position_error_km": 7.497729306463921,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "60 | Pallas",
+      "frame": 2191.0,
+      "worst_position_error_km": 3.3092690518414822,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "60 | Pallas",
+      "frame": 4381.0,
+      "worst_position_error_km": 24.546781168724042,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "60 | Pallas",
+      "frame": 8761.0,
+      "worst_position_error_km": 10.506127476405878,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "61 | Hygiea",
+      "frame": 1.0,
+      "worst_position_error_km": 9.68834294706582,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "61 | Hygiea",
+      "frame": 2191.0,
+      "worst_position_error_km": 22.631002598206994,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "61 | Hygiea",
+      "frame": 4381.0,
+      "worst_position_error_km": 2.2729292680623026,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "61 | Hygiea",
+      "frame": 8761.0,
+      "worst_position_error_km": 4.9113063725747255,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "62 | Eros",
+      "frame": 1.0,
+      "worst_position_error_km": 7.469674292538417,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "62 | Eros",
+      "frame": 2191.0,
+      "worst_position_error_km": 5.631840657780831,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "62 | Eros",
+      "frame": 4381.0,
+      "worst_position_error_km": 9.503659510726974,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "62 | Eros",
+      "frame": 8761.0,
+      "worst_position_error_km": 3.4371334086986636,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "63 | Itokawa",
+      "frame": 1.0,
+      "worst_position_error_km": 7.878547899978995,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "63 | Itokawa",
+      "frame": 2191.0,
+      "worst_position_error_km": 7.982845099123487,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "63 | Itokawa",
+      "frame": 4381.0,
+      "worst_position_error_km": 5.782128139624477,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "63 | Itokawa",
+      "frame": 8761.0,
+      "worst_position_error_km": 5.9829837008549385,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "64 | Bennu",
+      "frame": 1.0,
+      "worst_position_error_km": 5.136937828645736,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "64 | Bennu",
+      "frame": 2191.0,
+      "worst_position_error_km": 2.000813442926918,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "64 | Bennu",
+      "frame": 4381.0,
+      "worst_position_error_km": 5.147204766154277,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "64 | Bennu",
+      "frame": 8761.0,
+      "worst_position_error_km": 5.631943916092954,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "65 | Ryugu",
+      "frame": 1.0,
+      "worst_position_error_km": 7.667641056543505,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "65 | Ryugu",
+      "frame": 2191.0,
+      "worst_position_error_km": 5.337162233193756,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "65 | Ryugu",
+      "frame": 4381.0,
+      "worst_position_error_km": 17.45455324336884,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "65 | Ryugu",
+      "frame": 8761.0,
+      "worst_position_error_km": 1.2566090860628467,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "66 | Arrokoth",
+      "frame": 1.0,
+      "worst_position_error_km": 180.36240137841332,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "66 | Arrokoth",
+      "frame": 2191.0,
+      "worst_position_error_km": 155.28616387424753,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "66 | Arrokoth",
+      "frame": 4381.0,
+      "worst_position_error_km": 152.89861042002278,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "66 | Arrokoth",
+      "frame": 8761.0,
+      "worst_position_error_km": 60.18278689915038,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "67 | Chariklo",
+      "frame": 1.0,
+      "worst_position_error_km": 58.945025478885356,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "67 | Chariklo",
+      "frame": 2191.0,
+      "worst_position_error_km": 110.87060020023009,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "67 | Chariklo",
+      "frame": 4381.0,
+      "worst_position_error_km": 202.60920844543884,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "67 | Chariklo",
+      "frame": 8761.0,
+      "worst_position_error_km": 23.553588408126323,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "68 | Chiron",
+      "frame": 1.0,
+      "worst_position_error_km": 62.398487862144066,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "68 | Chiron",
+      "frame": 2191.0,
+      "worst_position_error_km": 61.944724812169206,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "68 | Chiron",
+      "frame": 4381.0,
+      "worst_position_error_km": 47.816374170796735,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "68 | Chiron",
+      "frame": 8761.0,
+      "worst_position_error_km": 101.76680619926773,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "69 | 1P/Halley",
+      "frame": 1.0,
+      "worst_position_error_km": 248.86629962540036,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "69 | 1P/Halley",
+      "frame": 2191.0,
+      "worst_position_error_km": 155.78739397735305,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "69 | 1P/Halley",
+      "frame": 4381.0,
+      "worst_position_error_km": 70.74341594099812,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "69 | 1P/Halley",
+      "frame": 8761.0,
+      "worst_position_error_km": 94.3006524447735,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "70 | 2P/Encke",
+      "frame": 1.0,
+      "worst_position_error_km": 2.5264185797519567,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "70 | 2P/Encke",
+      "frame": 2191.0,
+      "worst_position_error_km": 7.695974782923588,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "70 | 2P/Encke",
+      "frame": 4381.0,
+      "worst_position_error_km": 8.658558495669071,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "70 | 2P/Encke",
+      "frame": 8761.0,
+      "worst_position_error_km": 7.514648338794036,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "71 | 67P/Churyumov-Gerasimenko",
+      "frame": 1.0,
+      "worst_position_error_km": 27.81191050865728,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "71 | 67P/Churyumov-Gerasimenko",
+      "frame": 2191.0,
+      "worst_position_error_km": 28.290007661226994,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "71 | 67P/Churyumov-Gerasimenko",
+      "frame": 4381.0,
+      "worst_position_error_km": 19.965198538046607,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    },
+    {
+      "scene": "71 | 67P/Churyumov-Gerasimenko",
+      "frame": 8761.0,
+      "worst_position_error_km": 7.955482207928786,
+      "body": "sun",
+      "note": "Absolute rendered-transform error, not source uncertainty."
+    }
+  ],
+  "geometry_checks": [
+    {
+      "body": "sun",
+      "axis_error_km": 0.0
+    },
+    {
+      "body": "mercury",
+      "axis_error_km": 2.9296874799911166e-05
+    },
+    {
+      "body": "venus",
+      "axis_error_km": 0.00019531250018189894
+    },
+    {
+      "body": "earth",
+      "axis_error_km": 0.00011875000018335413
+    },
+    {
+      "body": "mars",
+      "axis_error_km": 5.859375005456968e-05
+    },
+    {
+      "body": "jupiter",
+      "axis_error_km": 0.0
+    },
+    {
+      "body": "saturn",
+      "axis_error_km": 0.0
+    },
+    {
+      "body": "uranus",
+      "axis_error_km": 0.0
+    },
+    {
+      "body": "neptune",
+      "axis_error_km": 0.0
+    },
+    {
+      "body": "ceres",
+      "axis_error_km": 1.2207031261368684e-05
+    },
+    {
+      "body": "pluto",
+      "axis_error_km": 4.8828125045474735e-05
+    },
+    {
+      "body": "haumea",
+      "axis_error_km": 0.0
+    },
+    {
+      "body": "makemake",
+      "axis_error_km": 0.0
+    },
+    {
+      "body": "eris",
+      "axis_error_km": 0.0
+    },
+    {
+      "body": "orcus",
+      "axis_error_km": 0.0
+    },
+    {
+      "body": "quaoar",
+      "axis_error_km": 0.0
+    },
+    {
+      "body": "gonggong",
+      "axis_error_km": 0.0
+    },
+    {
+      "body": "sedna",
+      "axis_error_km": 0.0
+    },
+    {
+      "body": "salacia",
+      "axis_error_km": 0.0
+    },
+    {
+      "body": "varda",
+      "axis_error_km": 0.0
+    },
+    {
+      "body": "varuna",
+      "axis_error_km": 0.0
+    },
+    {
+      "body": "ixion",
+      "axis_error_km": 1.464843751364242e-05
+    },
+    {
+      "body": "moon",
+      "axis_error_km": 2.441406240905053e-05
+    },
+    {
+      "body": "phobos",
+      "axis_error_km": 3.8146972691777137e-07
+    },
+    {
+      "body": "deimos",
+      "axis_error_km": 1.9073486345888568e-07
+    },
+    {
+      "body": "io",
+      "axis_error_km": 4.8828125045474735e-05
+    },
+    {
+      "body": "europa",
+      "axis_error_km": 4.8828125045474735e-05
+    },
+    {
+      "body": "ganymede",
+      "axis_error_km": 4.882812481810106e-05
+    },
+    {
+      "body": "callisto",
+      "axis_error_km": 4.882812481810106e-05
+    },
+    {
+      "body": "amalthea",
+      "axis_error_km": 0.0
+    },
+    {
+      "body": "thebe",
+      "axis_error_km": 0.0
+    },
+    {
+      "body": "himalia",
+      "axis_error_km": 0.0
+    },
+    {
+      "body": "elara",
+      "axis_error_km": 0.0
+    },
+    {
+      "body": "mimas",
+      "axis_error_km": 6.103515630684342e-06
+    },
+    {
+      "body": "enceladus",
+      "axis_error_km": 6.103515630684342e-06
+    },
+    {
+      "body": "tethys",
+      "axis_error_km": 2.4414062522737368e-05
+    },
+    {
+      "body": "dione",
+      "axis_error_km": 2.4414062522737368e-05
+    },
+    {
+      "body": "rhea",
+      "axis_error_km": 2.4414062522737368e-05
+    },
+    {
+      "body": "titan",
+      "axis_error_km": 9.765625009094947e-05
+    },
+    {
+      "body": "hyperion",
+      "axis_error_km": 6.103515630684342e-06
+    },
+    {
+      "body": "iapetus",
+      "axis_error_km": 2.4414062522737368e-05
+    },
+    {
+      "body": "phoebe",
+      "axis_error_km": 3.051757815342171e-06
+    },
+    {
+      "body": "janus",
+      "axis_error_km": 3.051757815342171e-06
+    },
+    {
+      "body": "epimetheus",
+      "axis_error_km": 1.5258789005656581e-06
+    },
+    {
+      "body": "miranda",
+      "axis_error_km": 6.103515630684342e-06
+    },
+    {
+      "body": "ariel",
+      "axis_error_km": 2.4414062522737368e-05
+    },
+    {
+      "body": "umbriel",
+      "axis_error_km": 1.2207031204525265e-05
+    },
+    {
+      "body": "titania",
+      "axis_error_km": 2.4414062522737368e-05
+    },
+    {
+      "body": "oberon",
+      "axis_error_km": 2.4414062522737368e-05
+    },
+    {
+      "body": "puck",
+      "axis_error_km": 0.0
+    },
+    {
+      "body": "triton",
+      "axis_error_km": 2.441406240905053e-05
+    },
+    {
+      "body": "nereid",
+      "axis_error_km": 0.0
+    },
+    {
+      "body": "proteus",
+      "axis_error_km": 0.0
+    },
+    {
+      "body": "charon",
+      "axis_error_km": 0.0
+    },
+    {
+      "body": "styx",
+      "axis_error_km": 0.0
+    },
+    {
+      "body": "nix",
+      "axis_error_km": 3.8146972514141453e-07
+    },
+    {
+      "body": "kerberos",
+      "axis_error_km": 0.0
+    },
+    {
+      "body": "hydra",
+      "axis_error_km": 7.629394538355427e-07
+    },
+    {
+      "body": "vesta",
+      "axis_error_km": 9.765625009094947e-06
+    },
+    {
+      "body": "pallas",
+      "axis_error_km": 0.0
+    },
+    {
+      "body": "hygiea",
+      "axis_error_km": 2.4414062522737368e-06
+    },
+    {
+      "body": "eros",
+      "axis_error_km": 7.629394538355427e-07
+    },
+    {
+      "body": "itokawa",
+      "axis_error_km": 1.3113021835042815e-08
+    },
+    {
+      "body": "bennu",
+      "axis_error_km": 5.102157585312739e-09
+    },
+    {
+      "body": "ryugu",
+      "axis_error_km": 1.3828277578564752e-08
+    },
+    {
+      "body": "arrokoth",
+      "axis_error_km": 0.0
+    },
+    {
+      "body": "chariklo",
+      "axis_error_km": 0.0
+    },
+    {
+      "body": "chiron",
+      "axis_error_km": 0.0
+    },
+    {
+      "body": "halley",
+      "axis_error_km": 0.0
+    },
+    {
+      "body": "encke",
+      "axis_error_km": 9.536743172944284e-08
+    },
+    {
+      "body": "churyumov-gerasimenko",
+      "axis_error_km": 9.536743172944284e-08
+    }
+  ],
+  "missing_images": [],
+  "packed_image_count": 35,
+  "driver_count": 0,
+  "action_count": 558,
+  "solar_flux_at_1au_W_m2": 1361.1664654085753,
+  "status": "PASS",
+  "limitations": [
+    "Recorded position errors include Blender float32 transforms.",
+    "Cached-state interpolation and secular spin are not navigation-grade.",
+    "The target sits exactly at its local origin; distant context can have larger absolute error."
+  ],
+  "annotation_checks": {
+    "status": "PASS",
+    "text_objects": 165,
+    "note": "Unit font data with object-scale sizing bypasses the 10000-unit font limit. Physical body scales unchanged."
+  }
+}

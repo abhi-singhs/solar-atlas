@@ -1,0 +1,131 @@
+{
+  "DELTA_T_A": [
+    32.184
+  ],
+  "EB": [
+    0.01671
+  ],
+  "K": [
+    0.001657
+  ],
+  "M": [
+    6.239996,
+    1.99096871e-07
+  ],
+  "leaps": [
+    {
+      "tai_minus_utc": 10,
+      "utc": "1972-01-01T00:00:00+00:00"
+    },
+    {
+      "tai_minus_utc": 11,
+      "utc": "1972-07-01T00:00:00+00:00"
+    },
+    {
+      "tai_minus_utc": 12,
+      "utc": "1973-01-01T00:00:00+00:00"
+    },
+    {
+      "tai_minus_utc": 13,
+      "utc": "1974-01-01T00:00:00+00:00"
+    },
+    {
+      "tai_minus_utc": 14,
+      "utc": "1975-01-01T00:00:00+00:00"
+    },
+    {
+      "tai_minus_utc": 15,
+      "utc": "1976-01-01T00:00:00+00:00"
+    },
+    {
+      "tai_minus_utc": 16,
+      "utc": "1977-01-01T00:00:00+00:00"
+    },
+    {
+      "tai_minus_utc": 17,
+      "utc": "1978-01-01T00:00:00+00:00"
+    },
+    {
+      "tai_minus_utc": 18,
+      "utc": "1979-01-01T00:00:00+00:00"
+    },
+    {
+      "tai_minus_utc": 19,
+      "utc": "1980-01-01T00:00:00+00:00"
+    },
+    {
+      "tai_minus_utc": 20,
+      "utc": "1981-07-01T00:00:00+00:00"
+    },
+    {
+      "tai_minus_utc": 21,
+      "utc": "1982-07-01T00:00:00+00:00"
+    },
+    {
+      "tai_minus_utc": 22,
+      "utc": "1983-07-01T00:00:00+00:00"
+    },
+    {
+      "tai_minus_utc": 23,
+      "utc": "1985-07-01T00:00:00+00:00"
+    },
+    {
+      "tai_minus_utc": 24,
+      "utc": "1988-01-01T00:00:00+00:00"
+    },
+    {
+      "tai_minus_utc": 25,
+      "utc": "1990-01-01T00:00:00+00:00"
+    },
+    {
+      "tai_minus_utc": 26,
+      "utc": "1991-01-01T00:00:00+00:00"
+    },
+    {
+      "tai_minus_utc": 27,
+      "utc": "1992-07-01T00:00:00+00:00"
+    },
+    {
+      "tai_minus_utc": 28,
+      "utc": "1993-07-01T00:00:00+00:00"
+    },
+    {
+      "tai_minus_utc": 29,
+      "utc": "1994-07-01T00:00:00+00:00"
+    },
+    {
+      "tai_minus_utc": 30,
+      "utc": "1996-01-01T00:00:00+00:00"
+    },
+    {
+      "tai_minus_utc": 31,
+      "utc": "1997-07-01T00:00:00+00:00"
+    },
+    {
+      "tai_minus_utc": 32,
+      "utc": "1999-01-01T00:00:00+00:00"
+    },
+    {
+      "tai_minus_utc": 33,
+      "utc": "2006-01-01T00:00:00+00:00"
+    },
+    {
+      "tai_minus_utc": 34,
+      "utc": "2009-01-01T00:00:00+00:00"
+    },
+    {
+      "tai_minus_utc": 35,
+      "utc": "2012-07-01T00:00:00+00:00"
+    },
+    {
+      "tai_minus_utc": 36,
+      "utc": "2015-07-01T00:00:00+00:00"
+    },
+    {
+      "tai_minus_utc": 37,
+      "utc": "2017-01-01T00:00:00+00:00"
+    }
+  ],
+  "source": "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/lsk/naif0012.tls",
+  "warning": "Pinned naif0012.tls assumes TAI-UTC=37 seconds after 2017-01-01. Unknown future leap seconds change UTC labels, not stored TDB states. The DELTET TDB-TT approximation is accurate to about 30 microseconds before floating-point Julian-date rounding. UTC input requires Z or +00:00, years 1972 onward, and seconds below 60. Known leap seconds can be displayed."
+}

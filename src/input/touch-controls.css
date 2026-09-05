@@ -1,0 +1,199 @@
+.flight-touch {
+  position: absolute;
+  z-index: 13;
+  inset-inline: max(12px, env(safe-area-inset-left)) max(12px, env(safe-area-inset-right));
+  bottom: calc(260px + env(safe-area-inset-bottom));
+  display: none;
+  grid-template-columns: minmax(96px, 136px) minmax(104px, 136px) minmax(96px, 136px);
+  align-items: end;
+  justify-content: space-between;
+  gap: 8px;
+  pointer-events: none;
+  color: var(--cp-text);
+  font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.flight-touch-bank,
+.flight-touch-center {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+  min-width: 0;
+}
+
+.flight-touch-button-row {
+  display: flex;
+  gap: 4px;
+}
+
+.flight-touch-button,
+.flight-touch-stick {
+  appearance: none;
+  box-sizing: border-box;
+  pointer-events: auto;
+  touch-action: none;
+  -webkit-touch-callout: none;
+  font: inherit;
+  color: var(--cp-text);
+  background: var(--cp-panel-strong);
+  border: 1px solid var(--cp-border-strong);
+  box-shadow: none;
+  cursor: pointer;
+}
+
+.flight-touch-button {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 4px;
+  border-radius: 0.625rem;
+  font-size: 10px;
+  line-height: 1.2;
+}
+
+.flight-touch-button svg {
+  width: 16px;
+  height: 16px;
+}
+
+.flight-touch-brake {
+  flex-direction: row;
+  gap: 8px;
+  color: var(--cp-accent);
+  border-color: var(--cp-accent);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.flight-touch-button[data-active="true"],
+.flight-touch-stick[data-active="true"] {
+  border-color: var(--cp-accent);
+  background: var(--cp-surface);
+}
+
+.flight-touch-button:focus-visible,
+.flight-touch-stick:focus-visible {
+  outline: 2px solid var(--cp-accent);
+  outline-offset: 3px;
+}
+
+.flight-touch-stick {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.flight-touch-stick::before,
+.flight-touch-stick::after {
+  content: "";
+  position: absolute;
+  background: var(--cp-border);
+}
+
+.flight-touch-stick::before {
+  inset: 16% calc(50% - 0.5px);
+  width: 1px;
+}
+
+.flight-touch-stick::after {
+  inset: calc(50% - 0.5px) 16%;
+  height: 1px;
+}
+
+.flight-touch-stick-cross {
+  position: absolute;
+  inset: 16%;
+  border: 1px solid var(--cp-border);
+  border-radius: 50%;
+}
+
+.flight-touch-stick-thumb {
+  position: absolute;
+  z-index: 1;
+  width: 30%;
+  height: 30%;
+  top: calc(35% + var(--stick-y, 0) * 34%);
+  left: calc(35% + var(--stick-x, 0) * 34%);
+  border: 1px solid var(--cp-accent);
+  background: var(--cp-accent-soft);
+  border-radius: 50%;
+}
+
+.flight-touch-stick-label {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  right: 0;
+  bottom: 8%;
+  color: var(--cp-text-muted);
+  font-size: 10px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.flight-touch-note {
+  min-height: 44px;
+  display: grid;
+  place-content: center;
+  color: var(--cp-text-soft);
+  font-size: 10px;
+  line-height: 1.4;
+  text-align: center;
+}
+
+@media (any-pointer: coarse), (hover: none) {
+  .flight-touch { display: grid; }
+}
+
+.flight-touch[data-touch-device="true"] { display: grid; }
+
+@media (max-width: 370px) {
+  .flight-touch {
+    inset-inline: max(8px, env(safe-area-inset-left)) max(8px, env(safe-area-inset-right));
+    grid-template-columns: minmax(88px, 1fr) 96px minmax(88px, 1fr);
+    gap: 4px;
+  }
+}
+
+@media (orientation: landscape) {
+  .flight-touch {
+    grid-template-columns: 128px 1fr 128px;
+    height: 232px;
+    bottom: max(8px, env(safe-area-inset-bottom));
+  }
+  .flight-touch-bank {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 128px;
+    gap: 4px;
+  }
+  .flight-touch-look { left: auto; right: 0; }
+  .flight-touch-stick { width: 96px; align-self: center; }
+  .flight-touch-center { display: contents; }
+  .flight-touch-center > .flight-touch-button-row {
+    position: absolute;
+    bottom: 152px;
+    width: 128px;
+  }
+  .flight-touch-center > .flight-touch-button-row:first-child { left: 0; }
+  .flight-touch-center > .flight-touch-button-row:last-child { right: 0; }
+  .flight-touch-brake {
+    position: absolute;
+    bottom: 188px;
+    left: 50%;
+    width: 120px;
+    transform: translateX(-50%);
+  }
+}

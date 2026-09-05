@@ -1,0 +1,3298 @@
+{
+  "schema_version": 1,
+  "bodies": {
+    "sun": {
+      "name": "Sun",
+      "source_status": "RECONSTRUCTION",
+      "maps": {},
+      "profile": {
+        "kind": "photosphere",
+        "linear_reflectance": [
+          1,
+          0.91,
+          0.76
+        ],
+        "contrast": 0.03,
+        "seed": 662007557
+      },
+      "description": "5772 K photosphere; granulation is a reconstruction, not dated activity.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "mercury": {
+      "name": "Mercury",
+      "source_status": "MIXED",
+      "maps": {
+        "color": {
+          "body": "mercury",
+          "role": "color",
+          "source_url": "https://www.solarsystemscope.com/textures/download/8k_mercury.jpg",
+          "source_page": "https://www.solarsystemscope.com/textures/",
+          "credit": "Solar System Scope / INOVE, NASA MESSENGER-derived imagery",
+          "usage": "CC BY 4.0. Attribution required; adapted with resizing and reflectance normalization.",
+          "rights_url": "https://creativecommons.org/licenses/by/4.0/",
+          "max_width": 4096,
+          "color_space": "sRGB",
+          "projection": "equirectangular",
+          "north_up": true,
+          "longitude": "east increasing; center longitude 0 degrees",
+          "transform": "gray",
+          "source_status": "MIXED",
+          "notes": "NASA-derived edited Mercury mosaic. Publisher discloses cosmetic gap fill. Original JHUAPL low-incidence source timed out; not an unmodified MDIS scientific product.",
+          "radiometric_treatment": "Display RGB normalized to approximate reflectance palette. Gray maps tinted by composition; OPAL ice-giant preview channels chromatically normalized. Not measured spectral reflectance or BRDF.",
+          "path": "textures/mercury_color.png",
+          "sha256": "a8c04660674458ec499440118a2856230499c7de7639b973c0bf6d9220a86ee5",
+          "original_path": "textures/originals/mercury_color.jpg",
+          "original_sha256": "5c8bd885ae3571c6ba2cd34b3446b9c6d767e314bf0ee8c1d5c147cadd388fc3",
+          "original_dimensions": [
+            8192,
+            4096
+          ],
+          "dimensions": [
+            4096,
+            2048
+          ],
+          "valid_pixel_fraction_before_fill": 0.9999953508377075,
+          "retrieved_utc": "2026-09-05T10:37:47.020533+00:00",
+          "output_longitude": "east increasing; center longitude 0 degrees",
+          "uv_registration": {
+            "status": "LANDMARK_CHECKED",
+            "raster_center_east_deg": 0.0,
+            "u_scale": 1.0,
+            "v_scale": 1.0,
+            "u_offset_cycles": 0.0,
+            "v_offset_cycles": 0.0,
+            "source_transforms_already_baked": true,
+            "reference_urls": [
+              "https://planetarynames.wr.usgs.gov/Feature/14644"
+            ],
+            "note": "Central-zero orientation checked against Hokusai's northern position just east of the prime meridian. This is a convention check, not a pixel-accurate cartographic registration."
+          }
+        }
+      },
+      "profile": {
+        "kind": "regolith",
+        "linear_reflectance": [
+          0.11,
+          0.1,
+          0.09
+        ],
+        "contrast": 0.16,
+        "seed": 3077154456
+      },
+      "description": "Dark silicate regolith; monochrome MDIS morphology, not false-color mineral classes.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "venus": {
+      "name": "Venus",
+      "source_status": "MIXED",
+      "maps": {
+        "color": {
+          "body": "venus",
+          "role": "color",
+          "source_url": "https://www.solarsystemscope.com/textures/download/4k_venus_atmosphere.jpg",
+          "source_page": "https://www.solarsystemscope.com/textures/",
+          "credit": "Solar System Scope / INOVE, based on NASA imagery",
+          "usage": "CC BY 4.0. Attribution required; adapted with resizing and Venus desaturation.",
+          "rights_url": "https://creativecommons.org/licenses/by/4.0/",
+          "max_width": 4096,
+          "color_space": "sRGB",
+          "projection": "equirectangular",
+          "north_up": true,
+          "longitude": "east increasing; center longitude 0 degrees",
+          "transform": "venus",
+          "source_status": "MIXED",
+          "notes": "NASA-derived edited composite. Publisher discloses saturated colors and fictional gap fill; not an unmodified scientific product.",
+          "path": "textures/venus_color.png",
+          "sha256": "d6bbb208ba18b2003b1e8e213914b181781bf67784f2ed5e323b7303d0421377",
+          "original_path": "textures/originals/venus_color.jpg",
+          "original_sha256": "a14aeba3c6ad7a56f989bb32008dec548077aeded420495b34df98f2dc14ba91",
+          "original_dimensions": [
+            4096,
+            2048
+          ],
+          "dimensions": [
+            4096,
+            2048
+          ],
+          "valid_pixel_fraction_before_fill": 1.0,
+          "retrieved_utc": "2026-09-05T10:38:00.962298+00:00",
+          "output_longitude": "east increasing; center longitude 0 degrees",
+          "uv_registration": {
+            "status": "UNCONSTRAINED_WEATHER",
+            "raster_center_east_deg": null,
+            "u_scale": 1.0,
+            "v_scale": 1.0,
+            "u_offset_cycles": 0.0,
+            "v_offset_cycles": 0.0,
+            "source_transforms_already_baked": true,
+            "reference_urls": [
+              "https://www.solarsystemscope.com/textures/"
+            ],
+            "note": "No dated meridian phase is available for the edited cloud pattern. Nominal U=.5 is a visualization reference, not measured surface registration."
+          }
+        }
+      },
+      "profile": {
+        "kind": "cloud",
+        "linear_reflectance": [
+          0.76,
+          0.73,
+          0.62
+        ],
+        "contrast": 0.025,
+        "seed": 3098684141
+      },
+      "description": "Opaque sulfuric-acid cloud deck; visible contrast much lower than ultraviolet contrast.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "earth": {
+      "name": "Earth",
+      "source_status": "MIXED",
+      "maps": {
+        "clouds": {
+          "body": "earth",
+          "role": "clouds",
+          "source_url": "https://eoimages.gsfc.nasa.gov/images/imagerecords/57000/57747/cloud_combined_2048.jpg",
+          "source_page": "https://earthobservatory.nasa.gov/features/BlueMarble/",
+          "credit": "NASA/GSFC Blue Marble",
+          "usage": "NASA educational/informational reuse with source credit; no endorsement.",
+          "rights_url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+          "max_width": 4096,
+          "color_space": "Non-Color",
+          "projection": "equirectangular",
+          "north_up": true,
+          "longitude": "east increasing; center longitude 0 degrees",
+          "transform": "copy",
+          "source_status": "MIXED",
+          "notes": "Observed cloud composite interpreted as approximate opacity. Not cloud optical-depth retrieval or 2026 weather.",
+          "path": "textures/earth_clouds.png",
+          "sha256": "0d57dbb398e284ba4183ca15a0f33d46dd6aabe117a5858649a814e04fb9227f",
+          "original_path": "textures/originals/earth_clouds.jpg",
+          "original_sha256": "daddaad84d7a33bbbc86cdda3f591099f57cee8607b7bcf3b67eb7e4f7a1c793",
+          "original_dimensions": [
+            2048,
+            1024
+          ],
+          "dimensions": [
+            2048,
+            1024
+          ],
+          "valid_pixel_fraction_before_fill": 0.8651523590087891,
+          "retrieved_utc": "2026-09-05T10:37:38.863396+00:00",
+          "output_longitude": "east increasing; center longitude 0 degrees",
+          "uv_registration": {
+            "status": "SOURCE_DOCUMENTED",
+            "raster_center_east_deg": 0.0,
+            "u_scale": 1.0,
+            "v_scale": 1.0,
+            "u_offset_cycles": 0.0,
+            "v_offset_cycles": 0.0,
+            "source_transforms_already_baked": true,
+            "reference_urls": [
+              "https://earthobservatory.nasa.gov/features/BlueMarble/"
+            ],
+            "note": "Prepared raster center is longitude 0. Source transforms are already baked into the image."
+          }
+        },
+        "ocean_mask": {
+          "body": "earth",
+          "role": "ocean_mask",
+          "source_url": "https://www.solarsystemscope.com/textures/download/8k_earth_specular_map.tif",
+          "source_page": "https://www.solarsystemscope.com/textures/",
+          "credit": "Solar System Scope / INOVE, based on NASA imagery",
+          "usage": "CC BY 4.0. Attribution required; adapted with resizing and Venus desaturation.",
+          "rights_url": "https://creativecommons.org/licenses/by/4.0/",
+          "max_width": 4096,
+          "color_space": "Non-Color",
+          "projection": "equirectangular",
+          "north_up": true,
+          "longitude": "east increasing; center longitude 0 degrees",
+          "transform": "copy",
+          "source_status": "MIXED",
+          "notes": "NASA-derived edited composite. Publisher discloses saturated colors and fictional gap fill; not an unmodified scientific product.",
+          "path": "textures/earth_ocean_mask.png",
+          "sha256": "de3e15629df3d7986870453b0e1250fe7d932513ecd54ba81b546b210edc5a46",
+          "original_path": "textures/originals/earth_ocean_mask.tif",
+          "original_sha256": "194e67ef7f14dd50b402a1a6f8c7ed55810e16515b95f7736091951efe8dc3fb",
+          "original_dimensions": [
+            8192,
+            4096
+          ],
+          "dimensions": [
+            4096,
+            2048
+          ],
+          "valid_pixel_fraction_before_fill": 0.683012843132019,
+          "retrieved_utc": "2026-09-05T10:38:02.200805+00:00",
+          "output_longitude": "east increasing; center longitude 0 degrees",
+          "uv_registration": {
+            "status": "GEOGRAPHIC_ALIGNMENT_CHECKED",
+            "raster_center_east_deg": 0.0,
+            "u_scale": 1.0,
+            "v_scale": 1.0,
+            "u_offset_cycles": 0.0,
+            "v_offset_cycles": 0.0,
+            "source_transforms_already_baked": true,
+            "reference_urls": [
+              "https://www.solarsystemscope.com/textures/"
+            ],
+            "note": "Aligned with the central-zero NASA surface map. Denver and Tokyo city-light positions, Pacific ocean pixels and Sahara land pixels were checked."
+          }
+        },
+        "color": {
+          "body": "earth",
+          "role": "color",
+          "source_url": "https://eoimages.gsfc.nasa.gov/images/imagerecords/57000/57730/land_ocean_ice_8192.png",
+          "source_page": "https://svs.gsfc.nasa.gov/2915/",
+          "credit": "NASA/GSFC, Reto Stockli, Blue Marble",
+          "usage": "NASA educational/informational reuse with source credit; no endorsement.",
+          "rights_url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+          "max_width": 8192,
+          "color_space": "sRGB",
+          "projection": "equirectangular",
+          "north_up": true,
+          "longitude": "east increasing; center longitude 0 degrees",
+          "transform": "copy",
+          "source_status": "MIXED",
+          "notes": "Cloud-free multi-date composite; sea ice is static, not a forecast.",
+          "path": "textures/earth_color.png",
+          "sha256": "1c5f283419afb1a5f561639000490f5ea7318eed8be240c4ebc930a861ee999e",
+          "original_path": "textures/originals/earth_color.png",
+          "original_sha256": "aaddcd967a9f09fb2d7ef50ff452bebfcf10192c520465d5eb1ad8446c716e98",
+          "original_dimensions": [
+            8192,
+            4096
+          ],
+          "dimensions": [
+            8192,
+            4096
+          ],
+          "valid_pixel_fraction_before_fill": 0.9999992847442627,
+          "retrieved_utc": "2026-09-05T10:38:04.779871+00:00",
+          "output_longitude": "east increasing; center longitude 0 degrees",
+          "uv_registration": {
+            "status": "SOURCE_DOCUMENTED",
+            "raster_center_east_deg": 0.0,
+            "u_scale": 1.0,
+            "v_scale": 1.0,
+            "u_offset_cycles": 0.0,
+            "v_offset_cycles": 0.0,
+            "source_transforms_already_baked": true,
+            "reference_urls": [
+              "https://svs.gsfc.nasa.gov/2915/"
+            ],
+            "note": "Prepared raster center is longitude 0. Source transforms are already baked into the image."
+          }
+        },
+        "night": {
+          "body": "earth",
+          "role": "night",
+          "source_url": "https://www.solarsystemscope.com/textures/download/8k_earth_nightmap.jpg",
+          "source_page": "https://www.solarsystemscope.com/textures/",
+          "credit": "Solar System Scope / INOVE, based on NASA imagery",
+          "usage": "CC BY 4.0. Attribution required; adapted with resizing and Venus desaturation.",
+          "rights_url": "https://creativecommons.org/licenses/by/4.0/",
+          "max_width": 4096,
+          "color_space": "sRGB",
+          "projection": "equirectangular",
+          "north_up": true,
+          "longitude": "east increasing; center longitude 0 degrees",
+          "transform": "copy",
+          "source_status": "MIXED",
+          "notes": "NASA-derived edited composite. Publisher discloses saturated colors and fictional gap fill; not an unmodified scientific product.",
+          "path": "textures/earth_night.png",
+          "sha256": "e91b63fc159dc9f1aea58ed3e6e06ec9af881fe418cda5947d0efe54f830c78c",
+          "original_path": "textures/originals/earth_night.jpg",
+          "original_sha256": "9894e83a585a22c1c425e7ca4f987a9ba625bf08ecee45d3c9dcacae3c2ad5f7",
+          "original_dimensions": [
+            8192,
+            4096
+          ],
+          "dimensions": [
+            4096,
+            2048
+          ],
+          "valid_pixel_fraction_before_fill": 0.9999213218688965,
+          "retrieved_utc": "2026-09-05T10:38:05.812352+00:00",
+          "output_longitude": "east increasing; center longitude 0 degrees",
+          "uv_registration": {
+            "status": "GEOGRAPHIC_ALIGNMENT_CHECKED",
+            "raster_center_east_deg": 0.0,
+            "u_scale": 1.0,
+            "v_scale": 1.0,
+            "u_offset_cycles": 0.0,
+            "v_offset_cycles": 0.0,
+            "source_transforms_already_baked": true,
+            "reference_urls": [
+              "https://www.solarsystemscope.com/textures/"
+            ],
+            "note": "Aligned with the central-zero NASA surface map. Denver and Tokyo city-light positions, Pacific ocean pixels and Sahara land pixels were checked."
+          }
+        }
+      },
+      "profile": {
+        "kind": "earth",
+        "linear_reflectance": [
+          0.15,
+          0.19,
+          0.24
+        ],
+        "contrast": 0.05,
+        "seed": 2071245848
+      },
+      "description": "Blue Marble surface, separate water clouds, ocean Fresnel response.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "mars": {
+      "name": "Mars",
+      "source_status": "MIXED",
+      "maps": {
+        "color": {
+          "body": "mars",
+          "role": "color",
+          "source_url": "https://www.solarsystemscope.com/textures/download/8k_mars.jpg",
+          "source_page": "https://www.solarsystemscope.com/textures/",
+          "credit": "Solar System Scope / INOVE, NASA Viking and Mars imagery",
+          "usage": "CC BY 4.0. Attribution required; adapted by resizing and approximate reflectance normalization.",
+          "rights_url": "https://creativecommons.org/licenses/by/4.0/",
+          "max_width": 4096,
+          "color_space": "sRGB",
+          "projection": "equirectangular",
+          "north_up": true,
+          "longitude": "east increasing; center longitude 0 degrees",
+          "transform": "copy",
+          "source_status": "MIXED",
+          "original_name": "mars_scope_color.jpg",
+          "notes": "NASA-derived edited mosaic. Publisher discloses color tuning and fictional gap fill. Not an unmodified photometric map.",
+          "radiometric_treatment": "Display RGB normalized to approximate reflectance palette. Gray maps tinted by composition; OPAL ice-giant preview channels chromatically normalized. Not measured spectral reflectance or BRDF.",
+          "path": "textures/mars_color.png",
+          "sha256": "f90fa1872966974b964e3d8865b0ea92777e0e63d17df8af614f8162abf8c88f",
+          "original_path": "textures/originals/mars_scope_color.jpg",
+          "original_sha256": "4cc52149924abc6ae507d63032f994e1d42a55cb82c09e002d1a567ff66c23ee",
+          "original_dimensions": [
+            8192,
+            4096
+          ],
+          "dimensions": [
+            4096,
+            2048
+          ],
+          "valid_pixel_fraction_before_fill": 1.0,
+          "retrieved_utc": "2026-09-05T10:39:34.404514+00:00",
+          "output_longitude": "east increasing; center longitude 0 degrees",
+          "uv_registration": {
+            "status": "LANDMARK_CHECKED",
+            "raster_center_east_deg": 0.0,
+            "u_scale": 1.0,
+            "v_scale": 1.0,
+            "u_offset_cycles": 0.0,
+            "v_offset_cycles": 0.0,
+            "source_transforms_already_baked": true,
+            "reference_urls": [
+              "https://planetarynames.wr.usgs.gov/Feature/4453"
+            ],
+            "note": "Central-zero orientation checked against Olympus Mons at about 226 degrees east and U=0.128. This is a convention check, not a pixel-accurate cartographic registration."
+          }
+        }
+      },
+      "profile": {
+        "kind": "regolith",
+        "linear_reflectance": [
+          0.24,
+          0.11,
+          0.055
+        ],
+        "contrast": 0.18,
+        "seed": 3512254017
+      },
+      "description": "Iron-oxide dust over darker basaltic terrain.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "jupiter": {
+      "name": "Jupiter",
+      "source_status": "MIXED",
+      "maps": {
+        "color": {
+          "body": "jupiter",
+          "role": "color",
+          "source_url": "https://svs.gsfc.nasa.gov/vis/a010000/a012000/a012021/Hubble_Jupiter_color_global_map_2015a.tif",
+          "source_page": "https://svs.gsfc.nasa.gov/12021/",
+          "credit": "NASA/GSFC, NASA/ESA HST, Amy Simon, Michael Wong, Glenn Orton",
+          "usage": "NASA educational/informational reuse with source credit; no endorsement.",
+          "rights_url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+          "max_width": 4096,
+          "color_space": "sRGB",
+          "projection": "equirectangular",
+          "north_up": true,
+          "longitude": "east increasing; center longitude 0 degrees",
+          "transform": "opal",
+          "source_status": "MIXED",
+          "flattening_ratio": 1.0693750560923805,
+          "roll_half": true,
+          "fill_dark": true,
+          "original_name": "jupiter_2015_color.tif",
+          "observation_year": 2015,
+          "acknowledgement": "This work used data acquired from the NASA/ESA HST Space Telescope, associated with OPAL program (PI: Simon, GO13937), and archived by the Space Telescope Science Institute, which is operated by the Association of Universities for Research in Astronomy, Inc., under NASA contract NAS 5-26555. All maps are available at http://dx.doi.org/10.17909/T9G593.",
+          "notes": "2015 Hubble OPAL RGB map. Polar gaps reconstructed. Historical Great Red Spot, not its 2026 position or shape.",
+          "radiometric_treatment": "Display RGB normalized to approximate reflectance palette. Gray maps tinted by composition; OPAL ice-giant preview channels chromatically normalized. Not measured spectral reflectance or BRDF.",
+          "coverage_mask_note": "Conservative latitude masks exclude unobserved limbs, unstable color at coverage edges, and Saturn ring contamination. Missing rows contain interpolated latitude means, not invented storms.",
+          "coverage_path": "textures/jupiter_coverage.png",
+          "coverage_sha256": "e0bdfa3d51092b9a8824de039c19df70c60bbc348a4aaa9f17547fd22a9041fd",
+          "path": "textures/jupiter_color.png",
+          "sha256": "7f5cecf466c9be2abb43d5e065c7b4dc41bb106fc4a8780cc71858c5a6848574",
+          "original_path": "textures/originals/jupiter_2015_color.tif",
+          "original_sha256": "c3b915227ef88899a07a2b62584d9303d77d3491b9bb7de8824fb6df4a52f7b2",
+          "original_dimensions": [
+            3600,
+            1800
+          ],
+          "dimensions": [
+            3600,
+            1800
+          ],
+          "valid_pixel_fraction_before_fill": 0.8333333134651184,
+          "retrieved_utc": "2026-09-05T10:38:06.667856+00:00",
+          "output_longitude": "center 0 degrees",
+          "coverage_interpretation": "Conservative visualization mask based on near-black pixels and, for OPAL, latitude limits. Not a mission-supplied validity product. Some dark or shadowed pixels may be reconstructed.",
+          "readme_url": "https://archive.stsci.edu/hlsps/opal/cycle22/jupiter/hlsp_opal_hst_wfc3-uvis_jupiter-2015_all_v2_readme.txt",
+          "uv_registration": {
+            "status": "SOURCE_DOCUMENTED",
+            "raster_center_east_deg": 0.0,
+            "u_scale": 1.0,
+            "v_scale": 1.0,
+            "u_offset_cycles": 0.0,
+            "v_offset_cycles": 0.0,
+            "source_transforms_already_baked": true,
+            "reference_urls": [
+              "https://archive.stsci.edu/hlsps/opal/cycle22/jupiter/hlsp_opal_hst_wfc3-uvis_jupiter-2015_all_v2_readme.txt"
+            ],
+            "note": "Prepared raster center is longitude 0. Source transforms are already baked into the image. The source spanned 0 to 360 degrees and was shifted by half a width."
+          }
+        }
+      },
+      "profile": {
+        "kind": "gas",
+        "linear_reflectance": [
+          0.52,
+          0.43,
+          0.32
+        ],
+        "contrast": 0.02,
+        "seed": 513590134
+      },
+      "description": "Observed Hubble cloud bands; no solid rock surface.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "saturn": {
+      "name": "Saturn",
+      "source_status": "MIXED",
+      "maps": {
+        "color": {
+          "body": "saturn",
+          "role": "color",
+          "source_url": "https://archive.stsci.edu/hlsps/opal/cycle30/saturn/hlsp_opal_hst_wfc3-uvis_saturn-2023b_f395n-f502n-f631n_v1_globalmap.tif",
+          "source_page": "https://archive.stsci.edu/hlsp/opal",
+          "credit": "NASA/ESA HST, Amy Simon and OPAL team; STScI/AURA",
+          "usage": "NASA educational/informational reuse with source credit; no endorsement.",
+          "rights_url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+          "max_width": 4096,
+          "color_space": "sRGB",
+          "projection": "equirectangular",
+          "north_up": true,
+          "longitude": "east increasing; center longitude 0 degrees",
+          "transform": "opal",
+          "source_status": "MIXED",
+          "flattening_ratio": 1.1086012802589948,
+          "flip_x": false,
+          "roll_half": true,
+          "observation_year": 2023,
+          "fill_dark": true,
+          "acknowledgement": "This work used data acquired from the NASA/ESA HST Space Telescope, associated with OPAL program (PI: Simon, GO13937), and archived by the Space Telescope Science Institute, which is operated by the Association of Universities for Research in Astronomy, Inc., under NASA contract NAS 5-26555. All maps are available at http://dx.doi.org/10.17909/T9G593.",
+          "readme_url": "https://archive.stsci.edu/hlsps/opal/cycle30/saturn/hlsp_opal_hst_wfc3-uvis_saturn-2023_all_v1_readme.txt",
+          "notes": "Observed RGB filter composite, arbitrary display stretch and Minnaert correction. Missing poles/coverage reconstructed. Static weather, not a forecast.",
+          "visible_color_note": "Suppressed narrow-band preview chroma to approximate pale visible Saturn colors. Band brightness remains observation-derived; color is reconstructed.",
+          "radiometric_treatment": "Display RGB normalized to approximate reflectance palette. Gray maps tinted by composition; OPAL ice-giant preview channels chromatically normalized. Not measured spectral reflectance or BRDF.",
+          "coverage_mask_note": "Conservative latitude masks exclude unobserved limbs, unstable color at coverage edges, and Saturn ring contamination. Missing rows contain interpolated latitude means, not invented storms.",
+          "coverage_path": "textures/saturn_coverage.png",
+          "coverage_sha256": "97bb08e1cfb1479f5cebe9a3f1f660d1287f23d7b406abeaec0fb01d326c3733",
+          "path": "textures/saturn_color.png",
+          "sha256": "1ff2c8844bfde515354df3c083acd7e2080a31c0394a83dfde25eb6d5ae09f13",
+          "original_path": "textures/originals/saturn_color.tif",
+          "original_sha256": "e2b8d18d35f00b85e27bed0956acbf36645ad95c494eeaabae8b3e03abd8d452",
+          "original_dimensions": [
+            1800,
+            900
+          ],
+          "dimensions": [
+            1800,
+            900
+          ],
+          "valid_pixel_fraction_before_fill": 0.5666666626930237,
+          "retrieved_utc": "2026-09-05T10:44:25.575931+00:00",
+          "output_longitude": "center 0 degrees",
+          "coverage_interpretation": "Conservative visualization mask based on near-black pixels and, for OPAL, latitude limits. Not a mission-supplied validity product. Some dark or shadowed pixels may be reconstructed.",
+          "uv_registration": {
+            "status": "SOURCE_DOCUMENTED",
+            "raster_center_east_deg": 0.0,
+            "u_scale": 1.0,
+            "v_scale": 1.0,
+            "u_offset_cycles": 0.0,
+            "v_offset_cycles": 0.0,
+            "source_transforms_already_baked": true,
+            "reference_urls": [
+              "https://archive.stsci.edu/hlsps/opal/cycle30/saturn/hlsp_opal_hst_wfc3-uvis_saturn-2023_all_v1_readme.txt"
+            ],
+            "note": "Prepared raster center is longitude 0. Source transforms are already baked into the image. The source spanned 0 to 360 degrees and was shifted by half a width."
+          }
+        }
+      },
+      "profile": {
+        "kind": "gas",
+        "linear_reflectance": [
+          0.58,
+          0.49,
+          0.34
+        ],
+        "contrast": 0.015,
+        "seed": 3112744323
+      },
+      "description": "Observed Hubble ammonia-cloud envelope beneath hydrocarbon haze.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "uranus": {
+      "name": "Uranus",
+      "source_status": "MIXED",
+      "maps": {
+        "color": {
+          "body": "uranus",
+          "role": "color",
+          "source_url": "https://archive.stsci.edu/hlsps/opal/cycle30/uranus/hlsp_opal_hst_wfc3-uvis_uranus-2022a_f467m-f547m-f657n_v1_globalmap.tif",
+          "source_page": "https://archive.stsci.edu/hlsp/opal",
+          "credit": "NASA/ESA HST, Amy Simon and OPAL team; STScI/AURA",
+          "usage": "NASA educational/informational reuse with source credit; no endorsement.",
+          "rights_url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+          "max_width": 4096,
+          "color_space": "sRGB",
+          "projection": "equirectangular",
+          "north_up": true,
+          "longitude": "east increasing; center longitude 0 degrees",
+          "transform": "opal",
+          "source_status": "MIXED",
+          "flattening_ratio": 1.0234653425699756,
+          "flip_x": true,
+          "roll_half": true,
+          "observation_year": 2022,
+          "fill_dark": true,
+          "acknowledgement": "This work used data acquired from the NASA/ESA HST Space Telescope, associated with OPAL program (PI: Simon, GO13937), and archived by the Space Telescope Science Institute, which is operated by the Association of Universities for Research in Astronomy, Inc., under NASA contract NAS 5-26555. All maps are available at http://dx.doi.org/10.17909/T9G593.",
+          "readme_url": "https://archive.stsci.edu/hlsps/opal/cycle30/uranus/hlsp_opal_hst_wfc3-uvis_uranus-2022_all_v1_readme.txt",
+          "notes": "Observed RGB filter composite, arbitrary display stretch and Minnaert correction. Missing poles/coverage reconstructed. Static weather, not a forecast.",
+          "inclusive_grid_conversion": "721x361 endpoint grid averaged to 720x360 cell centers before longitude shift.",
+          "radiometric_treatment": "Display RGB normalized to approximate reflectance palette. Gray maps tinted by composition; OPAL ice-giant preview channels chromatically normalized. Not measured spectral reflectance or BRDF.",
+          "coverage_mask_note": "Conservative latitude masks exclude unobserved limbs, unstable color at coverage edges, and Saturn ring contamination. Missing rows contain interpolated latitude means, not invented storms.",
+          "coverage_path": "textures/uranus_coverage.png",
+          "coverage_sha256": "b01f16161a2f1da063ff241658ed358fb1452de10f555c718a6265581c9590de",
+          "path": "textures/uranus_color.png",
+          "sha256": "8d326059274c3868226535c8da80ec2e31c1ccb1186d29c8fae6cd9296f0bd46",
+          "original_path": "textures/originals/uranus_color.tif",
+          "original_sha256": "20cf1b647fc9939b25ced96529a64a588245c0be596249649fa5309fa35ec46f",
+          "original_dimensions": [
+            721,
+            361
+          ],
+          "dimensions": [
+            720,
+            360
+          ],
+          "valid_pixel_fraction_before_fill": 0.5666666626930237,
+          "retrieved_utc": "2026-09-05T10:46:17.619022+00:00",
+          "output_longitude": "center 0 degrees",
+          "coverage_interpretation": "Conservative visualization mask based on near-black pixels and, for OPAL, latitude limits. Not a mission-supplied validity product. Some dark or shadowed pixels may be reconstructed.",
+          "uv_registration": {
+            "status": "SOURCE_DOCUMENTED",
+            "raster_center_east_deg": 0.0,
+            "u_scale": 1.0,
+            "v_scale": 1.0,
+            "u_offset_cycles": 0.0,
+            "v_offset_cycles": 0.0,
+            "source_transforms_already_baked": true,
+            "reference_urls": [
+              "https://archive.stsci.edu/hlsps/opal/cycle30/uranus/hlsp_opal_hst_wfc3-uvis_uranus-2022_all_v1_readme.txt"
+            ],
+            "note": "Prepared raster center is longitude 0. Source transforms are already baked into the image. The source spanned 0 to 360 degrees and was shifted by half a width. East-increasing-left source columns were flipped before the half-width shift."
+          }
+        }
+      },
+      "profile": {
+        "kind": "gas",
+        "linear_reflectance": [
+          0.39,
+          0.6,
+          0.62
+        ],
+        "contrast": 0.008,
+        "seed": 3989888976
+      },
+      "description": "Methane absorption, pale cyan visible envelope; observed polar haze.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "neptune": {
+      "name": "Neptune",
+      "source_status": "MIXED",
+      "maps": {
+        "color": {
+          "body": "neptune",
+          "role": "color",
+          "source_url": "https://archive.stsci.edu/hlsps/opal/cycle30/neptune/hlsp_opal_hst_wfc3-uvis_neptune-2023b_f467m-f547m-f657n_v1_globalmap.tif",
+          "source_page": "https://archive.stsci.edu/hlsp/opal",
+          "credit": "NASA/ESA HST, Amy Simon and OPAL team; STScI/AURA",
+          "usage": "NASA educational/informational reuse with source credit; no endorsement.",
+          "rights_url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+          "max_width": 4096,
+          "color_space": "sRGB",
+          "projection": "equirectangular",
+          "north_up": true,
+          "longitude": "east increasing; center longitude 0 degrees",
+          "transform": "opal",
+          "source_status": "MIXED",
+          "flattening_ratio": 1.0173780863563535,
+          "flip_x": false,
+          "roll_half": true,
+          "observation_year": 2023,
+          "fill_dark": true,
+          "acknowledgement": "This work used data acquired from the NASA/ESA HST Space Telescope, associated with OPAL program (PI: Simon, GO13937), and archived by the Space Telescope Science Institute, which is operated by the Association of Universities for Research in Astronomy, Inc., under NASA contract NAS 5-26555. All maps are available at http://dx.doi.org/10.17909/T9G593.",
+          "readme_url": "https://archive.stsci.edu/hlsps/opal/cycle30/neptune/hlsp_opal_hst_wfc3-uvis_neptune-2023_all_v1_readme.txt",
+          "notes": "Observed RGB filter composite, arbitrary display stretch and Minnaert correction. Missing poles/coverage reconstructed. Static weather, not a forecast.",
+          "inclusive_grid_conversion": "721x361 endpoint grid averaged to 720x360 cell centers before longitude shift.",
+          "radiometric_treatment": "Display RGB normalized to approximate reflectance palette. Gray maps tinted by composition; OPAL ice-giant preview channels chromatically normalized. Not measured spectral reflectance or BRDF.",
+          "coverage_mask_note": "Conservative latitude masks exclude unobserved limbs, unstable color at coverage edges, and Saturn ring contamination. Missing rows contain interpolated latitude means, not invented storms.",
+          "coverage_path": "textures/neptune_coverage.png",
+          "coverage_sha256": "62b0a3cdc3b1fb2695bf565a4efbda432727afb31d96ab25bc837b794828ca39",
+          "path": "textures/neptune_color.png",
+          "sha256": "d4da1d6c034b24b16be87a659b898a4990f5f4485163e475935073e1fe027bb2",
+          "original_path": "textures/originals/neptune_color.tif",
+          "original_sha256": "13eddf341ef4947a8431cd1057df0a4e35ba6d478fc09ca462fc03c3100700a5",
+          "original_dimensions": [
+            721,
+            361
+          ],
+          "dimensions": [
+            720,
+            360
+          ],
+          "valid_pixel_fraction_before_fill": 0.5658796429634094,
+          "retrieved_utc": "2026-09-05T10:46:17.729286+00:00",
+          "output_longitude": "center 0 degrees",
+          "coverage_interpretation": "Conservative visualization mask based on near-black pixels and, for OPAL, latitude limits. Not a mission-supplied validity product. Some dark or shadowed pixels may be reconstructed.",
+          "uv_registration": {
+            "status": "SOURCE_DOCUMENTED",
+            "raster_center_east_deg": 0.0,
+            "u_scale": 1.0,
+            "v_scale": 1.0,
+            "u_offset_cycles": 0.0,
+            "v_offset_cycles": 0.0,
+            "source_transforms_already_baked": true,
+            "reference_urls": [
+              "https://archive.stsci.edu/hlsps/opal/cycle30/neptune/hlsp_opal_hst_wfc3-uvis_neptune-2023_all_v1_readme.txt"
+            ],
+            "note": "Prepared raster center is longitude 0. Source transforms are already baked into the image. The source spanned 0 to 360 degrees and was shifted by half a width."
+          }
+        }
+      },
+      "profile": {
+        "kind": "gas",
+        "linear_reflectance": [
+          0.31,
+          0.48,
+          0.6
+        ],
+        "contrast": 0.012,
+        "seed": 3079602225
+      },
+      "description": "Methane absorption; observed Hubble color, not Voyager's exaggerated deep blue.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "ceres": {
+      "name": "Ceres",
+      "source_status": "MIXED",
+      "maps": {
+        "color": {
+          "body": "ceres",
+          "role": "color",
+          "source_url": "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/Ceres_Dawn_FC_DLR_global_20ppd_Oct2015.tif",
+          "source_page": "https://sbn.psi.edu/pds/resource/dawn/dwncfcmosaics.html",
+          "credit": "NASA/JPL-Caltech/UCLA/MPS/DLR/IDA/USGS, Thomas Roatsch and Dawn FC team",
+          "usage": "NASA educational/informational reuse with source credit; no endorsement.",
+          "rights_url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+          "max_width": 4096,
+          "color_space": "sRGB",
+          "projection": "equirectangular",
+          "north_up": true,
+          "longitude": "east increasing; center longitude 0 degrees",
+          "transform": "gray",
+          "source_status": "MIXED",
+          "fill_dark": true,
+          "roll_half": true,
+          "readme_url": "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/Ceres_Dawn_FC_DLR_global_20ppd_Oct2015_pds3.lbl",
+          "notes": "Dawn FC clear-filter 2015 global mosaic, 400 m/pixel. Measured morphology with approximate neutral reflectance.",
+          "radiometric_treatment": "Display RGB normalized to approximate reflectance palette. Gray maps tinted by composition; OPAL ice-giant preview channels chromatically normalized. Not measured spectral reflectance or BRDF.",
+          "coverage_path": "textures/ceres_coverage.png",
+          "coverage_sha256": "e542fc754565aca1a694f2257b10ea74cb7ba0d0dc8b32707bf260425a4cc74a",
+          "path": "textures/ceres_color.png",
+          "sha256": "6e131404501b4c09d908a5af8fbe2656f33c00b77bcf23d2459c3eb9e661ce97",
+          "original_path": "textures/originals/ceres_color.tif",
+          "original_sha256": "920f65e7d0718c9f8d5e86783f35e0b466096251a8c1f2d01a7748a6d534c154",
+          "original_dimensions": [
+            7383,
+            3691
+          ],
+          "dimensions": [
+            4096,
+            2048
+          ],
+          "valid_pixel_fraction_before_fill": 0.9635692834854126,
+          "retrieved_utc": "2026-09-05T10:37:52.815338+00:00",
+          "output_longitude": "center 0 degrees",
+          "coverage_interpretation": "Conservative visualization mask based on near-black pixels and, for OPAL, latitude limits. Not a mission-supplied validity product. Some dark or shadowed pixels may be reconstructed.",
+          "uv_registration": {
+            "status": "SOURCE_DOCUMENTED",
+            "raster_center_east_deg": 0.0,
+            "u_scale": 1.0,
+            "v_scale": 1.0,
+            "u_offset_cycles": 0.0,
+            "v_offset_cycles": 0.0,
+            "source_transforms_already_baked": true,
+            "reference_urls": [
+              "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/Ceres_Dawn_FC_DLR_global_20ppd_Oct2015_pds3.lbl"
+            ],
+            "note": "Prepared raster center is longitude 0. Source transforms are already baked into the image. The source spanned 0 to 360 degrees and was shifted by half a width."
+          }
+        }
+      },
+      "profile": {
+        "kind": "carbonaceous",
+        "linear_reflectance": [
+          0.085,
+          0.08,
+          0.074
+        ],
+        "contrast": 0.14,
+        "seed": 2648457229
+      },
+      "description": "Dark hydrated minerals and carbonates; bright salts occur locally.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "pluto": {
+      "name": "Pluto",
+      "source_status": "MIXED",
+      "maps": {
+        "color": {
+          "body": "pluto",
+          "role": "color",
+          "source_url": "https://assets.science.nasa.gov/content/dam/science/psd/solar/2023/09/p/l/pluto_color_mapmosaic.jpg",
+          "source_page": "https://science.nasa.gov/resource/pluto-global-color-map/",
+          "credit": "NASA/Johns Hopkins University Applied Physics Laboratory/Southwest Research Institute",
+          "usage": "NASA educational/informational reuse with source credit; no endorsement.",
+          "rights_url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+          "max_width": 4096,
+          "color_space": "sRGB",
+          "projection": "equirectangular",
+          "north_up": true,
+          "longitude": "east increasing; center longitude 180 degrees, Sputnik Planitia near center",
+          "transform": "pluto",
+          "source_status": "MIXED",
+          "roll_half": true,
+          "notes": "2015 MVIC color mosaic. Northern/equatorial coverage only; unknown southern latitudes reconstructed.",
+          "fill_dark": true,
+          "radiometric_treatment": "Display RGB normalized to approximate reflectance palette. Gray maps tinted by composition; OPAL ice-giant preview channels chromatically normalized. Not measured spectral reflectance or BRDF.",
+          "coverage_path": "textures/pluto_coverage.png",
+          "coverage_sha256": "55b247eec2415c3f828f5ecec30330fbe253f38d740ba93d5cad31cf6511dd16",
+          "path": "textures/pluto_color.png",
+          "sha256": "587377a28d19787835bcf8b8ac805f824072f0ab52a6148dc66fa13a3f51496b",
+          "original_path": "textures/originals/pluto_color.jpg",
+          "original_sha256": "d63da5ee9eab8d0b98ebef3c0cdc3a92676d7c9b247b2383294fb5da5c67a71a",
+          "original_dimensions": [
+            5926,
+            2963
+          ],
+          "dimensions": [
+            4096,
+            2048
+          ],
+          "valid_pixel_fraction_before_fill": 0.6973134279251099,
+          "retrieved_utc": "2026-09-05T10:40:49.297304+00:00",
+          "output_longitude": "center 0 degrees",
+          "coverage_interpretation": "Conservative visualization mask based on near-black pixels and, for OPAL, latitude limits. Not a mission-supplied validity product. Some dark or shadowed pixels may be reconstructed.",
+          "uv_registration": {
+            "status": "LANDMARK_CHECKED",
+            "raster_center_east_deg": 0.0,
+            "u_scale": 1.0,
+            "v_scale": 1.0,
+            "u_offset_cycles": 0.0,
+            "v_offset_cycles": 0.0,
+            "source_transforms_already_baked": true,
+            "reference_urls": [
+              "https://science.nasa.gov/resource/pluto-global-color-map/"
+            ],
+            "note": "Prepared raster center is longitude 0. Source transforms are already baked into the image. The source spanned 0 to 360 degrees and was shifted by half a width. Convention checked from Sputnik Planitia near the source map center. This is not a pixel-accurate frame fit."
+          }
+        }
+      },
+      "profile": {
+        "kind": "volatile",
+        "linear_reflectance": [
+          0.55,
+          0.4,
+          0.29
+        ],
+        "contrast": 0.08,
+        "seed": 3297463797
+      },
+      "description": "Nitrogen and methane frost with reddish organic material; New Horizons partial coverage.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "haumea": {
+      "name": "Haumea",
+      "source_status": "RECONSTRUCTION",
+      "maps": {},
+      "profile": {
+        "kind": "ice",
+        "linear_reflectance": [
+          0.65,
+          0.67,
+          0.69
+        ],
+        "contrast": 0.05,
+        "seed": 3267792838
+      },
+      "description": "Crystalline water ice; unlocated modest reddish patch is not fabricated.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "makemake": {
+      "name": "Makemake",
+      "source_status": "RECONSTRUCTION",
+      "maps": {},
+      "profile": {
+        "kind": "volatile",
+        "linear_reflectance": [
+          0.55,
+          0.33,
+          0.21
+        ],
+        "contrast": 0.08,
+        "seed": 2264117871
+      },
+      "description": "Methane-rich frost and red irradiation products; unresolved geography.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "eris": {
+      "name": "Eris",
+      "source_status": "RECONSTRUCTION",
+      "maps": {},
+      "profile": {
+        "kind": "volatile",
+        "linear_reflectance": [
+          0.84,
+          0.85,
+          0.86
+        ],
+        "contrast": 0.018,
+        "seed": 2719951012
+      },
+      "description": "Bright methane frost; little observed rotational contrast.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "orcus": {
+      "name": "Orcus",
+      "source_status": "RECONSTRUCTION",
+      "maps": {},
+      "profile": {
+        "kind": "ice",
+        "linear_reflectance": [
+          0.22,
+          0.23,
+          0.24
+        ],
+        "contrast": 0.055,
+        "seed": 314263880
+      },
+      "description": "Neutral-colored water ice and darker material.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "quaoar": {
+      "name": "Quaoar",
+      "source_status": "RECONSTRUCTION",
+      "maps": {},
+      "profile": {
+        "kind": "volatile",
+        "linear_reflectance": [
+          0.2,
+          0.13,
+          0.095
+        ],
+        "contrast": 0.08,
+        "seed": 3642080751
+      },
+      "description": "Reddish surface with water ice and methane signatures.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "gonggong": {
+      "name": "Gonggong",
+      "source_status": "RECONSTRUCTION",
+      "maps": {},
+      "profile": {
+        "kind": "volatile",
+        "linear_reflectance": [
+          0.16,
+          0.075,
+          0.045
+        ],
+        "contrast": 0.1,
+        "seed": 3430050324
+      },
+      "description": "Very red volatile-rich body; broad color constraints only.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "sedna": {
+      "name": "Sedna",
+      "source_status": "RECONSTRUCTION",
+      "maps": {},
+      "profile": {
+        "kind": "organic",
+        "linear_reflectance": [
+          0.27,
+          0.12,
+          0.065
+        ],
+        "contrast": 0.09,
+        "seed": 946863481
+      },
+      "description": "Strong red spectral slope and probable volatile ices.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "salacia": {
+      "name": "Salacia",
+      "source_status": "RECONSTRUCTION",
+      "maps": {},
+      "profile": {
+        "kind": "ice",
+        "linear_reflectance": [
+          0.043,
+          0.046,
+          0.048
+        ],
+        "contrast": 0.055,
+        "seed": 2063094192
+      },
+      "description": "Dark neutral trans-Neptunian surface.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "varda": {
+      "name": "Varda",
+      "source_status": "RECONSTRUCTION",
+      "maps": {},
+      "profile": {
+        "kind": "ice",
+        "linear_reflectance": [
+          0.095,
+          0.079,
+          0.067
+        ],
+        "contrast": 0.065,
+        "seed": 3494171201
+      },
+      "description": "Moderately red unresolved trans-Neptunian surface.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "varuna": {
+      "name": "Varuna",
+      "source_status": "RECONSTRUCTION",
+      "maps": {},
+      "profile": {
+        "kind": "ice",
+        "linear_reflectance": [
+          0.13,
+          0.092,
+          0.067
+        ],
+        "contrast": 0.09,
+        "seed": 622864183
+      },
+      "description": "Red water-ice-bearing surface.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "ixion": {
+      "name": "Ixion",
+      "source_status": "RECONSTRUCTION",
+      "maps": {},
+      "profile": {
+        "kind": "organic",
+        "linear_reflectance": [
+          0.15,
+          0.085,
+          0.06
+        ],
+        "contrast": 0.075,
+        "seed": 347338591
+      },
+      "description": "Red trans-Neptunian irradiation products; no resolved terrain.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "moon": {
+      "name": "Moon",
+      "source_status": "MIXED",
+      "maps": {
+        "height": {
+          "body": "moon",
+          "role": "height",
+          "source_url": "https://svs.gsfc.nasa.gov/vis/a000000/a004700/a004720/ldem_16.tif",
+          "source_page": "https://svs.gsfc.nasa.gov/4720/",
+          "credit": "NASA/GSFC/MIT, LOLA science team, Ernie Wright",
+          "usage": "NASA educational/informational reuse with source credit; no endorsement.",
+          "rights_url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+          "max_width": 4096,
+          "color_space": "Non-Color",
+          "projection": "equirectangular",
+          "north_up": true,
+          "longitude": "east increasing; center longitude 0 degrees",
+          "transform": "height",
+          "source_status": "OBSERVED",
+          "units": "km relative to radius 1737.4 km",
+          "notes": "Measured LOLA elevation. No artistic height amplification.",
+          "path": "textures/moon_height_km.tif",
+          "sha256": "efe61c55da57d58b59eb92481766403c14ce5e88516be6ebca7514bcf27ae23b",
+          "original_path": "textures/originals/moon_height.tif",
+          "original_sha256": "1ea42bf44f7e9d694f79c3afa7145f97fbf06cc67372067d9fe73dce43bad796",
+          "original_dimensions": [
+            5760,
+            2880
+          ],
+          "dimensions": [
+            4096,
+            2048
+          ],
+          "valid_pixel_fraction_before_fill": 1.0,
+          "retrieved_utc": "2026-09-05T10:37:37.761712+00:00",
+          "output_longitude": "east increasing; center longitude 0 degrees",
+          "uv_registration": {
+            "status": "SOURCE_DOCUMENTED",
+            "raster_center_east_deg": 0.0,
+            "u_scale": 1.0,
+            "v_scale": 1.0,
+            "u_offset_cycles": 0.0,
+            "v_offset_cycles": 0.0,
+            "source_transforms_already_baked": true,
+            "reference_urls": [
+              "https://svs.gsfc.nasa.gov/4720/"
+            ],
+            "note": "Prepared raster center is longitude 0. Source transforms are already baked into the image."
+          }
+        },
+        "color": {
+          "body": "moon",
+          "role": "color",
+          "source_url": "https://svs.gsfc.nasa.gov/vis/a000000/a004700/a004720/lroc_color_16bit_srgb_4k.tif",
+          "source_page": "https://svs.gsfc.nasa.gov/4720/",
+          "credit": "NASA/GSFC/Arizona State University, LROC, Ernie Wright",
+          "usage": "NASA educational/informational reuse with source credit; no endorsement.",
+          "rights_url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+          "max_width": 4096,
+          "color_space": "sRGB",
+          "projection": "equirectangular",
+          "north_up": true,
+          "longitude": "east increasing; center longitude 0 degrees",
+          "transform": "copy",
+          "source_status": "MIXED",
+          "notes": "2025 color processing, polar LOLA albedo fill and small inpainted dropouts. Optimized for visualization.",
+          "path": "textures/moon_color.png",
+          "sha256": "ec48426f7173723f86acc0e4f88c805145290a3f657e79c373dc6e09cc12febc",
+          "original_path": "textures/originals/moon_color.tif",
+          "original_sha256": "9731fa8af425b6c2f88f277ecca82bf8c603f3743894f64ed7b25c5bfefa22ff",
+          "original_dimensions": [
+            4096,
+            2048
+          ],
+          "dimensions": [
+            4096,
+            2048
+          ],
+          "valid_pixel_fraction_before_fill": 1.0,
+          "retrieved_utc": "2026-09-05T10:37:46.551644+00:00",
+          "output_longitude": "east increasing; center longitude 0 degrees",
+          "uv_registration": {
+            "status": "SOURCE_DOCUMENTED",
+            "raster_center_east_deg": 0.0,
+            "u_scale": 1.0,
+            "v_scale": 1.0,
+            "u_offset_cycles": 0.0,
+            "v_offset_cycles": 0.0,
+            "source_transforms_already_baked": true,
+            "reference_urls": [
+              "https://svs.gsfc.nasa.gov/4720/"
+            ],
+            "note": "Prepared raster center is longitude 0. Source transforms are already baked into the image."
+          }
+        }
+      },
+      "profile": {
+        "kind": "regolith",
+        "linear_reflectance": [
+          0.13,
+          0.12,
+          0.11
+        ],
+        "contrast": 0.1,
+        "seed": 2658710590
+      },
+      "description": "LROC photometric color composite and LOLA measured elevation.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "phobos": {
+      "name": "Phobos",
+      "source_status": "MIXED",
+      "maps": {
+        "color": {
+          "body": "phobos",
+          "role": "color",
+          "source_url": "https://space.jpl.nasa.gov/tmaps/pix/mar1kuu2.jpg",
+          "source_page": "https://space.jpl.nasa.gov/tmaps/mars.html",
+          "credit": "NASA/JPL/Caltech/USGS; Io color processing by David Seal",
+          "usage": "NASA educational/informational reuse with source credit; no endorsement.",
+          "rights_url": "https://www.jpl.nasa.gov/jpl-image-use-policy/",
+          "max_width": 4096,
+          "color_space": "sRGB",
+          "projection": "equirectangular",
+          "north_up": true,
+          "longitude": "Legacy JPL/USGS map convention retained. Absolute prime-meridian registration not verified.",
+          "transform": "gray",
+          "source_status": "MIXED",
+          "fill_dark": true,
+          "notes": "Viking/Voyager-era observed mosaic. Uneven resolution, illumination residuals and gaps. Neutral regolith/ice fills in no-data areas; no upscaling or invented measured topography.",
+          "radiometric_treatment": "Display RGB normalized to approximate reflectance palette. Gray maps tinted by composition; OPAL ice-giant preview channels chromatically normalized. Not measured spectral reflectance or BRDF.",
+          "coverage_path": "textures/phobos_coverage.png",
+          "coverage_sha256": "c694a9d464cce88f33af80ba7780ffc5fc391dbcd35a7b8666a85e50e20b51d1",
+          "path": "textures/phobos_color.png",
+          "sha256": "484cd477da0d1f026e660600c6b8202fd42788fb9eeafb8ebfaf4c86970408d0",
+          "original_path": "textures/originals/phobos_color.jpg",
+          "original_sha256": "84eb21c08626a0558d1e88ccb666bd1e914606146423f9ebcf6c09953d7543af",
+          "original_dimensions": [
+            1440,
+            720
+          ],
+          "dimensions": [
+            1440,
+            720
+          ],
+          "valid_pixel_fraction_before_fill": 1.0,
+          "retrieved_utc": "2026-09-05T10:38:06.041428+00:00",
+          "output_longitude": "Legacy JPL/USGS map convention retained. Absolute prime-meridian registration not verified.",
+          "coverage_interpretation": "Conservative visualization mask based on near-black pixels and, for OPAL, latitude limits. Not a mission-supplied validity product. Some dark or shadowed pixels may be reconstructed.",
+          "uv_registration": {
+            "status": "UNVERIFIED_LEGACY_MERIDIAN",
+            "raster_center_east_deg": null,
+            "u_scale": 1.0,
+            "v_scale": 1.0,
+            "u_offset_cycles": 0.0,
+            "v_offset_cycles": 0.0,
+            "source_transforms_already_baked": true,
+            "reference_urls": [
+              "https://space.jpl.nasa.gov/tmaps/mars.html"
+            ],
+            "note": "JPL's legacy mosaic page does not establish this raster's prime-meridian phase. Native orientation is retained with nominal zero offset. Do not claim registration to the IAU meridian."
+          }
+        }
+      },
+      "profile": {
+        "kind": "carbonaceous",
+        "linear_reflectance": [
+          0.071,
+          0.059,
+          0.05
+        ],
+        "contrast": 0.11,
+        "seed": 3025826106
+      },
+      "description": "Very dark reddish dusty regolith.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "deimos": {
+      "name": "Deimos",
+      "source_status": "MIXED",
+      "maps": {
+        "color": {
+          "body": "deimos",
+          "role": "color",
+          "source_url": "https://space.jpl.nasa.gov/tmaps/pix/mar2kuu2.jpg",
+          "source_page": "https://space.jpl.nasa.gov/tmaps/mars.html",
+          "credit": "NASA/JPL/Caltech/USGS; Io color processing by David Seal",
+          "usage": "NASA educational/informational reuse with source credit; no endorsement.",
+          "rights_url": "https://www.jpl.nasa.gov/jpl-image-use-policy/",
+          "max_width": 4096,
+          "color_space": "sRGB",
+          "projection": "equirectangular",
+          "north_up": true,
+          "longitude": "Legacy JPL/USGS map convention retained. Absolute prime-meridian registration not verified.",
+          "transform": "gray",
+          "source_status": "MIXED",
+          "fill_dark": true,
+          "notes": "Viking/Voyager-era observed mosaic. Uneven resolution, illumination residuals and gaps. Neutral regolith/ice fills in no-data areas; no upscaling or invented measured topography.",
+          "radiometric_treatment": "Display RGB normalized to approximate reflectance palette. Gray maps tinted by composition; OPAL ice-giant preview channels chromatically normalized. Not measured spectral reflectance or BRDF.",
+          "coverage_path": "textures/deimos_coverage.png",
+          "coverage_sha256": "c6b837a80cd91ed8e7ed9ba7b4a82ac9021262907f9ca89709afed33c382e9cf",
+          "path": "textures/deimos_color.png",
+          "sha256": "9fc13aa345a27310c3dd12d3579e32e34605f331cf3ecbc156598fbd64e3b5d4",
+          "original_path": "textures/originals/deimos_color.jpg",
+          "original_sha256": "e8902c5b34e634c5146e5d8d2bf352bb5f45181c715ed15644edb5f009826ed6",
+          "original_dimensions": [
+            1440,
+            720
+          ],
+          "dimensions": [
+            1440,
+            720
+          ],
+          "valid_pixel_fraction_before_fill": 0.9999614357948303,
+          "retrieved_utc": "2026-09-05T10:38:08.028341+00:00",
+          "output_longitude": "Legacy JPL/USGS map convention retained. Absolute prime-meridian registration not verified.",
+          "coverage_interpretation": "Conservative visualization mask based on near-black pixels and, for OPAL, latitude limits. Not a mission-supplied validity product. Some dark or shadowed pixels may be reconstructed.",
+          "uv_registration": {
+            "status": "UNVERIFIED_LEGACY_MERIDIAN",
+            "raster_center_east_deg": null,
+            "u_scale": 1.0,
+            "v_scale": 1.0,
+            "u_offset_cycles": 0.0,
+            "v_offset_cycles": 0.0,
+            "source_transforms_already_baked": true,
+            "reference_urls": [
+              "https://space.jpl.nasa.gov/tmaps/mars.html"
+            ],
+            "note": "JPL's legacy mosaic page does not establish this raster's prime-meridian phase. Native orientation is retained with nominal zero offset. Do not claim registration to the IAU meridian."
+          }
+        }
+      },
+      "profile": {
+        "kind": "carbonaceous",
+        "linear_reflectance": [
+          0.07,
+          0.059,
+          0.05
+        ],
+        "contrast": 0.06,
+        "seed": 1153122802
+      },
+      "description": "Dark smooth dust-covered surface.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "io": {
+      "name": "Io",
+      "source_status": "MIXED",
+      "maps": {
+        "color": {
+          "body": "io",
+          "role": "color",
+          "source_url": "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/Io_GalileoSSI-Voyager_Global_Mosaic_ClrMerge_1km.tif",
+          "source_page": "https://astrogeology.usgs.gov/search",
+          "credit": "NASA/JPL/Caltech/USGS; Galileo, Voyager and Cassini imaging teams",
+          "usage": "USGS/PDS public-use scientific mosaic; retain mission and processing-team attribution.",
+          "rights_url": "https://www.usgs.gov/information-policies-and-instructions/copyrights-and-credits",
+          "max_width": 4096,
+          "color_space": "sRGB",
+          "projection": "equirectangular",
+          "north_up": true,
+          "longitude": "East increases to raster right. West-positive source coordinate labels decrease to right. Raster spans -180 to 180 east; no shift.",
+          "transform": "copy",
+          "source_status": "MIXED",
+          "fill_dark": true,
+          "notes": "USGS mission-image global mosaic with heterogeneous source resolution and illumination. RGB merge products use processed color. Approximate reflectance, not measured BRDF.",
+          "original_name": "io_usgs_color.tif",
+          "roll_half": false,
+          "readme_url": "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/Io_GalileoSSI-Voyager_Global_Mosaic_ClrMerge_1km_pds3.lbl",
+          "radiometric_treatment": "Display RGB normalized to approximate reflectance palette. Gray maps tinted by composition; OPAL ice-giant preview channels chromatically normalized. Not measured spectral reflectance or BRDF.",
+          "coverage_path": "textures/io_coverage.png",
+          "coverage_sha256": "b2453e046936c6d3cfe9b7b2a6f5f3c61d0f849eeb22e47f27c2c3619592ddf4",
+          "path": "textures/io_color.png",
+          "sha256": "23aeaace0dd564dcbf98a870ed95d67aecc264409738436bec5c653ad6b27516",
+          "original_path": "textures/originals/io_usgs_color.tif",
+          "original_sha256": "135f88cb645bfdb4e045b380971ab2ba14e230590c96c9c86cfe7310fda881ac",
+          "original_dimensions": [
+            11445,
+            5723
+          ],
+          "dimensions": [
+            4096,
+            2048
+          ],
+          "valid_pixel_fraction_before_fill": 0.9999996423721313,
+          "retrieved_utc": "2026-09-05T10:40:54.841330+00:00",
+          "output_longitude": "East increases to raster right. West-positive source coordinate labels decrease to right. Raster spans -180 to 180 east; no shift.",
+          "coverage_interpretation": "Conservative visualization mask based on near-black pixels and, for OPAL, latitude limits. Not a mission-supplied validity product. Some dark or shadowed pixels may be reconstructed.",
+          "uv_registration": {
+            "status": "SOURCE_DOCUMENTED",
+            "raster_center_east_deg": 0.0,
+            "u_scale": 1.0,
+            "v_scale": 1.0,
+            "u_offset_cycles": 0.0,
+            "v_offset_cycles": 0.0,
+            "source_transforms_already_baked": true,
+            "reference_urls": [
+              "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/Io_GalileoSSI-Voyager_Global_Mosaic_ClrMerge_1km_pds3.lbl"
+            ],
+            "note": "Prepared raster center is longitude 0. Source transforms are already baked into the image."
+          }
+        }
+      },
+      "profile": {
+        "kind": "sulfur",
+        "linear_reflectance": [
+          0.62,
+          0.48,
+          0.2
+        ],
+        "contrast": 0.09,
+        "seed": 1075968735
+      },
+      "description": "Sulfur and sulfur-dioxide deposits with volcanic dark terrain.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "europa": {
+      "name": "Europa",
+      "source_status": "MIXED",
+      "maps": {
+        "color": {
+          "body": "europa",
+          "role": "color",
+          "source_url": "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/Europa_Voyager_GalileoSSI_global_mosaic_500m.tif",
+          "source_page": "https://astrogeology.usgs.gov/search",
+          "credit": "NASA/JPL/Caltech/USGS; Galileo, Voyager and Cassini imaging teams",
+          "usage": "USGS/PDS public-use scientific mosaic; retain mission and processing-team attribution.",
+          "rights_url": "https://www.usgs.gov/information-policies-and-instructions/copyrights-and-credits",
+          "max_width": 4096,
+          "color_space": "sRGB",
+          "projection": "equirectangular",
+          "north_up": true,
+          "longitude": "East increases to raster right. West-positive source coordinate labels decrease to right. Raster spans 0 to 360 east; shifted 180 degrees.",
+          "transform": "gray",
+          "source_status": "MIXED",
+          "fill_dark": true,
+          "notes": "USGS mission-image global mosaic with heterogeneous source resolution and illumination. RGB merge products use processed color. Approximate reflectance, not measured BRDF.",
+          "original_name": "europa_usgs_color.tif",
+          "roll_half": true,
+          "readme_url": "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/Europa_Voyager_GalileoSSI_global_mosaic_500m_pds3.lbl",
+          "radiometric_treatment": "Display RGB normalized to approximate reflectance palette. Gray maps tinted by composition; OPAL ice-giant preview channels chromatically normalized. Not measured spectral reflectance or BRDF.",
+          "coverage_path": "textures/europa_coverage.png",
+          "coverage_sha256": "8e127a51a7d844887222c50e320fcf7971cee0244575c5ee4550388c307abecd",
+          "path": "textures/europa_color.png",
+          "sha256": "5cd50e1b298aa3712b8e65a794fe30ef8a68b01fec185ba64ab681df35db90ae",
+          "original_path": "textures/originals/europa_usgs_color.tif",
+          "original_sha256": "a323f0c9ccb47d5af9902ea8297fe81f9a9708795645b80801f103c3f7c9a624",
+          "original_dimensions": [
+            19631,
+            9816
+          ],
+          "dimensions": [
+            4096,
+            2048
+          ],
+          "valid_pixel_fraction_before_fill": 0.9570217132568359,
+          "retrieved_utc": "2026-09-05T10:40:48.161916+00:00",
+          "output_longitude": "center 0 degrees",
+          "coverage_interpretation": "Conservative visualization mask based on near-black pixels and, for OPAL, latitude limits. Not a mission-supplied validity product. Some dark or shadowed pixels may be reconstructed.",
+          "uv_registration": {
+            "status": "SOURCE_DOCUMENTED",
+            "raster_center_east_deg": 0.0,
+            "u_scale": 1.0,
+            "v_scale": 1.0,
+            "u_offset_cycles": 0.0,
+            "v_offset_cycles": 0.0,
+            "source_transforms_already_baked": true,
+            "reference_urls": [
+              "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/Europa_Voyager_GalileoSSI_global_mosaic_500m_pds3.lbl"
+            ],
+            "note": "Prepared raster center is longitude 0. Source transforms are already baked into the image. The source spanned 0 to 360 degrees and was shifted by half a width."
+          }
+        }
+      },
+      "profile": {
+        "kind": "ice",
+        "linear_reflectance": [
+          0.65,
+          0.61,
+          0.51
+        ],
+        "contrast": 0.06,
+        "seed": 1194828126
+      },
+      "description": "Water-ice crust and darker irradiated non-ice material.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "ganymede": {
+      "name": "Ganymede",
+      "source_status": "MIXED",
+      "maps": {
+        "color": {
+          "body": "ganymede",
+          "role": "color",
+          "source_url": "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/Ganymede_Voyager_GalileoSSI_Global_ClrMosaic_1435m.tif",
+          "source_page": "https://astrogeology.usgs.gov/search",
+          "credit": "NASA/JPL/Caltech/USGS; Galileo, Voyager and Cassini imaging teams",
+          "usage": "USGS/PDS public-use scientific mosaic; retain mission and processing-team attribution.",
+          "rights_url": "https://www.usgs.gov/information-policies-and-instructions/copyrights-and-credits",
+          "max_width": 4096,
+          "color_space": "sRGB",
+          "projection": "equirectangular",
+          "north_up": true,
+          "longitude": "East increases to raster right. West-positive source coordinate labels decrease to right. Raster spans 0 to 360 east; shifted 180 degrees.",
+          "transform": "copy",
+          "source_status": "MIXED",
+          "fill_dark": true,
+          "notes": "USGS mission-image global mosaic with heterogeneous source resolution and illumination. RGB merge products use processed color. Approximate reflectance, not measured BRDF.",
+          "original_name": "ganymede_usgs_color.tif",
+          "roll_half": true,
+          "readme_url": "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/Ganymede_Voyager_GalileoSSI_Global_ClrMosaic_1435m_pds3.lbl",
+          "radiometric_treatment": "Display RGB normalized to approximate reflectance palette. Gray maps tinted by composition; OPAL ice-giant preview channels chromatically normalized. Not measured spectral reflectance or BRDF.",
+          "coverage_path": "textures/ganymede_coverage.png",
+          "coverage_sha256": "a1d93a5bd369e19cb13fb164407f59ff016c2a203a06d856fc005320c5c9b27f",
+          "path": "textures/ganymede_color.png",
+          "sha256": "0b4465088fc396b020c54fb210897e3b413ba764d021e5af1a00d4aa3c0dc17a",
+          "original_path": "textures/originals/ganymede_usgs_color.tif",
+          "original_sha256": "da47087e75bc530456d8206d5100ad3c687706353700b0cb44a8400957005a33",
+          "original_dimensions": [
+            11520,
+            5760
+          ],
+          "dimensions": [
+            4096,
+            2048
+          ],
+          "valid_pixel_fraction_before_fill": 0.9644540548324585,
+          "retrieved_utc": "2026-09-05T10:40:47.877002+00:00",
+          "output_longitude": "center 0 degrees",
+          "coverage_interpretation": "Conservative visualization mask based on near-black pixels and, for OPAL, latitude limits. Not a mission-supplied validity product. Some dark or shadowed pixels may be reconstructed.",
+          "uv_registration": {
+            "status": "SOURCE_DOCUMENTED",
+            "raster_center_east_deg": 0.0,
+            "u_scale": 1.0,
+            "v_scale": 1.0,
+            "u_offset_cycles": 0.0,
+            "v_offset_cycles": 0.0,
+            "source_transforms_already_baked": true,
+            "reference_urls": [
+              "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/Ganymede_Voyager_GalileoSSI_Global_ClrMosaic_1435m_pds3.lbl"
+            ],
+            "note": "Prepared raster center is longitude 0. Source transforms are already baked into the image. The source spanned 0 to 360 degrees and was shifted by half a width."
+          }
+        }
+      },
+      "profile": {
+        "kind": "ice",
+        "linear_reflectance": [
+          0.34,
+          0.3,
+          0.24
+        ],
+        "contrast": 0.07,
+        "seed": 3001779096
+      },
+      "description": "Mixed ice and dark ancient terrain.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "callisto": {
+      "name": "Callisto",
+      "source_status": "MIXED",
+      "maps": {
+        "color": {
+          "body": "callisto",
+          "role": "color",
+          "source_url": "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/Callisto_Voyager_GalileoSSI_global_mosaic_1km.tif",
+          "source_page": "https://astrogeology.usgs.gov/search",
+          "credit": "NASA/JPL/Caltech/USGS; Galileo, Voyager and Cassini imaging teams",
+          "usage": "USGS/PDS public-use scientific mosaic; retain mission and processing-team attribution.",
+          "rights_url": "https://www.usgs.gov/information-policies-and-instructions/copyrights-and-credits",
+          "max_width": 4096,
+          "color_space": "sRGB",
+          "projection": "equirectangular",
+          "north_up": true,
+          "longitude": "East increases to raster right. West-positive source coordinate labels decrease to right. Raster spans 0 to 360 east; shifted 180 degrees.",
+          "transform": "gray",
+          "source_status": "MIXED",
+          "fill_dark": true,
+          "notes": "USGS mission-image global mosaic with heterogeneous source resolution and illumination. RGB merge products use processed color. Approximate reflectance, not measured BRDF.",
+          "original_name": "callisto_usgs_color.tif",
+          "roll_half": true,
+          "readme_url": "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/Callisto_Voyager_GalileoSSI_global_mosaic_1km_pds3.lbl",
+          "radiometric_treatment": "Display RGB normalized to approximate reflectance palette. Gray maps tinted by composition; OPAL ice-giant preview channels chromatically normalized. Not measured spectral reflectance or BRDF.",
+          "coverage_path": "textures/callisto_coverage.png",
+          "coverage_sha256": "3acf53e22d09e68c73f1ec2c2a9bdae23a4cda33470079bc5cd532b76a354c41",
+          "path": "textures/callisto_color.png",
+          "sha256": "d07150c69a96f4b90d8d76c4d6e2dc5233e8687471ee634e3a599553c432f489",
+          "original_path": "textures/originals/callisto_usgs_color.tif",
+          "original_sha256": "e1f0bd2e0e05de605d067d6b5f5ededddaf31ca6c064562a1ca770f15a7dbaa3",
+          "original_dimensions": [
+            15138,
+            7569
+          ],
+          "dimensions": [
+            4096,
+            2048
+          ],
+          "valid_pixel_fraction_before_fill": 0.9620990753173828,
+          "retrieved_utc": "2026-09-05T10:40:52.514730+00:00",
+          "output_longitude": "center 0 degrees",
+          "coverage_interpretation": "Conservative visualization mask based on near-black pixels and, for OPAL, latitude limits. Not a mission-supplied validity product. Some dark or shadowed pixels may be reconstructed.",
+          "uv_registration": {
+            "status": "SOURCE_DOCUMENTED",
+            "raster_center_east_deg": 0.0,
+            "u_scale": 1.0,
+            "v_scale": 1.0,
+            "u_offset_cycles": 0.0,
+            "v_offset_cycles": 0.0,
+            "source_transforms_already_baked": true,
+            "reference_urls": [
+              "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/Callisto_Voyager_GalileoSSI_global_mosaic_1km_pds3.lbl"
+            ],
+            "note": "Prepared raster center is longitude 0. Source transforms are already baked into the image. The source spanned 0 to 360 degrees and was shifted by half a width."
+          }
+        }
+      },
+      "profile": {
+        "kind": "ice",
+        "linear_reflectance": [
+          0.16,
+          0.14,
+          0.12
+        ],
+        "contrast": 0.08,
+        "seed": 81079291
+      },
+      "description": "Dark ancient cratered ice-rock crust.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "amalthea": {
+      "name": "Amalthea",
+      "source_status": "RECONSTRUCTION",
+      "maps": {},
+      "profile": {
+        "kind": "organic",
+        "linear_reflectance": [
+          0.095,
+          0.037,
+          0.02
+        ],
+        "contrast": 0.14,
+        "seed": 1276550074
+      },
+      "description": "Very red porous surface irradiated in Jupiter's environment.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "thebe": {
+      "name": "Thebe",
+      "source_status": "RECONSTRUCTION",
+      "maps": {},
+      "profile": {
+        "kind": "organic",
+        "linear_reflectance": [
+          0.063,
+          0.039,
+          0.028
+        ],
+        "contrast": 0.14,
+        "seed": 2642381001
+      },
+      "description": "Dark reddish inner Jovian moon.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "himalia": {
+      "name": "Himalia",
+      "source_status": "RECONSTRUCTION",
+      "maps": {},
+      "profile": {
+        "kind": "carbonaceous",
+        "linear_reflectance": [
+          0.052,
+          0.048,
+          0.042
+        ],
+        "contrast": 0.075,
+        "seed": 342034640
+      },
+      "description": "Dark C-type irregular satellite.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "elara": {
+      "name": "Elara",
+      "source_status": "RECONSTRUCTION",
+      "maps": {},
+      "profile": {
+        "kind": "carbonaceous",
+        "linear_reflectance": [
+          0.043,
+          0.04,
+          0.036
+        ],
+        "contrast": 0.065,
+        "seed": 1387240021
+      },
+      "description": "Dark neutral-to-red irregular satellite.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "mimas": {
+      "name": "Mimas",
+      "source_status": "MIXED",
+      "maps": {
+        "color": {
+          "body": "mimas",
+          "role": "color",
+          "source_url": "https://space.jpl.nasa.gov/tmaps/pix/sat1vuu2.jpg",
+          "source_page": "https://space.jpl.nasa.gov/tmaps/saturn.html",
+          "credit": "NASA/JPL/Caltech/USGS; Io color processing by David Seal",
+          "usage": "NASA educational/informational reuse with source credit; no endorsement.",
+          "rights_url": "https://www.jpl.nasa.gov/jpl-image-use-policy/",
+          "max_width": 4096,
+          "color_space": "sRGB",
+          "projection": "equirectangular",
+          "north_up": true,
+          "longitude": "Legacy JPL/USGS map convention retained. Absolute prime-meridian registration not verified.",
+          "transform": "gray",
+          "source_status": "MIXED",
+          "fill_dark": true,
+          "notes": "Viking/Voyager-era observed mosaic. Uneven resolution, illumination residuals and gaps. Neutral regolith/ice fills in no-data areas; no upscaling or invented measured topography.",
+          "radiometric_treatment": "Display RGB normalized to approximate reflectance palette. Gray maps tinted by composition; OPAL ice-giant preview channels chromatically normalized. Not measured spectral reflectance or BRDF.",
+          "coverage_path": "textures/mimas_coverage.png",
+          "coverage_sha256": "c23f4bbb61a32b9e6bd11405bb3c25b9441d08f21ea376a873c4307930b1c5b6",
+          "path": "textures/mimas_color.png",
+          "sha256": "702a04ea9c2ee058f32e88ff90902cfb304fc6f26835386d5bacaed7b0b31d1d",
+          "original_path": "textures/originals/mimas_color.jpg",
+          "original_sha256": "0f539e6cc67c0336a9a619e1e0855b6add8b90542a3aa676b9e961b59f388160",
+          "original_dimensions": [
+            1440,
+            720
+          ],
+          "dimensions": [
+            1440,
+            720
+          ],
+          "valid_pixel_fraction_before_fill": 0.9999855160713196,
+          "retrieved_utc": "2026-09-05T10:38:56.297180+00:00",
+          "output_longitude": "Legacy JPL/USGS map convention retained. Absolute prime-meridian registration not verified.",
+          "coverage_interpretation": "Conservative visualization mask based on near-black pixels and, for OPAL, latitude limits. Not a mission-supplied validity product. Some dark or shadowed pixels may be reconstructed.",
+          "uv_registration": {
+            "status": "UNVERIFIED_LEGACY_MERIDIAN",
+            "raster_center_east_deg": null,
+            "u_scale": 1.0,
+            "v_scale": 1.0,
+            "u_offset_cycles": 0.0,
+            "v_offset_cycles": 0.0,
+            "source_transforms_already_baked": true,
+            "reference_urls": [
+              "https://space.jpl.nasa.gov/tmaps/saturn.html"
+            ],
+            "note": "JPL's legacy mosaic page does not establish this raster's prime-meridian phase. Native orientation is retained with nominal zero offset. Do not claim registration to the IAU meridian."
+          }
+        }
+      },
+      "profile": {
+        "kind": "ice",
+        "linear_reflectance": [
+          0.63,
+          0.61,
+          0.57
+        ],
+        "contrast": 0.05,
+        "seed": 1731643696
+      },
+      "description": "Water ice with dark contaminants; Voyager mosaic.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "enceladus": {
+      "name": "Enceladus",
+      "source_status": "MIXED",
+      "maps": {
+        "color": {
+          "body": "enceladus",
+          "role": "color",
+          "source_url": "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/Enceladus_Cassini_ISS_Global_Mosaic_100m_HPF.tif",
+          "source_page": "https://astrogeology.usgs.gov/search",
+          "credit": "NASA/JPL/Caltech/USGS; Galileo, Voyager and Cassini imaging teams",
+          "usage": "USGS/PDS public-use scientific mosaic; retain mission and processing-team attribution.",
+          "rights_url": "https://www.usgs.gov/information-policies-and-instructions/copyrights-and-credits",
+          "max_width": 4096,
+          "color_space": "sRGB",
+          "projection": "equirectangular",
+          "north_up": true,
+          "longitude": "East increases to raster right. West-positive source coordinate labels decrease to right. Raster spans 0 to 360 east; shifted 180 degrees.",
+          "transform": "gray",
+          "source_status": "MIXED",
+          "fill_dark": true,
+          "notes": "USGS mission-image global mosaic with heterogeneous source resolution and illumination. RGB merge products use processed color. Approximate reflectance, not measured BRDF.",
+          "original_name": "enceladus_usgs_color.tif",
+          "roll_half": true,
+          "readme_url": "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/Enceladus_Cassini_ISS_Global_Mosaic_100m_HPF.lbl",
+          "radiometric_treatment": "Display RGB normalized to approximate reflectance palette. Gray maps tinted by composition; OPAL ice-giant preview channels chromatically normalized. Not measured spectral reflectance or BRDF.",
+          "coverage_path": "textures/enceladus_coverage.png",
+          "coverage_sha256": "f844a3b170b169d9e29a158f0fea30b6c023378f93ccca3e77e21c29e85278fd",
+          "path": "textures/enceladus_color.png",
+          "sha256": "ff97b2343bf4455a82cf1dcbabfa95def963da01bd71390a0fc3e8a27d2edeae",
+          "original_path": "textures/originals/enceladus_usgs_color.tif",
+          "original_sha256": "a15d944acf7da25e89f8f1ece6694632521980e77af024db7746cb33d05fb04b",
+          "original_dimensions": [
+            15840,
+            7920
+          ],
+          "dimensions": [
+            4096,
+            2048
+          ],
+          "valid_pixel_fraction_before_fill": 0.9950482845306396,
+          "retrieved_utc": "2026-09-05T10:40:53.120256+00:00",
+          "output_longitude": "center 0 degrees",
+          "coverage_interpretation": "Conservative visualization mask based on near-black pixels and, for OPAL, latitude limits. Not a mission-supplied validity product. Some dark or shadowed pixels may be reconstructed.",
+          "uv_registration": {
+            "status": "SOURCE_DOCUMENTED",
+            "raster_center_east_deg": 0.0,
+            "u_scale": 1.0,
+            "v_scale": 1.0,
+            "u_offset_cycles": 0.0,
+            "v_offset_cycles": 0.0,
+            "source_transforms_already_baked": true,
+            "reference_urls": [
+              "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/Enceladus_Cassini_ISS_Global_Mosaic_100m_HPF.lbl"
+            ],
+            "note": "Prepared raster center is longitude 0. Source transforms are already baked into the image. The source spanned 0 to 360 degrees and was shifted by half a width."
+          }
+        }
+      },
+      "profile": {
+        "kind": "ice",
+        "linear_reflectance": [
+          0.88,
+          0.9,
+          0.91
+        ],
+        "contrast": 0.025,
+        "seed": 820595444
+      },
+      "description": "Fresh reflective water ice; rough diffuse ice, not polished glass.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "tethys": {
+      "name": "Tethys",
+      "source_status": "MIXED",
+      "maps": {
+        "color": {
+          "body": "tethys",
+          "role": "color",
+          "source_url": "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/Tethys_Cassini_mosaic_global_293m.tif",
+          "source_page": "https://astrogeology.usgs.gov/search",
+          "credit": "NASA/JPL/Caltech/USGS; Galileo, Voyager and Cassini imaging teams",
+          "usage": "USGS/PDS public-use scientific mosaic; retain mission and processing-team attribution.",
+          "rights_url": "https://www.usgs.gov/information-policies-and-instructions/copyrights-and-credits",
+          "max_width": 4096,
+          "color_space": "sRGB",
+          "projection": "equirectangular",
+          "north_up": true,
+          "longitude": "East increases to raster right. West-positive source coordinate labels decrease to right. Raster spans -180 to 180 east; no shift.",
+          "transform": "gray",
+          "source_status": "MIXED",
+          "fill_dark": true,
+          "notes": "USGS mission-image global mosaic with heterogeneous source resolution and illumination. RGB merge products use processed color. Approximate reflectance, not measured BRDF.",
+          "original_name": "tethys_usgs_color.tif",
+          "roll_half": false,
+          "readme_url": "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/Tethys_Cassini_mosaic_global_293m_pds3.lbl",
+          "radiometric_treatment": "Display RGB normalized to approximate reflectance palette. Gray maps tinted by composition; OPAL ice-giant preview channels chromatically normalized. Not measured spectral reflectance or BRDF.",
+          "coverage_path": "textures/tethys_coverage.png",
+          "coverage_sha256": "9b721ad610e79637f180b410cff55a57173e7dd0be0440e1637c5d8790e03a76",
+          "path": "textures/tethys_color.png",
+          "sha256": "928e5853267f763d4fd06e70b5a2aa346274231c91aeebafdd027adc99f5143e",
+          "original_path": "textures/originals/tethys_usgs_color.tif",
+          "original_sha256": "40723c3ebfaaa52a657827b37309bc84234811db1cf26a21d086e26aba2b3640",
+          "original_dimensions": [
+            11520,
+            5760
+          ],
+          "dimensions": [
+            4096,
+            2048
+          ],
+          "valid_pixel_fraction_before_fill": 0.999091625213623,
+          "retrieved_utc": "2026-09-05T10:40:55.087783+00:00",
+          "output_longitude": "East increases to raster right. West-positive source coordinate labels decrease to right. Raster spans -180 to 180 east; no shift.",
+          "coverage_interpretation": "Conservative visualization mask based on near-black pixels and, for OPAL, latitude limits. Not a mission-supplied validity product. Some dark or shadowed pixels may be reconstructed.",
+          "uv_registration": {
+            "status": "SOURCE_DOCUMENTED",
+            "raster_center_east_deg": 0.0,
+            "u_scale": 1.0,
+            "v_scale": 1.0,
+            "u_offset_cycles": 0.0,
+            "v_offset_cycles": 0.0,
+            "source_transforms_already_baked": true,
+            "reference_urls": [
+              "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/Tethys_Cassini_mosaic_global_293m_pds3.lbl"
+            ],
+            "note": "Prepared raster center is longitude 0. Source transforms are already baked into the image."
+          }
+        }
+      },
+      "profile": {
+        "kind": "ice",
+        "linear_reflectance": [
+          0.75,
+          0.74,
+          0.7
+        ],
+        "contrast": 0.04,
+        "seed": 3598692797
+      },
+      "description": "Bright water ice with weak color variation.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "dione": {
+      "name": "Dione",
+      "source_status": "MIXED",
+      "maps": {
+        "color": {
+          "body": "dione",
+          "role": "color",
+          "source_url": "https://space.jpl.nasa.gov/tmaps/pix/sat4vuu2.jpg",
+          "source_page": "https://space.jpl.nasa.gov/tmaps/saturn.html",
+          "credit": "NASA/JPL/Caltech/USGS; Io color processing by David Seal",
+          "usage": "NASA educational/informational reuse with source credit; no endorsement.",
+          "rights_url": "https://www.jpl.nasa.gov/jpl-image-use-policy/",
+          "max_width": 4096,
+          "color_space": "sRGB",
+          "projection": "equirectangular",
+          "north_up": true,
+          "longitude": "Legacy JPL/USGS map convention retained. Absolute prime-meridian registration not verified.",
+          "transform": "gray",
+          "source_status": "MIXED",
+          "fill_dark": true,
+          "notes": "Viking/Voyager-era observed mosaic. Uneven resolution, illumination residuals and gaps. Neutral regolith/ice fills in no-data areas; no upscaling or invented measured topography.",
+          "radiometric_treatment": "Display RGB normalized to approximate reflectance palette. Gray maps tinted by composition; OPAL ice-giant preview channels chromatically normalized. Not measured spectral reflectance or BRDF.",
+          "coverage_path": "textures/dione_coverage.png",
+          "coverage_sha256": "3d29ec70387de20a9de5874dd8c17a63ac08ffd7968bd08a19ab789a17b8d92b",
+          "path": "textures/dione_color.png",
+          "sha256": "5d75817f4e8c299e36d03611a60341083912f62df87fb3c0dd04e96f4ee00b0d",
+          "original_path": "textures/originals/dione_color.jpg",
+          "original_sha256": "55bcabd04ab660ca1d2082739867128b6f0891d84fa18a872ea43ff4d77fa8f6",
+          "original_dimensions": [
+            1440,
+            720
+          ],
+          "dimensions": [
+            1440,
+            720
+          ],
+          "valid_pixel_fraction_before_fill": 0.9999749064445496,
+          "retrieved_utc": "2026-09-05T10:39:13.687004+00:00",
+          "output_longitude": "Legacy JPL/USGS map convention retained. Absolute prime-meridian registration not verified.",
+          "coverage_interpretation": "Conservative visualization mask based on near-black pixels and, for OPAL, latitude limits. Not a mission-supplied validity product. Some dark or shadowed pixels may be reconstructed.",
+          "uv_registration": {
+            "status": "UNVERIFIED_LEGACY_MERIDIAN",
+            "raster_center_east_deg": null,
+            "u_scale": 1.0,
+            "v_scale": 1.0,
+            "u_offset_cycles": 0.0,
+            "v_offset_cycles": 0.0,
+            "source_transforms_already_baked": true,
+            "reference_urls": [
+              "https://space.jpl.nasa.gov/tmaps/saturn.html"
+            ],
+            "note": "JPL's legacy mosaic page does not establish this raster's prime-meridian phase. Native orientation is retained with nominal zero offset. Do not claim registration to the IAU meridian."
+          }
+        }
+      },
+      "profile": {
+        "kind": "ice",
+        "linear_reflectance": [
+          0.58,
+          0.56,
+          0.52
+        ],
+        "contrast": 0.06,
+        "seed": 756760133
+      },
+      "description": "Icy terrain and darker trailing-hemisphere deposits.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "rhea": {
+      "name": "Rhea",
+      "source_status": "MIXED",
+      "maps": {
+        "color": {
+          "body": "rhea",
+          "role": "color",
+          "source_url": "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/Rhea_Cassini_Voyager_mosaic_global_417m.tif",
+          "source_page": "https://astrogeology.usgs.gov/search",
+          "credit": "NASA/JPL/Caltech/USGS; Galileo, Voyager and Cassini imaging teams",
+          "usage": "USGS/PDS public-use scientific mosaic; retain mission and processing-team attribution.",
+          "rights_url": "https://www.usgs.gov/information-policies-and-instructions/copyrights-and-credits",
+          "max_width": 4096,
+          "color_space": "sRGB",
+          "projection": "equirectangular",
+          "north_up": true,
+          "longitude": "East increases to raster right. West-positive source coordinate labels decrease to right. Raster spans -180 to 180 east; no shift.",
+          "transform": "gray",
+          "source_status": "MIXED",
+          "fill_dark": true,
+          "notes": "USGS mission-image global mosaic with heterogeneous source resolution and illumination. RGB merge products use processed color. Approximate reflectance, not measured BRDF.",
+          "original_name": "rhea_usgs_color.tif",
+          "roll_half": false,
+          "readme_url": "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/Rhea_Cassini_Voyager_mosaic_global_417m_pds3.lbl",
+          "radiometric_treatment": "Display RGB normalized to approximate reflectance palette. Gray maps tinted by composition; OPAL ice-giant preview channels chromatically normalized. Not measured spectral reflectance or BRDF.",
+          "coverage_path": "textures/rhea_coverage.png",
+          "coverage_sha256": "4139900f7a98c11fc91986c6a986d03e5852b209898c8e07d3aced7353b0cd82",
+          "path": "textures/rhea_color.png",
+          "sha256": "9764c689071da9805668e22df2e7711e21c2ceb98375db1c982ee6892183016c",
+          "original_path": "textures/originals/rhea_usgs_color.tif",
+          "original_sha256": "ce537c3c93670a0d4ea5a64b99bffb76ff308727eb3eabeee0a38cf9f6f1abc7",
+          "original_dimensions": [
+            11520,
+            5760
+          ],
+          "dimensions": [
+            4096,
+            2048
+          ],
+          "valid_pixel_fraction_before_fill": 0.9998863935470581,
+          "retrieved_utc": "2026-09-05T10:40:57.988385+00:00",
+          "output_longitude": "East increases to raster right. West-positive source coordinate labels decrease to right. Raster spans -180 to 180 east; no shift.",
+          "coverage_interpretation": "Conservative visualization mask based on near-black pixels and, for OPAL, latitude limits. Not a mission-supplied validity product. Some dark or shadowed pixels may be reconstructed.",
+          "uv_registration": {
+            "status": "SOURCE_DOCUMENTED",
+            "raster_center_east_deg": 0.0,
+            "u_scale": 1.0,
+            "v_scale": 1.0,
+            "u_offset_cycles": 0.0,
+            "v_offset_cycles": 0.0,
+            "source_transforms_already_baked": true,
+            "reference_urls": [
+              "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/Rhea_Cassini_Voyager_mosaic_global_417m_pds3.lbl"
+            ],
+            "note": "Prepared raster center is longitude 0. Source transforms are already baked into the image. The ISIS source has center-longitude parameter 180 but upper-left X=0; the actual raster center is longitude 0."
+          }
+        }
+      },
+      "profile": {
+        "kind": "ice",
+        "linear_reflectance": [
+          0.62,
+          0.6,
+          0.56
+        ],
+        "contrast": 0.055,
+        "seed": 1744242566
+      },
+      "description": "Cratered water ice with darker contaminants.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "titan": {
+      "name": "Titan",
+      "source_status": "RECONSTRUCTION",
+      "maps": {},
+      "profile": {
+        "kind": "haze",
+        "linear_reflectance": [
+          0.38,
+          0.23,
+          0.095
+        ],
+        "contrast": 0.015,
+        "seed": 1084746156
+      },
+      "description": "Opaque nitrogen-methane atmosphere with orange photochemical haze; surface hidden.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "hyperion": {
+      "name": "Hyperion",
+      "source_status": "RECONSTRUCTION",
+      "maps": {},
+      "profile": {
+        "kind": "ice",
+        "linear_reflectance": [
+          0.22,
+          0.17,
+          0.12
+        ],
+        "contrast": 0.12,
+        "seed": 3606130254
+      },
+      "description": "Porous dirty water ice; no invented measured crater layout.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "iapetus": {
+      "name": "Iapetus",
+      "source_status": "MIXED",
+      "maps": {
+        "color": {
+          "body": "iapetus",
+          "role": "color",
+          "source_url": "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/Iapetus_Cassini_Voyager_mosaic_global_783m.tif",
+          "source_page": "https://astrogeology.usgs.gov/search",
+          "credit": "NASA/JPL/Caltech/USGS; Galileo, Voyager and Cassini imaging teams",
+          "usage": "USGS/PDS public-use scientific mosaic; retain mission and processing-team attribution.",
+          "rights_url": "https://www.usgs.gov/information-policies-and-instructions/copyrights-and-credits",
+          "max_width": 4096,
+          "color_space": "sRGB",
+          "projection": "equirectangular",
+          "north_up": true,
+          "longitude": "East increases to raster right. West-positive source coordinate labels decrease to right. Raster spans -180 to 180 east; no shift.",
+          "transform": "gray",
+          "source_status": "MIXED",
+          "fill_dark": true,
+          "notes": "USGS mission-image global mosaic with heterogeneous source resolution and illumination. RGB merge products use processed color. Approximate reflectance, not measured BRDF.",
+          "original_name": "iapetus_usgs_color.tif",
+          "roll_half": false,
+          "readme_url": "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/Iapetus_Cassini_Voyager_mosaic_global_783m_pds3.lbl",
+          "radiometric_treatment": "Display RGB normalized to approximate reflectance palette. Gray maps tinted by composition; OPAL ice-giant preview channels chromatically normalized. Not measured spectral reflectance or BRDF.",
+          "coverage_path": "textures/iapetus_coverage.png",
+          "coverage_sha256": "47674c9bd1895e4734890616ee6ee733a690e7dfdb33877e2cca2ca1863d0c46",
+          "path": "textures/iapetus_color.png",
+          "sha256": "cced5dd794629c4c1bea606dbb6503e1cdaa40f121f506583522a7cd5052877a",
+          "original_path": "textures/originals/iapetus_usgs_color.tif",
+          "original_sha256": "eb8acdbed3af495102b6ec6d3efce1f03dc6bc39bb43323c23231ce590494d6e",
+          "original_dimensions": [
+            5760,
+            2880
+          ],
+          "dimensions": [
+            4096,
+            2048
+          ],
+          "valid_pixel_fraction_before_fill": 0.9996811151504517,
+          "retrieved_utc": "2026-09-05T10:41:00.919692+00:00",
+          "output_longitude": "East increases to raster right. West-positive source coordinate labels decrease to right. Raster spans -180 to 180 east; no shift.",
+          "coverage_interpretation": "Conservative visualization mask based on near-black pixels and, for OPAL, latitude limits. Not a mission-supplied validity product. Some dark or shadowed pixels may be reconstructed.",
+          "uv_registration": {
+            "status": "SOURCE_DOCUMENTED",
+            "raster_center_east_deg": 0.0,
+            "u_scale": 1.0,
+            "v_scale": 1.0,
+            "u_offset_cycles": 0.0,
+            "v_offset_cycles": 0.0,
+            "source_transforms_already_baked": true,
+            "reference_urls": [
+              "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/Iapetus_Cassini_Voyager_mosaic_global_783m_pds3.lbl"
+            ],
+            "note": "Prepared raster center is longitude 0. Source transforms are already baked into the image."
+          }
+        }
+      },
+      "profile": {
+        "kind": "ice",
+        "linear_reflectance": [
+          0.23,
+          0.21,
+          0.18
+        ],
+        "contrast": 0.12,
+        "seed": 1942395638
+      },
+      "description": "Observed dark leading hemisphere and brighter icy terrain.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "phoebe": {
+      "name": "Phoebe",
+      "source_status": "RECONSTRUCTION",
+      "maps": {},
+      "profile": {
+        "kind": "carbonaceous",
+        "linear_reflectance": [
+          0.07,
+          0.065,
+          0.06
+        ],
+        "contrast": 0.13,
+        "seed": 2308851342
+      },
+      "description": "Dark carbon-rich irregular satellite.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "janus": {
+      "name": "Janus",
+      "source_status": "RECONSTRUCTION",
+      "maps": {},
+      "profile": {
+        "kind": "ice",
+        "linear_reflectance": [
+          0.46,
+          0.43,
+          0.38
+        ],
+        "contrast": 0.065,
+        "seed": 2232199392
+      },
+      "description": "Dusty water ice on an irregular inner satellite.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "epimetheus": {
+      "name": "Epimetheus",
+      "source_status": "RECONSTRUCTION",
+      "maps": {},
+      "profile": {
+        "kind": "ice",
+        "linear_reflectance": [
+          0.54,
+          0.51,
+          0.46
+        ],
+        "contrast": 0.055,
+        "seed": 1197529248
+      },
+      "description": "Pale dusty water ice.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "miranda": {
+      "name": "Miranda",
+      "source_status": "MIXED",
+      "maps": {
+        "color": {
+          "body": "miranda",
+          "role": "color",
+          "source_url": "https://space.jpl.nasa.gov/tmaps/pix/ura5vuu2.jpg",
+          "source_page": "https://space.jpl.nasa.gov/tmaps/uranus.html",
+          "credit": "NASA/JPL/Caltech/USGS; Io color processing by David Seal",
+          "usage": "NASA educational/informational reuse with source credit; no endorsement.",
+          "rights_url": "https://www.jpl.nasa.gov/jpl-image-use-policy/",
+          "max_width": 4096,
+          "color_space": "sRGB",
+          "projection": "equirectangular",
+          "north_up": true,
+          "longitude": "Legacy JPL/USGS map convention retained. Absolute prime-meridian registration not verified.",
+          "transform": "gray",
+          "source_status": "MIXED",
+          "fill_dark": true,
+          "notes": "Viking/Voyager-era observed mosaic. Uneven resolution, illumination residuals and gaps. Neutral regolith/ice fills in no-data areas; no upscaling or invented measured topography.",
+          "radiometric_treatment": "Display RGB normalized to approximate reflectance palette. Gray maps tinted by composition; OPAL ice-giant preview channels chromatically normalized. Not measured spectral reflectance or BRDF.",
+          "coverage_path": "textures/miranda_coverage.png",
+          "coverage_sha256": "6c27d0f8009adb6620f30047d94b99f612c9876aec03d2c39b6d656e3f174ef9",
+          "path": "textures/miranda_color.png",
+          "sha256": "9579e2fc3ee7638a8c00edf5ce73f5d2786c6e29ddba43cd8b9987d3b04e5f2e",
+          "original_path": "textures/originals/miranda_color.jpg",
+          "original_sha256": "de6fab3acb9a68bcbe59b3ac0c5b985b63c5b5bf6b75b142f4749cb6eadfca36",
+          "original_dimensions": [
+            1440,
+            720
+          ],
+          "dimensions": [
+            1440,
+            720
+          ],
+          "valid_pixel_fraction_before_fill": 0.43379437923431396,
+          "retrieved_utc": "2026-09-05T10:39:21.855607+00:00",
+          "output_longitude": "Legacy JPL/USGS map convention retained. Absolute prime-meridian registration not verified.",
+          "coverage_interpretation": "Conservative visualization mask based on near-black pixels and, for OPAL, latitude limits. Not a mission-supplied validity product. Some dark or shadowed pixels may be reconstructed.",
+          "uv_registration": {
+            "status": "UNVERIFIED_LEGACY_MERIDIAN",
+            "raster_center_east_deg": null,
+            "u_scale": 1.0,
+            "v_scale": 1.0,
+            "u_offset_cycles": 0.0,
+            "v_offset_cycles": 0.0,
+            "source_transforms_already_baked": true,
+            "reference_urls": [
+              "https://space.jpl.nasa.gov/tmaps/uranus.html"
+            ],
+            "note": "JPL's legacy mosaic page does not establish this raster's prime-meridian phase. Native orientation is retained with nominal zero offset. Do not claim registration to the IAU meridian."
+          }
+        }
+      },
+      "profile": {
+        "kind": "ice",
+        "linear_reflectance": [
+          0.29,
+          0.29,
+          0.28
+        ],
+        "contrast": 0.07,
+        "seed": 1302116261
+      },
+      "description": "Voyager-observed southern hemisphere; northern terrain unresolved.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "ariel": {
+      "name": "Ariel",
+      "source_status": "MIXED",
+      "maps": {
+        "color": {
+          "body": "ariel",
+          "role": "color",
+          "source_url": "https://space.jpl.nasa.gov/tmaps/pix/ura1vuu2.jpg",
+          "source_page": "https://space.jpl.nasa.gov/tmaps/uranus.html",
+          "credit": "NASA/JPL/Caltech/USGS; Io color processing by David Seal",
+          "usage": "NASA educational/informational reuse with source credit; no endorsement.",
+          "rights_url": "https://www.jpl.nasa.gov/jpl-image-use-policy/",
+          "max_width": 4096,
+          "color_space": "sRGB",
+          "projection": "equirectangular",
+          "north_up": true,
+          "longitude": "Legacy JPL/USGS map convention retained. Absolute prime-meridian registration not verified.",
+          "transform": "gray",
+          "source_status": "MIXED",
+          "fill_dark": true,
+          "notes": "Viking/Voyager-era observed mosaic. Uneven resolution, illumination residuals and gaps. Neutral regolith/ice fills in no-data areas; no upscaling or invented measured topography.",
+          "radiometric_treatment": "Display RGB normalized to approximate reflectance palette. Gray maps tinted by composition; OPAL ice-giant preview channels chromatically normalized. Not measured spectral reflectance or BRDF.",
+          "coverage_path": "textures/ariel_coverage.png",
+          "coverage_sha256": "a2722d2528025542225e8d205d9e651a8b05bf8e9224c86a166b9faa897ccbdc",
+          "path": "textures/ariel_color.png",
+          "sha256": "0810a6d4dad9026b6cb3a4434c4bbf1069fb99c48372291546d772ed584acb38",
+          "original_path": "textures/originals/ariel_color.jpg",
+          "original_sha256": "88e21bc6094ddd3821a58dd9552d5d8496ca7b3e69925ad5085cd561e8500c16",
+          "original_dimensions": [
+            1440,
+            720
+          ],
+          "dimensions": [
+            1440,
+            720
+          ],
+          "valid_pixel_fraction_before_fill": 0.3901292383670807,
+          "retrieved_utc": "2026-09-05T10:39:19.798574+00:00",
+          "output_longitude": "Legacy JPL/USGS map convention retained. Absolute prime-meridian registration not verified.",
+          "coverage_interpretation": "Conservative visualization mask based on near-black pixels and, for OPAL, latitude limits. Not a mission-supplied validity product. Some dark or shadowed pixels may be reconstructed.",
+          "uv_registration": {
+            "status": "UNVERIFIED_LEGACY_MERIDIAN",
+            "raster_center_east_deg": null,
+            "u_scale": 1.0,
+            "v_scale": 1.0,
+            "u_offset_cycles": 0.0,
+            "v_offset_cycles": 0.0,
+            "source_transforms_already_baked": true,
+            "reference_urls": [
+              "https://space.jpl.nasa.gov/tmaps/uranus.html"
+            ],
+            "note": "JPL's legacy mosaic page does not establish this raster's prime-meridian phase. Native orientation is retained with nominal zero offset. Do not claim registration to the IAU meridian."
+          }
+        }
+      },
+      "profile": {
+        "kind": "ice",
+        "linear_reflectance": [
+          0.39,
+          0.38,
+          0.36
+        ],
+        "contrast": 0.06,
+        "seed": 1077959914
+      },
+      "description": "Bright icy crust, Voyager partial coverage.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "umbriel": {
+      "name": "Umbriel",
+      "source_status": "MIXED",
+      "maps": {
+        "color": {
+          "body": "umbriel",
+          "role": "color",
+          "source_url": "https://space.jpl.nasa.gov/tmaps/pix/ura2vuu2.jpg",
+          "source_page": "https://space.jpl.nasa.gov/tmaps/uranus.html",
+          "credit": "NASA/JPL/Caltech/USGS; Io color processing by David Seal",
+          "usage": "NASA educational/informational reuse with source credit; no endorsement.",
+          "rights_url": "https://www.jpl.nasa.gov/jpl-image-use-policy/",
+          "max_width": 4096,
+          "color_space": "sRGB",
+          "projection": "equirectangular",
+          "north_up": true,
+          "longitude": "Legacy JPL/USGS map convention retained. Absolute prime-meridian registration not verified.",
+          "transform": "gray",
+          "source_status": "MIXED",
+          "fill_dark": true,
+          "notes": "Viking/Voyager-era observed mosaic. Uneven resolution, illumination residuals and gaps. Neutral regolith/ice fills in no-data areas; no upscaling or invented measured topography.",
+          "radiometric_treatment": "Display RGB normalized to approximate reflectance palette. Gray maps tinted by composition; OPAL ice-giant preview channels chromatically normalized. Not measured spectral reflectance or BRDF.",
+          "coverage_path": "textures/umbriel_coverage.png",
+          "coverage_sha256": "5778b6c92f12a1d9b3ff7bd6db70df73b58f0d6bd4ef8a77fbf80c635a16a72a",
+          "path": "textures/umbriel_color.png",
+          "sha256": "96fb505d2215a28139f3cd8adb1e28710d5ce4d7cbbdc603984087420ac25550",
+          "original_path": "textures/originals/umbriel_color.jpg",
+          "original_sha256": "fbca608955c27872c6276aa17c35b9ac7c81040614b1849b864e9ffd08e943f1",
+          "original_dimensions": [
+            1440,
+            720
+          ],
+          "dimensions": [
+            1440,
+            720
+          ],
+          "valid_pixel_fraction_before_fill": 0.4140596091747284,
+          "retrieved_utc": "2026-09-05T10:39:20.440288+00:00",
+          "output_longitude": "Legacy JPL/USGS map convention retained. Absolute prime-meridian registration not verified.",
+          "coverage_interpretation": "Conservative visualization mask based on near-black pixels and, for OPAL, latitude limits. Not a mission-supplied validity product. Some dark or shadowed pixels may be reconstructed.",
+          "uv_registration": {
+            "status": "UNVERIFIED_LEGACY_MERIDIAN",
+            "raster_center_east_deg": null,
+            "u_scale": 1.0,
+            "v_scale": 1.0,
+            "u_offset_cycles": 0.0,
+            "v_offset_cycles": 0.0,
+            "source_transforms_already_baked": true,
+            "reference_urls": [
+              "https://space.jpl.nasa.gov/tmaps/uranus.html"
+            ],
+            "note": "JPL's legacy mosaic page does not establish this raster's prime-meridian phase. Native orientation is retained with nominal zero offset. Do not claim registration to the IAU meridian."
+          }
+        }
+      },
+      "profile": {
+        "kind": "ice",
+        "linear_reflectance": [
+          0.18,
+          0.18,
+          0.18
+        ],
+        "contrast": 0.045,
+        "seed": 2737210890
+      },
+      "description": "Dark neutral icy crust, Voyager partial coverage.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "titania": {
+      "name": "Titania",
+      "source_status": "MIXED",
+      "maps": {
+        "color": {
+          "body": "titania",
+          "role": "color",
+          "source_url": "https://space.jpl.nasa.gov/tmaps/pix/ura3vuu2.jpg",
+          "source_page": "https://space.jpl.nasa.gov/tmaps/uranus.html",
+          "credit": "NASA/JPL/Caltech/USGS; Io color processing by David Seal",
+          "usage": "NASA educational/informational reuse with source credit; no endorsement.",
+          "rights_url": "https://www.jpl.nasa.gov/jpl-image-use-policy/",
+          "max_width": 4096,
+          "color_space": "sRGB",
+          "projection": "equirectangular",
+          "north_up": true,
+          "longitude": "Legacy JPL/USGS map convention retained. Absolute prime-meridian registration not verified.",
+          "transform": "gray",
+          "source_status": "MIXED",
+          "fill_dark": true,
+          "notes": "Viking/Voyager-era observed mosaic. Uneven resolution, illumination residuals and gaps. Neutral regolith/ice fills in no-data areas; no upscaling or invented measured topography.",
+          "radiometric_treatment": "Display RGB normalized to approximate reflectance palette. Gray maps tinted by composition; OPAL ice-giant preview channels chromatically normalized. Not measured spectral reflectance or BRDF.",
+          "coverage_path": "textures/titania_coverage.png",
+          "coverage_sha256": "f2c4db3d1124eda735ac182371ba7e9070a74ddf4e2b6298d2becebb341fdd27",
+          "path": "textures/titania_color.png",
+          "sha256": "a653809d4001cfaa84172a4541d97f31d7c98ba000191965c346b16d5b3d31fa",
+          "original_path": "textures/originals/titania_color.jpg",
+          "original_sha256": "cde4432380f44d2cda56c0059ae8ad44b7029bc930aefadf2cbac91379dd41e7",
+          "original_dimensions": [
+            1440,
+            720
+          ],
+          "dimensions": [
+            1440,
+            720
+          ],
+          "valid_pixel_fraction_before_fill": 0.3793315887451172,
+          "retrieved_utc": "2026-09-05T10:39:20.891728+00:00",
+          "output_longitude": "Legacy JPL/USGS map convention retained. Absolute prime-meridian registration not verified.",
+          "coverage_interpretation": "Conservative visualization mask based on near-black pixels and, for OPAL, latitude limits. Not a mission-supplied validity product. Some dark or shadowed pixels may be reconstructed.",
+          "uv_registration": {
+            "status": "UNVERIFIED_LEGACY_MERIDIAN",
+            "raster_center_east_deg": null,
+            "u_scale": 1.0,
+            "v_scale": 1.0,
+            "u_offset_cycles": 0.0,
+            "v_offset_cycles": 0.0,
+            "source_transforms_already_baked": true,
+            "reference_urls": [
+              "https://space.jpl.nasa.gov/tmaps/uranus.html"
+            ],
+            "note": "JPL's legacy mosaic page does not establish this raster's prime-meridian phase. Native orientation is retained with nominal zero offset. Do not claim registration to the IAU meridian."
+          }
+        }
+      },
+      "profile": {
+        "kind": "ice",
+        "linear_reflectance": [
+          0.28,
+          0.26,
+          0.24
+        ],
+        "contrast": 0.065,
+        "seed": 2983041639
+      },
+      "description": "Slightly red icy crust, Voyager partial coverage.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "oberon": {
+      "name": "Oberon",
+      "source_status": "MIXED",
+      "maps": {
+        "color": {
+          "body": "oberon",
+          "role": "color",
+          "source_url": "https://space.jpl.nasa.gov/tmaps/pix/ura4vuu2.jpg",
+          "source_page": "https://space.jpl.nasa.gov/tmaps/uranus.html",
+          "credit": "NASA/JPL/Caltech/USGS; Io color processing by David Seal",
+          "usage": "NASA educational/informational reuse with source credit; no endorsement.",
+          "rights_url": "https://www.jpl.nasa.gov/jpl-image-use-policy/",
+          "max_width": 4096,
+          "color_space": "sRGB",
+          "projection": "equirectangular",
+          "north_up": true,
+          "longitude": "Legacy JPL/USGS map convention retained. Absolute prime-meridian registration not verified.",
+          "transform": "gray",
+          "source_status": "MIXED",
+          "fill_dark": true,
+          "notes": "Viking/Voyager-era observed mosaic. Uneven resolution, illumination residuals and gaps. Neutral regolith/ice fills in no-data areas; no upscaling or invented measured topography.",
+          "radiometric_treatment": "Display RGB normalized to approximate reflectance palette. Gray maps tinted by composition; OPAL ice-giant preview channels chromatically normalized. Not measured spectral reflectance or BRDF.",
+          "coverage_path": "textures/oberon_coverage.png",
+          "coverage_sha256": "ad917f955082fc959d25160e298684d7507e8732ccce9c60a29e68bfeb1d190e",
+          "path": "textures/oberon_color.png",
+          "sha256": "e9910512b46622ee43f24063542f42a2c180426fc564fcc9ce4b900712a31a66",
+          "original_path": "textures/originals/oberon_color.jpg",
+          "original_sha256": "ed29842e1b1fb96ee9626a62d4ee7bbf53756997ef33b1edda2dbead43383460",
+          "original_dimensions": [
+            1440,
+            720
+          ],
+          "dimensions": [
+            1440,
+            720
+          ],
+          "valid_pixel_fraction_before_fill": 0.3900761902332306,
+          "retrieved_utc": "2026-09-05T10:39:21.420680+00:00",
+          "output_longitude": "Legacy JPL/USGS map convention retained. Absolute prime-meridian registration not verified.",
+          "coverage_interpretation": "Conservative visualization mask based on near-black pixels and, for OPAL, latitude limits. Not a mission-supplied validity product. Some dark or shadowed pixels may be reconstructed.",
+          "uv_registration": {
+            "status": "UNVERIFIED_LEGACY_MERIDIAN",
+            "raster_center_east_deg": null,
+            "u_scale": 1.0,
+            "v_scale": 1.0,
+            "u_offset_cycles": 0.0,
+            "v_offset_cycles": 0.0,
+            "source_transforms_already_baked": true,
+            "reference_urls": [
+              "https://space.jpl.nasa.gov/tmaps/uranus.html"
+            ],
+            "note": "JPL's legacy mosaic page does not establish this raster's prime-meridian phase. Native orientation is retained with nominal zero offset. Do not claim registration to the IAU meridian."
+          }
+        }
+      },
+      "profile": {
+        "kind": "ice",
+        "linear_reflectance": [
+          0.24,
+          0.21,
+          0.19
+        ],
+        "contrast": 0.07,
+        "seed": 3556074290
+      },
+      "description": "Redder icy crust, Voyager partial coverage.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "puck": {
+      "name": "Puck",
+      "source_status": "RECONSTRUCTION",
+      "maps": {},
+      "profile": {
+        "kind": "carbonaceous",
+        "linear_reflectance": [
+          0.105,
+          0.102,
+          0.1
+        ],
+        "contrast": 0.1,
+        "seed": 1666961048
+      },
+      "description": "Dark neutral inner Uranian satellite.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "triton": {
+      "name": "Triton",
+      "source_status": "MIXED",
+      "maps": {
+        "color": {
+          "body": "triton",
+          "role": "color",
+          "source_url": "https://space.jpl.nasa.gov/tmaps/pix/nep1vuu2.jpg",
+          "source_page": "https://space.jpl.nasa.gov/tmaps/neptune.html",
+          "credit": "NASA/JPL/Caltech/USGS; Io color processing by David Seal",
+          "usage": "NASA educational/informational reuse with source credit; no endorsement.",
+          "rights_url": "https://www.jpl.nasa.gov/jpl-image-use-policy/",
+          "max_width": 4096,
+          "color_space": "sRGB",
+          "projection": "equirectangular",
+          "north_up": true,
+          "longitude": "Legacy JPL/USGS map convention retained. Absolute prime-meridian registration not verified.",
+          "transform": "copy",
+          "source_status": "MIXED",
+          "fill_dark": true,
+          "notes": "Viking/Voyager-era observed mosaic. Uneven resolution, illumination residuals and gaps. Neutral regolith/ice fills in no-data areas; no upscaling or invented measured topography.",
+          "radiometric_treatment": "Display RGB normalized to approximate reflectance palette. Gray maps tinted by composition; OPAL ice-giant preview channels chromatically normalized. Not measured spectral reflectance or BRDF.",
+          "coverage_path": "textures/triton_coverage.png",
+          "coverage_sha256": "b932b9dc44cce240a0a403d769564fa778f9c826df6303dfc1d54d0a58055fa2",
+          "path": "textures/triton_color.png",
+          "sha256": "bc57cf8a4255bce21875e48884a5b62cb86ed8fcb0d3202bd60b225253a5432b",
+          "original_path": "textures/originals/triton_color.jpg",
+          "original_sha256": "45f107996448c2236ede95624bfb672b56f0db843f084ed61a197454050b3214",
+          "original_dimensions": [
+            1440,
+            720
+          ],
+          "dimensions": [
+            1440,
+            720
+          ],
+          "valid_pixel_fraction_before_fill": 0.20456694066524506,
+          "retrieved_utc": "2026-09-05T10:39:22.019692+00:00",
+          "output_longitude": "Legacy JPL/USGS map convention retained. Absolute prime-meridian registration not verified.",
+          "coverage_interpretation": "Conservative visualization mask based on near-black pixels and, for OPAL, latitude limits. Not a mission-supplied validity product. Some dark or shadowed pixels may be reconstructed.",
+          "uv_registration": {
+            "status": "UNVERIFIED_LEGACY_MERIDIAN",
+            "raster_center_east_deg": null,
+            "u_scale": 1.0,
+            "v_scale": 1.0,
+            "u_offset_cycles": 0.0,
+            "v_offset_cycles": 0.0,
+            "source_transforms_already_baked": true,
+            "reference_urls": [
+              "https://space.jpl.nasa.gov/tmaps/neptune.html"
+            ],
+            "note": "JPL's legacy mosaic page does not establish this raster's prime-meridian phase. Native orientation is retained with nominal zero offset. Do not claim registration to the IAU meridian."
+          }
+        }
+      },
+      "profile": {
+        "kind": "volatile",
+        "linear_reflectance": [
+          0.7,
+          0.65,
+          0.61
+        ],
+        "contrast": 0.04,
+        "seed": 3079880406
+      },
+      "description": "Nitrogen frost, water ice and reddish photolysis products.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "nereid": {
+      "name": "Nereid",
+      "source_status": "RECONSTRUCTION",
+      "maps": {},
+      "profile": {
+        "kind": "ice",
+        "linear_reflectance": [
+          0.16,
+          0.15,
+          0.14
+        ],
+        "contrast": 0.055,
+        "seed": 3357127123
+      },
+      "description": "Water-ice-bearing irregular satellite; unresolved geology.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "proteus": {
+      "name": "Proteus",
+      "source_status": "RECONSTRUCTION",
+      "maps": {},
+      "profile": {
+        "kind": "carbonaceous",
+        "linear_reflectance": [
+          0.085,
+          0.082,
+          0.079
+        ],
+        "contrast": 0.085,
+        "seed": 3107790155
+      },
+      "description": "Dark neutral irregular icy satellite.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "charon": {
+      "name": "Charon",
+      "source_status": "MIXED",
+      "maps": {
+        "color": {
+          "body": "charon",
+          "role": "color",
+          "source_url": "https://assets.science.nasa.gov/content/dam/science/psd/photojournal/pia/pia19/pia19866/PIA19866.jpg",
+          "source_page": "https://science.nasa.gov/photojournal/global-map-of-plutos-moon-charon/",
+          "credit": "NASA/Johns Hopkins University Applied Physics Laboratory/Southwest Research Institute",
+          "usage": "NASA educational/informational reuse with source credit; no endorsement.",
+          "rights_url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+          "max_width": 4096,
+          "color_space": "sRGB",
+          "projection": "equirectangular",
+          "north_up": true,
+          "longitude": "east increasing; center longitude 0 degrees",
+          "transform": "gray",
+          "source_status": "MIXED",
+          "fill_dark": true,
+          "notes": "2015 LORRI grayscale mosaic. Black no-data areas replaced with neutral ice reconstruction; no invented polar color.",
+          "radiometric_treatment": "Display RGB normalized to approximate reflectance palette. Gray maps tinted by composition; OPAL ice-giant preview channels chromatically normalized. Not measured spectral reflectance or BRDF.",
+          "coverage_path": "textures/charon_coverage.png",
+          "coverage_sha256": "41162b07ed8c045d651962e407d8218e894b41c57d45885ce9995e8cad18c4a4",
+          "path": "textures/charon_color.png",
+          "sha256": "d921edf9e8a13ba19d249a64a4a45536b4b5926e2255f7eb9b12591754985fa7",
+          "original_path": "textures/originals/charon_color.jpg",
+          "original_sha256": "542f6f76ece2dca82eb0ff5911875e6ed2f239d170dc9b8278e6c1b415437d29",
+          "original_dimensions": [
+            9520,
+            4760
+          ],
+          "dimensions": [
+            4096,
+            2048
+          ],
+          "valid_pixel_fraction_before_fill": 0.6466025114059448,
+          "retrieved_utc": "2026-09-05T10:37:52.778616+00:00",
+          "output_longitude": "east increasing; center longitude 0 degrees",
+          "coverage_interpretation": "Conservative visualization mask based on near-black pixels and, for OPAL, latitude limits. Not a mission-supplied validity product. Some dark or shadowed pixels may be reconstructed.",
+          "uv_registration": {
+            "status": "SOURCE_DOCUMENTED",
+            "raster_center_east_deg": 0.0,
+            "u_scale": 1.0,
+            "v_scale": 1.0,
+            "u_offset_cycles": 0.0,
+            "v_offset_cycles": 0.0,
+            "source_transforms_already_baked": true,
+            "reference_urls": [
+              "https://science.nasa.gov/photojournal/global-map-of-plutos-moon-charon/"
+            ],
+            "note": "Prepared raster center is longitude 0. Source transforms are already baked into the image."
+          }
+        }
+      },
+      "profile": {
+        "kind": "ice",
+        "linear_reflectance": [
+          0.35,
+          0.34,
+          0.33
+        ],
+        "contrast": 0.055,
+        "seed": 3629533139
+      },
+      "description": "Water ice and ammonia-bearing compounds; observed New Horizons morphology.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "styx": {
+      "name": "Styx",
+      "source_status": "RECONSTRUCTION",
+      "maps": {},
+      "profile": {
+        "kind": "ice",
+        "linear_reflectance": [
+          0.49,
+          0.5,
+          0.51
+        ],
+        "contrast": 0.04,
+        "seed": 1165404685
+      },
+      "description": "Bright neutral Pluto-system water ice; unresolved texture.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "nix": {
+      "name": "Nix",
+      "source_status": "RECONSTRUCTION",
+      "maps": {},
+      "profile": {
+        "kind": "ice",
+        "linear_reflectance": [
+          0.54,
+          0.55,
+          0.56
+        ],
+        "contrast": 0.055,
+        "seed": 2691981182
+      },
+      "description": "Bright icy Pluto satellite; local red patch location not reconstructed.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "kerberos": {
+      "name": "Kerberos",
+      "source_status": "RECONSTRUCTION",
+      "maps": {},
+      "profile": {
+        "kind": "ice",
+        "linear_reflectance": [
+          0.55,
+          0.56,
+          0.57
+        ],
+        "contrast": 0.04,
+        "seed": 3606594935
+      },
+      "description": "Reflective water-ice surface; no resolved global map.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "hydra": {
+      "name": "Hydra",
+      "source_status": "RECONSTRUCTION",
+      "maps": {},
+      "profile": {
+        "kind": "ice",
+        "linear_reflectance": [
+          0.7,
+          0.71,
+          0.73
+        ],
+        "contrast": 0.035,
+        "seed": 1367342312
+      },
+      "description": "Reflective crystalline water ice.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "vesta": {
+      "name": "Vesta",
+      "source_status": "MIXED",
+      "maps": {
+        "color": {
+          "body": "vesta",
+          "role": "color",
+          "source_url": "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/Vesta_Dawn_FC_HAMO_Mosaic_Global_74ppd.tif",
+          "source_page": "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/Vesta_Dawn_FC_HAMO_Mosaic_Global_74ppd_pds3.lbl",
+          "credit": "NASA/JPL-Caltech/UCLA/MPS/DLR/IDA/USGS",
+          "usage": "NASA educational/informational reuse with source credit; no endorsement.",
+          "rights_url": "https://www.nasa.gov/nasa-brand-center/images-and-media/",
+          "max_width": 4096,
+          "color_space": "sRGB",
+          "projection": "equirectangular",
+          "north_up": true,
+          "longitude": "east increasing; center longitude 0 degrees",
+          "transform": "gray",
+          "source_status": "MIXED",
+          "fill_dark": true,
+          "original_name": "vesta_hamo_color.tif",
+          "notes": "Dawn HAMO clear-filter global mosaic. Source lighting and photometric processing remain; neutral basaltic reflectance approximation.",
+          "radiometric_treatment": "Display RGB normalized to approximate reflectance palette. Gray maps tinted by composition; OPAL ice-giant preview channels chromatically normalized. Not measured spectral reflectance or BRDF.",
+          "coverage_path": "textures/vesta_coverage.png",
+          "coverage_sha256": "8bcf6b601bd1b23fba47b9f4198a0162486bcfa38bf962b15a99adb9f9433a27",
+          "path": "textures/vesta_color.png",
+          "sha256": "7f0b56fc4148872b0131e292fb26bdb56a93f24a78f76fbf2e9172524d3d1460",
+          "original_path": "textures/originals/vesta_hamo_color.tif",
+          "original_sha256": "e7a5dab2924ed590947230e70b11fd42e61e6582f94c01180ddb64b3a9f86ff4",
+          "original_dimensions": [
+            26704,
+            13352
+          ],
+          "dimensions": [
+            4096,
+            2048
+          ],
+          "valid_pixel_fraction_before_fill": 0.9181634187698364,
+          "retrieved_utc": "2026-09-05T10:39:14.922264+00:00",
+          "output_longitude": "east increasing; center longitude 0 degrees",
+          "coverage_interpretation": "Conservative visualization mask based on near-black pixels and, for OPAL, latitude limits. Not a mission-supplied validity product. Some dark or shadowed pixels may be reconstructed.",
+          "readme_url": "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/Vesta_Dawn_FC_HAMO_Mosaic_Global_74ppd_pds3.lbl",
+          "uv_registration": {
+            "status": "UNVERIFIED_FRAME_ALIGNMENT",
+            "raster_center_east_deg": 0.0,
+            "u_scale": 1.0,
+            "v_scale": 1.0,
+            "u_offset_cycles": 0.0,
+            "v_offset_cycles": 0.0,
+            "source_transforms_already_baked": true,
+            "reference_urls": [
+              "https://asc-pds-services.s3.us-west-2.amazonaws.com/mosaic/Vesta_Dawn_FC_HAMO_Mosaic_Global_74ppd_pds3.lbl"
+            ],
+            "note": "Raster center is source longitude 0, but the 2013 DLR product label does not identify which Vesta prime-meridian frame it uses. Do not assume its zero equals the caller's IAU frame. No unverified frame correction was invented."
+          }
+        }
+      },
+      "profile": {
+        "kind": "regolith",
+        "linear_reflectance": [
+          0.33,
+          0.28,
+          0.23
+        ],
+        "contrast": 0.11,
+        "seed": 2046382309
+      },
+      "description": "Differentiated basaltic crust; Dawn clear-filter observations.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "pallas": {
+      "name": "Pallas",
+      "source_status": "RECONSTRUCTION",
+      "maps": {},
+      "profile": {
+        "kind": "carbonaceous",
+        "linear_reflectance": [
+          0.14,
+          0.15,
+          0.16
+        ],
+        "contrast": 0.075,
+        "seed": 91480592
+      },
+      "description": "B-type hydrated dark material with bluish spectral slope.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "hygiea": {
+      "name": "Hygiea",
+      "source_status": "RECONSTRUCTION",
+      "maps": {},
+      "profile": {
+        "kind": "carbonaceous",
+        "linear_reflectance": [
+          0.07,
+          0.066,
+          0.061
+        ],
+        "contrast": 0.065,
+        "seed": 915202374
+      },
+      "description": "Dark C-type carbonaceous surface.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "eros": {
+      "name": "Eros",
+      "source_status": "RECONSTRUCTION",
+      "maps": {},
+      "profile": {
+        "kind": "silicate",
+        "linear_reflectance": [
+          0.24,
+          0.17,
+          0.11
+        ],
+        "contrast": 0.11,
+        "seed": 121755512
+      },
+      "description": "Weathered S-type silicate regolith.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "itokawa": {
+      "name": "Itokawa",
+      "source_status": "RECONSTRUCTION",
+      "maps": {},
+      "profile": {
+        "kind": "silicate",
+        "linear_reflectance": [
+          0.25,
+          0.2,
+          0.15
+        ],
+        "contrast": 0.1,
+        "seed": 478747608
+      },
+      "description": "Ordinary-chondrite-like silicates; gravel and boulder texture is statistical.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "bennu": {
+      "name": "Bennu",
+      "source_status": "RECONSTRUCTION",
+      "maps": {},
+      "profile": {
+        "kind": "carbonaceous",
+        "linear_reflectance": [
+          0.043,
+          0.045,
+          0.047
+        ],
+        "contrast": 0.1,
+        "seed": 1225399077
+      },
+      "description": "B-type carbonaceous rubble with weak blue slope.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "ryugu": {
+      "name": "Ryugu",
+      "source_status": "RECONSTRUCTION",
+      "maps": {},
+      "profile": {
+        "kind": "carbonaceous",
+        "linear_reflectance": [
+          0.043,
+          0.041,
+          0.039
+        ],
+        "contrast": 0.095,
+        "seed": 2613606272
+      },
+      "description": "Very dark hydrated carbonaceous rubble.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "arrokoth": {
+      "name": "Arrokoth",
+      "source_status": "RECONSTRUCTION",
+      "maps": {},
+      "profile": {
+        "kind": "organic",
+        "linear_reflectance": [
+          0.13,
+          0.064,
+          0.037
+        ],
+        "contrast": 0.06,
+        "seed": 1260579848
+      },
+      "description": "Uniform red cold-classical surface; no fake global map.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "chariklo": {
+      "name": "Chariklo",
+      "source_status": "RECONSTRUCTION",
+      "maps": {},
+      "profile": {
+        "kind": "organic",
+        "linear_reflectance": [
+          0.052,
+          0.039,
+          0.03
+        ],
+        "contrast": 0.075,
+        "seed": 1928260072
+      },
+      "description": "Dark reddish centaur with water-ice signatures.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "chiron": {
+      "name": "Chiron",
+      "source_status": "RECONSTRUCTION",
+      "maps": {},
+      "profile": {
+        "kind": "carbonaceous",
+        "linear_reflectance": [
+          0.075,
+          0.071,
+          0.067
+        ],
+        "contrast": 0.055,
+        "seed": 3922052256
+      },
+      "description": "Neutral dark centaur; uncertain activity left off.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "halley": {
+      "name": "1P/Halley",
+      "source_status": "RECONSTRUCTION",
+      "maps": {},
+      "profile": {
+        "kind": "comet",
+        "linear_reflectance": [
+          0.036,
+          0.029,
+          0.025
+        ],
+        "contrast": 0.085,
+        "seed": 863588596
+      },
+      "description": "Very dark refractory comet crust; no speculative coma.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "encke": {
+      "name": "2P/Encke",
+      "source_status": "RECONSTRUCTION",
+      "maps": {},
+      "profile": {
+        "kind": "comet",
+        "linear_reflectance": [
+          0.047,
+          0.037,
+          0.029
+        ],
+        "contrast": 0.08,
+        "seed": 3870401975
+      },
+      "description": "Dark reddish comet nucleus; unresolved global texture.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    },
+    "churyumov-gerasimenko": {
+      "name": "67P/Churyumov-Gerasimenko",
+      "source_status": "RECONSTRUCTION",
+      "maps": {},
+      "profile": {
+        "kind": "comet",
+        "linear_reflectance": [
+          0.06,
+          0.047,
+          0.039
+        ],
+        "contrast": 0.105,
+        "seed": 809983357
+      },
+      "description": "Dark organic-rich dusty nucleus; no speculative activity.",
+      "references": [
+        "https://science.nasa.gov/solar-system/",
+        "https://ssd.jpl.nasa.gov/planets/phys_par.html"
+      ]
+    }
+  },
+  "body_id_aliases": {
+    "1p-halley": "halley",
+    "2p-encke": "encke",
+    "67p-churyumov-gerasimenko": "churyumov-gerasimenko"
+  },
+  "failures": [],
+  "schema": "bodies[slug].maps[role] -> map record; roles color/clouds/ocean_mask/night/height. Paths relative to project root.",
+  "uv_contract": {
+    "surface": "Blender uv_sphere UVMap. North +Z and V=1. Do not flip V; Blender image loader handles top-down raster storage.",
+    "longitude": "Geometry +X must be the IAU prime meridian at UV (.5,.5). Documented prepared maps have longitude 0 at U=.5, east increasing right. Never reapply baked roll_half/flip_x transforms. Per-map uv_registration records shader offsets and explicit legacy registration uncertainty.",
+    "gas_latitude": "OPAL planetographic rows resampled to scaled-sphere parametric latitude using source equatorial/polar radii.",
+    "rings": "U=angular fraction, V=normalized radius independently within each band. Ring material reads UVMap Y. Caller meshes define edges and gaps.",
+    "cloud_orientation": "Earth cloud map matches Earth surface UV and pole orientation. It is a static historical composite."
+  },
+  "material_api": {
+    "surface": "make_surface_material(body, asset_manifest, asset_root)",
+    "clouds": "make_cloud_material(body, manifest, root). Earth shell +8 km; Venus opaque cloud shell +65 km.",
+    "atmosphere": "make_atmosphere_material(body). Center object origin on body center. Radius input is in km.",
+    "rings": "make_ring_material(body). Accepts ring_name, ring_optical_depth, ring_inner_km, ring_outer_km. Caller optical depth overrides fallback profiles. Alpha follows 1-exp(-tau/abs(dot(N,Incoming))) with a 1e-6 denominator epsilon and a stable thin-ring series. Fine patterns affect color only. Legacy ring_profile remains supported.",
+    "earth_night": "Off until body.sun_direction_world is supplied or Solar direction world XYZ node inputs are animated. World vector points body-to-Sun.",
+    "scale": "All materials default to 1000 km per Blender unit; body.km_per_unit can override.",
+    "image_uv": "maps[role].uv_registration supplies u_scale, v_scale, u_offset_cycles and v_offset_cycles. Shader applies U'=fract(u_scale*U+u_offset_cycles), V'=v_scale*V+v_offset_cycles and clamps latitude sampling. Default north is +Z/V=1.",
+    "caching": "Surfaces cached by body.id and role. Rings additionally use ring_name and a parameter fingerprint, so changing a band's optical depth or radii never reuses stale shader data."
+  },
+  "inventory": {
+    "body_count": 71,
+    "mapped_body_count": 31,
+    "map_count": 35,
+    "active_image_pixels": 214021536,
+    "rgba8_texture_budget_bytes": 856086144,
+    "original_file_bytes": 1577131195,
+    "derivative_file_bytes": 229529216,
+    "unverified_meridian_bodies": [
+      "phobos",
+      "deimos",
+      "mimas",
+      "dione",
+      "miranda",
+      "ariel",
+      "umbriel",
+      "titania",
+      "oberon",
+      "triton",
+      "vesta"
+    ]
+  },
+  "cautions": [
+    "OBSERVED describes map provenance, not a calibrated bidirectional reflectance model.",
+    "All current surfaces are conservatively MIXED when maps have fill, grayscale tint, color processing or empirical weather composites.",
+    "No albedo map feeds bump or displacement. Only Moon LOLA height does.",
+    "No map predicts the weather or surface activity during 2026-2027.",
+    "Reconstructed material patterns are statistical reflectance variation, not claimed observed craters.",
+    "Mosaic source lighting can remain. Low-resolution observed products are not upscaled.",
+    "Coverage masks are conservative visualization estimates, not authoritative mission coverage products.",
+    "IAU body spin does not establish the phase of legacy images with unverified meridian registration. Those surfaces retain a nominal orientation and must be labeled."
+  ],
+  "acknowledgements": [
+    "This work used data acquired from the NASA/ESA HST Space Telescope, associated with OPAL program (PI: Simon, GO13937), and archived by the Space Telescope Science Institute, which is operated by the Association of Universities for Research in Astronomy, Inc., under NASA contract NAS 5-26555. All maps are available at http://dx.doi.org/10.17909/T9G593."
+  ],
+  "excluded_sources": [
+    {
+      "url": "https://science.nasa.gov/3d-resources/neptune/",
+      "reason": "Don Davis fictional map, not an observation."
+    },
+    {
+      "url": "https://space.jpl.nasa.gov/tmaps/saturn.html",
+      "reason": "Fictional Saturn map excluded; moon mosaics on same page are observed."
+    },
+    {
+      "url": "https://planetarymaps.usgs.gov/mosaic/",
+      "reason": "Initial Python requests returned 403. Official redirect discovered with curl; public USGS S3 host used for newer mosaics."
+    }
+  ]
+}

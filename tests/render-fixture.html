@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<script>
+(() => {
+  const param = new URLSearchParams(window.location.search).get("scoutTheme");
+  const theme = param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  document.documentElement.setAttribute("data-theme", theme);
+})();
+</script>
+<link rel="stylesheet" href="/src/index.css">
+<link rel="icon" href="data:,">
+<title>Source renderer verification</title>
+<style>
+html,body,#view { margin:0; width:100%; height:100%; overflow:hidden; }
+#view { position:relative; background:var(--cp-bg); color:var(--cp-text); }
+#status { position:absolute; bottom:12px; left:12px; color:var(--cp-text); font:12px Consolas,monospace; pointer-events:none; }
+</style>
+</head><body><div id="view"></div><div id="status">Loading source data</div>
+<script type="module" src="./render-fixture.ts"></script></body></html>

@@ -1,0 +1,18 @@
+{
+  "poles": {
+    "chariklo": [
+      151.3,
+      41.48
+    ],
+    "haumea": [
+      285.1,
+      -10.6
+    ],
+    "quaoar": [
+      259.82,
+      53.45
+    ]
+  },
+  "source": "scripts/rings.py",
+  "warning": "Ring poles constrain orientation only. Absolute phase is unknown. A fixed zero meridian is a display-coordinate convention, not a spin model."
+}
