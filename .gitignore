@@ -19,6 +19,7 @@ test-results
 playwright-report
 blob-report
 .playwright
+tests/*.png
 tests/render-browser-evidence.json
 tests/render-handshake-evidence.json
 
