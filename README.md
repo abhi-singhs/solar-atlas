@@ -131,4 +131,14 @@ The MIT grant does not extend to the bundled scientific data and imagery under `
 
 ## Repository size
 
-`public/` holds about 535 MB of committed meshes, textures, and cached ephemeris, so a full clone is large. Use `git clone --depth 1` if you only need the working tree.
+`public/` holds about 535 MB of committed meshes, textures, and cached ephemeris. The Blender project the assets are exported from is vendored under `blender/` and adds another 626 MB, including a 374 MB `.blend` file.
+
+Meshes, textures, the `.blend`, `states.bin`, and the gzipped ephemeris are stored in Git LFS. Install it before cloning, or you get pointer files instead of assets and the app fails to load:
+
+```sh
+brew install git-lfs   # or your platform's package manager
+git lfs install
+git clone https://github.com/abhi-singhs/solar-atlas.git
+```
+
+If you already cloned without LFS, run `git lfs pull`. Add `--depth 1` to the clone if you do not need history. Screenshots under `docs/screenshots/` stay outside LFS so they render on GitHub.
