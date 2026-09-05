@@ -18,7 +18,7 @@ SAMPLE = struct.Struct("<7d")
 EPOCH_TOLERANCE_DAYS = 2e-9
 MAX_BYTES = 64 * 1024 * 1024
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_SOURCE = ROOT.parent / "solar-system-de9006d2"
+DEFAULT_SOURCE = ROOT / "blender"
 COPIES = {
     "catalog.json": "data/catalog.json",
     "orientations.json": "data/orientations.json",

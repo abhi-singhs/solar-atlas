@@ -16,7 +16,7 @@ PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -p 'science*.py'
 npm test -- tests/science-data.test.ts tests/science-time-rotation.test.ts tests/science-worker.test.ts
 ```
 
-The converter reads `../solar-system-de9006d2/` without modifying it. `--source` accepts another original project root. The output defaults to `public/data/`. Python uses only its standard library. Conversion has no timestamp and preserves deterministic output.
+The converter reads `blender/` without modifying it. `--source` accepts another original project root. The output defaults to `public/data/`. Python uses only its standard library. Conversion has no timestamp and preserves deterministic output.
 
 The Python tests compare all 657,072 source samples, including all seven binary64 components per sample. They verify byte parity for catalog, orientation, rights, kernels, source records, and validation files. They also compare the complete record section with the prior validated conversion. The browser test requires Playwright Chromium or installed Google Chrome. It checks a real worker, transferred Float64 arrays, and nested local URLs. Its browser profile and Vite cache remain inside the test directory and are removed afterward.
 

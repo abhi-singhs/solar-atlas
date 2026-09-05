@@ -59,8 +59,8 @@
       "sha256": "0073c4ce5fec1aedf71d82e12c72bb8af892a5ef8f03f1d80d7c3450a18bac4c"
     },
     "validation.json": {
-      "bytes": 69199,
-      "sha256": "080cbfa6b0a07aab0d71cab5d8e6f092e3e356a5e9109f324b6f64a06bd4494e"
+      "bytes": 69158,
+      "sha256": "8f99e66d581b582eb450087a1a83390b07608ba2cda4737fb25804603b838d27"
     }
   },
   "frame": "ICRF",
@@ -95,7 +95,7 @@
     "data/orientations.json": "4779536969c12643b61edce2a13ce4b63aefb4791ae243c06775577da668793a",
     "scripts/rings.py": "ad5bf08986ca0876da4897ca75e074a5b065df04e0ea0e613d445b0a03a2574d",
     "sources.json": "f9f35125230d2c0192d2cd0bf17f2d4598b8ed3fa496200f247e1504a7883df7",
-    "validation.json": "080cbfa6b0a07aab0d71cab5d8e6f092e3e356a5e9109f324b6f64a06bd4494e"
+    "validation.json": "8f99e66d581b582eb450087a1a83390b07608ba2cda4737fb25804603b838d27"
   },
   "start_jd_tdb": 2461288.500800724,
   "start_utc": "2026-09-05T00:00:00+00:00",

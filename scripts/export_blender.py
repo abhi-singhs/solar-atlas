@@ -24,7 +24,7 @@ def digest(path):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--source", type=Path, default=ROOT.parent / "solar-system-de9006d2")
+    parser.add_argument("--source", type=Path, default=ROOT / "blender")
     args = parser.parse_args(sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else [])
     source = args.source.resolve()
     assert Path(bpy.data.filepath).resolve() == source / "solar_system.blend"

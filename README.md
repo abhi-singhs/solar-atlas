@@ -1,4 +1,4 @@
-# Solar atlas
+# Solar Atlas
 
 A browser solar-system explorer covering 71 bodies, seven ring systems, physical dimensions, source records, and a cached year of JPL motion data.
 

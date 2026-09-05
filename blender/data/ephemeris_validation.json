@@ -1,0 +1,168 @@
+{
+  "status": "passed_source_and_coverage_checks",
+  "body_count": 71,
+  "epoch_count": 8761,
+  "independent_sample_count": 28,
+  "checks": [
+    {
+      "id": "earth",
+      "independent_epochs_jd_tdb": [
+        2461288.521634058,
+        2461288.563300725,
+        2461293.521634058,
+        2461330.188300725,
+        2461455.188300725,
+        2461580.188300725,
+        2461653.479967391
+      ],
+      "hermite_position_errors_km": [
+        3.221029985132409e-07,
+        0.0010127730334775677,
+        0.0005749993144273411,
+        0.0010241027229972966,
+        0.0010319866850934838,
+        0.001004283251419945,
+        0.0011890775106207603
+      ],
+      "max_hermite_position_error_km": 0.0011890775106207603,
+      "max_linear_position_error_km": 9.783241199086692,
+      "source": "data/horizons/earth-independent.response.json",
+      "scene_source_knot_fit_tolerance_km": 0.25,
+      "tested_midpoints_within_source_knot_tolerance": true,
+      "max_midpoint_error_over_source_knot_tolerance": 0.004756310042483041
+    },
+    {
+      "id": "moon",
+      "independent_epochs_jd_tdb": [
+        2461288.521634058,
+        2461288.563300725,
+        2461293.521634058,
+        2461330.188300725,
+        2461455.188300725,
+        2461580.188300725,
+        2461653.479967391
+      ],
+      "hermite_position_errors_km": [
+        1.1130102636006375e-05,
+        0.0009962971247425515,
+        0.0005567495807456637,
+        0.001016646513403711,
+        0.0010717827159171449,
+        0.00102119537072643,
+        0.0011546236652032746
+      ],
+      "max_hermite_position_error_km": 0.0011546236652032746,
+      "max_linear_position_error_km": 14.24311142433284,
+      "source": "data/horizons/moon-independent.response.json",
+      "scene_source_knot_fit_tolerance_km": 0.25,
+      "tested_midpoints_within_source_knot_tolerance": true,
+      "max_midpoint_error_over_source_knot_tolerance": 0.004618494660813099
+    },
+    {
+      "id": "phobos",
+      "independent_epochs_jd_tdb": [
+        2461288.521634058,
+        2461288.563300725,
+        2461293.521634058,
+        2461330.188300725,
+        2461455.188300725,
+        2461580.188300725,
+        2461653.479967391
+      ],
+      "hermite_position_errors_km": [
+        10.475265807254582,
+        9.825191597082432,
+        12.297215296192414,
+        12.132451262315403,
+        10.78276343357588,
+        9.776717012624268,
+        10.826861310889033
+      ],
+      "max_hermite_position_error_km": 12.297215296192414,
+      "max_linear_position_error_km": 801.4561338052641,
+      "source": "data/horizons/phobos-independent.response.json",
+      "scene_source_knot_fit_tolerance_km": 0.005524163656565744,
+      "tested_midpoints_within_source_knot_tolerance": false,
+      "max_midpoint_error_over_source_knot_tolerance": 2226.077296167097
+    },
+    {
+      "id": "sedna",
+      "independent_epochs_jd_tdb": [
+        2461288.521634058,
+        2461288.563300725,
+        2461293.521634058,
+        2461330.188300725,
+        2461455.188300725,
+        2461580.188300725,
+        2461653.479967391
+      ],
+      "hermite_position_errors_km": [
+        3.960906917056119e-06,
+        0.00015240300421539283,
+        8.640757710137121e-05,
+        0.00015082307303499075,
+        0.00015135824683966563,
+        0.00015317090235072214,
+        0.00018003760307198119
+      ],
+      "max_hermite_position_error_km": 0.00018003760307198119,
+      "max_linear_position_error_km": 0.001456674400404413,
+      "source": "data/horizons/sedna-independent.response.json",
+      "scene_source_knot_fit_tolerance_km": 0.24875,
+      "tested_midpoints_within_source_knot_tolerance": true,
+      "max_midpoint_error_over_source_knot_tolerance": 0.0007237692585808289
+    }
+  ],
+  "fast_satellite_refinement": {
+    "id": "phobos",
+    "epoch_count": 35041,
+    "nominal_step_seconds": 900.0,
+    "independent_sample_count": 7,
+    "independent_epochs_jd_tdb": [
+      2461288.516425725,
+      2461288.558092391,
+      2461293.516425725,
+      2461330.183092391,
+      2461455.183092391,
+      2461580.183092391,
+      2461653.474759058
+    ],
+    "hermite_position_errors_km": [
+      0.04123107778527048,
+      0.0395638659210114,
+      0.048527690754702056,
+      0.04714263671837143,
+      0.04228917306026578,
+      0.03909881339877293,
+      0.04324206001129097
+    ],
+    "max_hermite_position_error_km": 0.048527690754702056,
+    "artifact": "data/horizons/phobos-refined.json.gz",
+    "artifact_bytes": 1903002,
+    "artifact_sha256": "6380d7ff1acfbeead68a70d945647d9a5f782feaabbbc3db1fb67da5171c7b8b",
+    "usage": "Optional separate time grid. Not merged into the shared hourly core data.",
+    "scene_source_knot_fit_tolerance_km": 0.005524163656565744,
+    "tested_midpoints_within_source_knot_tolerance": false
+  },
+  "time_quantization_note": "Horizons prints JD to 1e-9 day, about 86 microseconds. These error measurements include printed-epoch rounding. Meter-scale errors for Earth and Moon need not be physical interpolation errors. No navigation-grade accuracy is claimed.",
+  "interpretation": "Independent API requests at unsampled epochs validate interpolation against the same Horizons solutions. They do not independently measure the accuracy of those source solutions. Position errors are Euclidean barycentric ICRF differences. Source uncertainty is not quantified by VECTORS output and is not zero. Blender float32 representation error must be validated separately by the scene builder.",
+  "sampling_caveat": "Hourly cubic Hermite interpolation has a measured Phobos error comparable to its radius. Use the separately validated 15-minute Phobos data for closer inspection. Other fast moons also need subhour sampling for close inspection. Use --intervals for finer full-grid sampling.",
+  "first_jd_tdb": 2461288.500800725,
+  "last_jd_tdb": 2461653.500800725,
+  "orientation_count": 43,
+  "artifacts": {
+    "catalog.json": {
+      "bytes": 118634,
+      "sha256": "1d0fbbac0de4c799ae3c4cb9c1a9c0b3969f837a0b6fccce713ae9d57aa79cdd"
+    },
+    "ephemerides.json.gz": {
+      "bytes": 31091049,
+      "sha256": "78cb490dbfce40673d55074bab2c95092cd2bfcdedaf3ebd808b7fa22617ef30"
+    },
+    "orientations.json": {
+      "bytes": 54645,
+      "sha256": "4779536969c12643b61edce2a13ce4b63aefb4791ae243c06775577da668793a"
+    }
+  },
+  "source_knot_fit_is_not_continuous_accuracy": "The scene builder fits stored source samples to min(0.25 km, 0.0005 times body radius). That tolerance does not bound errors between samples. Hourly Phobos midpoint errors exceed this tolerance. The separate 15-minute Phobos series improves those errors but also exceeds this tolerance at independently tested midpoints. Neither sample set establishes a continuous error bound or navigation-grade accuracy."
+}

@@ -1,6 +1,6 @@
 # Sources and attribution
 
-This application adapts the local `solar-system-de9006d2` Blender model. Its source records remain authoritative. The scientific catalog and per-image rights manifest are bundled under `public/data/` and copied into the static release under `data/`.
+This application adapts the Blender model vendored under `blender/`. Its source records remain authoritative. The scientific catalog and per-image rights manifest are bundled under `public/data/` and copied into the static release under `data/`.
 
 ## Scientific data
 

@@ -151,7 +151,7 @@ From the application folder, run the exporter with the source Blender file loade
 
 ```sh
 PYTHONDONTWRITEBYTECODE=1 /Applications/Blender.app/Contents/MacOS/Blender \
-  -b ../solar-system-de9006d2/solar_system.blend \
+  -b blender/solar_system.blend \
   --python-exit-code 1 --python scripts/export_blender.py
 PYTHONDONTWRITEBYTECODE=1 python3 scripts/prepare_assets.py
 ```

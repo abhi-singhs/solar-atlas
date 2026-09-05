@@ -6,9 +6,8 @@
 *.tif binary
 *.glb binary
 *.bin binary
-public/assets/** linguist-generated=true
-public/data/** linguist-generated=true
-package-lock.json linguist-generated=true
+*.blend binary
+*.gz binary
 *.png filter=lfs diff=lfs merge=lfs -text
 *.jpg filter=lfs diff=lfs merge=lfs -text
 *.exr filter=lfs diff=lfs merge=lfs -text
@@ -17,4 +16,9 @@ package-lock.json linguist-generated=true
 *.bin filter=lfs diff=lfs merge=lfs -text
 *.blend filter=lfs diff=lfs merge=lfs -text
 *.gz filter=lfs diff=lfs merge=lfs -text
+docs/screenshots/*.png !filter !diff !merge binary
+blender/** linguist-vendored=true
+public/assets/** linguist-generated=true
+public/data/** linguist-generated=true
+package-lock.json linguist-generated=true
 docs/screenshots/* !text -filter -merge -diff

@@ -25,7 +25,7 @@ def digest(path):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--source", type=Path, default=ROOT.parent / "solar-system-de9006d2")
+    parser.add_argument("--source", type=Path, default=ROOT / "blender")
     parser.add_argument("--derived", type=Path, default=ROOT.parent / "solar-system-explorer-de9006d2")
     parser.add_argument("--inside-blender", action="store_true")
     args = parser.parse_args(sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else [])
