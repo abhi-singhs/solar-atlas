@@ -268,6 +268,46 @@ describe('assisted transfer and collision safety', () => {
     expect(flight.telemetry(snapshot).speedC).toBeLessThan(1e-8)
   })
 
+  it('holds a steady heading and the commanded speed during a near-c transfer', () => {
+    const target = body('target', 1000)
+    const moving = (t: number) => snap({ earth: state(), target: state([3e8 + 10 * t, 2e8 - 5 * t, -9e8 + 3 * t], [10, -5, 3]) }, t)
+    const flight = setup([earth, target], moving(0), pose([0, 0, 10]))
+    flight.setThrottle(NORMAL_LIMIT_C)
+    flight.transfer('target', moving(0))
+    let previous = new Quaternion(...flight.pose().quaternion)
+    let largestTurn = 0
+    for (let i = 1; i <= 600; i++) {
+      flight.update(1 / 60, moving(i / 60), input, 1 / 60)
+      const current = new Quaternion(...flight.pose().quaternion)
+      if (i > 300) largestTurn = Math.max(largestTurn, previous.angleTo(current))
+      previous = current
+    }
+    expect(flight.telemetry(moving(10)).mode).toBe('transfer')
+    expect(largestTurn).toBeLessThan(1e-6)
+    expect(flight.telemetry(moving(10)).speedC).toBeGreaterThan(0.9999)
+  })
+
+  it('routes a conventional near-c transfer around another body blocking the straight line', () => {
+    const rock = body('rock', 6000, 'planet')
+    const target = body('target', 1000)
+    const snapshot = snap({ earth: state(), rock: state([0, 0, -100000]), target: state([0, 0, -1e6]) })
+    const flight = setup([earth, rock, target], snapshot, pose([0, 0, 10]))
+    flight.setThrottle(NORMAL_LIMIT_C)
+    flight.transfer('target', snapshot)
+    let closest = Number.POSITIVE_INFINITY
+    let stopped = false
+    for (let i = 1; i <= 7200 && flight.telemetry(snapshot).mode !== 'free'; i++) {
+      flight.update(1 / 60, snapshot, input, 1 / 60)
+      closest = Math.min(closest, vector(flight.pose().position).distanceTo(vector([0, 0, -100000])))
+      stopped ||= flight.telemetry(snapshot).message.includes('safety stop')
+    }
+    const telemetry = flight.telemetry(snapshot)
+    expect(telemetry.mode, JSON.stringify({ closest, ...telemetry })).toBe('free')
+    expect(telemetry.message).toContain('Arrived')
+    expect(stopped).toBe(false)
+    expect(closest).toBeGreaterThan(6000 * 1.2)
+  })
+
   it('disengages warp at a swept exclusion zone without tunneling', () => {
     const flight = setup([earth], snap(), pose([0, 0, 1000]))
     flight.setWarp(true)
