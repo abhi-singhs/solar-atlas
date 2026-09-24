@@ -40,7 +40,7 @@ const snapshot: Snapshot = { jdTdb: 2461288.5, states: {
 function options(): RenderOptions {
   return {
     selectedId: 'moon', labels: true, paths: false, quality: 'low', exposure: 0,
-    cockpit: true, chase: false, shipPose: pose,
+    cockpit: true, chase: false, lensFlare: false, glareHidesStars: true, shipPose: pose,
     flightTelemetry: { speedC: 2e-9, throttleC: .02, altitudeKm: .0042, verticalKmS: -.0003,
       warp: false, mode: 'landing', targetId: 'moon', referenceId: 'earth' },
   }

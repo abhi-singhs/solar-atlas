@@ -14,7 +14,7 @@ import { HelpDialog, SettingsDialog, SourcesDialog } from './ui/Dialogs'
 import type { RouteActions } from './ui/RoutePanel'
 import { useLatest, useMediaQuery, useShortcuts, useStoredFlag } from './ui/hooks'
 
-type OptionKey = 'labels' | 'paths' | 'quality' | 'exposure' | 'fov'
+type OptionKey = 'labels' | 'paths' | 'quality' | 'exposure' | 'fov' | 'lensFlare' | 'glareHidesStars'
 const base = import.meta.env.BASE_URL
 const COMPACT = '(max-width: 760px), (max-height: 540px) and (orientation: landscape)'
 const detectTouch = () => navigator.maxTouchPoints > 0 || matchMedia('(any-pointer: coarse), (hover: none)').matches

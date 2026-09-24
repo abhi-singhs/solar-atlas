@@ -17,7 +17,7 @@ import { initialState } from './state'
 import type { SavedSettings, ViewState } from './state'
 
 const SETTINGS_KEY = 'solar-atlas-settings-v1'
-type OptionKey = 'labels' | 'paths' | 'quality' | 'exposure' | 'fov'
+type OptionKey = 'labels' | 'paths' | 'quality' | 'exposure' | 'fov' | 'lensFlare' | 'glareHidesStars'
 type RouteOption = 'routeAutoContinue' | 'routeAutoSpeed'
 const RUNNING = new Set(['departing', 'enroute', 'dwell'])
 
@@ -144,6 +144,7 @@ export class Explorer {
         selectedId: this.state.selectedId, labels: this.state.labels, paths: this.state.paths,
         quality: this.state.quality, exposure: this.state.exposure, cockpit: this.state.inShip && this.state.camera === 'cockpit',
         chase: this.state.inShip && this.state.camera === 'chase',
+        lensFlare: this.state.lensFlare, glareHidesStars: this.state.glareHidesStars,
         shipPose: this.state.inShip ? this.flight.pose() : undefined,
         landingBodyId: telemetry?.landingBodyId,
         flightTelemetry: telemetry,
@@ -550,7 +551,8 @@ export class Explorer {
 
   private save(): void {
     const settings: SavedSettings = { version: 1, labels: this.state.labels, paths: this.state.paths,
-      quality: this.state.quality, exposure: this.state.exposure, fov: this.state.fov, bookmarks: this.state.bookmarks }
+      quality: this.state.quality, exposure: this.state.exposure, fov: this.state.fov, lensFlare: this.state.lensFlare,
+      glareHidesStars: this.state.glareHidesStars, bookmarks: this.state.bookmarks }
     try { localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)) }
     catch (e) { this.publish({ message: `Settings could not be saved in this browser: ${e instanceof Error ? e.message : String(e)}` }) }
   }
@@ -579,7 +581,14 @@ export class Explorer {
         if (typeof parsed.fov !== 'number' || !Number.isFinite(parsed.fov) || parsed.fov < 25 || parsed.fov > 100) throw new Error('Saved field of view is invalid.')
         fov = parsed.fov
       }
-      this.state = { ...this.state, labels: parsed.labels, paths: parsed.paths, quality: parsed.quality, exposure: parsed.exposure, fov, bookmarks }
+      const flag = (key: 'lensFlare' | 'glareHidesStars'): boolean => {
+        if (!(key in parsed)) return this.state[key]
+        const value = (parsed as Record<string, unknown>)[key]
+        if (typeof value !== 'boolean') throw new Error(`Saved ${key === 'lensFlare' ? 'lens flare' : 'star glare'} setting is invalid.`)
+        return value
+      }
+      this.state = { ...this.state, labels: parsed.labels, paths: parsed.paths, quality: parsed.quality, exposure: parsed.exposure, fov,
+        lensFlare: flag('lensFlare'), glareHidesStars: flag('glareHidesStars'), bookmarks }
     } catch (e) {
       this.state.message = `Using default settings because saved preferences could not be restored: ${e instanceof Error ? e.message : String(e)}`
     }
