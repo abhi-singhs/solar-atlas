@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
-import { CircleHelp, Eye, Info, Orbit, Rocket, Settings, Telescope, X } from 'lucide-react'
+import { CircleAlert, CircleHelp, Eye, Info, Orbit, Rocket, Settings, Telescope, TriangleAlert, X } from 'lucide-react'
 import { Explorer } from './navigation/Explorer'
 import { initialState } from './navigation/state'
-import type { ViewState } from './navigation/state'
+import type { Notice, NoticeTone, ViewState } from './navigation/state'
 import { TouchControls } from './input/TouchControls'
 import { BodyCard } from './ui/BodyCard'
 import type { Appearance } from './ui/BodyCard'
@@ -20,9 +20,13 @@ const COMPACT = '(max-width: 760px), (max-height: 540px) and (orientation: lands
 const detectTouch = () => navigator.maxTouchPoints > 0 || matchMedia('(any-pointer: coarse), (hover: none)').matches
 const flightKeys = new Set(['KeyW', 'KeyS', 'KeyA', 'KeyD', 'KeyQ', 'KeyE', 'KeyR', 'KeyF', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space'])
 const gasGiants = ['jupiter', 'saturn', 'uranus', 'neptune']
+const NOTICE_ICON: Record<NoticeTone, typeof Info> = { info: Info, warning: TriangleAlert, error: CircleAlert }
+// Errors stay until dismissed.
+const NOTICE_MS: Partial<Record<NoticeTone, number>> = { info: 4000, warning: 8000 }
 
 function App() {
   const viewport = useRef<HTMLDivElement>(null)
+  const atlas = useRef<HTMLElement>(null)
   const engine = useRef<Explorer | null>(null)
   const phone = useMediaQuery(COMPACT)
   const [hasTouch] = useState(detectTouch)
@@ -40,11 +44,36 @@ function App() {
   const [flightHintSeen, dismissFlightHint] = useStoredFlag('solar-atlas-flight-hint')
   const inShip = useLatest(view.inShip)
 
+  // The countdown waits for a visible, focused page, so a pause notice is still there when the user comes back.
   useEffect(() => {
-    if (!view.message) return
-    const timer = window.setTimeout(() => engine.current?.clearMessage(), 8000)
-    return () => window.clearTimeout(timer)
-  }, [view.message])
+    const delay = view.notice && NOTICE_MS[view.notice.tone]
+    if (!delay) return
+    let timer = 0
+    const start = () => {
+      if (!timer && !document.hidden && document.hasFocus()) timer = window.setTimeout(() => engine.current?.clearMessage(), delay)
+    }
+    start()
+    window.addEventListener('focus', start)
+    document.addEventListener('visibilitychange', start)
+    return () => {
+      window.clearTimeout(timer)
+      window.removeEventListener('focus', start)
+      document.removeEventListener('visibilitychange', start)
+    }
+  }, [view.notice])
+
+  // In flight the toast sits under the body card, so CSS needs the card's bottom edge. The card mounts once, when the atlas is ready.
+  useEffect(() => {
+    const root = atlas.current
+    const card = root?.querySelector<HTMLElement>('.body-card')
+    if (!root || !card) return
+    const update = () => root.style.setProperty('--card-bottom', `${card.getBoundingClientRect().bottom}px`)
+    update()
+    const observer = new ResizeObserver(update)
+    observer.observe(card)
+    window.addEventListener('resize', update)
+    return () => { observer.disconnect(); window.removeEventListener('resize', update) }
+  }, [view.ready])
 
   useEffect(() => {
     if (document.activeElement?.id !== 'throttle') setThrottle(String(view.throttleC))
@@ -166,13 +195,17 @@ function App() {
     },
   } : {})
 
-  const hint = view.inShip
-    ? flightHintSeen ? '' : hasTouch ? 'Hold the Steer and Look pads to fly. Expand the panel for speed and routes.' : 'W/S thrust · arrows steer · Q/E roll · Space brake · C camera'
-    : view.observerMode === 'free' && !hasTouch ? 'W/S forward and back · A/D sideways · R/F up and down'
-      : exploreHintSeen ? '' : hasTouch ? 'Drag to orbit · pinch to zoom · tap a label to select' : 'Drag to orbit · scroll to zoom · click a label to select'
+  const hint = view.pickingSite && !view.inShip
+    ? hasTouch ? 'Tap the surface to land there' : 'Click the surface to land there · Esc cancels'
+    : view.inShip
+      ? flightHintSeen ? '' : hasTouch ? 'Hold the Steer and Look pads to fly. Expand the panel for speed and routes.' : 'W/S thrust · arrows steer · Q/E roll · Space brake · C camera'
+      : view.observerMode === 'free' && !hasTouch ? 'W/S forward and back · A/D sideways · R/F up and down'
+        : exploreHintSeen ? '' : hasTouch ? 'Drag to orbit · pinch to zoom · tap a label to select' : 'Drag to orbit · scroll to zoom · click a label to select'
   const touchEnabled = !modal && !catalog && !hidden && !(phone && (details || flightExpanded))
+  const notice: Notice | null = error ? { text: error, tone: 'error', id: 0 } : view.notice
+  const NoticeIcon = NOTICE_ICON[notice?.tone ?? 'info']
 
-  return <main className={`atlas ${view.inShip ? 'is-flying' : ''} ${hidden ? 'ui-hidden' : ''} ${hasTouch ? 'has-touch' : ''}`}>
+  return <main ref={atlas} className={`atlas ${view.inShip ? 'is-flying' : ''} ${hidden ? 'ui-hidden' : ''} ${hasTouch ? 'has-touch' : ''}`}>
     <div ref={viewport} className="universe" aria-label="Interactive solar system viewport" tabIndex={0} />
 
     <header className="topbar">
@@ -217,12 +250,16 @@ function App() {
         onHide={() => setHidden(true)} route={routeActions} />}
       {view.inShip && engine.current && <TouchControls input={engine.current.input.state} enabled={touchEnabled} onBrake={() => perform(e => e.brake())} />}
 
-      {hint && !catalog && !menu && !(phone && (details || (view.inShip && flightExpanded))) && <div className="hint" role="note">{hint}</div>}
+      {hint && !notice && !catalog && !menu && !(phone && (details || (view.inShip && flightExpanded))) &&
+        <div className={`hint ${view.pickingSite ? 'task' : ''}`} role="note">{hint}</div>}
       {hidden && <button className="show-ui" onClick={() => setHidden(false)} aria-keyshortcuts="H"><Eye size={16} />Show interface<kbd>H</kbd></button>}
     </>}
 
     {!view.ready && <div className="loading-screen"><div className="loading-orbit"><Orbit size={54} strokeWidth={.8} /></div><span className="eyebrow">Solar atlas</span><h1>Every world.<br />One physical scale.</h1><p>71 bodies. Seven ring systems.<br />A year of source-backed motion.</p><div className="loading-line" /><span className="loading-detail">{view.loading}</span>{error && <button onClick={() => window.location.reload()}>Retry loading</button>}</div>}
-    {(error || view.message) && <div className={`notice ${error ? 'error' : ''}`} role={error ? 'alert' : 'status'}><Info size={17} /><span>{error || view.message}</span><button className="icon-button ghost" aria-label="Dismiss message" onClick={() => { setError(''); perform(e => e.clearMessage()) }}><X size={17} /></button></div>}
+    {notice && <div className={`notice ${notice.tone}`} role={notice.tone === 'error' ? 'alert' : 'status'}>
+      <NoticeIcon size={14} aria-hidden="true" /><span>{notice.text}</span>
+      <button className="icon-button ghost" aria-label="Dismiss message" onClick={() => { setError(''); perform(e => e.clearMessage()) }}><X size={14} /></button>
+    </div>}
 
     {modal === 'settings' && <SettingsDialog view={view} onClose={() => setModal(null)} onOption={option} />}
     {modal === 'help' && <HelpDialog onClose={() => setModal(null)} onSources={() => setModal('sources')} />}

@@ -14,7 +14,7 @@ import { duration } from '../ui/format'
 import { InputController, setInputSource } from '../input/controls'
 import { Observer } from './observer'
 import { initialState } from './state'
-import type { SavedSettings, ViewState } from './state'
+import type { Notice, NoticeTone, SavedSettings, ViewState } from './state'
 
 const SETTINGS_KEY = 'solar-atlas-settings-v1'
 type OptionKey = 'labels' | 'paths' | 'quality' | 'exposure' | 'fov'
@@ -40,6 +40,7 @@ export class Explorer {
   private keys = new Set<string>()
   private navigationToken = 0
   private lastFlightMessage = ''
+  private noticeId = 0
   private readonly pointerLook = Symbol('viewport-look')
   private lastSitePick = -Infinity
   private routeKey = 0
@@ -78,7 +79,7 @@ export class Explorer {
         if (this.state.pickingSite || performance.now() - this.lastSitePick < 250) return
         void this.select(id).catch(e => this.report(e))
       },
-      onError: message => this.publish({ message }),
+      onError: message => this.publish({ notice: this.note(message, 'error') }),
       onProgress: loading => this.publish({ loading }),
       onSurfacePick: (id, hit) => this.positionOverSite(id, hit),
     })
@@ -90,7 +91,7 @@ export class Explorer {
     if (this.disposed) return
     const validBookmarks = this.state.bookmarks.filter(b => dataset.bodies.some(body => body.id === b.bodyId) &&
       b.jd >= dataset.firstJd && b.jd <= dataset.lastJd)
-    if (validBookmarks.length !== this.state.bookmarks.length) this.publish({ message: 'Some saved viewpoints no longer match this dataset and were removed.' })
+    if (validBookmarks.length !== this.state.bookmarks.length) this.publish({ notice: this.note('Some saved viewpoints no longer match this dataset and were removed.', 'warning') })
     this.publish({ ready: true, bookmarks: validBookmarks })
     this.frame = requestAnimationFrame(this.tick)
   }
@@ -100,8 +101,12 @@ export class Explorer {
     if (!this.disposed) this.notify(this.state)
   }
 
+  private note(text: string, tone: NoticeTone = 'info'): Notice {
+    return { text, tone, id: ++this.noticeId }
+  }
+
   private report(error: unknown): void {
-    this.publish({ playing: false, message: error instanceof Error ? error.message : String(error) })
+    this.publish({ playing: false, notice: this.note(error instanceof Error ? error.message : String(error), 'error') })
   }
 
   private tick = (now: number): void => {
@@ -120,7 +125,7 @@ export class Explorer {
         this.state.jd = jd
         if (next <= this.dataset.firstJd || next >= this.dataset.lastJd) {
           this.state.playing = false
-          this.state.message = 'Reached the cached dataset boundary. Playback is paused.'
+          this.state.notice = this.note('Reached the cached dataset boundary. Playback is paused.')
         }
       }
       this.snapshot = this.dataset.evaluate(this.state.jd)
@@ -157,12 +162,13 @@ export class Explorer {
         if (telemetry) {
           Object.assign(patch, { shipMode: telemetry.mode, speedC: telemetry.speedC, throttleC: telemetry.throttleC,
             warp: telemetry.warp, warpArmed: telemetry.warpArmed, referenceId: telemetry.referenceId, altitudeKm: telemetry.altitudeKm,
-            verticalKmS: telemetry.verticalKmS,
+            altitudeEstimated: telemetry.altitudeEstimated, verticalKmS: telemetry.verticalKmS,
             separationKm: new Vector3(...this.flight.pose().position).distanceTo(new Vector3(...statePosition)),
             etaSeconds: telemetry.targetId === this.state.selectedId ? telemetry.etaSeconds : Infinity })
-          if (telemetry.message && telemetry.message !== this.lastFlightMessage) {
-            patch.message = telemetry.message
+          // Routine flight status already shows in the flight panel, so only warnings become popups.
+          if (telemetry.message !== this.lastFlightMessage) {
             this.lastFlightMessage = telemetry.message
+            if (telemetry.warning) patch.notice = this.note(telemetry.message, 'warning')
           }
         }
         this.publish(patch)
@@ -294,8 +300,7 @@ export class Explorer {
       throw new Error('Choose a solid body for a surface landing site.')
     }
     await this.renderer?.ensureBody(this.state.selectedId)
-    const pickingSite = !this.state.pickingSite
-    this.publish({ pickingSite, message: pickingSite ? 'Tap or click the visible surface to launch an assisted landing there. Escape cancels.' : 'Site selection cancelled.' })
+    this.publish({ pickingSite: !this.state.pickingSite })
   }
 
   private positionOverSite(id: string, hit: SurfaceHit): void {
@@ -305,7 +310,7 @@ export class Explorer {
     this.observer.theta = Math.atan2(direction.y, direction.x)
     this.observer.phi = Math.asin(Math.max(-1, Math.min(1, direction.z)))
     this.lastSitePick = performance.now()
-    this.publish({ selectedId: id, observerMode: 'orbit', message: 'Viewing the selected source-mesh site. Added ground detail is reconstructed.' })
+    this.publish({ selectedId: id, observerMode: 'orbit' })
   }
   takeoff(): void {
     this.interruptRoute()
@@ -314,7 +319,7 @@ export class Explorer {
   }
   brake(): void { this.flight?.brake(); this.publish({ throttleC: 0 }) }
   cancel(): void { this.flight?.cancel() }
-  clearMessage(): void { this.publish({ message: '' }) }
+  clearMessage(): void { this.publish({ notice: null }) }
 
   addStop(id: string, action: StopAction = 'arrive', announce = true): void {
     const body = this.body(id)
@@ -322,7 +327,7 @@ export class Explorer {
     if (typeof route === 'string') throw new Error(route)
     const position = route.filter(stop => stop.status === 'pending').length
     this.publish({ route, routePhase: this.state.routePhase === 'complete' ? 'idle' : this.state.routePhase,
-      ...(announce ? { message: `Added ${body.name} as destination ${position}.` } : {}) })
+      ...(announce ? { notice: this.note(`Added ${body.name} as destination ${position}.`) } : {}) })
   }
 
   toggleStop(id: string): void {
@@ -372,7 +377,7 @@ export class Explorer {
     this.launching = false
     if (this.state.routePhase === 'enroute') this.flight?.brake()
     this.syncFlightMessage()
-    this.publish({ routePhase: 'idle', routeDwell: 0, throttleC: 0, message: 'Route paused. Resume route when you are ready.' })
+    this.publish({ routePhase: 'idle', routeDwell: 0, throttleC: 0 })
   }
 
   departNow(): void {
@@ -382,7 +387,7 @@ export class Explorer {
   skipStop(): void {
     const stop = currentStop(this.state.route)
     if (!stop) return
-    this.publish({ route: markStop(this.state.route, stop.key, 'skipped'), message: `Skipped ${this.body(stop.bodyId).name}.` })
+    this.publish({ route: markStop(this.state.route, stop.key, 'skipped') })
     if (RUNNING.has(this.state.routePhase)) this.continueAfterChange()
   }
 
@@ -403,7 +408,7 @@ export class Explorer {
     if (!RUNNING.has(this.state.routePhase)) return
     this.routeToken++
     this.launching = false
-    this.publish({ routePhase: 'idle', routeDwell: 0, message: 'Route paused for manual flight. Resume route to continue.' })
+    this.publish({ routePhase: 'idle', routeDwell: 0, notice: this.note('Route paused for manual flight. Resume route to continue.') })
   }
 
   private syncFlightMessage(): void {
@@ -430,7 +435,7 @@ export class Explorer {
     if (mode === 'landed' || mode === 'hover') {
       flight.takeoff(this.snapshot)
       this.syncFlightMessage()
-      this.publish({ routePhase: 'departing', routeDwell: 0, playing, message: `Taking off for ${this.body(stop.bodyId).name}.` })
+      this.publish({ routePhase: 'departing', routeDwell: 0, playing })
       return
     }
     this.publish({ routePhase: 'departing', routeDwell: 0, selectedId: stop.bodyId, playing })
@@ -448,7 +453,7 @@ export class Explorer {
     }
     const snapshot = this.snapshot
     const body = this.body(stop.bodyId)
-    let note = ''
+    const notes: string[] = []
     if (this.state.routeAutoSpeed) {
       const before = flight.telemetry(snapshot)
       const distance = new Vector3(...flight.pose().position).distanceTo(new Vector3(...snapshot.states[stop.bodyId].position))
@@ -456,7 +461,7 @@ export class Explorer {
       const speed = legSpeedC(distance, warpAllowed)
       flight.setThrottle(speed)
       const cruise = cruiseSeconds(distance, speed)
-      if (!warpAllowed && cruise > SLOW_LEG_SECONDS) note = ` This leg takes about ${duration(cruise)} below c. Turn on Warp to get there sooner.`
+      if (!warpAllowed && cruise > SLOW_LEG_SECONDS) notes.push(`This leg takes about ${duration(cruise)} below c. Turn on Warp to get there sooner.`)
     }
     if (stop.action === 'land' && canLandOn(body)) flight.land(stop.bodyId, snapshot)
     else flight.transfer(stop.bodyId, snapshot)
@@ -464,17 +469,17 @@ export class Explorer {
     if (stop.action === 'land' && telemetry.mode === 'free') {
       flight.transfer(stop.bodyId, snapshot)
       telemetry = flight.telemetry(snapshot)
-      note = ` Landing is unavailable there, so the ship will park nearby.${note}`
+      notes.unshift('Landing is unavailable there, so the ship will park nearby.')
     }
+    this.lastFlightMessage = telemetry.message
     if (telemetry.mode === 'free') {
-      this.publish({ routePhase: 'idle', message: `Route paused. ${telemetry.message}` })
+      this.publish({ routePhase: 'idle', notice: this.note(`Route paused. ${telemetry.message}`, 'warning') })
       return
     }
     this.routeLeg = { key: stop.key, arrivals: telemetry.arrivals }
-    this.lastFlightMessage = telemetry.message
-    const index = this.state.route.filter(item => item.status !== 'pending').length + 1
+    // The route status shows each leg, so only a leg with a caveat gets a popup.
     this.publish({ routePhase: 'enroute', selectedId: stop.bodyId, throttleC: telemetry.throttleC, playing,
-      message: `Leg ${index} of ${this.state.route.length}: heading to ${body.name}.${note}` })
+      ...(notes.length ? { notice: this.note(`Heading to ${body.name}. ${notes.join(' ')}`, 'warning') } : {}) })
   }
 
   private advanceRoute(telemetry: FlightTelemetry, simulationDt: number): void {
@@ -497,24 +502,19 @@ export class Explorer {
       return
     }
     if (telemetry.mode === 'free' && telemetry.targetId !== stop.bodyId) {
-      this.publish({ routePhase: 'idle', message: `Route paused before ${this.body(stop.bodyId).name}. Resume route to continue.` })
+      this.publish({ routePhase: 'idle', notice: this.note(`Route paused before ${this.body(stop.bodyId).name}. Resume route to continue.`, 'warning') })
     }
   }
 
+  /** The route status and stop list already show arrivals, so these transitions stay silent. */
   private arrive(stop: RouteStop, telemetry: FlightTelemetry): void {
     const route = markStop(this.state.route, stop.key, 'visited')
-    const next = currentStop(route)
-    const name = this.body(stop.bodyId).name
-    const verb = telemetry.mode === 'landed' ? `Landed on ${name}` : telemetry.mode === 'hover' ? `Hovering at ${name}` : `Arrived at ${name}`
     this.lastFlightMessage = telemetry.message
-    if (!next) {
-      this.publish({ route, routePhase: 'complete', routeDwell: 0, message: `${verb}. Route complete, ${route.filter(item => item.status === 'visited').length} of ${route.length} destinations visited.` })
+    if (!currentStop(route)) {
+      this.publish({ route, routePhase: 'complete', routeDwell: 0 })
       return
     }
-    const nextName = this.body(next.bodyId).name
-    const auto = this.state.routeAutoContinue
-    this.publish({ route, routePhase: 'dwell', routeDwell: auto ? DWELL_SECONDS : Infinity,
-      message: auto ? `${verb}. Next stop, ${nextName}, in ${DWELL_SECONDS} s.` : `${verb}. Depart when you are ready for ${nextName}.` })
+    this.publish({ route, routePhase: 'dwell', routeDwell: this.state.routeAutoContinue ? DWELL_SECONDS : Infinity })
   }
 
   private finishRoute(): void {
@@ -532,7 +532,7 @@ export class Explorer {
     if (!body) return
     const bookmark = { bodyId: body.id, name: `${body.name} / ${this.state.date.slice(0, 10)}`, jd: this.state.jd }
     const bookmarks = this.state.bookmarks.filter(item => item.bodyId !== body.id || item.jd !== this.state.jd)
-    this.publish({ bookmarks: [...bookmarks, bookmark], message: `Saved ${body.name} and the current simulation date. Find it under Saved in the catalog.` })
+    this.publish({ bookmarks: [...bookmarks, bookmark], notice: this.note(`Saved ${body.name}. Find it under Saved in the catalog.`) })
     this.save()
   }
 
@@ -552,7 +552,7 @@ export class Explorer {
     const settings: SavedSettings = { version: 1, labels: this.state.labels, paths: this.state.paths,
       quality: this.state.quality, exposure: this.state.exposure, fov: this.state.fov, bookmarks: this.state.bookmarks }
     try { localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)) }
-    catch (e) { this.publish({ message: `Settings could not be saved in this browser: ${e instanceof Error ? e.message : String(e)}` }) }
+    catch (e) { this.publish({ notice: this.note(`Settings could not be saved in this browser: ${e instanceof Error ? e.message : String(e)}`, 'error') }) }
   }
 
   private restore(): void {
@@ -581,7 +581,7 @@ export class Explorer {
       }
       this.state = { ...this.state, labels: parsed.labels, paths: parsed.paths, quality: parsed.quality, exposure: parsed.exposure, fov, bookmarks }
     } catch (e) {
-      this.state.message = `Using default settings because saved preferences could not be restored: ${e instanceof Error ? e.message : String(e)}`
+      this.state.notice = this.note(`Using default settings because saved preferences could not be restored: ${e instanceof Error ? e.message : String(e)}`, 'warning')
     }
   }
 
@@ -620,7 +620,7 @@ export class Explorer {
         this.positionOverSite(id, hit)
         this.publish({ pickingSite: false })
         void this.land(id).catch(e => this.report(e))
-      } else this.publish({ message: 'No source surface at that point. Tap the body itself, or press Escape to cancel.' })
+      } else this.publish({ notice: this.note('No source surface at that point. Tap the body itself, or press Escape to cancel.', 'warning') })
     }
     this.pointers.delete(event.pointerId)
     if (this.container.hasPointerCapture(event.pointerId)) this.container.releasePointerCapture(event.pointerId)
@@ -632,7 +632,7 @@ export class Explorer {
     if (!this.state.inShip) this.observer?.zoom(event.deltaY)
   }
   private keyDown = (event: KeyboardEvent): void => {
-    if (event.code === 'Escape' && this.state.pickingSite) this.publish({ pickingSite: false, message: 'Site selection cancelled.' })
+    if (event.code === 'Escape' && this.state.pickingSite) this.publish({ pickingSite: false })
     if (event.target instanceof Element && event.target.closest('input, select, textarea, button, [contenteditable="true"], dialog')) return
     this.keys.add(event.code)
   }
@@ -641,7 +641,7 @@ export class Explorer {
     this.keys.clear()
     this.pointers.clear()
     setInputSource(this.input.state, this.pointerLook, null)
-    if (this.state.inShip) this.publish({ playing: false, message: 'Flight paused when the window lost focus.' })
+    if (this.state.inShip) this.publish({ playing: false, notice: this.note('Flight paused when the window lost focus.') })
   }
   private visibility = (): void => {
     this.previousTime = 0
@@ -649,7 +649,7 @@ export class Explorer {
       this.keys.clear()
       this.pointers.clear()
       setInputSource(this.input.state, this.pointerLook, null)
-      this.publish({ playing: false, message: 'Simulation paused while this tab was hidden.' })
+      this.publish({ playing: false, notice: this.note('Simulation paused while this tab was hidden.') })
     }
   }
   private resize = (): void => {

@@ -52,6 +52,32 @@ describe('flight command and input contracts', () => {
     expect(flight.telemetry(snap()).message).toContain('finite')
   })
 
+  it('flags refused commands as warnings and keeps routine status quiet', () => {
+    const sun = body('sun', 1, 'star')
+    const moon = body('moon')
+    const states = { earth: state(), sun: state([0, 0, 1e9]), moon: state([0, 0, 1000]) }
+    const flight = setup([earth, sun, moon], snap(states), pose([0, 0, 100]))
+    const warning = () => flight.telemetry(snap(states)).warning
+    expect(warning()).toBe(false)
+    expect(flight.telemetry(snap(states)).altitudeEstimated).toBe(false)
+    flight.transfer('moon', snap(states))
+    expect(warning()).toBe(false)
+    flight.brake()
+    expect(warning()).toBe(false)
+    flight.takeoff(snap(states))
+    expect(warning()).toBe(true)
+    flight.land('moon', snap(states))
+    expect(warning()).toBe(false)
+    flight.cancel()
+    flight.land('sun', snap(states))
+    expect(flight.telemetry(snap(states)).message).toContain('no landing')
+    expect(warning()).toBe(true)
+    flight.setWarp(false)
+    expect(warning()).toBe(false)
+    flight.setThrottle(Number.NaN)
+    expect(warning()).toBe(true)
+  })
+
   it('requires explicit warp, caps at 1000c, and clamps when disabled', () => {
     const flight = setup([earth], snap(), pose([0, 0, 1e12]))
     flight.setThrottle(1000)
@@ -647,7 +673,8 @@ describe('landing and takeoff', () => {
     flight.land('earth', snap())
     expect(flight.telemetry(snap()).mode).toBe('free')
     expect(flight.telemetry(snap()).message).toContain('source geometry')
-    expect(flight.telemetry(snap()).message).toContain('catalog-radius estimate')
+    expect(flight.telemetry(snap()).warning).toBe(true)
+    expect(flight.telemetry(snap()).altitudeEstimated).toBe(true)
     expect(flight.telemetry(snap()).altitudeKm).toBe(1)
     flight.land('missing', snap())
     expect(flight.telemetry(snap()).message).toContain('unavailable')
