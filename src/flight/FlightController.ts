@@ -580,13 +580,41 @@ export class FlightController {
     let speed = Math.min(commandSpeed, finalApproachSpeed, remaining * 0.8, Math.max(approachLimit, safeCruiseSpeed))
     if (near) speed = Math.min(speed, approachSpeed(body))
     if (!this.site && remaining > 0) {
-      const closing = Math.max(1, this.velocity.distanceTo(goalVelocity), speed)
-      const leadSeconds = Math.min(7200, remaining / closing)
-      if (!near) delta.addScaledVector(goalVelocity.clone().sub(this.velocity), leadSeconds)
-      const direction = delta.clone().normalize()
-      this.orientation.rotateTowards(new Quaternion().setFromUnitVectors(FORWARD, direction), h * 1.2)
+      // Desired velocity already includes the target's velocity, so aim straight at the goal in the target's frame.
+      // Leading by the ship's own velocity cancels the aim vector at high speed and makes the nose flip every frame.
+      delta.copy(this.avoidObstacles(delta, body, current))
+      this.orientation.rotateTowards(new Quaternion().setFromUnitVectors(FORWARD, delta), h * 1.2)
     }
     return { velocity: goalVelocity.add(delta.normalize().multiplyScalar(speed)), acceleration }
+  }
+
+  /** Returns a unit course that grazes the nearest other body's exclusion sphere blocking the straight path to the goal. */
+  private avoidObstacles(delta: Vector3, target: Body, snapshot: Snapshot): Vector3 {
+    const distance = delta.length()
+    const aim = delta.clone().multiplyScalar(1 / distance)
+    let entry = distance
+    let course = aim
+    for (const obstacle of this.bodies) {
+      const state = obstacle.id === target.id ? undefined : snapshot.states[obstacle.id]
+      if (!state) continue
+      const offset = vector(state.position).sub(this.position)
+      const range = offset.length()
+      const radius = (bodyRadius(obstacle) + zoneAltitude(obstacle)) * 1.05
+      const along = offset.dot(aim)
+      if (along <= 0 || range < 1e-12 || offset.clone().sub(delta).length() <= radius) continue
+      const miss = Math.sqrt(Math.max(0, range * range - along * along))
+      if (miss >= radius) continue
+      const reach = Math.max(0, along - Math.sqrt(radius * radius - miss * miss))
+      if (reach >= entry) continue
+      const toward = offset.multiplyScalar(1 / range)
+      const side = aim.clone().addScaledVector(toward, -aim.dot(toward))
+      if (side.lengthSq() < 1e-18) side.crossVectors(toward, Math.abs(toward.y) < 0.9 ? UP : new Vector3(1, 0, 0))
+      side.normalize()
+      const angle = range > radius ? Math.asin(radius / range) : Math.PI / 2
+      entry = reach
+      course = toward.multiplyScalar(Math.cos(angle)).addScaledVector(side, Math.sin(angle))
+    }
+    return course
   }
 
   private finishLanding(snapshot: Snapshot): void {
