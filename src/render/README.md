@@ -118,10 +118,27 @@ Ring sheets use each source band's optical depth. Opacity is `1-exp(-tau/abs(N d
 
 Texture and geometry estimates use LRU budgets of 96 MiB for low quality and 512 MiB for high quality. Active, visibly resolved bodies and the selected or landing body remain pinned. A pinned working set can exceed the target budget. Low quality caps device pixel ratio at 1. High quality caps it at 1.75. Body assets load lazily, and visible background loading has a three-body concurrency limit.
 
+## Stars
+
+The constructor calls `loadStars`, which fetches `assets/stars/manifest.json` and then `hipparcos.bin`. Every star file must match the byte count and SHA-256 in the manifest before it is parsed. On each frame, `ensureStarQuality` starts any missing load for the current quality: `faint-a.bin` (Tycho-2 to V 10) and the 2K Milky Way JPEG on low, plus `faint-b.bin` (V 10 to 11.5) and the 4K map on high. A failed load calls `onError`, and the frame renders without that part. `src/render/stars.ts` holds the math, the parsers, and the `StarField` scene.
+
+The star scene draws right after the clear, before trajectory lines and bodies. The Milky Way is a back-facing unit sphere drawn first, and the Tycho-2 and Hipparcos point passes add on top of it. All three have depth test and depth writes off, so every opaque body drawn later covers them. Rings and atmosphere shells keep their optical-depth transparency, which lets stars show through thin rings.
+
+The Hipparcos vertex shader runs `apparentStar` in float32. It adds proper motion in radians per Julian year since J1991.25, then subtracts the camera position in parsecs times the parallax. Stars without a positive parallax stay at infinite distance. The Tycho-2 shader decodes an octahedral uint16 direction and uint8 V and B-V codes, with no motion or parallax.
+
+Exposure is `2 ** options.exposure * sqrt(REFERENCE_PIXEL_SOLID_ANGLE / pixelSolidAngle)`, where the reference is 4 arcminutes per CSS pixel. A star's linear flux is exposure times `10^(-0.4 (V - 4))`, divided by the squared change in distance, and its peak is that flux to the power 0.9. The profile is a Gaussian core with a sigma of 0.75 CSS pixels holding 70% of the energy, plus a halo four times wider holding 30%. Each pixel clips at 1, so bright stars grow a saturated core and a glow. Color is the blackbody chromaticity for the star's B-V temperature, divided by the 4800 K white point, normalized to unit luminance, and mixed 65% with white. Stars without B-V render white.
+
+The Milky Way shader samples the plate carree NASA map with `textureGrad` and a wrap-corrected derivative, so the RA seam doesn't drop to the smallest mip level. It subtracts a 0.004 black point and keeps 60% of the map's color. `milkyWayScale` turns texels into V = 0 stars per steradian with the matching NASA `hiptyc_2020` map, in which a V 5.5 star sums to about 0.5 texel units, and applies a 0.4 display gain. Neither pass uses tone mapping.
+
+Two scene checks scale the stars and the Milky Way together. An unoccluded Sun in or near the viewport divides the flux by `1 + 4000 / d_AU^2`. Inside a body's atmosphere shell, `daylightExtinction` removes 0 to 12 magnitudes as the Sun rises from 18 degrees below the local horizon to 10 degrees above it. Below the Venus cloud deck the scene is skipped.
+
+`tests/stars.test.ts` checks file checksums, tier counts, and the 18 Bright Star Catalogue additions. It compares Hipparcos stars with SIMBAD J2000 positions within 0.1 arcsecond, and finds Barnard's star, Proxima Centauri, Kapteyn's star, and Ross 128 in the Tycho-2 tier within 8 arcseconds of their 2027 positions. It also covers proper motion, parallax, color, exposure, glare, and the renderer's daylight rules. `tests/stars-render.test.ts` runs the real shaders in Chrome. Sirius, Arcturus after a century of proper motion, and Alpha Centauri seen from 1000 AU land within 0.2 pixel of the CPU prediction, and halving the distance to Sirius raises its peak by 4^0.9. It also checks that the Large Magellanic Cloud sits at its own RA rather than the mirrored one, and that the Coalsack is dark against the Crux star cloud.
+
 ## Verification
 
 ```sh
 npm test -- tests/render-precision.test.ts tests/assets-parity.test.ts tests/terrain.test.ts
+npm test -- tests/stars.test.ts tests/stars-render.test.ts
 npm run dev -- --host 127.0.0.1 --port 5173 --strictPort
 node tests/render-browser.mjs
 node tests/render-browser.mjs --handshake
@@ -143,6 +160,7 @@ The linear floating-point framebuffer probe measured exactly `0.25` radiance aft
 - Eclipse shadows use spherical occultors and hard edges. They omit solar-disc penumbrae. Ring sheets omit dust phase functions, vertical structure, and multiple scattering. Tenuous rings can disappear below display precision.
 - Local terrain is reconstructed and bounded. It shares the flight collision geometry, but it does not add measured geography or resolve source maps beyond their prepared resolution.
 - The spacecraft and cabin lighting are reconstructed exploration visuals, not radiometrically calibrated instruments.
+- Stars omit aberration, radial velocity, binary orbits, variability, and resolved stars fainter than V 11.5. The Milky Way map holds only starlight fainter than Tycho-2, has no parallax, and shows no nebular gas. The tone curve, zoom rule, glare, and twilight scales are display choices tuned against a photograph, not a calibrated camera. Daylight hides the stars, but the sky itself still has no calibrated brightness.
 - Browser screenshots and touch-sized viewports do not prove physical-device performance.
 
 ## Rebuilding assets
@@ -157,3 +175,5 @@ PYTHONDONTWRITEBYTECODE=1 python3 scripts/prepare_assets.py
 ```
 
 The preparation script checks the compatible bake manifest against current source hashes. It refuses mismatched inputs. Both scripts write only this application's asset directory. Both disable Python bytecode writes before other imports, and the preparation script passes `PYTHONDONTWRITEBYTECODE=1` to its Blender child process. Neither script imports the source material or ring module. They only hash and copy those files.
+
+The star files don't need Blender. `python3 scripts/prepare_stars.py` downloads Hipparcos, Hipparcos-2, Tycho-2, and Bright Star Catalogue files from CDS and the Milky Way EXR from NASA SVS. It checks every pinned SHA-256 and writes only `public/assets/stars/`. Add `--offline` to use the download cache alone.
