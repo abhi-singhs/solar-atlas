@@ -118,10 +118,23 @@ Ring sheets use each source band's optical depth. Opacity is `1-exp(-tau/abs(N d
 
 Texture and geometry estimates use LRU budgets of 96 MiB for low quality and 512 MiB for high quality. Active, visibly resolved bodies and the selected or landing body remain pinned. A pinned working set can exceed the target budget. Low quality caps device pixel ratio at 1. High quality caps it at 1.75. Body assets load lazily, and visible background loading has a three-body concurrency limit.
 
+## Stars
+
+The constructor fetches `assets/stars/bright-star-catalogue.json` once through `loadStarCatalog`, which rejects rows outside the schema. A failed load calls `onError`, and the frame renders without stars. `src/render/stars.ts` holds the math and the `StarField` point pass.
+
+Each frame draws the stars right after the clear, before trajectory lines and bodies. The pass has depth test and depth writes off, so every opaque body drawn later covers the stars behind it. Rings and atmosphere shells keep their optical-depth transparency, which lets stars show through thin rings.
+
+The vertex shader runs `apparentStar` in float32. It adds proper motion in radians per Julian year since J2000, then subtracts the camera position in parsecs times the parallax. Stars without a positive parallax stay at infinite distance. Flux is `10^(-0.4 (V - 2.5)) * 2 ** options.exposure`, divided by the squared change in distance. The Gaussian peak clips at 1. Brighter stars widen instead, from a sigma of 0.8 CSS pixels growing as flux^0.35. Color is the blackbody chromaticity for the star's B-V temperature, normalized to unit luminance in linear sRGB. Stars without B-V render white. The pass skips tone mapping.
+
+Two scene checks scale the flux. An unoccluded Sun in or near the viewport divides it by `1 + 4000 / d_AU^2`. Inside a body's atmosphere shell, `daylightExtinction` removes 0 to 12 magnitudes as the Sun rises from 18 degrees below the local horizon to 10 degrees above it. Below the Venus cloud deck the pass is skipped.
+
+`tests/stars.test.ts` checks the catalog against SIMBAD J2000 positions, and covers proper motion, parallax, color, glare, and the renderer's daylight rules. `tests/stars-render.test.ts` runs the real shader in Chrome. It checks that Sirius, Arcturus after a century of proper motion, and Alpha Centauri seen from 1000 AU land within 0.2 pixel of the CPU prediction, and that halving the distance to Sirius quadruples its rendered energy.
+
 ## Verification
 
 ```sh
 npm test -- tests/render-precision.test.ts tests/assets-parity.test.ts tests/terrain.test.ts
+npm test -- tests/stars.test.ts tests/stars-render.test.ts
 npm run dev -- --host 127.0.0.1 --port 5173 --strictPort
 node tests/render-browser.mjs
 node tests/render-browser.mjs --handshake
@@ -143,6 +156,7 @@ The linear floating-point framebuffer probe measured exactly `0.25` radiance aft
 - Eclipse shadows use spherical occultors and hard edges. They omit solar-disc penumbrae. Ring sheets omit dust phase functions, vertical structure, and multiple scattering. Tenuous rings can disappear below display precision.
 - Local terrain is reconstructed and bounded. It shares the flight collision geometry, but it does not add measured geography or resolve source maps beyond their prepared resolution.
 - The spacecraft and cabin lighting are reconstructed exploration visuals, not radiometrically calibrated instruments.
+- Stars omit aberration, radial velocity, binary orbits, variability, and every star fainter than the Bright Star Catalogue limit. Point size, glare, and twilight scales are display choices. Daylight hides the stars, but the sky itself still has no calibrated brightness.
 - Browser screenshots and touch-sized viewports do not prove physical-device performance.
 
 ## Rebuilding assets
@@ -157,3 +171,5 @@ PYTHONDONTWRITEBYTECODE=1 python3 scripts/prepare_assets.py
 ```
 
 The preparation script checks the compatible bake manifest against current source hashes. It refuses mismatched inputs. Both scripts write only this application's asset directory. Both disable Python bytecode writes before other imports, and the preparation script passes `PYTHONDONTWRITEBYTECODE=1` to its Blender child process. Neither script imports the source material or ring module. They only hash and copy those files.
+
+The star catalog doesn't need Blender. `python3 scripts/prepare_stars.py` downloads CDS catalog V/50, checks the pinned SHA-256, and writes only `public/assets/stars/bright-star-catalogue.json`. Add `--source catalog.gz` to read a local copy.

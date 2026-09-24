@@ -96,6 +96,14 @@ Jupiter, Saturn, Uranus, and Neptune offer simulated atmospheric hovering. They 
 
 Surface detail beyond the source mesh and maps is reconstructed. Bounded local terrain does not replace catalog radii or alter the authoritative scientific records. The same local geometry drives collision, surface altitude, and landing visuals. This is an exploration aid, not a terrain-navigation product.
 
+## Stars
+
+The sky behind the bodies holds all 9,096 stars in the Yale Bright Star Catalogue, 5th revised edition. That is every catalogued star down to about magnitude 6.5, close to what a dark-adapted eye sees. Stars are scenery. You can't select, label, or fly to them.
+
+Each star starts at its catalog J2000 position and moves by its catalog proper motion to the simulation date. About 3,100 stars also have a catalog parallax. Their direction and brightness change with the camera's position, so a long warp flight away from the Sun visibly shifts Alpha Centauri. Inside 50 AU no star moves more than 40 arcseconds, which is well under one pixel.
+
+Brightness follows each star's V magnitude, and color comes from its B-V index. Exposure compensation in Settings changes star brightness by the same EV as the bodies. With the Sun in view, glare hides the stars near 1 AU and fades with distance from the Sun. Inside the atmosphere of Earth, Mars, Titan, or a giant planet, daylight hides them until the Sun sinks 18 degrees below the horizon. Under Venus's cloud deck they never show.
+
 ## Keyboard shortcuts
 
 These work anywhere outside a text field. The flight keys are listed under Fly.
@@ -137,6 +145,8 @@ Observed imagery can combine multiple dates and reconstructed coverage. Clouds a
 
 One-year trajectory lines are cached tracks. They are not fabricated complete orbits for bodies with longer orbital periods. This expanded catalog is not a complete Solar System census.
 
+Star positions use the catalog's FK5 J2000 frame, which matches ICRS within about 0.1 arcsecond. Stellar aberration, radial velocity, binary orbits, and variability are left out. Variable stars keep one catalog magnitude. The glare, twilight, and point-size rules are display choices, not a calibrated eye or camera model.
+
 No n-body spacecraft dynamics, fuel accounting, relativistic optics, live ephemeris refresh, multiplayer, VR, or surface walking is included. The ship, cockpit, flight controls, and added terrain are exploration features, not measured scientific data.
 
 ## Develop
@@ -151,6 +161,8 @@ npm run test:browser
 ```
 
 Source and rendering contracts live in `src/contracts.ts`. Conversion and export scripts live in `scripts/`. Scientific inputs come from the upstream records listed in `CREDITS.md`; generated output belongs to this app.
+
+`npm run prepare:stars` rebuilds `public/assets/stars/bright-star-catalogue.json`. It downloads the catalog from CDS and refuses a file that doesn't match the pinned SHA-256. Pass `-- --source path/to/catalog.gz` to use a local copy instead.
 
 The browser suite uses installed Google Chrome through Playwright. It exercises desktop and emulated phone viewports. Emulated touch tests do not establish performance on a physical phone. Runs write screenshots and a JSON report to `artifacts/`, which is not tracked.
 

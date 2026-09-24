@@ -8,6 +8,10 @@ NASA/JPL Horizons supplies the cached geometric ICRF position and velocity vecto
 
 Ring measurements retain NASA PDS Ring-Moon Systems Node tables and the original occultation-study citations. Chariklo, Haumea, and Quaoar retain their source pole and phase qualifications.
 
+Background stars come from The Bright Star Catalogue, 5th Revised Ed. (Preliminary Version), by Dorrit Hoffleit and Wayne H. Warren Jr., Astronomical Data Center, NSSDC/ADC, 1991. `scripts/prepare_stars.py` reads the CDS copy of catalog V/50 at <https://cdsarc.cds.unistra.fr/ftp/V/50/> and checks it against a pinned SHA-256. The CDS ReadMe states no usage license. The output keeps the catalog's HR numbers, V magnitudes, B-V colors, proper motions, and parallaxes unchanged, and converts only the sexagesimal J2000 positions to degrees. The Hipparcos catalog would give better parallaxes, but CDS lists it under CC BY-NC 3.0 IGO, and that noncommercial term doesn't fit this release.
+
+Star colors use the B-V temperature relation from Ballesteros, "New insights into black bodies", EPL 97, 34008 (2012), and the Planckian locus fit from Kim et al., US Patent 7,024,034.
+
 ## Images and maps
 
 The per-asset manifest records the exact credit, source URL, usage terms, processing notes, and image-registration limits for every map. These credits include:

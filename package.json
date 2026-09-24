@@ -13,7 +13,8 @@
     "test:browser": "playwright test",
     "typecheck": "tsc -b --pretty false",
     "prepare:data": "python3 scripts/prepare_data.py",
-    "prepare:assets": "python3 scripts/prepare_assets.py"
+    "prepare:assets": "python3 scripts/prepare_assets.py",
+    "prepare:stars": "python3 scripts/prepare_stars.py"
   },
   "dependencies": {
     "lucide-react": "^1.37.0",

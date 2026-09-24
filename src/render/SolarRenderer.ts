@@ -5,10 +5,11 @@ import { createCockpit, createShip, updateCockpit } from '../cockpit/models'
 import type { CockpitTelemetry } from '../cockpit/models'
 import { createTerrainPatch, createTerrainSurface } from '../terrain'
 import type { TerrainPatch, TerrainPatchState, TerrainSystem } from '../terrain'
-import { AssetStore, positionAttribute } from './assets'
+import { AssetStore, localAssetUrl, positionAttribute } from './assets'
 import type { BodyAssetRecord, LoadedBody, RingBand } from './assets'
 import { commonExposure, projectedRadiusPixels, rebaseVertices, relativePosition, ringRotation } from './precision'
 import { ringMaterial, shellMaterial, surfaceMaterial, terrainMaterial } from './materials'
+import { STAR_CATALOG_PATH, StarField, daylightExtinction, loadStarCatalog, sunGlareFactor } from './stars'
 
 interface Callbacks {
   onSelect: (id: string) => void
@@ -112,6 +113,7 @@ export class SolarRenderer {
   private terrain?: TerrainSystem
   private terrainPatches = new Map<string, TerrainPatch>()
   private terrainErrors = new Set<string>()
+  private stars?: StarField
 
   constructor(container: HTMLElement, dataset: Dataset, callbacks: Callbacks) {
     this.container = container
@@ -142,6 +144,9 @@ export class SolarRenderer {
     container.append(this.domElement, this.labelLayer)
     this.assets = new AssetStore(message => callbacks.onProgress?.(message), id => this.removeVisual(id))
     this.assets.ready.catch(error => callbacks.onError(String(error)))
+    loadStarCatalog(localAssetUrl(STAR_CATALOG_PATH)).then(catalog => {
+      if (!this.disposed) this.stars = new StarField(catalog)
+    }).catch(error => callbacks.onError(`Star catalog unavailable: ${error instanceof Error ? error.message : String(error)}`))
     this.sourceSurface = { sample: (id, direction) => this.assets.get(id)?.surface.sample(direction) ?? null }
     this.terrain = createTerrainSurface(this.sourceSurface, dataset.bodies)
     this.surface = {
@@ -262,6 +267,7 @@ export class SolarRenderer {
       ? Math.hypot(...relativePosition(selected.position, sun.position)) / AU_KM : 1
     const exposure = commonExposure(selectedDistance, options.exposure)
     this.screens = this.projectBodies(snapshot, camera)
+    this.drawStars(snapshot, camera, options)
     if (options.paths) this.drawPaths(snapshot, camera, options)
     this.drawLabels(options)
     const pinned = new Set([options.selectedId, options.landingBodyId ?? ''])
@@ -571,6 +577,49 @@ export class SolarRenderer {
     this.renderer.render(this.proxyScene, this.camera)
   }
 
+  private drawStars(snapshot: Snapshot, camera: CameraPose, options: RenderOptions): void {
+    if (!this.stars) return
+    const fluxScale = Math.pow(2, THREE.MathUtils.clamp(options.exposure, -20, 20))
+      * this.starSkyTransmission(snapshot, camera) * this.starSunGlare()
+    if (!(fluxScale > 1e-7)) return
+    this.stars.update({ jdTdb: snapshot.jdTdb, observerKm: camera.position, fluxScale,
+      pixelRatio: this.renderer.getPixelRatio() })
+    this.camera.near = .1
+    this.camera.far = 10
+    this.camera.updateProjectionMatrix()
+    this.renderer.render(this.stars.scene, this.camera)
+  }
+
+  /** Daylight inside an atmosphere hides stars. Below the Venus cloud deck they are never visible. */
+  private starSkyTransmission(snapshot: Snapshot, camera: CameraPose): number {
+    const records = this.assets.manifest?.bodies
+    const sun = snapshot.states.sun
+    if (!records || !sun) return 1
+    for (const [id, record] of Object.entries(records)) {
+      const state = snapshot.states[id]
+      if (!record.atmosphere_height_km || !state) continue
+      const up = new THREE.Vector3(...relativePosition(camera.position, state.position))
+      const altitude = up.length() - record.normalization_radius_km
+      if (altitude > record.atmosphere_height_km) continue
+      if (id === 'venus' && altitude < (record.cloud_height_km ?? 0)) return 0
+      const toSun = new THREE.Vector3(...relativePosition(sun.position, camera.position)).normalize()
+      const sunAltitude = Math.asin(THREE.MathUtils.clamp(up.normalize().dot(toSun), -1, 1)) * 180 / Math.PI
+      return Math.pow(10, -0.4 * daylightExtinction(sunAltitude))
+    }
+    return 1
+  }
+
+  private starSunGlare(): number {
+    const sun = this.screens.find(screen => screen.body.id === 'sun')
+    if (!sun?.inView) return 1
+    if (sun.distance <= bodyRadius(sun.body)) return sunGlareFactor(sun.distance / AU_KM, 1)
+    const edge = Math.max(Math.abs(sun.x / this.width * 2 - 1) - Math.min(1, sun.pixels * 2 / this.width),
+      Math.abs(1 - sun.y / this.height * 2) - Math.min(1, sun.pixels * 2 / this.height))
+    const visibility = 1 - THREE.MathUtils.smoothstep(edge, .9, 1.1)
+    if (visibility <= 0 || this.annotationOccluded(sun)) return 1
+    return sunGlareFactor(sun.distance / AU_KM, visibility)
+  }
+
   private drawPaths(snapshot: Snapshot, camera: CameraPose, options: RenderOptions): void {
     const selected = this.dataset.bodies.find(body => body.id === options.selectedId)
     const ids = this.dataset.bodies.filter(body => body.id === options.selectedId ||
@@ -702,6 +751,7 @@ export class SolarRenderer {
     }
     this.proxyGeometry.dispose()
     this.proxyMaterial.dispose()
+    this.stars?.dispose()
     this.cockpitScene.traverse(object => {
       if (object instanceof THREE.Mesh) {
         object.geometry.dispose()
