@@ -108,7 +108,11 @@ Behind the stars sits the Milky Way map from NASA's Deep Star Maps 2020. It hold
 
 The display imitates a long-exposure photograph and was tuned against a Milky Way photo taken by the Artemis II crew. At 0 EV a V 4 star just reaches white. Brighter stars grow a saturated core and a faint glow. Colors come from each star's B-V index under a 4800 K white balance. Exposure compensation in Settings changes the stars and the Milky Way by the same EV as the bodies. A narrower field of view shows brighter stars against a dimmer Milky Way, as a longer lens would.
 
-With the Sun in view, glare hides the stars and the Milky Way near 1 AU and fades with distance from the Sun. Inside the atmosphere of Earth, Mars, Titan, or a giant planet, daylight hides them until the Sun sinks 18 degrees below the horizon. Under Venus's cloud deck they never show.
+With the Sun in view, glare hides the stars and the Milky Way. Near 1 AU it dims them by about 9 magnitudes, and it weakens with the square of the distance from the Sun. A camera lens flare shows where the glare comes from. It has six diffraction spikes, fine streaks, and faint hexagonal ghosts on the line from the Sun through the middle of the screen. The flare follows the same glare term, so it is brightest where the stars vanish and fades out beyond Neptune. A planet, a moon, or a cockpit pillar in front of the Sun cuts both by the share of the solar disc it covers.
+
+Settings has two switches for this, both on by default. Lens flare from the Sun turns the flare off. Turning off Sun glare hides stars keeps the stars and the Milky Way visible next to the Sun.
+
+Daylight works separately, and neither switch changes it. Inside the atmosphere of Earth, Mars, Titan, or a giant planet, daylight hides the stars until the Sun sinks 18 degrees below the horizon. Under Venus's cloud deck they never show.
 
 ## Keyboard shortcuts
 
@@ -151,7 +155,7 @@ Observed imagery can combine multiple dates and reconstructed coverage. Clouds a
 
 One-year trajectory lines are cached tracks. They are not fabricated complete orbits for bodies with longer orbital periods. This expanded catalog is not a complete Solar System census.
 
-Hipparcos and Tycho-2 positions are ICRS. Stellar aberration, radial velocity, binary orbits, and variability are left out, and variable stars keep one catalog magnitude. Tycho-2 V and B-V are converted from its own VT and BT bands. Tycho-2 stars have no parallax, and their packed directions round by up to 13 arcseconds. The Milky Way map has no parallax either, and it holds only starlight, so the Carina Nebula shows its stars but not its glowing gas. The tone curve, zoom rule, glare, and twilight scales are display choices, not a calibrated eye or camera model.
+Hipparcos and Tycho-2 positions are ICRS. Stellar aberration, radial velocity, binary orbits, and variability are left out, and variable stars keep one catalog magnitude. Tycho-2 V and B-V are converted from its own VT and BT bands. Tycho-2 stars have no parallax, and their packed directions round by up to 13 arcseconds. The Milky Way map has no parallax either, and it holds only starlight, so the Carina Nebula shows its stars but not its glowing gas. The tone curve, zoom rule, glare, lens flare, and twilight scales are display choices, not a calibrated eye or camera model.
 
 No n-body spacecraft dynamics, fuel accounting, relativistic optics, live ephemeris refresh, multiplayer, VR, or surface walking is included. The ship, cockpit, flight controls, and added terrain are exploration features, not measured scientific data.
 

@@ -16,7 +16,7 @@ const renderer = new SolarRenderer(document.getElementById('view')!, dataset, {
 })
 let pose: CameraPose = { position: [0, 0, 0], quaternion: [0, 0, 0, 1] }
 const options: RenderOptions = { selectedId: 'earth', labels: true, paths: false,
-  quality: 'low', exposure: 0, cockpit: false, chase: false }
+  quality: 'low', exposure: 0, cockpit: false, chase: false, lensFlare: false, glareHidesStars: true }
 let active = true
 const frame = () => {
   if (active) { renderer.update(snapshot, pose, options); requestAnimationFrame(frame) }

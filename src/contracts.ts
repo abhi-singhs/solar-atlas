@@ -60,6 +60,10 @@ export interface RenderOptions {
   exposure: number
   cockpit: boolean
   chase: boolean
+  /** Draw a camera lens flare around the Sun. */
+  lensFlare: boolean
+  /** Dim the stars and Milky Way while the Sun is in view. Daylight inside an atmosphere hides them regardless. */
+  glareHidesStars: boolean
   shipPose?: CameraPose
   landingBodyId?: string
   flightTelemetry?: {

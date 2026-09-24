@@ -130,15 +130,24 @@ Exposure is `2 ** options.exposure * sqrt(REFERENCE_PIXEL_SOLID_ANGLE / pixelSol
 
 The Milky Way shader samples the plate carree NASA map with `textureGrad` and a wrap-corrected derivative, so the RA seam doesn't drop to the smallest mip level. It subtracts a 0.004 black point and keeps 60% of the map's color. `milkyWayScale` turns texels into V = 0 stars per steradian with the matching NASA `hiptyc_2020` map, in which a V 5.5 star sums to about 0.5 texel units, and applies a 0.4 display gain. Neither pass uses tone mapping.
 
-Two scene checks scale the stars and the Milky Way together. An unoccluded Sun in or near the viewport divides the flux by `1 + 4000 / d_AU^2`. Inside a body's atmosphere shell, `daylightExtinction` removes 0 to 12 magnitudes as the Sun rises from 18 degrees below the local horizon to 10 degrees above it. Below the Venus cloud deck the scene is skipped.
+Two scene checks scale the stars and the Milky Way together. A Sun in or near the viewport divides the flux by `1 + v * 4000 / d_AU^2`. Here v is the on-screen fade times the unblocked share of the solar disc. `sunDiscFraction` casts 19 rays across the disc, a center point and rings of 6 and 12, with area weights in 1/1600 of the disc. Each ray is tested against nearer bodies, using the source mesh once it loads. In cockpit or chase view it is also tested against the visible cockpit or ship meshes, which `poseShip` places around the camera before the stars draw. `options.glareHidesStars = false` skips this factor. Inside a body's atmosphere shell, `daylightExtinction` removes 0 to 12 magnitudes as the Sun rises from 18 degrees below the local horizon to 10 degrees above it. Below the Venus cloud deck the scene is skipped.
+
+## Lens flare
+
+`src/render/flare.ts` holds `SunFlare`, `flareStrength`, and `flareLayout`. With `options.lensFlare` set, the renderer draws the flare last, after the ship, because it is a lens effect on the whole frame. It is skipped inside the Sun. Two screen-space quads in CSS pixels use additive blending, no depth test or writes, and no tone mapping. The starburst quad holds a white core, a warm glow, six diffraction spikes at 15 degrees plus multiples of 60 degrees, and 97 hashed streaks. The ghost quad draws six hexagons at fixed fractions, 0.42 to 2.2, of the line from the Sun through the screen center.
+
+Strength is `log10(1 + v * 4000 * 2^EV / d_AU^2) / log10(4001)`, capped at 2, with the same v as the star glare. It is 1 at 1 AU and 0 EV. At strength 1 the spikes reach half the viewport's short side, and intensity follows strength squared. Spikes, streaks, and ghosts fade out as the solar disc grows from 12% to 40% of the short side, which leaves only the glow. Ghosts also fade as the Sun nears the screen center, where they would pile onto the disc.
 
 `tests/stars.test.ts` checks file checksums, tier counts, and the 18 Bright Star Catalogue additions. It compares Hipparcos stars with SIMBAD J2000 positions within 0.1 arcsecond, and finds Barnard's star, Proxima Centauri, Kapteyn's star, and Ross 128 in the Tycho-2 tier within 8 arcseconds of their 2027 positions. It also covers proper motion, parallax, color, exposure, glare, and the renderer's daylight rules. `tests/stars-render.test.ts` runs the real shaders in Chrome. Sirius, Arcturus after a century of proper motion, and Alpha Centauri seen from 1000 AU land within 0.2 pixel of the CPU prediction, and halving the distance to Sirius raises its peak by 4^0.9. It also checks that the Large Magellanic Cloud sits at its own RA rather than the mirrored one, and that the Coalsack is dark against the Crux star cloud.
+
+`tests/flare.test.ts` covers flare strength, layout, the glare switch, and disc occlusion by a body and by the real cockpit pillar. `tests/stars.test.ts` also checks that daylight still hides the stars with the glare switch off. `tests/flare-render.test.ts` runs the flare shaders in Chrome. It checks that the core lands on the Sun, that the spike angles hold more than five times the light of the gaps between them, that ghosts stay on the Sun-to-center axis, and that a disc filling the view leaves only the glow.
 
 ## Verification
 
 ```sh
 npm test -- tests/render-precision.test.ts tests/assets-parity.test.ts tests/terrain.test.ts
 npm test -- tests/stars.test.ts tests/stars-render.test.ts
+npm test -- tests/flare.test.ts tests/flare-render.test.ts
 npm run dev -- --host 127.0.0.1 --port 5173 --strictPort
 node tests/render-browser.mjs
 node tests/render-browser.mjs --handshake
@@ -161,6 +170,7 @@ The linear floating-point framebuffer probe measured exactly `0.25` radiance aft
 - Local terrain is reconstructed and bounded. It shares the flight collision geometry, but it does not add measured geography or resolve source maps beyond their prepared resolution.
 - The spacecraft and cabin lighting are reconstructed exploration visuals, not radiometrically calibrated instruments.
 - Stars omit aberration, radial velocity, binary orbits, variability, and resolved stars fainter than V 11.5. The Milky Way map holds only starlight fainter than Tycho-2, has no parallax, and shows no nebular gas. The tone curve, zoom rule, glare, and twilight scales are display choices tuned against a photograph, not a calibrated camera. Daylight hides the stars, but the sky itself still has no calibrated brightness.
+- The lens flare is a fixed six-blade look tuned by eye, not a model of real optics. It ignores atmospheric reddening, and its disc occlusion uses 19 sample rays, so a thin limb crossing can step by up to 1/16 of the disc.
 - Browser screenshots and touch-sized viewports do not prove physical-device performance.
 
 ## Rebuilding assets
