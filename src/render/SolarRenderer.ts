@@ -9,7 +9,11 @@ import { AssetStore, localAssetUrl, positionAttribute } from './assets'
 import type { BodyAssetRecord, LoadedBody, RingBand } from './assets'
 import { commonExposure, projectedRadiusPixels, rebaseVertices, relativePosition, ringRotation } from './precision'
 import { ringMaterial, shellMaterial, surfaceMaterial, terrainMaterial } from './materials'
-import { STAR_CATALOG_PATH, StarField, daylightExtinction, loadStarCatalog, sunGlareFactor } from './stars'
+import { sha256 } from '../data/sha256'
+import {
+  STAR_MANIFEST_PATH, StarField, daylightExtinction, parseBrightStars, parseFaintStars, parseStarManifest, sunGlareFactor,
+} from './stars'
+import type { StarFile } from './stars'
 
 interface Callbacks {
   onSelect: (id: string) => void
@@ -114,6 +118,7 @@ export class SolarRenderer {
   private terrainPatches = new Map<string, TerrainPatch>()
   private terrainErrors = new Set<string>()
   private stars?: StarField
+  private starLoads = new Set<string>()
 
   constructor(container: HTMLElement, dataset: Dataset, callbacks: Callbacks) {
     this.container = container
@@ -144,9 +149,7 @@ export class SolarRenderer {
     container.append(this.domElement, this.labelLayer)
     this.assets = new AssetStore(message => callbacks.onProgress?.(message), id => this.removeVisual(id))
     this.assets.ready.catch(error => callbacks.onError(String(error)))
-    loadStarCatalog(localAssetUrl(STAR_CATALOG_PATH)).then(catalog => {
-      if (!this.disposed) this.stars = new StarField(catalog)
-    }).catch(error => callbacks.onError(`Star catalog unavailable: ${error instanceof Error ? error.message : String(error)}`))
+    void this.loadStars()
     this.sourceSurface = { sample: (id, direction) => this.assets.get(id)?.surface.sample(direction) ?? null }
     this.terrain = createTerrainSurface(this.sourceSurface, dataset.bodies)
     this.surface = {
@@ -577,13 +580,70 @@ export class SolarRenderer {
     this.renderer.render(this.proxyScene, this.camera)
   }
 
+  private async fetchStarFile(record: { file: string; bytes: number; sha256: string }): Promise<ArrayBuffer> {
+    const response = await fetch(localAssetUrl(`assets/stars/${record.file}`), { credentials: 'same-origin', redirect: 'error' })
+    if (!response.ok) throw new Error(`${record.file} request failed (${response.status})`)
+    const buffer = await response.arrayBuffer()
+    if (buffer.byteLength !== record.bytes || await sha256(buffer) !== record.sha256)
+      throw new Error(`${record.file} does not match the star manifest`)
+    return buffer
+  }
+
+  /** The manifest and Hipparcos tier load first. Tycho-2 tiers and the Milky Way map follow the quality setting. */
+  private async loadStars(): Promise<void> {
+    try {
+      const response = await fetch(localAssetUrl(STAR_MANIFEST_PATH), { credentials: 'same-origin', redirect: 'error' })
+      if (!response.ok) throw new Error(`Star manifest request failed (${response.status})`)
+      const manifest = parseStarManifest(await response.json())
+      const bright = parseBrightStars(await this.fetchStarFile(manifest.bright), manifest.bright)
+      if (this.disposed) return
+      const field = new StarField(manifest)
+      field.setBright(bright)
+      this.stars = field
+    } catch (error) {
+      this.callbacks.onError(`Star catalog unavailable: ${error instanceof Error ? error.message : String(error)}`)
+    }
+  }
+
+  private loadStarPart(key: string, load: (field: StarField) => Promise<void>): void {
+    const field = this.stars
+    if (!field || this.starLoads.has(key)) return
+    this.starLoads.add(key)
+    load(field).catch(error => {
+      this.callbacks.onError(`Star data unavailable: ${error instanceof Error ? error.message : String(error)}`)
+    })
+  }
+
+  private ensureStarQuality(field: StarField, quality: RenderOptions['quality']): void {
+    const faint = field.manifest.faint
+    faint.forEach((record: StarFile, index) => {
+      if ((index === 0 || quality === 'high') && !field.hasFaint(index)) this.loadStarPart(record.file, async target => {
+        const stars = parseFaintStars(await this.fetchStarFile(record), record)
+        if (!this.disposed) target.setFaint(index, stars)
+      })
+    })
+    if (!field.hasMilkyWay(quality)) this.loadStarPart(`milky-way-${quality}`, async target => {
+      const record = target.manifest.milky_way[quality]
+      const url = URL.createObjectURL(new Blob([await this.fetchStarFile(record)], { type: 'image/jpeg' }))
+      try {
+        const texture = await new THREE.TextureLoader().loadAsync(url)
+        if (this.disposed) texture.dispose()
+        else target.setMilkyWay(quality, texture)
+      } finally {
+        URL.revokeObjectURL(url)
+      }
+    })
+  }
+
   private drawStars(snapshot: Snapshot, camera: CameraPose, options: RenderOptions): void {
     if (!this.stars) return
-    const fluxScale = Math.pow(2, THREE.MathUtils.clamp(options.exposure, -20, 20))
-      * this.starSkyTransmission(snapshot, camera) * this.starSunGlare()
-    if (!(fluxScale > 1e-7)) return
-    this.stars.update({ jdTdb: snapshot.jdTdb, observerKm: camera.position, fluxScale,
-      pixelRatio: this.renderer.getPixelRatio() })
+    this.ensureStarQuality(this.stars, options.quality)
+    const visibility = this.starSkyTransmission(snapshot, camera) * this.starSunGlare()
+    if (!(visibility > 1e-6)) return
+    const pixelAngle = 2 * Math.tan(this.camera.fov * Math.PI / 360) / this.height
+    this.stars.update({ jdTdb: snapshot.jdTdb, observerKm: camera.position, visibility,
+      fluxScale: Math.pow(2, THREE.MathUtils.clamp(options.exposure, -20, 20)), quality: options.quality,
+      pixelRatio: this.renderer.getPixelRatio(), pixelSolidAngle: pixelAngle * pixelAngle })
     this.camera.near = .1
     this.camera.far = 10
     this.camera.updateProjectionMatrix()

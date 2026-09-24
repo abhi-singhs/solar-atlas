@@ -8,7 +8,17 @@ NASA/JPL Horizons supplies the cached geometric ICRF position and velocity vecto
 
 Ring measurements retain NASA PDS Ring-Moon Systems Node tables and the original occultation-study citations. Chariklo, Haumea, and Quaoar retain their source pole and phase qualifications.
 
-Background stars come from The Bright Star Catalogue, 5th Revised Ed. (Preliminary Version), by Dorrit Hoffleit and Wayne H. Warren Jr., Astronomical Data Center, NSSDC/ADC, 1991. `scripts/prepare_stars.py` reads the CDS copy of catalog V/50 at <https://cdsarc.cds.unistra.fr/ftp/V/50/> and checks it against a pinned SHA-256. The CDS ReadMe states no usage license. The output keeps the catalog's HR numbers, V magnitudes, B-V colors, proper motions, and parallaxes unchanged, and converts only the sexagesimal J2000 positions to degrees. The Hipparcos catalog would give better parallaxes, but CDS lists it under CC BY-NC 3.0 IGO, and that noncommercial term doesn't fit this release.
+Background stars and the Milky Way combine five sources. `scripts/prepare_stars.py` downloads each file, checks it against a pinned SHA-256, and records its URL and checksum in `public/assets/stars/manifest.json`.
+
+- ESA, The Hipparcos and Tycho Catalogues, ESA SP-1200 (1997), CDS catalog I/239. The app takes its Johnson V magnitudes and B-V colors.
+- F. van Leeuwen, "Validation of the new Hipparcos reduction", A&A 474, 653 (2007), CDS catalog I/311. The app takes its positions, proper motions, and parallaxes.
+- E. Høg et al., "The Tycho-2 Catalogue of the 2.5 Million Brightest Stars", A&A 355, L27 (2000), CDS catalog I/259.
+- Dorrit Hoffleit and Wayne H. Warren Jr., The Bright Star Catalogue, 5th Revised Ed. (Preliminary Version), NSSDC/ADC (1991), CDS catalog V/50. The app takes the 18 stars that Hipparcos-2 lacks.
+- NASA/Goddard Space Flight Center Scientific Visualization Studio. Gaia DR2: ESA/Gaia/DPAC. Deep Star Maps 2020, <https://svs.gsfc.nasa.gov/4851>. The app uses the `milkyway_2020_4k.exr` map. The list of stars missing from Hipparcos-2 and the Eta Carinae magnitude of 4.30 also come from this page.
+
+CDS distributes Hipparcos, Hipparcos-2, and Tycho-2 under CC BY-NC 3.0 IGO. This project is noncommercial, so it bundles them under those terms, and any commercial use has to drop those files. The Bright Star Catalogue ReadMe states no usage license. NASA SVS asks for the credit line given above.
+
+The build changes catalog values in a few places. It converts Tycho-2 VT and BT to Johnson V = VT - 0.090 (BT - VT) and B-V = 0.850 (BT - VT), following ESA SP-1200 Vol. 1, Section 1.3, Appendix 4. It moves faint-star positions to epoch 2027.0 with their proper motions. The 500 Tycho-2 entries that have no mean position, Proxima Centauri among them, take Hipparcos-2 astrometry instead. It moves the 18 Bright Star Catalogue additions from J2000 back to the Hipparcos epoch and gives Eta Carinae V = 4.30. It converts the NASA half-float EXR map to 4K and 2K sRGB JPEG files.
 
 Star colors use the B-V temperature relation from Ballesteros, "New insights into black bodies", EPL 97, 34008 (2012), and the Planckian locus fit from Kim et al., US Patent 7,024,034.
 

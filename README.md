@@ -98,11 +98,17 @@ Surface detail beyond the source mesh and maps is reconstructed. Bounded local t
 
 ## Stars
 
-The sky behind the bodies holds all 9,096 stars in the Yale Bright Star Catalogue, 5th revised edition. That is every catalogued star down to about magnitude 6.5, close to what a dark-adapted eye sees. Stars are scenery. You can't select, label, or fly to them.
+The sky behind the bodies holds about 1.49 million stars down to magnitude 11.5, plus the diffuse light of the Milky Way. Stars are scenery. You can't select, label, or fly to them.
 
-Each star starts at its catalog J2000 position and moves by its catalog proper motion to the simulation date. About 3,100 stars also have a catalog parallax. Their direction and brightness change with the camera's position, so a long warp flight away from the Sun visibly shifts Alpha Centauri. Inside 50 AU no star moves more than 40 arcseconds, which is well under one pixel.
+The 41,075 stars brighter than V 8 come from the Hipparcos-2 reduction, with V magnitudes and B-V colors from the original Hipparcos catalog. Eighteen bright stars that Hipparcos-2 lacks, Eta Carinae among them, come from the Yale Bright Star Catalogue. Each of these stars moves by its proper motion from the 1991.25 Hipparcos epoch to the simulation date. Stars with a parallax also shift with the camera's position, so a long warp flight visibly moves Alpha Centauri. Inside 50 AU no star moves more than 40 arcseconds.
 
-Brightness follows each star's V magnitude, and color comes from its B-V index. Exposure compensation in Settings changes star brightness by the same EV as the bodies. With the Sun in view, glare hides the stars near 1 AU and fades with distance from the Sun. Inside the atmosphere of Earth, Mars, Titan, or a giant planet, daylight hides them until the Sun sinks 18 degrees below the horizon. Under Venus's cloud deck they never show.
+The 1.44 million fainter stars come from Tycho-2. Their positions are fixed at 2027.0, which keeps the fastest of them, Barnard's star, within 7 arcseconds across the whole simulation year. They load after the bright stars. Low quality stops at V 10 and uses a 2K Milky Way map. High quality adds the 1.13 million stars from V 10 to 11.5 and a 4K map.
+
+Behind the stars sits the Milky Way map from NASA's Deep Star Maps 2020. It holds the Gaia DR2 starlight fainter than Tycho-2, so the band, its dark lanes, the Coalsack, and the Magellanic Clouds keep their measured brightness relative to the resolved stars.
+
+The display imitates a long-exposure photograph and was tuned against a Milky Way photo taken by the Artemis II crew. At 0 EV a V 4 star just reaches white. Brighter stars grow a saturated core and a faint glow. Colors come from each star's B-V index under a 4800 K white balance. Exposure compensation in Settings changes the stars and the Milky Way by the same EV as the bodies. A narrower field of view shows brighter stars against a dimmer Milky Way, as a longer lens would.
+
+With the Sun in view, glare hides the stars and the Milky Way near 1 AU and fades with distance from the Sun. Inside the atmosphere of Earth, Mars, Titan, or a giant planet, daylight hides them until the Sun sinks 18 degrees below the horizon. Under Venus's cloud deck they never show.
 
 ## Keyboard shortcuts
 
@@ -145,7 +151,7 @@ Observed imagery can combine multiple dates and reconstructed coverage. Clouds a
 
 One-year trajectory lines are cached tracks. They are not fabricated complete orbits for bodies with longer orbital periods. This expanded catalog is not a complete Solar System census.
 
-Star positions use the catalog's FK5 J2000 frame, which matches ICRS within about 0.1 arcsecond. Stellar aberration, radial velocity, binary orbits, and variability are left out. Variable stars keep one catalog magnitude. The glare, twilight, and point-size rules are display choices, not a calibrated eye or camera model.
+Hipparcos and Tycho-2 positions are ICRS. Stellar aberration, radial velocity, binary orbits, and variability are left out, and variable stars keep one catalog magnitude. Tycho-2 V and B-V are converted from its own VT and BT bands. Tycho-2 stars have no parallax, and their packed directions round by up to 13 arcseconds. The Milky Way map has no parallax either, and it holds only starlight, so the Carina Nebula shows its stars but not its glowing gas. The tone curve, zoom rule, glare, and twilight scales are display choices, not a calibrated eye or camera model.
 
 No n-body spacecraft dynamics, fuel accounting, relativistic optics, live ephemeris refresh, multiplayer, VR, or surface walking is included. The ship, cockpit, flight controls, and added terrain are exploration features, not measured scientific data.
 
@@ -162,7 +168,7 @@ npm run test:browser
 
 Source and rendering contracts live in `src/contracts.ts`. Conversion and export scripts live in `scripts/`. Scientific inputs come from the upstream records listed in `CREDITS.md`; generated output belongs to this app.
 
-`npm run prepare:stars` rebuilds `public/assets/stars/bright-star-catalogue.json`. It downloads the catalog from CDS and refuses a file that doesn't match the pinned SHA-256. Pass `-- --source path/to/catalog.gz` to use a local copy instead.
+`npm run prepare:stars` rebuilds `public/assets/stars/`. It needs Python with numpy and Pillow. It downloads 266 MB of catalogs from CDS and the Milky Way EXR from NASA SVS into `~/.cache/solar-atlas-stars`, and refuses any file that doesn't match its pinned SHA-256. Pass `-- --offline` to build from the cache alone. Two runs produce identical files.
 
 The browser suite uses installed Google Chrome through Playwright. It exercises desktop and emulated phone viewports. Emulated touch tests do not establish performance on a physical phone. Runs write screenshots and a JSON report to `artifacts/`, which is not tracked.
 
@@ -176,9 +182,11 @@ The application code is MIT licensed. Read `LICENSE`.
 
 The MIT grant does not extend to the bundled scientific data and imagery under `public/data/` and `public/assets/`. Those files keep the terms recorded in `CREDITS.md` and in the per-asset manifest, which include NASA source terms and CC BY 4.0 attribution requirements. Check the manifest before redistributing any map.
 
+The Hipparcos and Tycho-2 star files are CC BY-NC 3.0 IGO, which rules out commercial use. A commercial fork has to replace `public/assets/stars/`.
+
 ## Repository size
 
-`public/` holds about 535 MB of committed meshes, textures, and cached ephemeris. The Blender project the assets are exported from is vendored under `blender/` and adds another 626 MB, including a 374 MB `.blend` file.
+`public/` holds about 548 MB of committed meshes, textures, star catalogs, and cached ephemeris. The Blender project the assets are exported from is vendored under `blender/` and adds another 626 MB, including a 374 MB `.blend` file.
 
 Meshes, textures, the `.blend`, `states.bin`, and the gzipped ephemeris are stored in Git LFS. Install it before cloning, or you get pointer files instead of assets and the app fails to load:
 
