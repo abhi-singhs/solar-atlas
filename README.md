@@ -76,7 +76,7 @@ Use the numeric speed field, logarithmic slider, or presets to set commanded spe
 
 `c = 299,792.458 km/s`. Conventional mode remains below c. Enable Warp explicitly to allow speeds through 1,000c. Warp is fictional and is limited near hazards. Turning it on inside a body's exclusion zone arms it instead, and it engages once the ship is clear. During an assisted transfer, warp pauses while the ship passes another body and resumes after it. It drops for good at the destination. The displayed c value is per simulated second, not a hidden time-acceleration multiplier.
 
-Select a destination and choose Travel for assisted transfer. The controller steers toward the moving target, routes around any body in the way, and brakes for approach. Arrival time is an estimate. Cancel autopilot returns control without teleporting. Brake stops motion relative to the reference body.
+Select a destination and choose Travel for assisted transfer. The controller steers toward the moving target and brakes for approach. If another body's exclusion zone blocks the straight line, the course bends around that zone. Arrival time is an estimate. Cancel autopilot returns control without teleporting. Brake stops motion relative to the reference body.
 
 ### Routes
 

@@ -330,7 +330,7 @@ export class FlightController {
         if (this.mode !== 'landing') {
           const nearbyState = current.states[nearby.id]!
           const relative = desired.clone().sub(vector(nearbyState.velocity))
-          // A transfer leaving or passing a body may move faster than it may approach one; detours and the surface sweep guard contact.
+          // A transfer leaving or passing a body may move faster than it may approach one; obstacle routing and the surface sweep guard contact.
           const departing = this.mode === 'transfer' && nearby.id !== this.targetId
           relative.clampLength(0, approachSpeed(nearby) * (departing ? DEPARTURE_BOOST : 1))
           desired = relative.add(vector(nearbyState.velocity))
@@ -487,37 +487,6 @@ export class FlightController {
     })
   }
 
-  /**
-   * Steers around the nearest body that blocks the straight path to the target, such as the body the ship just left.
-   * The safety sphere sits just outside the exclusion zone, so an armed warp can engage before the ship rounds the limb.
-   * Inside that sphere the ship climbs out at 45 degrees; outside it follows the tangent past the limb.
-   */
-  private detour(snapshot: Snapshot, direction: Vector3, range: number, targetId: string): Vector3 | undefined {
-    let blocker: { center: Vector3; safe: number; along: number } | undefined
-    for (const body of this.bodies) {
-      if (body.id === targetId) continue
-      const state = snapshot.states[body.id]
-      if (!state) continue
-      const safe = bodyRadius(body) + zoneAltitude(body) * 1.5
-      const center = vector(state.position)
-      const toCenter = center.clone().sub(this.position)
-      const along = toCenter.dot(direction)
-      if (along <= 0 || along > range + safe || toCenter.lengthSq() - along * along >= safe * safe) continue
-      if (!blocker || along < blocker.along) blocker = { center, safe, along }
-    }
-    if (!blocker) return undefined
-    const toCenter = blocker.center.sub(this.position)
-    const distance = toCenter.length()
-    const inward = toCenter.multiplyScalar(1 / distance)
-    const side = direction.clone().addScaledVector(inward, -direction.dot(inward))
-    if (side.lengthSq() < 1e-12) side.copy(new Vector3(0, 0, 1).cross(inward))
-    if (side.lengthSq() < 1e-12) side.copy(new Vector3(1, 0, 0).cross(inward))
-    side.normalize()
-    if (distance <= blocker.safe) return side.sub(inward).normalize()
-    const sine = blocker.safe / distance
-    return inward.multiplyScalar(Math.sqrt(1 - sine * sine)).addScaledVector(side, sine).normalize()
-  }
-
   // Hysteresis keeps a re-engaged warp from tripping the same zone boundary it just left.
   private clearOfZones(snapshot: Snapshot): boolean {
     return this.bodies.every(body => {
@@ -652,15 +621,41 @@ export class FlightController {
     let speed = Math.min(commandSpeed, finalApproachSpeed, remaining * 0.8, Math.max(approachLimit, safeCruiseSpeed))
     if (near) speed = Math.min(speed, approachSpeed(body))
     if (!this.site && remaining > 0) {
-      const closing = Math.max(1, this.velocity.distanceTo(goalVelocity), speed)
-      const leadSeconds = Math.min(7200, remaining / closing)
-      if (!near) delta.addScaledVector(goalVelocity.clone().sub(this.velocity), leadSeconds)
-      const detour = near ? undefined : this.detour(current, delta.clone().normalize(), delta.length(), body.id)
-      if (detour) delta.copy(detour.multiplyScalar(delta.length()))
-      const direction = delta.clone().normalize()
-      this.orientation.rotateTowards(new Quaternion().setFromUnitVectors(FORWARD, direction), h * 1.2)
+      // Desired velocity already includes the target's velocity, so aim straight at the goal in the target's frame.
+      // Leading by the ship's own velocity cancels the aim vector at high speed and makes the nose flip every frame.
+      delta.copy(this.avoidObstacles(delta, body, current))
+      this.orientation.rotateTowards(new Quaternion().setFromUnitVectors(FORWARD, delta), h * 1.2)
     }
     return { velocity: goalVelocity.add(delta.normalize().multiplyScalar(speed)), acceleration }
+  }
+
+  /** Returns a unit course that grazes the nearest other body's exclusion sphere blocking the straight path to the goal. */
+  private avoidObstacles(delta: Vector3, target: Body, snapshot: Snapshot): Vector3 {
+    const distance = delta.length()
+    const aim = delta.clone().multiplyScalar(1 / distance)
+    let entry = distance
+    let course = aim
+    for (const obstacle of this.bodies) {
+      const state = obstacle.id === target.id ? undefined : snapshot.states[obstacle.id]
+      if (!state) continue
+      const offset = vector(state.position).sub(this.position)
+      const range = offset.length()
+      const radius = (bodyRadius(obstacle) + zoneAltitude(obstacle)) * 1.05
+      const along = offset.dot(aim)
+      if (along <= 0 || range < 1e-12 || offset.clone().sub(delta).length() <= radius) continue
+      const miss = Math.sqrt(Math.max(0, range * range - along * along))
+      if (miss >= radius) continue
+      const reach = Math.max(0, along - Math.sqrt(radius * radius - miss * miss))
+      if (reach >= entry) continue
+      const toward = offset.multiplyScalar(1 / range)
+      const side = aim.clone().addScaledVector(toward, -aim.dot(toward))
+      if (side.lengthSq() < 1e-18) side.crossVectors(toward, Math.abs(toward.y) < 0.9 ? UP : new Vector3(1, 0, 0))
+      side.normalize()
+      const angle = range > radius ? Math.asin(radius / range) : Math.PI / 2
+      entry = reach
+      course = toward.multiplyScalar(Math.cos(angle)).addScaledVector(side, Math.sin(angle))
+    }
+    return course
   }
 
   private finishLanding(snapshot: Snapshot): void {
