@@ -217,6 +217,36 @@ kbd { font-family: Consolas, "Courier New", Courier, monospace; color: var(--cp-
 .ship-secondary button { justify-content: flex-start; min-height: 34px; padding: 6px 8px; font-size: 12px; color: var(--cp-text-soft); background: transparent; border-color: transparent; }
 .ship-secondary button:hover { color: var(--cp-text); background: var(--cp-surface-soft); border-color: transparent; }
 .ship-secondary .wide-row { grid-column: 1 / -1; color: var(--cp-warning-text); }
+.route { display: flex; flex-direction: column; gap: 8px; padding-bottom: 14px; border-bottom: 1px solid var(--cp-border); }
+.route-header { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.route-header h2 { display: flex; align-items: center; gap: 6px; margin: 0; font-size: 13px; font-weight: 600; letter-spacing: 0; }
+.route-header h2 svg { color: var(--cp-accent); }
+.route-status { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; color: var(--cp-text-soft); font-variant-numeric: tabular-nums; }
+.route-list { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 2px; }
+.route-stop { position: relative; display: flex; align-items: center; gap: 8px; min-height: 42px; padding: 3px 2px 3px 6px; border-radius: 10px; }
+.route-stop.current { background: var(--cp-accent-soft); }
+.route-stop + .route-stop::before { content: ""; position: absolute; left: 16px; top: -9px; height: 14px; border-left: 1px dashed var(--cp-border-strong); }
+.stop-marker { position: relative; z-index: 1; display: grid; place-items: center; width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; font-size: 11px; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--cp-text-soft); background: var(--cp-surface); border: 1px solid var(--cp-border-strong); }
+.route-stop.current .stop-marker { color: var(--cp-accent-fg); background: var(--cp-accent); border-color: var(--cp-accent); }
+.route-stop.visited .stop-marker { color: var(--cp-success); border-color: var(--cp-success); }
+.route-stop.skipped .stop-marker { color: var(--cp-text-muted); border-style: dashed; }
+.stop-name { flex: 1; min-width: 0; }
+.stop-name strong { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; font-weight: 500; }
+.stop-name small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11px; color: var(--cp-text-muted); }
+.route-stop.visited .stop-name strong, .route-stop.skipped .stop-name strong { color: var(--cp-text-soft); }
+.stop-action { min-height: 28px; padding: 2px 9px; font-size: 11px; border-radius: 999px; background: transparent; }
+.route-stop .icon-button { width: 30px; min-width: 30px; min-height: 30px; color: var(--cp-text-muted); }
+.route-empty { margin: 0; font-size: 12px; line-height: 1.55; color: var(--cp-text-muted); }
+.route-buttons { display: flex; flex-wrap: wrap; gap: 6px; }
+.route-buttons button { flex: 1 1 auto; min-height: 36px; padding: 6px 10px; font-size: 12px; white-space: nowrap; }
+.route-options { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 8px; }
+.route-options .switch-row { gap: 8px; padding: 4px 6px; min-height: 32px; font-size: 12px; color: var(--cp-text-soft); }
+.route-options .switch-row > span:first-child { flex: 0 0 auto; }
+.route-clear { margin-left: auto; }
+.catalog-item { display: flex; align-items: center; gap: 2px; }
+.catalog-item .catalog-row { flex: 1; min-width: 0; }
+.route-toggle { width: 38px; min-width: 38px; min-height: 38px; color: var(--cp-text-soft); }
+.route-toggle.active { color: var(--cp-accent); background: var(--cp-accent-soft); border-color: transparent; }
 .flight-panel.collapsed { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 10px; }
 .flight-panel.collapsed .flight-summary { order: 1; flex: 1 1 0; }
 .flight-panel.collapsed .flight-toggle { order: 2; }
@@ -335,6 +365,10 @@ kbd { font-family: Consolas, "Courier New", Courier, monospace; color: var(--cp-
 
   .flight-panel { top: auto; bottom: max(12px, env(safe-area-inset-bottom)); left: var(--edge); right: var(--edge); width: auto; max-height: calc(100dvh - var(--row2) - 130px); box-shadow: var(--cp-shadow); }
   .ship-actions button { min-height: 42px; }
+  .route-stop { min-height: 48px; }
+  .route-stop .icon-button { width: 38px; min-width: 38px; min-height: 38px; }
+  .stop-action { min-height: 34px; padding: 2px 12px; }
+  .route-toggle { width: 44px; min-width: 44px; min-height: 44px; }
   .flight-panel.collapsed { flex-wrap: nowrap; gap: 6px; padding: 7px 6px 7px 12px; }
   .flight-panel.collapsed .ship-actions { order: 2; flex: 0 0 auto; display: flex; gap: 6px; }
   .flight-panel.collapsed .ship-actions button { min-height: 40px; padding: 4px 10px; }

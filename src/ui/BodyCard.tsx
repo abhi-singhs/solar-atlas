@@ -1,4 +1,4 @@
-import { ArrowDownToLine, BookmarkPlus, ChevronDown, Crosshair, ExternalLink } from 'lucide-react'
+import { ArrowDownToLine, BookmarkPlus, Check, ChevronDown, Crosshair, ExternalLink, Plus } from 'lucide-react'
 import type { Body } from '../contracts'
 import { categories, distance, formatNumber } from './format'
 
@@ -14,7 +14,9 @@ interface BodyCardProps {
   expanded: boolean
   pickingSite: boolean
   canPickSite: boolean
+  inRoute: boolean
   onToggle: () => void
+  onRoute: () => void
   onGo: () => void
   onPickSite: () => void
   onBookmark: () => void
@@ -39,6 +41,12 @@ export function BodyCard(props: BodyCardProps) {
       </button>
     </div>
     <div className="body-card-body">
+      {inShip && <div className="body-actions">
+        <button className={props.inRoute ? 'active' : ''} aria-pressed={props.inRoute} onClick={props.onRoute} aria-keyshortcuts="+"
+          title={props.inRoute ? 'Remove this body from your route' : 'Add this body to your route (+)'}>
+          {props.inRoute ? <Check size={16} /> : <Plus size={16} />}{props.inRoute ? 'In route' : 'Add destination'}
+        </button>
+      </div>}
       {!inShip && <div className="body-actions">
         <button className="primary" onClick={props.onGo} title="Move the camera to this body"><Crosshair size={16} />Go to body</button>
         {canPickSite && <button className={pickingSite ? 'active' : ''} aria-pressed={pickingSite} onClick={props.onPickSite}>

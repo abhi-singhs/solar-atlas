@@ -318,6 +318,75 @@ describe('assisted transfer and collision safety', () => {
     expect(vector(flight.pose().position).distanceTo(before)).toBeCloseTo(60e-6 * C_KM_S, 5)
     expect(flight.telemetry(snap()).speedC).toBeCloseTo(1e-6, 12)
   })
+
+  it('arms warp inside an exclusion zone and engages it only after the ship is clear', () => {
+    const facingAway: BodyState['rotation'] = [0, 1, 0, 0]
+    const flight = setup([earth], snap(), pose([0, 0, 1.5], facingAway))
+    flight.setWarp(true)
+    expect(flight.telemetry(snap())).toMatchObject({ warp: false, warpArmed: true })
+    expect(flight.telemetry(snap()).message).toContain('armed')
+    flight.setThrottle(1000)
+    expect(flight.telemetry(snap()).throttleC).toBe(WARP_LIMIT_C)
+    advance(flight, 5)
+    expect(flight.telemetry(snap()).warp).toBe(false)
+    expect(flight.telemetry(snap()).speedC * C_KM_S).toBeLessThanOrEqual(0.05 + 1e-9)
+    advance(flight, 25)
+    expect(flight.telemetry(snap())).toMatchObject({ warp: true, warpArmed: false })
+    expect(vector(flight.pose().position).z).toBeGreaterThan(2.25)
+    flight.cancel()
+    flight.setWarp(false)
+    flight.setWarp(true)
+    expect(flight.telemetry(snap()).warp).toBe(true)
+  })
+
+  it('keeps warp armed past the departure body of a transfer, drops it at the target, and counts the arrival', () => {
+    const moon = body('moon')
+    const snapshot = snap({ earth: state(), moon: state([0, 0, 1e7]) })
+    const flight = setup([earth, moon], snapshot, pose([0, 0, 1.1]))
+    flight.setWarp(true)
+    flight.setThrottle(1000)
+    flight.transfer('moon', snapshot)
+    expect(flight.telemetry(snapshot)).toMatchObject({ arrivals: 0, warpArmed: true })
+    let sawWarp = false
+    for (let i = 0; i < 3000 && flight.telemetry(snapshot).mode !== 'free'; i++) {
+      flight.update(0.1, snapshot, input)
+      sawWarp ||= flight.telemetry(snapshot).warp
+    }
+    const telemetry = flight.telemetry(snapshot)
+    expect(sawWarp).toBe(true)
+    expect(telemetry).toMatchObject({ mode: 'free', arrivals: 1, arrivedId: 'moon', warp: false, warpArmed: false, referenceId: 'moon' })
+    expect(telemetry.separationKm).toBeLessThan(1.2)
+  })
+
+  it('climbs out and flies around the departure body when the target is behind it', () => {
+    const moon = body('moon')
+    const snapshot = snap({ earth: state(), moon: state([0, 0, 1000]) })
+    const flight = setup([earth, moon], snapshot, pose([0, 0, -1.05]))
+    flight.setThrottle(0.001)
+    flight.transfer('moon', snapshot)
+    let stops = 0
+    let lowest = Infinity
+    for (let i = 0; i < 6000 && flight.telemetry(snapshot).mode !== 'free'; i++) {
+      flight.update(0.1, snapshot, input)
+      if (flight.telemetry(snapshot).message.includes('safety stop')) stops++
+      lowest = Math.min(lowest, vector(flight.pose().position).length())
+    }
+    expect(stops).toBe(0)
+    expect(lowest).toBeGreaterThan(1.04)
+    expect(flight.telemetry(snapshot)).toMatchObject({ mode: 'free', arrivals: 1, arrivedId: 'moon' })
+  })
+
+  it('disarms warp when the pilot cancels assistance inside a zone', () => {
+    const moon = body('moon')
+    const snapshot = snap({ earth: state(), moon: state([0, 0, 1e7]) })
+    const flight = setup([earth, moon], snapshot, pose([0, 0, 1.1]))
+    flight.setWarp(true)
+    flight.setThrottle(1000)
+    flight.transfer('moon', snapshot)
+    advance(flight, 1, snapshot)
+    flight.cancel()
+    expect(flight.telemetry(snapshot)).toMatchObject({ warp: false, warpArmed: false, throttleC: NORMAL_LIMIT_C })
+  })
 })
 
 describe('landing and takeoff', () => {
@@ -427,6 +496,7 @@ describe('landing and takeoff', () => {
     expect(flight.telemetry(snap()).mode).toBe('landed')
     expect(flight.telemetry(snap()).altitudeKm).toBeCloseTo(CLEARANCE_KM, 5)
     expect(flight.telemetry(snap()).landingBodyId).toBe('earth')
+    expect(flight.telemetry(snap())).toMatchObject({ arrivals: 1, arrivedId: 'earth' })
     const ground = flight.pose()
     flight.takeoff(snap())
     expect(flight.pose()).toEqual(ground)
@@ -435,6 +505,24 @@ describe('landing and takeoff', () => {
     advance(flight, 4)
     expect(flight.telemetry(snap()).mode).toBe('free')
     expect(flight.telemetry(snap()).altitudeKm).toBeGreaterThan(CLEARANCE_KM + 0.02)
+  })
+
+  it('climbs out from a Moon-sized body in seconds and estimates the remaining climb', () => {
+    const moon = body('moon', 1737.4)
+    const snapshot = snap({ moon: state() })
+    const flight = setup([moon], snapshot, pose([0, 0, 1737.4 * 1.3]))
+    flight.land('moon', snapshot)
+    for (let t = 0; t < 120 && flight.telemetry(snapshot).mode !== 'landed'; t += 1 / 60) flight.update(1 / 60, snapshot, input)
+    expect(flight.telemetry(snapshot).mode).toBe('landed')
+    flight.takeoff(snapshot)
+    const estimate = flight.telemetry(snapshot).etaSeconds
+    let elapsed = 0
+    for (; elapsed < 30 && flight.telemetry(snapshot).mode !== 'free'; elapsed += 1 / 60) flight.update(1 / 60, snapshot, input)
+    expect(flight.telemetry(snapshot).mode).toBe('free')
+    expect(elapsed).toBeLessThan(6)
+    expect(estimate).toBeGreaterThan(elapsed * 0.8)
+    expect(estimate).toBeLessThan(elapsed * 1.2)
+    expect(flight.telemetry(snapshot).altitudeKm).toBeGreaterThan(1.7)
   })
 
   it('keeps an irregular landed point and attitude fixed in rotating body coordinates, including dt0', () => {

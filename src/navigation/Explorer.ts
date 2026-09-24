@@ -4,6 +4,13 @@ import type { Dataset, Snapshot, SurfaceHit } from '../contracts'
 import { loadDataset } from '../simulation/dataset'
 import { SolarRenderer } from '../render/SolarRenderer'
 import { FlightController } from '../flight/FlightController'
+import type { FlightTelemetry } from '../flight/FlightController'
+import {
+  addStop, canLandOn, cruiseSeconds, currentStop, DWELL_SECONDS, legSpeedC, markStop, moveStop, removeStop,
+  resetRoute, setAction, SLOW_LEG_SECONDS,
+} from '../flight/route'
+import type { RouteStop, StopAction } from '../flight/route'
+import { duration } from '../ui/format'
 import { InputController, setInputSource } from '../input/controls'
 import { Observer } from './observer'
 import { initialState } from './state'
@@ -11,6 +18,8 @@ import type { SavedSettings, ViewState } from './state'
 
 const SETTINGS_KEY = 'solar-atlas-settings-v1'
 type OptionKey = 'labels' | 'paths' | 'quality' | 'exposure' | 'fov'
+type RouteOption = 'routeAutoContinue' | 'routeAutoSpeed'
+const RUNNING = new Set(['departing', 'enroute', 'dwell'])
 
 export class Explorer {
   readonly input: InputController
@@ -33,6 +42,10 @@ export class Explorer {
   private lastFlightMessage = ''
   private readonly pointerLook = Symbol('viewport-look')
   private lastSitePick = -Infinity
+  private routeKey = 0
+  private routeLeg = { key: -1, arrivals: 0 }
+  private routeToken = 0
+  private launching = false
 
   constructor(container: HTMLElement, notify: (state: ViewState) => void) {
     this.container = container
@@ -126,6 +139,7 @@ export class Explorer {
         camera.quaternion = [rotation.x, rotation.y, rotation.z, rotation.w]
       }
       const telemetry = this.state.inShip ? this.flight.telemetry(this.snapshot) : undefined
+      if (telemetry) this.advanceRoute(telemetry, simulationDt)
       this.renderer.update(this.snapshot, camera, {
         selectedId: this.state.selectedId, labels: this.state.labels, paths: this.state.paths,
         quality: this.state.quality, exposure: this.state.exposure, cockpit: this.state.inShip && this.state.camera === 'cockpit',
@@ -142,7 +156,7 @@ export class Explorer {
           playing: this.state.playing, observerDistanceKm }
         if (telemetry) {
           Object.assign(patch, { shipMode: telemetry.mode, speedC: telemetry.speedC, throttleC: telemetry.throttleC,
-            warp: telemetry.warp, referenceId: telemetry.referenceId, altitudeKm: telemetry.altitudeKm,
+            warp: telemetry.warp, warpArmed: telemetry.warpArmed, referenceId: telemetry.referenceId, altitudeKm: telemetry.altitudeKm,
             verticalKmS: telemetry.verticalKmS,
             separationKm: new Vector3(...this.flight.pose().position).distanceTo(new Vector3(...statePosition)),
             etaSeconds: telemetry.targetId === this.state.selectedId ? telemetry.etaSeconds : Infinity })
@@ -228,6 +242,10 @@ export class Explorer {
 
   exitShip(): void {
     if (!this.state.inShip) return
+    if (RUNNING.has(this.state.routePhase)) {
+      this.routeToken++
+      this.publish({ routePhase: 'idle', routeDwell: 0 })
+    }
     this.input.setEnabled(false)
     this.flight?.brake()
     if (this.observer && this.snapshot) this.observer.focus(this.state.selectedId, this.snapshot)
@@ -241,11 +259,19 @@ export class Explorer {
     this.publish({ throttleC: c })
   }
   setWarp(enabled: boolean): void {
-    this.flight?.setWarp(enabled)
-    this.publish({ warp: enabled })
+    if (!this.flight) return
+    this.flight.setWarp(enabled)
+    const telemetry = this.snapshot ? this.flight.telemetry(this.snapshot) : undefined
+    this.publish({ warp: telemetry?.warp ?? enabled, warpArmed: telemetry?.warpArmed ?? false })
+    if (enabled && this.state.routePhase === 'enroute' && this.state.routeAutoSpeed && this.snapshot) {
+      const target = this.snapshot.states[this.state.selectedId]
+      const distance = new Vector3(...this.flight.pose().position).distanceTo(new Vector3(...target.position))
+      this.setThrottle(legSpeedC(distance, true))
+    }
   }
 
   async transfer(id: string): Promise<void> {
+    this.interruptRoute()
     if (!this.state.inShip) await this.enterShip()
     if (!this.snapshot || !this.flight || !this.renderer) return
     await this.renderer.ensureBody(id)
@@ -254,6 +280,7 @@ export class Explorer {
   }
 
   async land(id: string): Promise<void> {
+    this.interruptRoute()
     if (!this.state.inShip) await this.enterShip()
     if (!this.snapshot || !this.flight || !this.renderer) return
     await this.renderer.ensureBody(id)
@@ -281,12 +308,218 @@ export class Explorer {
     this.publish({ selectedId: id, observerMode: 'orbit', message: 'Viewing the selected source-mesh site. Added ground detail is reconstructed.' })
   }
   takeoff(): void {
+    this.interruptRoute()
     if (this.flight && this.snapshot) this.flight.takeoff(this.snapshot)
     this.publish({ playing: this.state.jd < this.state.lastJd })
   }
   brake(): void { this.flight?.brake(); this.publish({ throttleC: 0 }) }
   cancel(): void { this.flight?.cancel() }
   clearMessage(): void { this.publish({ message: '' }) }
+
+  addStop(id: string, action: StopAction = 'arrive', announce = true): void {
+    const body = this.body(id)
+    const route = addStop(this.state.route, body, ++this.routeKey, action)
+    if (typeof route === 'string') throw new Error(route)
+    const position = route.filter(stop => stop.status === 'pending').length
+    this.publish({ route, routePhase: this.state.routePhase === 'complete' ? 'idle' : this.state.routePhase,
+      ...(announce ? { message: `Added ${body.name} as destination ${position}.` } : {}) })
+  }
+
+  toggleStop(id: string): void {
+    const stop = this.state.route.find(item => item.bodyId === id && item.status === 'pending')
+    if (stop) this.removeStop(stop.key)
+    else this.addStop(id, 'arrive', false)
+  }
+
+  removeStop(key: number): void {
+    const active = key === this.routeLeg.key && RUNNING.has(this.state.routePhase)
+    this.publish({ route: removeStop(this.state.route, key) })
+    if (active) this.continueAfterChange()
+  }
+
+  moveStop(key: number, delta: -1 | 1): void {
+    this.publish({ route: moveStop(this.state.route, key, delta) })
+  }
+
+  setStopAction(key: number, action: StopAction): void {
+    const stop = this.state.route.find(item => item.key === key)
+    if (!stop) return
+    if (action === 'land' && !canLandOn(this.body(stop.bodyId))) throw new Error('The Sun has no landing or hover endpoint.')
+    this.publish({ route: setAction(this.state.route, key, action) })
+  }
+
+  clearRoute(): void {
+    if (RUNNING.has(this.state.routePhase)) this.pauseRoute()
+    this.publish({ route: [], routePhase: 'idle', routeDwell: 0 })
+  }
+
+  setRouteOption(key: RouteOption, value: boolean): void {
+    const patch: Partial<ViewState> = { [key]: value }
+    if (key === 'routeAutoContinue' && this.state.routePhase === 'dwell') patch.routeDwell = value ? DWELL_SECONDS : Infinity
+    this.publish(patch)
+  }
+
+  async startRoute(): Promise<void> {
+    if (!this.state.route.length) throw new Error('Add a destination before starting a route.')
+    if (!currentStop(this.state.route)) this.publish({ route: resetRoute(this.state.route) })
+    if (!this.state.inShip) await this.enterShip()
+    await this.launchLeg()
+  }
+
+  pauseRoute(): void {
+    if (!RUNNING.has(this.state.routePhase)) return
+    this.routeToken++
+    this.launching = false
+    if (this.state.routePhase === 'enroute') this.flight?.brake()
+    this.syncFlightMessage()
+    this.publish({ routePhase: 'idle', routeDwell: 0, throttleC: 0, message: 'Route paused. Resume route when you are ready.' })
+  }
+
+  departNow(): void {
+    if (this.state.routePhase === 'dwell') void this.launchLeg().catch(e => this.report(e))
+  }
+
+  skipStop(): void {
+    const stop = currentStop(this.state.route)
+    if (!stop) return
+    this.publish({ route: markStop(this.state.route, stop.key, 'skipped'), message: `Skipped ${this.body(stop.bodyId).name}.` })
+    if (RUNNING.has(this.state.routePhase)) this.continueAfterChange()
+  }
+
+  /** One control for Start, Resume, and Depart now, so a single key or button drives the loop. */
+  async routeGo(): Promise<void> {
+    if (this.state.routePhase === 'dwell') return this.departNow()
+    if (RUNNING.has(this.state.routePhase)) return
+    await this.startRoute()
+  }
+
+  private continueAfterChange(): void {
+    if (this.state.routePhase === 'enroute') this.flight?.cancel()
+    this.syncFlightMessage()
+    void this.launchLeg().catch(e => this.report(e))
+  }
+
+  private interruptRoute(): void {
+    if (!RUNNING.has(this.state.routePhase)) return
+    this.routeToken++
+    this.launching = false
+    this.publish({ routePhase: 'idle', routeDwell: 0, message: 'Route paused for manual flight. Resume route to continue.' })
+  }
+
+  private syncFlightMessage(): void {
+    if (this.flight && this.snapshot) this.lastFlightMessage = this.flight.telemetry(this.snapshot).message
+  }
+
+  private body(id: string) {
+    const body = this.dataset?.bodies.find(item => item.id === id)
+    if (!body) throw new Error(`Unknown body ${id}.`)
+    return body
+  }
+
+  private async launchLeg(): Promise<void> {
+    const flight = this.flight
+    if (!flight || !this.snapshot || !this.renderer) return
+    const stop = currentStop(this.state.route)
+    if (!stop) {
+      this.finishRoute()
+      return
+    }
+    const token = ++this.routeToken
+    const mode = flight.telemetry(this.snapshot).mode
+    const playing = this.state.jd < this.state.lastJd
+    if (mode === 'landed' || mode === 'hover') {
+      flight.takeoff(this.snapshot)
+      this.syncFlightMessage()
+      this.publish({ routePhase: 'departing', routeDwell: 0, playing, message: `Taking off for ${this.body(stop.bodyId).name}.` })
+      return
+    }
+    this.publish({ routePhase: 'departing', routeDwell: 0, selectedId: stop.bodyId, playing })
+    if (mode === 'takeoff') return
+    this.launching = true
+    try {
+      await this.renderer.ensureBody(stop.bodyId)
+    } finally {
+      if (token === this.routeToken) this.launching = false
+    }
+    if (this.disposed || token !== this.routeToken || !this.state.inShip || !this.snapshot) return
+    if (currentStop(this.state.route)?.key !== stop.key) {
+      void this.launchLeg().catch(e => this.report(e))
+      return
+    }
+    const snapshot = this.snapshot
+    const body = this.body(stop.bodyId)
+    let note = ''
+    if (this.state.routeAutoSpeed) {
+      const before = flight.telemetry(snapshot)
+      const distance = new Vector3(...flight.pose().position).distanceTo(new Vector3(...snapshot.states[stop.bodyId].position))
+      const warpAllowed = before.warp || before.warpArmed
+      const speed = legSpeedC(distance, warpAllowed)
+      flight.setThrottle(speed)
+      const cruise = cruiseSeconds(distance, speed)
+      if (!warpAllowed && cruise > SLOW_LEG_SECONDS) note = ` This leg takes about ${duration(cruise)} below c. Turn on Warp to get there sooner.`
+    }
+    if (stop.action === 'land' && canLandOn(body)) flight.land(stop.bodyId, snapshot)
+    else flight.transfer(stop.bodyId, snapshot)
+    let telemetry = flight.telemetry(snapshot)
+    if (stop.action === 'land' && telemetry.mode === 'free') {
+      flight.transfer(stop.bodyId, snapshot)
+      telemetry = flight.telemetry(snapshot)
+      note = ` Landing is unavailable there, so the ship will park nearby.${note}`
+    }
+    if (telemetry.mode === 'free') {
+      this.publish({ routePhase: 'idle', message: `Route paused. ${telemetry.message}` })
+      return
+    }
+    this.routeLeg = { key: stop.key, arrivals: telemetry.arrivals }
+    this.lastFlightMessage = telemetry.message
+    const index = this.state.route.filter(item => item.status !== 'pending').length + 1
+    this.publish({ routePhase: 'enroute', selectedId: stop.bodyId, throttleC: telemetry.throttleC, playing,
+      message: `Leg ${index} of ${this.state.route.length}: heading to ${body.name}.${note}` })
+  }
+
+  private advanceRoute(telemetry: FlightTelemetry, simulationDt: number): void {
+    const phase = this.state.routePhase
+    if (phase === 'departing') {
+      if (!this.launching && telemetry.mode === 'free') void this.launchLeg().catch(e => this.report(e))
+      return
+    }
+    if (phase === 'dwell') {
+      if (!Number.isFinite(this.state.routeDwell) || simulationDt <= 0) return
+      this.state.routeDwell = Math.max(0, this.state.routeDwell - simulationDt)
+      if (this.state.routeDwell === 0) void this.launchLeg().catch(e => this.report(e))
+      return
+    }
+    if (phase !== 'enroute') return
+    const stop = this.state.route.find(item => item.key === this.routeLeg.key)
+    if (!stop) return
+    if (telemetry.arrivals > this.routeLeg.arrivals && telemetry.arrivedId === stop.bodyId) {
+      this.arrive(stop, telemetry)
+      return
+    }
+    if (telemetry.mode === 'free' && telemetry.targetId !== stop.bodyId) {
+      this.publish({ routePhase: 'idle', message: `Route paused before ${this.body(stop.bodyId).name}. Resume route to continue.` })
+    }
+  }
+
+  private arrive(stop: RouteStop, telemetry: FlightTelemetry): void {
+    const route = markStop(this.state.route, stop.key, 'visited')
+    const next = currentStop(route)
+    const name = this.body(stop.bodyId).name
+    const verb = telemetry.mode === 'landed' ? `Landed on ${name}` : telemetry.mode === 'hover' ? `Hovering at ${name}` : `Arrived at ${name}`
+    this.lastFlightMessage = telemetry.message
+    if (!next) {
+      this.publish({ route, routePhase: 'complete', routeDwell: 0, message: `${verb}. Route complete, ${route.filter(item => item.status === 'visited').length} of ${route.length} destinations visited.` })
+      return
+    }
+    const nextName = this.body(next.bodyId).name
+    const auto = this.state.routeAutoContinue
+    this.publish({ route, routePhase: 'dwell', routeDwell: auto ? DWELL_SECONDS : Infinity,
+      message: auto ? `${verb}. Next stop, ${nextName}, in ${DWELL_SECONDS} s.` : `${verb}. Depart when you are ready for ${nextName}.` })
+  }
+
+  private finishRoute(): void {
+    this.publish({ routePhase: this.state.route.length ? 'complete' : 'idle', routeDwell: 0 })
+  }
 
   option<K extends OptionKey>(key: K, value: ViewState[K]): void {
     if (key === 'fov' && typeof value === 'number') this.renderer?.setFieldOfView(value)

@@ -1,9 +1,13 @@
 import { ArrowDownToLine, ArrowUpFromLine, ChevronDown, ChevronUp, Eye, EyeOff, LocateFixed, Pause, Play, Rocket, Shield, Square, X } from 'lucide-react'
+import { currentStop, pendingCount } from '../flight/route'
 import type { Body, ShipMode } from '../contracts'
 import { C_KM_S } from '../contracts'
 import type { ViewState } from '../navigation/state'
 import { TERRAIN_LABEL } from '../terrain'
 import { distance, duration, speed } from './format'
+import { RoutePanel } from './RoutePanel'
+import { routePrimary } from './routeText'
+import type { RouteActions } from './RoutePanel'
 
 const modeLabel: Record<ShipMode, string> = {
   free: 'Free flight', transfer: 'Transfer', approach: 'Approach', landing: 'Landing', landed: 'Landed', hover: 'Hover', takeoff: 'Takeoff',
@@ -30,6 +34,7 @@ interface FlightPanelProps {
   onTogglePlay: () => void
   onCancel: () => void
   onHide: () => void
+  route: RouteActions
 }
 
 export function FlightPanel(props: FlightPanelProps) {
@@ -38,13 +43,19 @@ export function FlightPanel(props: FlightPanelProps) {
   const grounded = view.shipMode === 'landed' || view.shipMode === 'hover'
   const assisted = ['transfer', 'approach', 'landing', 'takeoff'].includes(view.shipMode)
   const landLabel = grounded ? 'Take off' : hoverTarget ? 'Hover' : 'Land'
+  const warpAllowed = view.warp || view.warpArmed
+  const primary = routePrimary(view)
+  const stop = currentStop(view.route)
+  const legInfo = stop && view.routePhase !== 'idle' && view.routePhase !== 'complete'
+    ? `${view.route.length - pendingCount(view.route) + 1}/${view.route.length} ${name(stop.bodyId)}`
+    : ''
 
   const summary = <div className="flight-summary">
     <span className="ship-status" data-testid="ship-status">
       <span className={`status-dot ${assisted ? 'busy' : ''}`} />{modeLabel[view.shipMode]}
       <span className="muted">{view.camera === 'cockpit' ? 'Cockpit' : 'Chase'} · {view.playing ? '1x' : 'Paused'}</span>
     </span>
-    {!expanded && <span className="flight-mini">{speed(view.speedC)} · {name(view.selectedId)}</span>}
+    {!expanded && <span className="flight-mini">{speed(view.speedC)} · {legInfo || name(view.selectedId)}</span>}
   </div>
 
   const toggle = <button className="flight-toggle icon-button ghost" aria-label="Toggle flight panel" aria-expanded={expanded}
@@ -52,11 +63,15 @@ export function FlightPanel(props: FlightPanelProps) {
     {expanded ? <ChevronDown size={18} /> : <ChevronUp size={18} />}
   </button>
 
+  const travel = <button className="primary" onClick={props.onTravel} title={`Assisted transfer to ${name(view.selectedId)}`}><Rocket size={15} />Travel</button>
+  const routeButton = primary && <button className={primary.kind === 'go' ? 'primary' : ''} aria-keyshortcuts="G" title={`${primary.label} (G)`}
+    onClick={primary.kind === 'go' ? props.route.onGo : props.route.onPause}>{primary.kind === 'go' ? <Play size={15} /> : <Pause size={15} />}{primary.label}</button>
+  const routeBusy = Boolean(legInfo)
   const actions = <div className="ship-actions">
-    <button className="primary" onClick={props.onTravel} title={`Assisted transfer to ${name(view.selectedId)}`}><Rocket size={15} />Travel</button>
-    <button disabled={!canLand} onClick={props.onLandOrTakeoff}>
+    {!expanded && routeButton ? routeButton : travel}
+    {!(routeBusy && !expanded) && <button disabled={!canLand} onClick={props.onLandOrTakeoff}>
       {grounded ? <ArrowUpFromLine size={15} /> : <ArrowDownToLine size={15} />}{landLabel}
-    </button>
+    </button>}
     <button className="brake-button" onClick={props.onBrake} title="Brake (Space)"><Square size={13} />Brake</button>
   </div>
 
@@ -71,22 +86,25 @@ export function FlightPanel(props: FlightPanelProps) {
     <dl className="flight-metrics">
       <div><dt>Target</dt><dd>{name(view.selectedId)}</dd></div>
       <div><dt>Range</dt><dd>{distance(view.separationKm)}</dd></div>
-      <div><dt>Arrival</dt><dd>{grounded ? 'Arrived' : duration(view.etaSeconds)}</dd></div>
+      <div><dt>Arrival</dt><dd>{grounded ? 'Arrived' : view.etaSeconds > 0 && Number.isFinite(view.etaSeconds) ? duration(view.etaSeconds)
+        : assisted ? 'Calculating' : 'No transfer'}</dd></div>
       <div><dt>Altitude</dt><dd data-testid="altitude">{distance(view.altitudeKm)}</dd></div>
     </dl>
     {['landing', 'landed', 'takeoff'].includes(view.shipMode) && <p className="terrain-note">{TERRAIN_LABEL}</p>}
+    <RoutePanel view={view} bodies={bodies} {...props.route} />
     <div className="throttle-controls">
       <div className="throttle-title">
         <label htmlFor="throttle">Commanded speed</label>
-        <button className={`warp-toggle ${view.warp ? 'active' : ''}`} aria-pressed={view.warp} onClick={props.onWarp}
-          title="Warp allows fictional speeds at or above c"><Shield size={13} />Warp {view.warp ? 'on' : 'off'}</button>
+        <button className={`warp-toggle ${warpAllowed ? 'active' : ''}`} aria-pressed={warpAllowed} onClick={props.onWarp}
+          title={view.warpArmed ? 'Warp engages once the ship clears the nearby exclusion zone' : 'Warp allows fictional speeds at or above c'}>
+          <Shield size={13} />Warp {view.warp ? 'on' : view.warpArmed ? 'armed' : 'off'}</button>
       </div>
-      <div className="speed-presets">{presets.map(([label, value]) => <button key={label} disabled={value >= 1 && !view.warp}
-        title={value >= 1 && !view.warp ? 'Turn on Warp for speeds at or above c' : `Set ${label}`} onClick={() => props.onSpeed(value)}>{label}</button>)}</div>
-      <input type="range" aria-label="Logarithmic speed" min="-12" max={view.warp ? 3 : -0.000001} step=".01"
+      <div className="speed-presets">{presets.map(([label, value]) => <button key={label} disabled={value >= 1 && !warpAllowed}
+        title={value >= 1 && !warpAllowed ? 'Turn on Warp for speeds at or above c' : `Set ${label}`} onClick={() => props.onSpeed(value)}>{label}</button>)}</div>
+      <input type="range" aria-label="Logarithmic speed" min="-12" max={warpAllowed ? 3 : -0.000001} step=".01"
         value={Math.log10(Math.max(1e-12, view.throttleC))} onChange={event => props.onSpeed(10 ** Number(event.target.value))} />
       <div className="numeric-throttle">
-        <input id="throttle" aria-label="Commanded speed in c" type="number" min="0" max={view.warp ? 1000 : 0.999999} step="any"
+        <input id="throttle" aria-label="Commanded speed in c" type="number" min="0" max={warpAllowed ? 1000 : 0.999999} step="any"
           value={props.throttle} onChange={event => props.onThrottleInput(event.target.value)}
           onKeyDown={event => { if (event.key === 'Enter') props.onApplySpeed() }} />
         <span>c</span>

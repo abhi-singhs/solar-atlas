@@ -130,6 +130,55 @@ test('timeline boundaries, bookmarks, shortcuts, and local source links', async 
   expect(new URL(await link.getAttribute('href') ?? '', page.url()).origin).toBe(new URL(page.url()).origin)
 })
 
+test('plans a multi-stop route and flies it with a landing stop', async ({ page }, testInfo) => {
+  test.setTimeout(testInfo.project.name === 'desktop' ? 300000 : 120000)
+  const errors: string[] = []
+  page.on('pageerror', error => errors.push(error.message))
+  await openApp(page)
+  await page.getByRole('button', { name: 'Spaceship', exact: true }).click()
+  await setFlightPanel(page, true)
+  const route = page.getByRole('region', { name: 'Route' })
+  await expect(route.locator('.route-status')).toHaveText('No destinations')
+  await route.getByRole('button', { name: 'Add destination' }).click()
+  const search = page.getByRole('textbox', { name: 'Search bodies' })
+  const catalog = page.getByRole('region', { name: 'Body catalog' })
+  for (const name of ['Moon', 'Mars']) {
+    await search.fill(name)
+    await catalog.getByRole('button', { name: `Add ${name} to route` }).click()
+  }
+  await expect(catalog.getByRole('button', { name: 'Remove Mars from route' })).toHaveAttribute('aria-pressed', 'true')
+  await page.getByRole('button', { name: 'Close catalog' }).click()
+  await setFlightPanel(page, true)
+  await expect(route.getByRole('listitem')).toHaveCount(2)
+  await route.getByRole('button', { name: 'Move Mars earlier' }).click()
+  await expect(route.getByRole('listitem').first()).toContainText('Mars')
+  await route.getByRole('button', { name: 'Remove Mars from route' }).click()
+  await expect(route.getByRole('listitem')).toHaveCount(1)
+  await route.getByRole('button', { name: 'Land', exact: true }).click()
+  await expect(route).toContainText('Land on arrival')
+  if (testInfo.project.name === 'phone') {
+    await setFlightPanel(page, false)
+    await expect(page.getByRole('region', { name: 'Spacecraft controls' }).getByRole('button', { name: 'Start route' })).toBeVisible()
+    await expect(page.getByRole('group', { name: 'Touch flight controls' })).toBeVisible()
+    expect(errors).toEqual([])
+    return
+  }
+  await page.locator('.universe').focus()
+  await page.keyboard.press('+')
+  await expect(route.getByRole('listitem')).toHaveCount(2)
+  await expect(route.getByRole('listitem').last()).toContainText('Earth')
+  await route.getByRole('button', { name: 'Start route' }).click()
+  await expect(route.locator('.route-status')).toContainText('To Moon')
+  await expect(page.getByTestId('ship-status')).toContainText(/landed/i, { timeout: 150000 })
+  await expect(route.locator('.route-status')).toContainText(/Next stop in \d s/)
+  await expect(route.getByRole('listitem').first()).toContainText('Visited')
+  await page.screenshot({ path: 'artifacts/desktop-route.png' })
+  await expect(route.locator('.route-status')).toContainText('To Earth', { timeout: 30000 })
+  await expect(route.locator('.route-status')).toContainText('Complete', { timeout: 150000 })
+  await expect(route.getByRole('button', { name: 'Fly again' })).toBeVisible()
+  expect(errors).toEqual([])
+})
+
 test('lands on source Earth geometry and takes off at 1x time', async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== 'desktop', 'Real-time landing is covered on desktop; touch events have their own native-input checks.')
   test.setTimeout(180000)

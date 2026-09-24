@@ -65,6 +65,8 @@ Enter Spaceship to use an original three-dimensional cockpit or the external cha
 | Space | Brake |
 | P | Pause or resume flight |
 | C | Cockpit or chase view |
+| + | Add the selected body to the route |
+| G | Start, resume, or depart on the route |
 | Drag the viewport | Cockpit free-look |
 | Touch pads and buttons | Steering, look, roll, vertical thrust, and braking on phone/tablet |
 
@@ -72,15 +74,21 @@ The flight panel groups speed, target, and actions. Its chevron collapses it to 
 
 Use the numeric speed field, logarithmic slider, or presets to set commanded speed. Actual speed reports motion relative to the displayed reference body's center. A landed ship can have nonzero speed because the planet rotates beneath that reference frame. A reference change does not teleport the ship.
 
-`c = 299,792.458 km/s`. Conventional mode remains below c. Enable Warp explicitly to allow speeds through 1,000c. Warp is fictional and is limited near hazards. The displayed c value is per simulated second, not a hidden time-acceleration multiplier.
+`c = 299,792.458 km/s`. Conventional mode remains below c. Enable Warp explicitly to allow speeds through 1,000c. Warp is fictional and is limited near hazards. Turning it on inside a body's exclusion zone arms it instead, and it engages once the ship is clear. During an assisted transfer, warp pauses while the ship passes another body and resumes after it. It drops for good at the destination. The displayed c value is per simulated second, not a hidden time-acceleration multiplier.
 
-Select a destination and choose Travel for assisted transfer. The controller steers toward the moving target and brakes for approach. Arrival time is an estimate. Cancel autopilot returns control without teleporting. Brake stops motion relative to the reference body.
+Select a destination and choose Travel for assisted transfer. The controller steers toward the moving target, routes around any body in the way, and brakes for approach. Arrival time is an estimate. Cancel autopilot returns control without teleporting. Brake stops motion relative to the reference body.
+
+### Routes
+
+A route strings several destinations into one trip. In Spaceship mode, add a destination with the + button beside each body in the catalog, the Add destination button on the body card, or the + key for the selected body. The Route section of the flight panel lists stops in order. Each stop either parks nearby or lands (hovers on the giant planets), and you can move stops earlier or remove them.
+
+Start route (or G) flies to the first stop. After each arrival the ship waits five seconds, takes off if it landed, and heads for the next stop. Turn off Auto-continue to leave each stop yourself with Depart now. Auto speed sets each leg's commanded speed so the cruise takes about 30 seconds within the current Warp setting. Legs between planets need Warp, and the route tells you when a leg would take more than a few minutes below c. Pause route brakes the ship, Skip stop moves on, and any manual Travel, Land, or Take off pauses the route. Fly again restarts a finished route.
 
 Pausing freezes translation while leaving the interface and free-look usable. A hidden tab pauses the simulation instead of applying a large elapsed-time jump. Leave flight before scrubbing or reversing time.
 
 ## Land
 
-Select a solid body and choose Land. The ship approaches, aligns, and descends with assistance. Once landed, it retains a body-local pose as the world rotates and travels through its orbit. Take off clears the local surface before normal flight resumes.
+Select a solid body and choose Land. The ship approaches, aligns, and descends with assistance. Once landed, it retains a body-local pose as the world rotates and travels through its orbit. Take off lifts off at 10 m/s and speeds up as it climbs, so it clears the local surface in a few seconds before normal flight resumes.
 
 In Explore mode, Pick site and land on the body card lets you select a visible part of the source mesh and launch a descent there. Collapse the flight panel to see the cockpit instruments, and adjust field of view in Settings.
 

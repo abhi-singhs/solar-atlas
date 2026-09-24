@@ -11,6 +11,7 @@ import { Dock } from './ui/Dock'
 import type { DockMenu } from './ui/Dock'
 import { FlightPanel } from './ui/FlightPanel'
 import { HelpDialog, SettingsDialog, SourcesDialog } from './ui/Dialogs'
+import type { RouteActions } from './ui/RoutePanel'
 import { useLatest, useMediaQuery, useShortcuts, useStoredFlag } from './ui/hooks'
 
 type OptionKey = 'labels' | 'paths' | 'quality' | 'exposure' | 'fov'
@@ -128,6 +129,19 @@ function App() {
     if (phone) { setCatalog(false); setDetails(false) }
   }
   const openCatalog = () => { setHidden(false); setMenu(null); setCatalog(true) }
+  const pendingIds = new Set(view.route.filter(stop => stop.status === 'pending').map(stop => stop.bodyId))
+  const routeGo = () => perform(e => e.routeGo())
+  const routeActions: RouteActions = {
+    onGo: routeGo,
+    onPause: () => perform(e => e.pauseRoute()),
+    onSkip: () => perform(e => e.skipStop()),
+    onAddDestination: () => { if (phone) setFlightExpanded(false); openCatalog() },
+    onRemove: key => perform(e => e.removeStop(key)),
+    onMove: (key, delta) => perform(e => e.moveStop(key, delta)),
+    onAction: (key, action) => perform(e => e.setStopAction(key, action)),
+    onClear: () => perform(e => e.clearRoute()),
+    onOption: (key, value) => perform(e => e.setRouteOption(key, value)),
+  }
 
   useShortcuts(view.ready ? {
     '/': openCatalog,
@@ -141,6 +155,9 @@ function App() {
     '2': view.inShip ? undefined : () => perform(e => e.observerMode('follow')),
     '3': view.inShip ? undefined : () => perform(e => e.observerMode('free')),
     c: view.inShip ? toggleCamera : undefined,
+    g: view.inShip ? routeGo : undefined,
+    '+': view.inShip ? () => perform(e => e.addStop(view.selectedId)) : undefined,
+    '=': view.inShip ? () => perform(e => e.addStop(view.selectedId)) : undefined,
     Escape: () => {
       if (menu) setMenu(null)
       else if (catalog) setCatalog(false)
@@ -150,7 +167,7 @@ function App() {
   } : {})
 
   const hint = view.inShip
-    ? flightHintSeen ? '' : hasTouch ? 'Hold the Steer and Look pads to fly. Expand the panel for speed.' : 'W/S thrust · arrows steer · Q/E roll · Space brake · C camera'
+    ? flightHintSeen ? '' : hasTouch ? 'Hold the Steer and Look pads to fly. Expand the panel for speed and routes.' : 'W/S thrust · arrows steer · Q/E roll · Space brake · C camera'
     : view.observerMode === 'free' && !hasTouch ? 'W/S forward and back · A/D sideways · R/F up and down'
       : exploreHintSeen ? '' : hasTouch ? 'Drag to orbit · pinch to zoom · tap a label to select' : 'Drag to orbit · scroll to zoom · click a label to select'
   const touchEnabled = !modal && !catalog && !hidden && !(phone && (details || flightExpanded))
@@ -164,7 +181,8 @@ function App() {
         {view.ready && <Catalog open={catalog} bodies={view.bodies} selectedId={view.selectedId} bookmarks={view.bookmarks}
           onOpen={openCatalog} onClose={() => setCatalog(false)} onSelect={selectBody}
           onOpenBookmark={index => { perform(e => e.openBookmark(index)); setCatalog(false) }}
-          onRemoveBookmark={index => perform(e => e.removeBookmark(index))} />}
+          onRemoveBookmark={index => perform(e => e.removeBookmark(index))}
+          route={view.inShip ? { pending: pendingIds, onToggle: id => perform(e => e.toggleStop(id)) } : undefined} />}
       </div>
       <nav className="mode-switch" aria-label="Experience">
         <button className={!view.inShip ? 'active' : ''} aria-pressed={!view.inShip} onClick={() => perform(e => e.exitShip())} disabled={!view.ready}><Telescope size={16} /><span>Explore</span></button>
@@ -179,6 +197,7 @@ function App() {
     {view.ready && <>
       {selected && <BodyCard body={selected} bodies={view.bodies} source={source} distanceKm={view.observerDistanceKm} inShip={view.inShip}
         expanded={details} pickingSite={view.pickingSite} canPickSite={canLand && !hoverTarget}
+        inRoute={pendingIds.has(selected.id)} onRoute={() => perform(e => e.toggleStop(selected.id))}
         onToggle={() => setDetails(value => !value)}
         onGo={() => { perform(e => e.focus(selected.id)); if (phone) setDetails(false) }}
         onPickSite={() => { perform(e => e.pickSite()); if (phone) setDetails(false) }}
@@ -195,7 +214,7 @@ function App() {
         onLandOrTakeoff={() => perform(e => grounded ? e.takeoff() : e.land(view.selectedId))}
         onBrake={() => { setThrottle('0'); perform(e => e.brake()) }} onCamera={toggleCamera}
         onLookForward={() => perform(e => e.resetLook())} onTogglePlay={togglePlay} onCancel={() => perform(e => e.cancel())}
-        onHide={() => setHidden(true)} />}
+        onHide={() => setHidden(true)} route={routeActions} />}
       {view.inShip && engine.current && <TouchControls input={engine.current.input.state} enabled={touchEnabled} onBrake={() => perform(e => e.brake())} />}
 
       {hint && !catalog && !menu && !(phone && (details || (view.inShip && flightExpanded))) && <div className="hint" role="note">{hint}</div>}

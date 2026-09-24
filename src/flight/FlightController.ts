@@ -13,6 +13,7 @@ export interface FlightTelemetry {
   speedC: number
   throttleC: number
   warp: boolean
+  warpArmed: boolean
   referenceId: string
   targetId: string
   altitudeKm: number
@@ -20,6 +21,9 @@ export interface FlightTelemetry {
   separationKm: number
   etaSeconds: number
   message: string
+  /** Increments each time an assisted transfer parks at, lands on, or hovers over its target. */
+  arrivals: number
+  arrivedId: string
   landingBodyId?: string
 }
 
@@ -31,6 +35,10 @@ export const NORMAL_LIMIT_C = 0.999999
 export const WARP_LIMIT_C = 1000
 export const MAX_FLIGHT_DT_SECONDS = 60
 const GAS_IDS = new Set(['jupiter', 'saturn', 'uranus', 'neptune'])
+// Takeoff lifts off at 10 m/s and speeds up with height, so a 2 km release takes about 4 s instead of 200 s.
+const LIFTOFF_KM_S = 0.01
+const CLIMB_GROWTH = 1.5
+const DEPARTURE_BOOST = 4
 const clamp = (x: number, lo: number, hi: number): number => Math.min(hi, Math.max(lo, Number.isFinite(x) ? x : 0))
 const analog = (x: number): number => clamp(x, -1, 1)
 const UP = new Vector3(0, 1, 0)
@@ -56,6 +64,9 @@ export class FlightController {
   private targetId = ''
   private throttleC = 0
   private warp = false
+  private warpArmed = false
+  private arrivals = 0
+  private arrivedId = ''
   private message = 'Exploration flight. Speeds are relative to the selected reference body.'
   private previous?: Snapshot
   private site?: Site
@@ -92,6 +103,7 @@ export class FlightController {
     this.wantsLanding = false
     this.throttleC = 0
     this.warp = false
+    this.warpArmed = false
     this.braking = false
     this.resetLook()
     this.message = 'Flight ready. Flight aids are simulated; body states retain source data.'
@@ -119,20 +131,22 @@ export class FlightController {
       this.message = 'Speed command must be a finite number in c.'
       return
     }
-    const limit = this.warp ? WARP_LIMIT_C : NORMAL_LIMIT_C
+    const limit = this.warp || this.warpArmed ? WARP_LIMIT_C : NORMAL_LIMIT_C
     this.throttleC = clamp(c, 0, limit)
     this.braking = false
     if (c < 0 || c > limit) this.message = `Speed command limited to 0 through ${limit}c.`
   }
 
   setWarp(enabled: boolean): void {
-    if (enabled && this.previous && this.nearBody(this.previous)) {
+    const hazard = enabled && this.previous ? this.nearBody(this.previous) : undefined
+    if (hazard) {
       this.warp = false
-      this.throttleC = Math.min(this.throttleC, NORMAL_LIMIT_C)
-      this.message = 'Warp is unavailable inside a body exclusion zone.'
+      this.warpArmed = true
+      this.message = `Warp armed. It engages once the ship clears ${hazard.name}'s exclusion zone.`
       return
     }
     this.warp = enabled
+    this.warpArmed = false
     if (!enabled) this.throttleC = Math.min(this.throttleC, NORMAL_LIMIT_C)
     this.message = enabled ? 'Fictional warp enabled, maximum 1,000c.' : 'Conventional flight, below c.'
   }
@@ -197,7 +211,6 @@ export class FlightController {
     this.mode = 'takeoff'
     this.takeoffHeight = this.site.hover ? this.hoverHeight(this.catalog.get(this.site.bodyId)!) : CLEARANCE_KM
     this.throttleC = 0
-    this.warp = false
     this.message = 'Taking off along the local terrain normal before releasing flight controls.'
   }
 
@@ -207,6 +220,7 @@ export class FlightController {
     this.throttleC = 0
     this.braking = true
     this.warp = false
+    this.warpArmed = false
     this.message = 'Braking relative to the active reference body.'
   }
 
@@ -219,6 +233,8 @@ export class FlightController {
     this.targetId = ''
     this.site = undefined
     this.wantsLanding = false
+    if (this.warpArmed) this.throttleC = Math.min(this.throttleC, NORMAL_LIMIT_C)
+    this.warpArmed = false
     this.message = 'Assistance cancelled. Position and inertial velocity are unchanged.'
   }
 
@@ -304,16 +320,20 @@ export class FlightController {
         acceleration = this.braking ? Math.max(0.05, this.velocity.distanceTo(refVelocity) * 2) : Math.max(0.03, speed / 3)
       }
       const nearby = this.nearBody(current)
+      if (!nearby && this.warpArmed && !this.warp && (this.mode === 'free' || this.mode === 'transfer') && this.clearOfZones(current)) {
+        this.warp = true
+        this.warpArmed = false
+        this.message = 'Warp engaged clear of exclusion zones.'
+      }
       if (nearby) {
-        if (this.warp) {
-          this.warp = false
-          this.throttleC = Math.min(NORMAL_LIMIT_C, this.throttleC)
-          this.message = 'Warp disengaged inside a body exclusion zone.'
-        }
+        if (this.warp) this.dropWarp(nearby, 'Warp disengaged inside a body exclusion zone.')
         if (this.mode !== 'landing') {
-          const relative = desired.clone().sub(vector(current.states[nearby.id]!.velocity))
-          relative.clampLength(0, approachSpeed(nearby))
-          desired = relative.add(vector(current.states[nearby.id]!.velocity))
+          const nearbyState = current.states[nearby.id]!
+          const relative = desired.clone().sub(vector(nearbyState.velocity))
+          // A transfer leaving or passing a body may move faster than it may approach one; detours and the surface sweep guard contact.
+          const departing = this.mode === 'transfer' && nearby.id !== this.targetId
+          relative.clampLength(0, approachSpeed(nearby) * (departing ? DEPARTURE_BOOST : 1))
+          desired = relative.add(vector(nearbyState.velocity))
         }
       }
       const previousPosition = this.position.clone()
@@ -337,10 +357,8 @@ export class FlightController {
         const remainingTime = (1 - collision.fraction) * h
         if (remainingTime > 1e-8) this.velocity.add(finalOffset.clone().sub(contactOffset).multiplyScalar(1 / remainingTime))
         this.referenceId = collision.body.id
-        this.warp = false
-        this.throttleC = Math.min(this.throttleC, NORMAL_LIMIT_C)
-        if (collision.zone) this.message = 'Warp disengaged at a swept body exclusion zone. Approach speed is limited.'
-        else {
+        this.dropWarp(collision.body, 'Warp disengaged at a swept body exclusion zone. Approach speed is limited.', !collision.zone)
+        if (!collision.zone) {
           if (!auto) this.throttleC = 0
           this.message = 'Surface safety stop. Collision protection prevents crossing the body.'
           if (this.mode === 'landing' && this.site?.bodyId === collision.body.id) {
@@ -393,8 +411,8 @@ export class FlightController {
       if (this.mode === 'landed' || this.mode === 'hover') vertical = 0
     }
     return {
-      mode: this.mode, speedC: speed / C_KM_S, throttleC: this.throttleC, warp: this.warp,
-      referenceId: this.referenceId, targetId: this.targetId, altitudeKm: altitude, verticalKmS: vertical,
+      mode: this.mode, speedC: speed / C_KM_S, throttleC: this.throttleC, warp: this.warp, warpArmed: this.warpArmed,
+      arrivals: this.arrivals, arrivedId: this.arrivedId, referenceId: this.referenceId, targetId: this.targetId, altitudeKm: altitude, verticalKmS: vertical,
       separationKm: separation, etaSeconds: this.estimateEta(snapshot),
       message, ...(this.site ? { landingBodyId: this.site.bodyId } : {}),
     }
@@ -420,7 +438,8 @@ export class FlightController {
       const body = this.catalog.get(this.site.bodyId)!
       const startHeight = this.site.hover ? this.hoverHeight(body) : CLEARANCE_KM
       const releaseHeight = startHeight + Math.max(0.03, Math.min(2, bodyRadius(body) * 0.001))
-      return Math.max(0, releaseHeight - this.takeoffHeight) / 0.01
+      const offset = LIFTOFF_KM_S / CLIMB_GROWTH
+      return Math.max(0, Math.log((releaseHeight - startHeight + offset) / (Math.max(0, this.takeoffHeight - startHeight) + offset)) / CLIMB_GROWTH)
     }
     const body = this.catalog.get(this.targetId)
     const state = snapshot.states[this.targetId]
@@ -466,6 +485,54 @@ export class FlightController {
       const state = snapshot.states[body.id]
       return state && this.position.distanceTo(vector(state.position)) <= bodyRadius(body) + zoneAltitude(body) + 1e-5
     })
+  }
+
+  /**
+   * Steers around the nearest body that blocks the straight path to the target, such as the body the ship just left.
+   * The safety sphere sits just outside the exclusion zone, so an armed warp can engage before the ship rounds the limb.
+   * Inside that sphere the ship climbs out at 45 degrees; outside it follows the tangent past the limb.
+   */
+  private detour(snapshot: Snapshot, direction: Vector3, range: number, targetId: string): Vector3 | undefined {
+    let blocker: { center: Vector3; safe: number; along: number } | undefined
+    for (const body of this.bodies) {
+      if (body.id === targetId) continue
+      const state = snapshot.states[body.id]
+      if (!state) continue
+      const safe = bodyRadius(body) + zoneAltitude(body) * 1.5
+      const center = vector(state.position)
+      const toCenter = center.clone().sub(this.position)
+      const along = toCenter.dot(direction)
+      if (along <= 0 || along > range + safe || toCenter.lengthSq() - along * along >= safe * safe) continue
+      if (!blocker || along < blocker.along) blocker = { center, safe, along }
+    }
+    if (!blocker) return undefined
+    const toCenter = blocker.center.sub(this.position)
+    const distance = toCenter.length()
+    const inward = toCenter.multiplyScalar(1 / distance)
+    const side = direction.clone().addScaledVector(inward, -direction.dot(inward))
+    if (side.lengthSq() < 1e-12) side.copy(new Vector3(0, 0, 1).cross(inward))
+    if (side.lengthSq() < 1e-12) side.copy(new Vector3(1, 0, 0).cross(inward))
+    side.normalize()
+    if (distance <= blocker.safe) return side.sub(inward).normalize()
+    const sine = blocker.safe / distance
+    return inward.multiplyScalar(Math.sqrt(1 - sine * sine)).addScaledVector(side, sine).normalize()
+  }
+
+  // Hysteresis keeps a re-engaged warp from tripping the same zone boundary it just left.
+  private clearOfZones(snapshot: Snapshot): boolean {
+    return this.bodies.every(body => {
+      const state = snapshot.states[body.id]
+      return !state || this.position.distanceTo(vector(state.position)) > bodyRadius(body) + zoneAltitude(body) * 1.25
+    })
+  }
+
+  /** Assisted transfers keep warp armed past bodies they are leaving or passing; manual flight and the target drop it. */
+  private dropWarp(body: Body, message: string, surface = false): void {
+    const passing = !surface && this.mode === 'transfer' && body.id !== this.targetId
+    this.warp = false
+    this.warpArmed = passing
+    if (!passing) this.throttleC = Math.min(this.throttleC, NORMAL_LIMIT_C)
+    this.message = passing ? `Warp paused near ${body.name}. It resumes once the ship clears the exclusion zone.` : message
   }
 
   private selectSite(body: Body, state: BodyState): Site | undefined {
@@ -522,6 +589,7 @@ export class FlightController {
     if (near) {
       this.referenceId = body.id
       this.warp = false
+      this.warpArmed = false
       this.throttleC = Math.min(this.throttleC, NORMAL_LIMIT_C)
       if (this.mode === 'transfer') this.mode = 'approach'
     }
@@ -569,20 +637,26 @@ export class FlightController {
       this.throttleC = 0
       this.velocity.copy(vector(finalState.velocity))
       this.mode = 'free'
+      this.arrivals++
+      this.arrivedId = body.id
       this.message = `Arrived near ${body.name}. Position is not a computed orbit.`
       return { velocity: this.velocity.clone(), acceleration }
     }
     const brakingDistance = Math.max(0, distance - bodyRadius(body) - zoneAltitude(body))
     const stepImpulse = acceleration * h
     const approachLimit = approachSpeed(body)
-    const safeCruiseSpeed = Math.sqrt(stepImpulse ** 2 + approachLimit ** 2 + 2 * acceleration * brakingDistance) - stepImpulse
-    const finalApproachSpeed = Math.sqrt(stepImpulse ** 2 + 2 * acceleration * remaining) - stepImpulse
+    // Plan braking at half the available deceleration so steering corrections and step lag cannot overrun the zone.
+    const planned = acceleration * 0.5
+    const safeCruiseSpeed = Math.sqrt(stepImpulse ** 2 + approachLimit ** 2 + 2 * planned * brakingDistance) - stepImpulse
+    const finalApproachSpeed = Math.sqrt(stepImpulse ** 2 + 2 * planned * remaining) - stepImpulse
     let speed = Math.min(commandSpeed, finalApproachSpeed, remaining * 0.8, Math.max(approachLimit, safeCruiseSpeed))
     if (near) speed = Math.min(speed, approachSpeed(body))
     if (!this.site && remaining > 0) {
       const closing = Math.max(1, this.velocity.distanceTo(goalVelocity), speed)
       const leadSeconds = Math.min(7200, remaining / closing)
       if (!near) delta.addScaledVector(goalVelocity.clone().sub(this.velocity), leadSeconds)
+      const detour = near ? undefined : this.detour(current, delta.clone().normalize(), delta.length(), body.id)
+      if (detour) delta.copy(detour.multiplyScalar(delta.length()))
       const direction = delta.clone().normalize()
       this.orientation.rotateTowards(new Quaternion().setFromUnitVectors(FORWARD, direction), h * 1.2)
     }
@@ -595,7 +669,10 @@ export class FlightController {
     this.referenceId = this.site.bodyId
     this.throttleC = 0
     this.warp = false
+    this.warpArmed = false
     this.wantsLanding = false
+    this.arrivals++
+    this.arrivedId = this.site.bodyId
     this.attach(snapshot, 0)
     this.message = this.site.hover
       ? 'Body-fixed simulated atmospheric hover. No solid surface or measured weather is modeled.'
@@ -626,7 +703,8 @@ export class FlightController {
     const old = this.position.clone()
     const startHeight = site.hover ? this.hoverHeight(body) : CLEARANCE_KM
     const releaseHeight = startHeight + Math.max(0.03, Math.min(2, bodyRadius(body) * 0.001))
-    this.takeoffHeight = Math.min(releaseHeight, this.takeoffHeight + h * 0.01)
+    const climb = LIFTOFF_KM_S + CLIMB_GROWTH * Math.max(0, this.takeoffHeight - startHeight)
+    this.takeoffHeight = Math.min(releaseHeight, this.takeoffHeight + h * climb)
     this.position.copy(this.sitePosition(site, state, this.takeoffHeight))
     this.velocity.copy(this.position.clone().sub(old).multiplyScalar(1 / h))
     this.orientation.copy(rotation(state).multiply(site.localQuaternion))

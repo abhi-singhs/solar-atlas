@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import type { KeyboardEvent } from 'react'
-import { BookmarkCheck, Check, Globe2, Search, X } from 'lucide-react'
+import { BookmarkCheck, Check, Globe2, Plus, Search, X } from 'lucide-react'
 import type { Body } from '../contracts'
 import type { Bookmark } from '../navigation/state'
 import { categories } from './format'
@@ -18,9 +18,11 @@ interface CatalogProps {
   onSelect: (id: string) => void
   onOpenBookmark: (index: number) => void
   onRemoveBookmark: (index: number) => void
+  /** Spaceship mode passes the pending route so each row can add or remove a destination. */
+  route?: { pending: Set<string>; onToggle: (id: string) => void }
 }
 
-export function Catalog({ open, bodies, selectedId, bookmarks, onOpen, onClose, onSelect, onOpenBookmark, onRemoveBookmark }: CatalogProps) {
+export function Catalog({ open, bodies, selectedId, bookmarks, onOpen, onClose, onSelect, onOpenBookmark, onRemoveBookmark, route }: CatalogProps) {
   const [query, setQuery] = useState('')
   const [filter, setFilter] = useState<Filter>('all')
   const input = useRef<HTMLInputElement>(null)
@@ -72,7 +74,7 @@ export function Catalog({ open, bodies, selectedId, bookmarks, onOpen, onClose, 
     <section className="catalog-panel panel" aria-label="Body catalog">
       <label className="search-field">
         <Search size={17} />
-        <input ref={input} autoFocus placeholder={`Search ${bodies.length} bodies`} aria-label="Search bodies" value={query}
+        <input ref={input} autoFocus placeholder={route ? 'Search, then + to add a destination' : `Search ${bodies.length} bodies`} aria-label="Search bodies" value={query}
           onChange={event => setQuery(event.target.value)} onKeyDown={onInputKey} />
         <button aria-label="Close catalog" title="Close (Esc)" className="icon-button ghost" onClick={onClose}><X size={17} /></button>
       </label>
@@ -81,13 +83,25 @@ export function Catalog({ open, bodies, selectedId, bookmarks, onOpen, onClose, 
           className={filter === value ? 'active' : ''} onClick={() => setFilter(value)}>{label}</button>)}
       </div>
       <div className="catalog-list" ref={list} onKeyDown={moveFocus}>
-        {shownBodies.map(body => <button key={body.id} aria-label={`Select ${body.name}`}
-          className={`catalog-row body-row ${body.id === selectedId ? 'selected' : ''}`} onClick={() => onSelect(body.id)}>
-          <span className={`body-glyph ${body.category === 'star' ? 'sun-glyph' : ''}`}><Globe2 size={16} /></span>
-          <span className="row-text"><strong>{body.name}</strong>
-            <small>{categories[body.category]}{body.parent_id && body.parent_id !== 'sun' ? ` of ${parentName(body.parent_id)}` : ''}</small></span>
-          {body.id === selectedId && <Check size={15} aria-hidden="true" />}
-        </button>)}
+        {shownBodies.map(body => {
+          const row = <button key={body.id} aria-label={`Select ${body.name}`}
+            className={`catalog-row body-row ${body.id === selectedId ? 'selected' : ''}`} onClick={() => onSelect(body.id)}>
+            <span className={`body-glyph ${body.category === 'star' ? 'sun-glyph' : ''}`}><Globe2 size={16} /></span>
+            <span className="row-text"><strong>{body.name}</strong>
+              <small>{categories[body.category]}{body.parent_id && body.parent_id !== 'sun' ? ` of ${parentName(body.parent_id)}` : ''}</small></span>
+            {body.id === selectedId && <Check size={15} aria-hidden="true" />}
+          </button>
+          if (!route) return row
+          const added = route.pending.has(body.id)
+          return <div className="catalog-item" key={body.id}>
+            {row}
+            <button className={`route-toggle icon-button ghost ${added ? 'active' : ''}`} aria-pressed={added}
+              aria-label={added ? `Remove ${body.name} from route` : `Add ${body.name} to route`}
+              title={added ? 'In your route. Select to remove.' : 'Add to route'} onClick={() => route.onToggle(body.id)}>
+              {added ? <Check size={16} /> : <Plus size={16} />}
+            </button>
+          </div>
+        })}
         {shownSaved.map(({ bookmark, index }) => <div className="bookmark-row" key={`${bookmark.bodyId}-${bookmark.jd}`}>
           <button className="catalog-row" onClick={() => onOpenBookmark(index)}>
             <span className="body-glyph"><BookmarkCheck size={16} /></span>
