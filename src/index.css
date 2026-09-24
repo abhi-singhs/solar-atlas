@@ -67,6 +67,7 @@ button.primary:hover { background: var(--cp-accent-hover); }
 :focus-visible { outline: 2px solid var(--cp-accent); outline-offset: 3px; }
 input, select { border: 1px solid var(--cp-border); background: var(--cp-surface); border-radius: 8px; padding: 8px 10px; min-width: 0; }
 input[type="range"] { width: 100%; padding: 0; height: 20px; accent-color: var(--cp-accent); background: transparent; border: 0; cursor: pointer; }
+input[type="range"]:disabled { opacity: .4; cursor: not-allowed; }
 input[type="checkbox"] { accent-color: var(--cp-accent); }
 input::placeholder { color: var(--cp-text-muted); }
 a { color: var(--cp-link); }

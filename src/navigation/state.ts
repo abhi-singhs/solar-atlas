@@ -33,6 +33,9 @@ export interface ViewState {
   fov: number
   lensFlare: boolean
   glareHidesStars: boolean
+  music: boolean
+  /** Music volume from 0 to 1. */
+  musicVolume: number
   pickingSite: boolean
   message: string
   fps: number
@@ -60,6 +63,8 @@ export interface SavedSettings {
   fov?: number
   lensFlare?: boolean
   glareHidesStars?: boolean
+  music?: boolean
+  musicVolume?: number
   bookmarks: Bookmark[]
 }
 
@@ -70,7 +75,8 @@ export const initialState: ViewState = {
   speedC: 0, throttleC: 0, warp: false, warpArmed: false, referenceId: 'earth',
   altitudeKm: 0, verticalKmS: 0, separationKm: 0, observerDistanceKm: 0, etaSeconds: Infinity,
   labels: true, paths: false, quality: matchMedia('(pointer: coarse)').matches ? 'low' : 'high',
-  exposure: 0, fov: 50, lensFlare: true, glareHidesStars: true, pickingSite: false, message: '', fps: 0, bookmarks: [],
+  exposure: 0, fov: 50, lensFlare: true, glareHidesStars: true,
+  music: false, musicVolume: 0.7, pickingSite: false, message: '', fps: 0, bookmarks: [],
   route: [], routePhase: 'idle', routeAutoContinue: true, routeAutoSpeed: true, routeDwell: 0,
 }
 

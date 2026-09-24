@@ -17,7 +17,7 @@ import { initialState } from './state'
 import type { SavedSettings, ViewState } from './state'
 
 const SETTINGS_KEY = 'solar-atlas-settings-v1'
-type OptionKey = 'labels' | 'paths' | 'quality' | 'exposure' | 'fov' | 'lensFlare' | 'glareHidesStars'
+type OptionKey = 'labels' | 'paths' | 'quality' | 'exposure' | 'fov' | 'lensFlare' | 'glareHidesStars' | 'music' | 'musicVolume'
 type RouteOption = 'routeAutoContinue' | 'routeAutoSpeed'
 const RUNNING = new Set(['departing', 'enroute', 'dwell'])
 
@@ -552,7 +552,8 @@ export class Explorer {
   private save(): void {
     const settings: SavedSettings = { version: 1, labels: this.state.labels, paths: this.state.paths,
       quality: this.state.quality, exposure: this.state.exposure, fov: this.state.fov, lensFlare: this.state.lensFlare,
-      glareHidesStars: this.state.glareHidesStars, bookmarks: this.state.bookmarks }
+      glareHidesStars: this.state.glareHidesStars, music: this.state.music, musicVolume: this.state.musicVolume,
+      bookmarks: this.state.bookmarks }
     try { localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)) }
     catch (e) { this.publish({ message: `Settings could not be saved in this browser: ${e instanceof Error ? e.message : String(e)}` }) }
   }
@@ -581,14 +582,22 @@ export class Explorer {
         if (typeof parsed.fov !== 'number' || !Number.isFinite(parsed.fov) || parsed.fov < 25 || parsed.fov > 100) throw new Error('Saved field of view is invalid.')
         fov = parsed.fov
       }
-      const flag = (key: 'lensFlare' | 'glareHidesStars'): boolean => {
+      const flagNames = { lensFlare: 'lens flare', glareHidesStars: 'star glare', music: 'music' } as const
+      const flag = (key: keyof typeof flagNames): boolean => {
         if (!(key in parsed)) return this.state[key]
         const value = (parsed as Record<string, unknown>)[key]
-        if (typeof value !== 'boolean') throw new Error(`Saved ${key === 'lensFlare' ? 'lens flare' : 'star glare'} setting is invalid.`)
+        if (typeof value !== 'boolean') throw new Error(`Saved ${flagNames[key]} setting is invalid.`)
         return value
       }
+      let musicVolume = this.state.musicVolume
+      if ('musicVolume' in parsed) {
+        if (typeof parsed.musicVolume !== 'number' || !Number.isFinite(parsed.musicVolume) || parsed.musicVolume < 0 || parsed.musicVolume > 1) {
+          throw new Error('Saved music volume is invalid.')
+        }
+        musicVolume = parsed.musicVolume
+      }
       this.state = { ...this.state, labels: parsed.labels, paths: parsed.paths, quality: parsed.quality, exposure: parsed.exposure, fov,
-        lensFlare: flag('lensFlare'), glareHidesStars: flag('glareHidesStars'), bookmarks }
+        lensFlare: flag('lensFlare'), glareHidesStars: flag('glareHidesStars'), music: flag('music'), musicVolume, bookmarks }
     } catch (e) {
       this.state.message = `Using default settings because saved preferences could not be restored: ${e instanceof Error ? e.message : String(e)}`
     }

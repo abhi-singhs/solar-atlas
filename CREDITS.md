@@ -48,4 +48,6 @@ Reduced-resolution texture variants and mesh detail levels support smaller devic
 
 The spacecraft, cockpit geometry, flight controls, and added local terrain are original reconstructed content for this application. They are not mission hardware models, surveyed landscapes, or physical flight predictions.
 
+The Space music soundtrack is original. The browser synthesizes it at runtime from Web Audio oscillators and generated noise, so the app bundles no audio recordings or samples.
+
 React, Three.js, Vite, Lucide, and supporting packages retain their respective open-source licenses in the dependency installation.

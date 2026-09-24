@@ -65,6 +65,7 @@ Enter Spaceship to use an original three-dimensional cockpit or the external cha
 | Space | Brake |
 | P | Pause or resume flight |
 | C | Cockpit or chase view |
+| M | Space music on or off |
 | + | Add the selected body to the route |
 | G | Start, resume, or depart on the route |
 | Drag the viewport | Cockpit free-look |
@@ -85,6 +86,16 @@ A route strings several destinations into one trip. In Spaceship mode, add a des
 Start route (or G) flies to the first stop. After each arrival the ship waits five seconds, takes off if it landed, and heads for the next stop. Turn off Auto-continue to leave each stop yourself with Depart now. Auto speed sets each leg's commanded speed so the cruise takes about 30 seconds within the current Warp setting. Legs between planets need Warp, and the route tells you when a leg would take more than a few minutes below c. Pause route brakes the ship, Skip stop moves on, and any manual Travel, Land, or Take off pauses the route. Fly again restarts a finished route.
 
 Pausing freezes translation while leaving the interface and free-look usable. A hidden tab pauses the simulation instead of applying a large elapsed-time jump. Leave flight before scrubbing or reversing time.
+
+### Music
+
+Space music plays an ambient soundtrack while you fly. Turn it on in Settings, with the speaker button at the top of the expanded flight panel, or with M. It starts off, and Settings remembers the choice and the volume.
+
+Nothing is downloaded. Your browser synthesizes the music with the Web Audio API: a low drone on D, slow pad chords in D Lydian, and sparse bell chimes, all through a generated reverb. The chord changes every 16 seconds and a random walk picks the chimes, so there is no loop to notice.
+
+The mix follows the ship. Faster flight opens the filter on the pads. Warp adds a high shimmer. Landing or hovering leaves only a quieter drone. Pausing flight, hiding the tab, or leaving Spaceship mode fades the music out, and the audio stops a few seconds later.
+
+Browsers play sound only after you interact with the page. If music was on during your last visit, it starts with your first click or key press.
 
 ## Land
 
