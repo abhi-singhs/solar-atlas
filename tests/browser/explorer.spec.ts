@@ -64,6 +64,12 @@ test('cockpit, c controls, travel, braking, and mobile controls', async ({ page 
   await page.getByRole('spinbutton', { name: 'Commanded speed in c' }).fill('')
   await page.locator('.numeric-throttle').getByRole('button', { name: 'Set', exact: true }).click()
   await expect(page.getByRole('alert')).toContainText('Enter a speed in c')
+  if (testInfo.project.name === 'desktop') {
+    const alert = (await page.getByRole('alert').boundingBox())!
+    const card = (await page.locator('.body-card').boundingBox())!
+    expect(alert.y).toBeGreaterThanOrEqual(card.y + card.height)
+    expect(alert.x + alert.width).toBeCloseTo(card.x + card.width, 0)
+  }
   await page.getByRole('button', { name: 'Dismiss message' }).click()
   await expect(page.getByRole('button', { name: 'Warp off' })).toBeVisible()
   await page.getByRole('button', { name: 'Warp off' }).click()
@@ -77,6 +83,8 @@ test('cockpit, c controls, travel, braking, and mobile controls', async ({ page 
   await page.getByRole('button', { name: 'Brake', exact: true }).first().click()
   await page.getByRole('button', { name: 'Chase view', exact: true }).click()
   await page.waitForTimeout(1000)
+  // Travel, brake, and camera changes are routine status, so none of them leaves a popup behind.
+  await expect(page.locator('.notice')).toHaveCount(0)
   await page.screenshot({ path: `artifacts/${testInfo.project.name}-ship-chase.png` })
   await page.getByRole('button', { name: 'Cockpit', exact: true }).click()
   await page.waitForTimeout(1000)
@@ -98,6 +106,16 @@ test('timeline boundaries, bookmarks, shortcuts, and local source links', async 
   await setDetails(page, true)
   await page.getByRole('button', { name: 'Bookmark this body' }).click()
   await expect(page.getByRole('status')).toContainText('Saved')
+  const toast = (await page.getByRole('status').boundingBox())!
+  const viewport = page.viewportSize()!
+  if (testInfo.project.name === 'desktop') {
+    expect(toast.width).toBeLessThanOrEqual(300)
+    expect(toast.x + toast.width).toBeGreaterThan(viewport.width - 40)
+    expect(toast.y).toBeGreaterThan(viewport.height / 2)
+  } else {
+    const dock = (await page.getByRole('region', { name: 'Simulation timeline' }).boundingBox())!
+    expect(toast.y + toast.height).toBeLessThanOrEqual(dock.y)
+  }
   await page.getByRole('button', { name: 'Dismiss message' }).click()
   if (testInfo.project.name === 'phone') await setDetails(page, false)
   await page.getByRole('button', { name: 'Find a world' }).click()
@@ -269,6 +287,7 @@ test('lands on source Earth geometry and takes off at 1x time', async ({ page },
   page.on('pageerror', error => errors.push(error.message))
   await openApp(page)
   await page.getByRole('button', { name: 'Pick site and land', exact: true }).click()
+  await expect(page.getByRole('note')).toHaveText('Click the surface to land there · Esc cancels')
   await page.locator('.universe').click({ position: { x: 840, y: 270 } })
   await expect(page.getByTestId('ship-status')).toContainText(/landed/i, { timeout: 140000 })
   await expect(page.getByText('Reconstructed local terrain. Not measured topography.', { exact: true })).toBeVisible()
