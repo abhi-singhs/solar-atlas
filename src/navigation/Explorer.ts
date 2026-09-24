@@ -5,6 +5,7 @@ import { loadDataset } from '../simulation/dataset'
 import { SolarRenderer } from '../render/SolarRenderer'
 import { FlightController } from '../flight/FlightController'
 import type { FlightTelemetry } from '../flight/FlightController'
+import { CHASE_PITCH } from '../cockpit/ships'
 import {
   addStop, canLandOn, cruiseSeconds, currentStop, DWELL_SECONDS, legSpeedC, markStop, moveStop, removeStop,
   resetRoute, setAction, SLOW_LEG_SECONDS,
@@ -140,7 +141,7 @@ export class Explorer {
       const camera = this.state.inShip ? this.flight.camera(this.state.camera) : this.observer.pose(this.snapshot)
       if (this.state.inShip && this.state.camera === 'chase') {
         const rotation = new Quaternion(...camera.quaternion)
-          .multiply(new Quaternion().setFromAxisAngle(new Vector3(1, 0, 0), -0.17))
+          .multiply(new Quaternion().setFromAxisAngle(new Vector3(1, 0, 0), CHASE_PITCH))
         camera.quaternion = [rotation.x, rotation.y, rotation.z, rotation.w]
       }
       const telemetry = this.state.inShip ? this.flight.telemetry(this.snapshot) : undefined

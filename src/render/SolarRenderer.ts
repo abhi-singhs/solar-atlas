@@ -179,9 +179,6 @@ export class SolarRenderer {
     }
     this.proxyScene.add(this.proxy)
     this.cockpitScene.add(this.cockpit, this.ship, this.shipSun, new THREE.HemisphereLight(0xd0ddff, 0x252224, .7))
-    const cabinLight = new THREE.PointLight(0xc2d5e2, 2, 5)
-    cabinLight.position.set(0, .2, -.4)
-    this.cockpit.add(cabinLight)
     for (const body of dataset.bodies) {
       const button = document.createElement('button')
       button.textContent = `· ${body.name}`
