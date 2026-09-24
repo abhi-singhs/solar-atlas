@@ -1,7 +1,7 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { createHash } from 'node:crypto'
 import { readFile } from 'node:fs/promises'
-import { AdditiveBlending, Texture } from 'three'
+import { AdditiveBlending, PerspectiveCamera, Texture } from 'three'
 import type { Points, ShaderMaterial, Mesh } from 'three'
 import { AU_KM } from '../src/contracts'
 import type { Vec3 } from '../src/contracts'
@@ -330,5 +330,27 @@ describe('renderer sky conditions', () => {
     expect(sky([radius + 150, 0, 0], [AU_KM, 0, 0])).toBe(1)
     expect(sky(surface, [-AU_KM, 0, 0], 'venus', 65)).toBe(0)
     expect(sky([radius + 70, 0, 0], [-AU_KM, 0, 0], 'venus', 65)).toBe(1)
+  })
+
+  it('lets the viewer keep stars beside the Sun but still hides them in daylight', () => {
+    const update = vi.fn()
+    const host = Object.assign(Object.create(SolarRenderer.prototype), {
+      stars: { update, scene: {} }, ensureStarQuality: () => {}, camera: new PerspectiveCamera(50, 1.5), height: 800,
+      renderer: { getPixelRatio: () => 1, render: vi.fn() },
+      assets: { manifest: { bodies: { earth: { normalization_radius_km: radius, atmosphere_height_km: 100, cloud_height_km: 8 } } } },
+    }) as unknown as { drawStars(snapshot: unknown, camera: unknown, options: unknown, sun: unknown): void }
+    const snapshot = { jdTdb: J2000_JD, states: {
+      sun: { position: [AU_KM, 0, 0], velocity: [0, 0, 0], rotation: [0, 0, 0, 1] },
+      earth: { position: [0, 0, 0], velocity: [0, 0, 0], rotation: [0, 0, 0, 1] },
+    } }
+    const sun = { screen: {}, distanceAu: 1, visibility: 1, inside: false }
+    const draw = (position: Vec3, glareHidesStars: boolean) => {
+      host.drawStars(snapshot, { position, quaternion: [0, 0, 0, 1] }, { exposure: 0, quality: 'low', glareHidesStars }, sun)
+      return update.mock.lastCall![0].visibility as number
+    }
+    const space: Vec3 = [radius + 150, 0, 0]
+    expect(draw(space, true)).toBeCloseTo(sunGlareFactor(1, 1), 12)
+    expect(draw(space, false)).toBe(1)
+    expect(draw(surface, false)).toBeCloseTo(10 ** (-.4 * 12), 12)
   })
 })

@@ -148,6 +148,42 @@ test('timeline boundaries, bookmarks, shortcuts, and local source links', async 
   expect(new URL(await link.getAttribute('href') ?? '', page.url()).origin).toBe(new URL(page.url()).origin)
 })
 
+test('sun lens flare and star glare settings persist', async ({ page }, testInfo) => {
+  await openApp(page)
+  const dialog = page.getByRole('dialog', { name: 'Settings' })
+  const flare = dialog.getByRole('checkbox', { name: 'Lens flare from the Sun' })
+  const glare = dialog.getByRole('checkbox', { name: 'Sun glare hides stars' })
+  if (testInfo.project.name === 'desktop') {
+    await page.getByRole('button', { name: 'View', exact: true }).click()
+    await page.getByRole('group', { name: 'View options' }).getByRole('button', { name: 'Inner system', exact: true }).click()
+    await page.waitForTimeout(1500)
+    await page.screenshot({ path: 'artifacts/desktop-sun-flare.png' })
+  }
+  await page.getByRole('button', { name: 'Settings' }).click()
+  await expect(flare).toBeChecked()
+  await expect(glare).toBeChecked()
+  await expect(dialog.getByText('Daylight inside an atmosphere still hides them.')).toBeVisible()
+  await glare.uncheck()
+  await dialog.getByRole('button', { name: 'Close dialog' }).click()
+  await expect(dialog).toBeHidden()
+  if (testInfo.project.name === 'desktop') {
+    await page.waitForTimeout(500)
+    await page.screenshot({ path: 'artifacts/desktop-sun-flare-stars.png' })
+  }
+  expect(JSON.parse(await page.evaluate(() => localStorage.getItem('solar-atlas-settings-v1') ?? '{}')))
+    .toMatchObject({ lensFlare: true, glareHidesStars: false })
+  await page.reload()
+  await expect(page.getByRole('button', { name: 'Find a world' })).toBeVisible({ timeout: 90000 })
+  await page.getByRole('button', { name: 'Settings' }).click()
+  await expect(flare).toBeChecked()
+  await expect(glare).not.toBeChecked()
+  await flare.uncheck()
+  await glare.check()
+  await dialog.getByRole('button', { name: 'Close dialog' }).click()
+  expect(JSON.parse(await page.evaluate(() => localStorage.getItem('solar-atlas-settings-v1') ?? '{}')))
+    .toMatchObject({ lensFlare: false, glareHidesStars: true })
+})
+
 test('plans a multi-stop route and flies it with a landing stop', async ({ page }, testInfo) => {
   test.setTimeout(testInfo.project.name === 'desktop' ? 300000 : 120000)
   const errors: string[] = []

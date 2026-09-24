@@ -32,6 +32,8 @@ export interface ViewState {
   quality: Quality
   exposure: number
   fov: number
+  lensFlare: boolean
+  glareHidesStars: boolean
   pickingSite: boolean
   notice: Notice | null
   fps: number
@@ -66,6 +68,8 @@ export interface SavedSettings {
   quality: Quality
   exposure: number
   fov?: number
+  lensFlare?: boolean
+  glareHidesStars?: boolean
   bookmarks: Bookmark[]
 }
 
@@ -76,7 +80,7 @@ export const initialState: ViewState = {
   speedC: 0, throttleC: 0, warp: false, warpArmed: false, referenceId: 'earth',
   altitudeKm: 0, altitudeEstimated: false, verticalKmS: 0, separationKm: 0, observerDistanceKm: 0, etaSeconds: Infinity,
   labels: true, paths: false, quality: matchMedia('(pointer: coarse)').matches ? 'low' : 'high',
-  exposure: 0, fov: 50, pickingSite: false, notice: null, fps: 0, bookmarks: [],
+  exposure: 0, fov: 50, lensFlare: true, glareHidesStars: true, pickingSite: false, notice: null, fps: 0, bookmarks: [],
   route: [], routePhase: 'idle', routeAutoContinue: true, routeAutoSpeed: true, routeDwell: 0,
 }
 

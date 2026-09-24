@@ -14,6 +14,7 @@ import {
   STAR_MANIFEST_PATH, StarField, daylightExtinction, parseBrightStars, parseFaintStars, parseStarManifest, sunGlareFactor,
 } from './stars'
 import type { StarFile } from './stars'
+import { SunFlare, flareStrength } from './flare'
 
 interface Callbacks {
   onSelect: (id: string) => void
@@ -42,6 +43,24 @@ interface ScreenBody {
   y: number
   inView: boolean
 }
+/** The Sun as the lens sees it this frame. */
+interface SunView {
+  screen: ScreenBody
+  distanceAu: number
+  /** On-screen fade times the unblocked share of the solar disc. */
+  visibility: number
+  inside: boolean
+}
+
+/**
+ * Directions across the solar disc as [share of the angular radius, position angle, area weight]. A center point
+ * and rings of 6 and 12 points split the disc at 0.25 and 0.65 of its radius. Weights are in 1/1600 of the disc
+ * area, so an open or fully covered disc gives exactly 1 or 0.
+ */
+const SUN_SAMPLES: [number, number, number][] = [[0, 0, 100],
+  ...Array.from({ length: 6 }, (_, i) => [.45, i * Math.PI / 3, 96] as [number, number, number]),
+  ...Array.from({ length: 12 }, (_, i) => [.85, (i + .5) * Math.PI / 6, 77] as [number, number, number])]
+const SUN_SAMPLE_AREA = 1600
 
 function ringGeometry(inner: number, outer: number, segments: number): THREE.BufferGeometry {
   const positions: number[] = [], normals: number[] = [], uv: number[] = [], indices: number[] = []
@@ -119,6 +138,8 @@ export class SolarRenderer {
   private terrainErrors = new Set<string>()
   private stars?: StarField
   private starLoads = new Set<string>()
+  private flare = new SunFlare()
+  private raycaster = new THREE.Raycaster()
 
   constructor(container: HTMLElement, dataset: Dataset, callbacks: Callbacks) {
     this.container = container
@@ -270,7 +291,9 @@ export class SolarRenderer {
       ? Math.hypot(...relativePosition(selected.position, sun.position)) / AU_KM : 1
     const exposure = commonExposure(selectedDistance, options.exposure)
     this.screens = this.projectBodies(snapshot, camera)
-    this.drawStars(snapshot, camera, options)
+    if (options.shipPose && (options.cockpit || options.chase)) this.poseShip(camera, options)
+    const sunView = this.sunView(options)
+    this.drawStars(snapshot, camera, options, sunView)
     if (options.paths) this.drawPaths(snapshot, camera, options)
     this.drawLabels(options)
     const pinned = new Set([options.selectedId, options.landingBodyId ?? ''])
@@ -296,6 +319,7 @@ export class SolarRenderer {
       }
     }
     if (options.cockpit || options.chase) this.drawShip(snapshot, camera, options)
+    if (options.lensFlare) this.drawFlare(sunView, options)
     this.assets.trim(this.quality, pinned)
     this.lastFrameMs = performance.now() - start
   }
@@ -366,10 +390,15 @@ export class SolarRenderer {
     if (!this.snapshot || !this.pose) return false
     const target = this.snapshot.states[screen.body.id]!
     const ray = new THREE.Vector3(...relativePosition(target.position, this.pose.position)).normalize()
-    for (const other of this.screens) {
-      if (other.body.id === screen.body.id || other.distance >= screen.distance || other.pixels < 2) continue
-      const state = this.snapshot.states[other.body.id]!
-      const center = new THREE.Vector3(...relativePosition(state.position, this.pose.position))
+    return this.rayBlocked(ray, this.screens.filter(other =>
+      other.body.id !== screen.body.id && other.distance < screen.distance && other.pixels >= 2))
+  }
+
+  /** Whether a camera ray hits one of these bodies. Unloaded bodies count as their bounding sphere. */
+  private rayBlocked(ray: THREE.Vector3, blockers: ScreenBody[]): boolean {
+    for (const other of blockers) {
+      const state = this.snapshot!.states[other.body.id]!
+      const center = new THREE.Vector3(...relativePosition(state.position, this.pose!.position))
       const along = center.dot(ray)
       if (along <= 0 || center.lengthSq() - along * along > bodyRadius(other.body) ** 2) continue
       const loaded = this.assets.bodies.get(other.body.id)
@@ -635,10 +664,10 @@ export class SolarRenderer {
     })
   }
 
-  private drawStars(snapshot: Snapshot, camera: CameraPose, options: RenderOptions): void {
+  private drawStars(snapshot: Snapshot, camera: CameraPose, options: RenderOptions, sun?: SunView): void {
     if (!this.stars) return
     this.ensureStarQuality(this.stars, options.quality)
-    const visibility = this.starSkyTransmission(snapshot, camera) * this.starSunGlare()
+    const visibility = this.starSkyTransmission(snapshot, camera) * this.starSunGlare(sun, options)
     if (!(visibility > 1e-6)) return
     const pixelAngle = 2 * Math.tan(this.camera.fov * Math.PI / 360) / this.height
     this.stars.update({ jdTdb: snapshot.jdTdb, observerKm: camera.position, visibility,
@@ -669,15 +698,74 @@ export class SolarRenderer {
     return 1
   }
 
-  private starSunGlare(): number {
+  /** Glare from the Sun in view dims the stars, unless the viewer turned that off. Daylight is separate. */
+  private starSunGlare(sun: SunView | undefined, options: RenderOptions): number {
+    if (!sun || !options.glareHidesStars) return 1
+    return sunGlareFactor(sun.distanceAu, sun.visibility)
+  }
+
+  private sunView(options: RenderOptions): SunView | undefined {
     const sun = this.screens.find(screen => screen.body.id === 'sun')
-    if (!sun?.inView) return 1
-    if (sun.distance <= bodyRadius(sun.body)) return sunGlareFactor(sun.distance / AU_KM, 1)
+    if (!sun?.inView) return undefined
+    const distanceAu = sun.distance / AU_KM
+    if (sun.distance <= bodyRadius(sun.body)) return { screen: sun, distanceAu, visibility: 1, inside: true }
     const edge = Math.max(Math.abs(sun.x / this.width * 2 - 1) - Math.min(1, sun.pixels * 2 / this.width),
       Math.abs(1 - sun.y / this.height * 2) - Math.min(1, sun.pixels * 2 / this.height))
-    const visibility = 1 - THREE.MathUtils.smoothstep(edge, .9, 1.1)
-    if (visibility <= 0 || this.annotationOccluded(sun)) return 1
-    return sunGlareFactor(sun.distance / AU_KM, visibility)
+    const onScreen = 1 - THREE.MathUtils.smoothstep(edge, .9, 1.1)
+    if (onScreen <= 0) return undefined
+    const visibility = onScreen * this.sunDiscFraction(sun, options)
+    return visibility > 0 ? { screen: sun, distanceAu, visibility, inside: false } : undefined
+  }
+
+  /** Share of the solar disc that no body, and no part of the ship around the camera, blocks. */
+  private sunDiscFraction(sun: ScreenBody, options: RenderOptions): number {
+    if (!this.snapshot || !this.pose) return 1
+    const toSun = new THREE.Vector3(...relativePosition(this.snapshot.states.sun!.position, this.pose.position))
+    const distance = toSun.length()
+    const center = toSun.divideScalar(distance)
+    const angular = Math.asin(Math.min(1, bodyRadius(sun.body) / distance))
+    const blockers = this.screens.filter(other => {
+      if (other.body.id === 'sun' || other.distance >= sun.distance) return false
+      const state = this.snapshot!.states[other.body.id]!
+      const toBody = new THREE.Vector3(...relativePosition(state.position, this.pose!.position))
+      const radius = bodyRadius(other.body)
+      if (toBody.length() <= radius) return true
+      const separation = Math.atan2(toBody.clone().cross(center).length(), toBody.dot(center))
+      return separation < angular + Math.asin(Math.min(1, radius / toBody.length()))
+    })
+    const ship = options.shipPose ? [options.cockpit && this.cockpit, options.chase && this.ship]
+      .filter((part): part is THREE.Group => Boolean(part)) : []
+    if (!blockers.length && !ship.length) return 1
+    const u = new THREE.Vector3(0, 0, 1).cross(center)
+    if (u.lengthSq() < 1e-12) u.set(1, 0, 0).cross(center)
+    u.normalize()
+    const v = center.clone().cross(u)
+    let open = 0
+    for (const [share, angle, weight] of SUN_SAMPLES) {
+      const theta = angular * share
+      const ray = center.clone().multiplyScalar(Math.cos(theta))
+        .addScaledVector(u, Math.sin(theta) * Math.cos(angle)).addScaledVector(v, Math.sin(theta) * Math.sin(angle))
+      if (!this.rayBlocked(ray, blockers) && !this.shipBlocks(ray, ship)) open += weight
+    }
+    return open / SUN_SAMPLE_AREA
+  }
+
+  /** Cockpit and ship meshes sit in meters around the camera at the origin. */
+  private shipBlocks(ray: THREE.Vector3, parts: THREE.Object3D[]): boolean {
+    if (!parts.length) return false
+    this.raycaster.set(new THREE.Vector3(), ray)
+    return this.raycaster.intersectObjects(parts, true).some(hit => {
+      if (!(hit.object instanceof THREE.Mesh)) return false
+      for (let object: THREE.Object3D | null = hit.object; object; object = object.parent) if (!object.visible) return false
+      return true
+    })
+  }
+
+  private drawFlare(sun: SunView | undefined, options: RenderOptions): void {
+    if (!sun || sun.inside) return
+    const visible = this.flare.update({ x: sun.screen.x, y: sun.screen.y, width: this.width, height: this.height,
+      sunPixels: sun.screen.pixels, strength: flareStrength(sun.distanceAu, sun.visibility, options.exposure) })
+    if (visible) this.renderer.render(this.flare.scene, this.flare.camera)
   }
 
   private drawPaths(snapshot: Snapshot, camera: CameraPose, options: RenderOptions): void {
@@ -715,14 +803,21 @@ export class SolarRenderer {
     this.renderer.render(this.traceScene, this.camera)
   }
 
-  private drawShip(snapshot: Snapshot, camera: CameraPose, options: RenderOptions): void {
+  /** Places the cockpit and ship around the camera in meters and refreshes their world matrices. */
+  private poseShip(camera: CameraPose, options: RenderOptions): void {
     if (!options.shipPose) return
     this.cockpit.visible = options.cockpit
     this.ship.visible = options.chase
     for (const group of [this.cockpit, this.ship]) {
       group.position.fromArray(relativePosition(options.shipPose.position, camera.position, .001))
       group.quaternion.fromArray(options.shipPose.quaternion)
+      group.updateMatrixWorld(true)
     }
+  }
+
+  private drawShip(snapshot: Snapshot, camera: CameraPose, options: RenderOptions): void {
+    if (!options.shipPose) return
+    this.poseShip(camera, options)
     if (options.flightTelemetry) {
       const forward = new THREE.Vector3(0, 0, -1).applyQuaternion(new THREE.Quaternion(...options.shipPose.quaternion))
       const telemetry: CockpitTelemetry = {
@@ -812,6 +907,7 @@ export class SolarRenderer {
     this.proxyGeometry.dispose()
     this.proxyMaterial.dispose()
     this.stars?.dispose()
+    this.flare.dispose()
     this.cockpitScene.traverse(object => {
       if (object instanceof THREE.Mesh) {
         object.geometry.dispose()

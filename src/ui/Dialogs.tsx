@@ -24,7 +24,7 @@ function Modal({ title, onClose, children }: { title: string; onClose: () => voi
 interface SettingsProps {
   view: ViewState
   onClose: () => void
-  onOption: <K extends 'quality' | 'exposure' | 'fov' | 'labels' | 'paths'>(key: K, value: ViewState[K]) => void
+  onOption: <K extends 'quality' | 'exposure' | 'fov' | 'labels' | 'paths' | 'lensFlare' | 'glareHidesStars'>(key: K, value: ViewState[K]) => void
 }
 
 export function SettingsDialog({ view, onClose, onOption }: SettingsProps) {
@@ -49,6 +49,11 @@ export function SettingsDialog({ view, onClose, onOption }: SettingsProps) {
       </label>
       <label className="check-label"><input type="checkbox" checked={view.labels} onChange={event => onOption('labels', event.target.checked)} />Body labels <kbd>L</kbd></label>
       <label className="check-label"><input type="checkbox" checked={view.paths} onChange={event => onOption('paths', event.target.checked)} />Cached trajectory annotations <kbd>T</kbd></label>
+      <label className="check-label"><input type="checkbox" checked={view.lensFlare} onChange={event => onOption('lensFlare', event.target.checked)} />Lens flare from the Sun</label>
+      <div className="check-setting">
+        <label className="check-label"><input type="checkbox" checked={view.glareHidesStars} aria-describedby="glare-note" onChange={event => onOption('glareHidesStars', event.target.checked)} />Sun glare hides stars</label>
+        <small id="glare-note">Turn off to keep stars visible with the Sun in view. Daylight inside an atmosphere still hides them.</small>
+      </div>
     </div>
   </Modal>
 }
