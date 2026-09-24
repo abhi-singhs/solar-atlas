@@ -127,8 +127,8 @@ kbd { font-family: Consolas, "Courier New", Courier, monospace; color: var(--cp-
 .bookmark-row { display: flex; align-items: center; gap: 2px; }
 .empty { margin: 0; padding: 16px 10px; font-size: 12px; line-height: 1.6; }
 
-.body-card { position: absolute; z-index: 10; top: var(--below-bar); right: var(--edge); width: 300px; max-height: calc(100dvh - var(--below-bar) - 96px); display: flex; flex-direction: column; overflow: hidden; }
-.is-flying .body-card { max-height: calc(100dvh - var(--below-bar) - var(--touch-reserve)); }
+.body-card { position: absolute; z-index: 10; top: var(--below-bar); right: var(--edge); width: 300px; max-height: calc(100dvh - var(--below-bar) - 150px); display: flex; flex-direction: column; overflow: hidden; }
+.is-flying .body-card { max-height: calc(100dvh - var(--below-bar) - max(var(--touch-reserve), 80px)); }
 .body-card-header { position: relative; flex-shrink: 0; padding: 16px 52px 14px 18px; }
 .body-card-header h1 { margin: 0; font-size: 34px; font-weight: 300; line-height: 1.1; letter-spacing: -1px; overflow-wrap: anywhere; }
 .world-subtitle { display: flex; flex-wrap: wrap; column-gap: 6px; margin: 6px 0 0; font-size: 12px; color: var(--cp-text-soft); }
@@ -264,9 +264,17 @@ kbd { font-family: Consolas, "Courier New", Courier, monospace; color: var(--cp-
 .loading-detail { font-size: 11px; color: var(--cp-text-muted); }
 @keyframes loading { to { transform: translateX(130px); } }
 
-.notice { position: absolute; z-index: 40; top: var(--below-bar); left: 50%; transform: translateX(-50%); width: max-content; max-width: min(620px, calc(100% - 2 * var(--edge))); display: flex; align-items: center; gap: 10px; padding: 8px 8px 8px 12px; background: var(--cp-panel-strong); border: 1px solid var(--cp-border-strong); border-radius: 12px; box-shadow: var(--cp-shadow); font-size: 12px; pointer-events: none; }
-.notice.error { border-color: var(--cp-danger); }
-.notice .icon-button { width: 28px; min-width: 28px; min-height: 28px; pointer-events: auto; }
+/* A compact toast in the body card's column. In Explore it sits above the dock at the stops .hint uses; in flight App measures --card-bottom so it sits under the card, clear of the cockpit displays. */
+.notice { --notice-bottom: 88px; position: absolute; z-index: 40; right: var(--edge); bottom: var(--notice-bottom); width: max-content; max-width: min(300px, calc(100% - 2 * var(--edge))); display: flex; align-items: flex-start; gap: 8px; padding: 6px 4px 6px 10px; background: var(--cp-panel-strong); border: 1px solid var(--cp-border); border-radius: 10px; box-shadow: var(--cp-shadow-soft); font-size: 12px; line-height: 1.4; color: var(--cp-text-soft); pointer-events: none; animation: notice-in .25s cubic-bezier(.16, 1, .3, 1); }
+.notice > svg { margin-top: 5px; color: var(--cp-text-muted); }
+.notice > span { flex: 1; min-width: 0; padding: 3px 0; overflow-wrap: anywhere; }
+.notice.warning > svg { color: var(--cp-warning-text); }
+.notice.error { border-color: var(--cp-danger); color: var(--cp-text); }
+.notice.error > svg { color: var(--cp-danger); }
+.notice .icon-button { width: 24px; min-width: 24px; height: 24px; min-height: 24px; border-radius: 6px; color: var(--cp-text-muted); pointer-events: auto; }
+.is-flying .notice { top: calc(var(--card-bottom, var(--below-bar)) + 8px); bottom: auto; }
+.ui-hidden .notice.info { display: none; }
+@keyframes notice-in { from { opacity: 0; transform: translateY(6px); } }
 
 .modal { background: var(--cp-surface); color: var(--cp-text); border: 1px solid var(--cp-border); border-radius: 16px; padding: 0; width: min(680px, calc(100% - 24px)); max-height: 88dvh; box-shadow: var(--cp-shadow); }
 .modal::backdrop { background: var(--cp-overlay); }
@@ -297,7 +305,7 @@ kbd { font-family: Consolas, "Courier New", Courier, monospace; color: var(--cp-
 
 @media (max-width: 1120px) {
   .atlas { --edge: 16px; }
-  .body-card { width: 272px; max-height: calc(100dvh - var(--below-bar) - 148px); }
+  .body-card { width: 272px; max-height: calc(100dvh - var(--below-bar) - 200px); }
   .flight-panel { width: 280px; }
   .dock { display: grid; grid-template-columns: auto auto minmax(0, 1fr) auto; grid-template-areas: "play date track rate" "view view view view"; row-gap: 6px; }
   .play-button { grid-area: play; }
@@ -306,6 +314,7 @@ kbd { font-family: Consolas, "Courier New", Courier, monospace; color: var(--cp-
   .rate-select { grid-area: rate; }
   .dock-view { grid-area: view; justify-content: space-between; padding: 6px 0 0; border-left: 0; border-top: 1px solid var(--cp-border); }
   .hint { bottom: 136px; }
+  .notice { --notice-bottom: 136px; max-width: min(272px, calc(100% - 2 * var(--edge))); }
 }
 @media (max-width: 900px) {
   .brand { padding: 0 10px; }
@@ -380,7 +389,10 @@ kbd { font-family: Consolas, "Courier New", Courier, monospace; color: var(--cp-
   .is-flying .hint { bottom: 80px; }
   .has-touch.is-flying .hint { bottom: calc(284px + env(safe-area-inset-bottom)); }
 
-  .notice { top: calc(var(--row2) + 52px); width: calc(100% - 24px); }
+  .notice { --notice-bottom: calc(176px + env(safe-area-inset-bottom)); left: var(--edge); width: auto; max-width: none; }
+  /* The flight strip and touch pads fill the bottom, so in flight the toast uses the free band under the catalog row. */
+  .is-flying .notice { top: calc(var(--row2) + 52px); bottom: auto; }
+  .notice .icon-button { width: 32px; min-width: 32px; height: 32px; min-height: 32px; margin: -4px 0; }
   .modal > header { padding: 14px 12px 14px 16px; }
   .modal-content { padding: 0 16px 20px; }
   h2 { font-size: 19px; }
@@ -393,7 +405,7 @@ kbd { font-family: Consolas, "Courier New", Courier, monospace; color: var(--cp-
   .body-card-header h1 { font-size: 24px; }
   .dock { bottom: max(8px, env(safe-area-inset-bottom)); padding: 6px 8px; }
   .dock-view { padding-top: 4px; }
-  .hint { display: none; }
+  .hint:not(.task) { display: none; }
   .flight-panel { top: auto; bottom: max(8px, env(safe-area-inset-bottom)); left: 180px; right: 180px; width: auto; max-height: calc(100dvh - var(--below-bar) - 8px); box-shadow: var(--cp-shadow); }
   .flight-panel.collapsed { flex-wrap: nowrap; gap: 6px; padding: 7px 6px 7px 12px; }
   .flight-panel.collapsed .ship-actions { order: 2; flex: 0 0 auto; display: flex; gap: 6px; }
@@ -401,6 +413,12 @@ kbd { font-family: Consolas, "Courier New", Courier, monospace; color: var(--cp-
   .flight-panel.collapsed .flight-toggle { order: 3; }
   .flight-panel.collapsed .ship-status .muted { display: none; }
   .has-touch .flight-panel.collapsed .brake-button { display: none; }
+  /* The dock and touch banks fill the bottom and sides here, so the toast sits under the bar on the left. */
+  .notice, .is-flying .notice { top: var(--below-bar); bottom: auto; left: var(--edge); right: auto; width: max-content; max-width: min(300px, calc(100% - 2 * var(--edge))); }
+}
+/* Narrow landscape keeps the catalog and body card in a second row, so the toast goes in the band below it. */
+@media (max-width: 760px) and (max-height: 540px) and (orientation: landscape) {
+  .notice, .is-flying .notice { top: calc(var(--row2) + 52px); right: var(--edge); width: auto; max-width: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }

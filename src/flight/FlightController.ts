@@ -20,7 +20,11 @@ export interface FlightTelemetry {
   verticalKmS: number
   separationKm: number
   etaSeconds: number
+  /** True when no surface geometry was found, so altitude comes from the catalog radius instead of terrain. */
+  altitudeEstimated: boolean
   message: string
+  /** True when message reports a refused command, a safety stop, or missing data rather than routine status. */
+  warning: boolean
   /** Increments each time an assisted transfer parks at, lands on, or hovers over its target. */
   arrivals: number
   arrivedId: string
@@ -68,6 +72,7 @@ export class FlightController {
   private arrivals = 0
   private arrivedId = ''
   private message = 'Exploration flight. Speeds are relative to the selected reference body.'
+  private warning = false
   private previous?: Snapshot
   private site?: Site
   private wantsLanding = false
@@ -88,7 +93,7 @@ export class FlightController {
     const body = this.catalog.get(referenceId)
     const state = snapshot.states[referenceId]
     if (!body || !state || !finiteVector(state.position) || !finiteVector(state.velocity) || !finiteVector(pose.position)) {
-      this.message = 'Cannot launch without a valid observer pose and reference body state.'
+      this.warn('Cannot launch without a valid observer pose and reference body state.')
       return
     }
     this.position.copy(vector(pose.position))
@@ -106,7 +111,7 @@ export class FlightController {
     this.warpArmed = false
     this.braking = false
     this.resetLook()
-    this.message = 'Flight ready. Flight aids are simulated; body states retain source data.'
+    this.status('Flight ready. Flight aids are simulated; body states retain source data.')
     for (const candidate of this.bodies) {
       const candidateState = snapshot.states[candidate.id]
       if (!candidateState) continue
@@ -121,20 +126,20 @@ export class FlightController {
           ? vector(hit.point).addScaledVector(vector(hit.normal), clearance)
           : local.normalize().multiplyScalar(radius + clearance)
         this.position.copy(safe.applyQuaternion(qBody).add(vector(candidateState.position)))
-        this.message = 'Launch pose moved outside the body to provide safe clearance.'
+        this.status('Launch pose moved outside the body to provide safe clearance.')
       }
     }
   }
 
   setThrottle(c: number): void {
     if (!Number.isFinite(c)) {
-      this.message = 'Speed command must be a finite number in c.'
+      this.warn('Speed command must be a finite number in c.')
       return
     }
     const limit = this.warp || this.warpArmed ? WARP_LIMIT_C : NORMAL_LIMIT_C
     this.throttleC = clamp(c, 0, limit)
     this.braking = false
-    if (c < 0 || c > limit) this.message = `Speed command limited to 0 through ${limit}c.`
+    if (c < 0 || c > limit) this.warn(`Speed command limited to 0 through ${limit}c.`)
   }
 
   setWarp(enabled: boolean): void {
@@ -142,18 +147,18 @@ export class FlightController {
     if (hazard) {
       this.warp = false
       this.warpArmed = true
-      this.message = `Warp armed. It engages once the ship clears ${hazard.name}'s exclusion zone.`
+      this.warn(`Warp armed. It engages once the ship clears ${hazard.name}'s exclusion zone.`)
       return
     }
     this.warp = enabled
     this.warpArmed = false
     if (!enabled) this.throttleC = Math.min(this.throttleC, NORMAL_LIMIT_C)
-    this.message = enabled ? 'Fictional warp enabled, maximum 1,000c.' : 'Conventional flight, below c.'
+    this.status(enabled ? 'Fictional warp enabled, maximum 1,000c.' : 'Conventional flight, below c.')
   }
 
   setReference(referenceId: string): void {
     if (!this.catalog.has(referenceId) || !this.previous?.states[referenceId]) {
-      this.message = 'Reference body state is unavailable.'
+      this.warn('Reference body state is unavailable.')
       return
     }
     this.referenceId = referenceId
@@ -162,7 +167,7 @@ export class FlightController {
   transfer(targetId: string, snapshot: Snapshot): void {
     if (!this.validTarget(targetId, snapshot)) return
     if (this.mode === 'landed' || this.mode === 'hover') {
-      this.message = 'Take off before starting a transfer.'
+      this.warn('Take off before starting a transfer.')
       return
     }
     this.site = undefined
@@ -171,24 +176,24 @@ export class FlightController {
     this.mode = 'transfer'
     this.braking = false
     if (this.throttleC === 0) this.throttleC = 0.001
-    this.message = 'Assisted transfer. Arrival time estimates target motion, not a solved orbit.'
+    this.status('Assisted transfer. Arrival time estimates target motion, not a solved orbit.')
   }
 
   land(targetId: string, snapshot: Snapshot): void {
     if (!this.validTarget(targetId, snapshot)) return
     const body = this.catalog.get(targetId)!
     if (body.id.toLowerCase() === 'sun' || body.category.toLowerCase() === 'star') {
-      this.message = 'The Sun has no landing or atmospheric hover endpoint.'
+      this.warn('The Sun has no landing or atmospheric hover endpoint.')
       return
     }
     if (this.mode === 'landed' || this.mode === 'hover') {
-      this.message = 'Take off before selecting another landing site.'
+      this.warn('Take off before selecting another landing site.')
       return
     }
     const state = snapshot.states[targetId]!
     const local = this.position.clone().sub(vector(state.position)).applyQuaternion(rotation(state).invert())
     if (!this.isGas(body) && !sampleSurface(this.surface, body, local)) {
-      this.message = `Load ${body.name}'s source geometry before landing. No spherical landing substitute is used.`
+      this.warn(`Load ${body.name}'s source geometry before landing. No spherical landing substitute is used.`)
       return
     }
     this.targetId = targetId
@@ -197,21 +202,21 @@ export class FlightController {
     this.mode = 'transfer'
     this.braking = false
     if (this.throttleC === 0) this.throttleC = 0.01
-    this.message = this.isGas(body)
+    this.status(this.isGas(body)
       ? 'Approaching a simulated atmospheric hover shell. This body has no solid landing surface.'
-      : 'Assisted landing will approach source geometry, align to the terrain normal, and descend.'
+      : 'Assisted landing will approach source geometry, align to the terrain normal, and descend.')
   }
 
   takeoff(snapshot: Snapshot): void {
     if (!this.site || (this.mode !== 'landed' && this.mode !== 'hover')) {
-      this.message = 'Takeoff is available after landing or atmospheric hover.'
+      this.warn('Takeoff is available after landing or atmospheric hover.')
       return
     }
     this.attach(snapshot, 0)
     this.mode = 'takeoff'
     this.takeoffHeight = this.site.hover ? this.hoverHeight(this.catalog.get(this.site.bodyId)!) : CLEARANCE_KM
     this.throttleC = 0
-    this.message = 'Taking off along the local terrain normal before releasing flight controls.'
+    this.status('Taking off along the local terrain normal before releasing flight controls.')
   }
 
   brake(): void {
@@ -221,12 +226,12 @@ export class FlightController {
     this.braking = true
     this.warp = false
     this.warpArmed = false
-    this.message = 'Braking relative to the active reference body.'
+    this.status('Braking relative to the active reference body.')
   }
 
   cancel(): void {
     if (this.mode === 'landed' || this.mode === 'hover') {
-      this.message = 'The ship remains body-fixed. Use takeoff to release it.'
+      this.warn('The ship remains body-fixed. Use takeoff to release it.')
       return
     }
     this.mode = 'free'
@@ -235,12 +240,22 @@ export class FlightController {
     this.wantsLanding = false
     if (this.warpArmed) this.throttleC = Math.min(this.throttleC, NORMAL_LIMIT_C)
     this.warpArmed = false
-    this.message = 'Assistance cancelled. Position and inertial velocity are unchanged.'
+    this.status('Assistance cancelled. Position and inertial velocity are unchanged.')
   }
 
   resetLook(): void {
     this.lookYaw = 0
     this.lookPitch = 0
+  }
+
+  private status(text: string): void {
+    this.message = text
+    this.warning = false
+  }
+
+  private warn(text: string): void {
+    this.message = text
+    this.warning = true
   }
 
   pose(): CameraPose {
@@ -267,7 +282,7 @@ export class FlightController {
     if (!Number.isFinite(dtSimSeconds) || dtSimSeconds < 0 || dtSimSeconds > MAX_FLIGHT_DT_SECONDS) {
       if (this.mode === 'landed' || this.mode === 'hover') this.attach(snapshot, 0)
       this.previous = snapshot
-      this.message = `Flight step rejected. Use a forward simulation step of 0 through ${MAX_FLIGHT_DT_SECONDS} seconds.`
+      this.warn(`Flight step rejected. Use a forward simulation step of 0 through ${MAX_FLIGHT_DT_SECONDS} seconds.`)
       return
     }
     if (this.isAttached()) {
@@ -297,7 +312,7 @@ export class FlightController {
       }
       const ref = current.states[this.referenceId]
       if (!ref) {
-        this.message = 'Flight paused because the reference body state is unavailable.'
+        this.warn('Flight paused because the reference body state is unavailable.')
         break
       }
       const refVelocity = vector(ref.velocity)
@@ -323,7 +338,7 @@ export class FlightController {
       if (!nearby && this.warpArmed && !this.warp && (this.mode === 'free' || this.mode === 'transfer') && this.clearOfZones(current)) {
         this.warp = true
         this.warpArmed = false
-        this.message = 'Warp engaged clear of exclusion zones.'
+        this.status('Warp engaged clear of exclusion zones.')
       }
       if (nearby) {
         if (this.warp) this.dropWarp(nearby, 'Warp disengaged inside a body exclusion zone.')
@@ -360,14 +375,14 @@ export class FlightController {
         this.dropWarp(collision.body, 'Warp disengaged at a swept body exclusion zone. Approach speed is limited.', !collision.zone)
         if (!collision.zone) {
           if (!auto) this.throttleC = 0
-          this.message = 'Surface safety stop. Collision protection prevents crossing the body.'
+          this.warn('Surface safety stop. Collision protection prevents crossing the body.')
           if (this.mode === 'landing' && this.site?.bodyId === collision.body.id) {
             const goal = this.sitePosition(this.site, finalState, this.site.hover ? this.hoverHeight(collision.body) : CLEARANCE_KM)
             if (this.position.distanceTo(goal) < 0.01) this.finishLanding(next)
             else {
               this.cancel()
               this.throttleC = 0
-              this.message = 'Landing safety stop away from the selected site. Select Land to choose a new local site.'
+              this.warn('Landing safety stop away from the selected site. Select Land to choose a new local site.')
             }
           }
           else if (!auto) this.braking = true
@@ -380,7 +395,7 @@ export class FlightController {
         this.velocity.set(0, 0, 0)
         this.cancel()
         this.throttleC = 0
-        this.message = 'Flight stopped after invalid numerical input.'
+        this.warn('Flight stopped after invalid numerical input.')
         break
       }
     }
@@ -399,12 +414,12 @@ export class FlightController {
     const state = snapshot.states[altitudeBody]
     let altitude = 0
     let vertical = 0
-    let message = this.message
+    let altitudeEstimated = false
     if (body && state && finiteVector(state.position) && finiteVector(state.velocity)) {
       const q = rotation(state)
       const local = this.position.clone().sub(vector(state.position)).applyQuaternion(q.clone().invert())
       const hit = sampleSurface(this.surface, body, local)
-      if (!hit) message += ' Surface geometry unavailable. Altitude is a catalog-radius estimate, not terrain clearance.'
+      altitudeEstimated = !hit
       altitude = Math.max(0, hit ? local.clone().sub(vector(hit.point)).dot(vector(hit.normal)) : local.length() - bodyRadius(body))
       const normal = hit ? vector(hit.normal).applyQuaternion(q) : local.clone().normalize().applyQuaternion(q)
       vertical = this.velocity.clone().sub(vector(state.velocity)).dot(normal)
@@ -413,8 +428,8 @@ export class FlightController {
     return {
       mode: this.mode, speedC: speed / C_KM_S, throttleC: this.throttleC, warp: this.warp, warpArmed: this.warpArmed,
       arrivals: this.arrivals, arrivedId: this.arrivedId, referenceId: this.referenceId, targetId: this.targetId, altitudeKm: altitude, verticalKmS: vertical,
-      separationKm: separation, etaSeconds: this.estimateEta(snapshot),
-      message, ...(this.site ? { landingBodyId: this.site.bodyId } : {}),
+      separationKm: separation, etaSeconds: this.estimateEta(snapshot), altitudeEstimated,
+      message: this.message, warning: this.warning, ...(this.site ? { landingBodyId: this.site.bodyId } : {}),
     }
   }
 
@@ -466,7 +481,7 @@ export class FlightController {
 
   private validTarget(id: string, snapshot: Snapshot): boolean {
     if (!this.catalog.has(id) || !snapshot.states[id] || !finiteVector(snapshot.states[id]!.position) || !finiteVector(snapshot.states[id]!.velocity)) {
-      this.message = 'Target body state is unavailable.'
+      this.warn('Target body state is unavailable.')
       return false
     }
     return true
@@ -501,7 +516,7 @@ export class FlightController {
     this.warp = false
     this.warpArmed = passing
     if (!passing) this.throttleC = Math.min(this.throttleC, NORMAL_LIMIT_C)
-    this.message = passing ? `Warp paused near ${body.name}. It resumes once the ship clears the exclusion zone.` : message
+    this.status(passing ? `Warp paused near ${body.name}. It resumes once the ship clears the exclusion zone.` : message)
   }
 
   private selectSite(body: Body, state: BodyState): Site | undefined {
@@ -545,7 +560,7 @@ export class FlightController {
     const finalState = next.states[this.targetId]
     if (!body || !state || !finalState) {
       this.cancel()
-      this.message = 'Assistance cancelled because target data is unavailable.'
+      this.warn('Assistance cancelled because target data is unavailable.')
       return undefined
     }
     const center = vector(state.position)
@@ -566,7 +581,7 @@ export class FlightController {
       this.site = this.selectSite(body, state)
       if (!this.site) {
         this.cancel()
-        this.message = 'Landing cancelled because source surface geometry is unavailable.'
+        this.warn('Landing cancelled because source surface geometry is unavailable.')
         return undefined
       }
     }
@@ -581,7 +596,7 @@ export class FlightController {
       this.orientation.rotateTowards(facing, h * 1.2)
       if (this.mode === 'approach' && this.position.distanceTo(goal) < Math.max(0.01, Math.min(0.1, approachSpeed(body) * h * 2))) {
         this.mode = 'landing'
-        this.message = this.site.hover ? 'Matching the simulated atmospheric hover shell.' : 'Final descent. Ground attitude follows the available approximate body orientation.'
+        this.status(this.site.hover ? 'Matching the simulated atmospheric hover shell.' : 'Final descent. Ground attitude follows the available approximate body orientation.')
       }
     }
     this.guidanceVelocity.copy(goalVelocity)
@@ -608,7 +623,7 @@ export class FlightController {
       this.mode = 'free'
       this.arrivals++
       this.arrivedId = body.id
-      this.message = `Arrived near ${body.name}. Position is not a computed orbit.`
+      this.status(`Arrived near ${body.name}. Position is not a computed orbit.`)
       return { velocity: this.velocity.clone(), acceleration }
     }
     const brakingDistance = Math.max(0, distance - bodyRadius(body) - zoneAltitude(body))
@@ -669,9 +684,9 @@ export class FlightController {
     this.arrivals++
     this.arrivedId = this.site.bodyId
     this.attach(snapshot, 0)
-    this.message = this.site.hover
+    this.status(this.site.hover
       ? 'Body-fixed simulated atmospheric hover. No solid surface or measured weather is modeled.'
-      : 'Landed on source geometry plus labeled reconstructed relief. Body-fixed attitude uses the source orientation approximation.'
+      : 'Landed on source geometry plus labeled reconstructed relief. Body-fixed attitude uses the source orientation approximation.')
   }
 
   private attach(snapshot: Snapshot, dt: number): void {
@@ -708,7 +723,7 @@ export class FlightController {
       this.targetId = ''
       this.site = undefined
       this.throttleC = 0
-      this.message = 'Takeoff complete. Manual flight controls released with terrain clearance.'
+      this.status('Takeoff complete. Manual flight controls released with terrain clearance.')
     }
   }
 }

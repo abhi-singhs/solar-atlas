@@ -88,7 +88,8 @@ export function FlightPanel(props: FlightPanelProps) {
       <div><dt>Range</dt><dd>{distance(view.separationKm)}</dd></div>
       <div><dt>Arrival</dt><dd>{grounded ? 'Arrived' : view.etaSeconds > 0 && Number.isFinite(view.etaSeconds) ? duration(view.etaSeconds)
         : assisted ? 'Calculating' : 'No transfer'}</dd></div>
-      <div><dt>Altitude</dt><dd data-testid="altitude">{distance(view.altitudeKm)}</dd></div>
+      <div title={view.altitudeEstimated ? 'No surface geometry here, so altitude uses the catalog radius instead of terrain.' : undefined}>
+        <dt>{view.altitudeEstimated ? 'Altitude, est.' : 'Altitude'}</dt><dd data-testid="altitude">{distance(view.altitudeKm)}</dd></div>
     </dl>
     {['landing', 'landed', 'takeoff'].includes(view.shipMode) && <p className="terrain-note">{TERRAIN_LABEL}</p>}
     <RoutePanel view={view} bodies={bodies} {...props.route} />
