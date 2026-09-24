@@ -242,14 +242,13 @@ export function TouchControls({ input, enabled, onBrake }: TouchControlsProps) {
           {button('reverse', 'Reverse', <ChevronDown aria-hidden="true" />)}
         </div>
         {button('brake', 'Brake', <Square aria-hidden="true" />)}
+      </div>
+      <div className="flight-touch-bank flight-touch-look">
+        {stick('look', 'Look')}
         <div className="flight-touch-button-row">
           {button('ascend', 'Ascend', <ArrowUp aria-hidden="true" />)}
           {button('descend', 'Descend', <ArrowDown aria-hidden="true" />)}
         </div>
-      </div>
-      <div className="flight-touch-bank flight-touch-look">
-        {stick('look', 'Look')}
-        <span className="flight-touch-note">Hold to move<br />Release to center</span>
       </div>
     </div>
   )

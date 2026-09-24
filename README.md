@@ -41,11 +41,15 @@ To host the app, upload the entire `dist/` directory to a static HTTPS host. Kee
 
 ## Explore
 
-Search the catalog or select a body label. Drag to orbit and scroll or pinch to zoom. The local, inner, and solar-system views frame physical positions without compressing distances. Body labels and trajectory lines are annotations; they can be hidden.
+Open Find a world or press `/` to search the catalog. Enter jumps to the first match, and the arrow keys move through the list. You can also select a body label in the scene. Drag to orbit and scroll or pinch to zoom.
 
-Use Go to body for instant camera navigation. Follow keeps the selected body centered. Free camera retains an inertial reference and supports W/S forward movement, A/D lateral movement, and R/F vertical movement.
+The body card on the right shows the selected body, its distance, and its physical facts. Go to body moves the camera there instantly. The chevron hides the facts when you want more of the scene.
 
-The timeline starts paused. Play, reverse, scrub, and choose a time multiplier in Explore mode. The source interval spans September 5, 2026 through September 5, 2027. Playback stops at either boundary. Saved viewpoints retain a body and simulation date.
+The bottom dock holds the timeline, the camera modes, and the View menu. View frames the local, inner, or whole solar system without compressing distances. It also shows or hides body labels and trajectory lines, which are annotations. Follow keeps the selected body centered. Free camera retains an inertial reference and supports W/S forward movement, A/D lateral movement, and R/F vertical movement.
+
+The timeline starts paused. Play, reverse, scrub, and pick a time rate such as 1 hour/s in Explore mode. Select the date to type an exact UTC time. The source interval spans September 5, 2026 through September 5, 2027. Playback stops at either boundary.
+
+The bookmark button on the body card saves the body and the simulation date. Saved viewpoints appear under the Saved filter in the catalog.
 
 ## Fly
 
@@ -59,8 +63,12 @@ Enter Spaceship to use an original three-dimensional cockpit or the external cha
 | Q / E | Roll |
 | R / F | Vertical thrust |
 | Space | Brake |
+| P | Pause or resume flight |
+| C | Cockpit or chase view |
 | Drag the viewport | Cockpit free-look |
 | Touch pads and buttons | Steering, look, roll, vertical thrust, and braking on phone/tablet |
+
+The flight panel groups speed, target, and actions. Its chevron collapses it to a strip that keeps Travel, Land, and Brake, so the cockpit instruments stay visible. On a phone the panel starts collapsed above the touch pads. Expanding it pauses the touch pads until you collapse it again.
 
 Use the numeric speed field, logarithmic slider, or presets to set commanded speed. Actual speed reports motion relative to the displayed reference body's center. A landed ship can have nonzero speed because the planet rotates beneath that reference frame. A reference change does not teleport the ship.
 
@@ -74,11 +82,30 @@ Pausing freezes translation while leaving the interface and free-look usable. A 
 
 Select a solid body and choose Land. The ship approaches, aligns, and descends with assistance. Once landed, it retains a body-local pose as the world rotates and travels through its orbit. Take off clears the local surface before normal flight resumes.
 
-In Explore mode, Pick site and land lets you select a visible part of the source mesh and launch a descent there. Use the flight-panel toggle to expose the cockpit instruments, and adjust field of view in Settings.
+In Explore mode, Pick site and land on the body card lets you select a visible part of the source mesh and launch a descent there. Collapse the flight panel to see the cockpit instruments, and adjust field of view in Settings.
 
 Jupiter, Saturn, Uranus, and Neptune offer simulated atmospheric hovering. They do not have solid landing sites in this app. The Sun cannot be landed on.
 
 Surface detail beyond the source mesh and maps is reconstructed. Bounded local terrain does not replace catalog radii or alter the authoritative scientific records. The same local geometry drives collision, surface altitude, and landing visuals. This is an exploration aid, not a terrain-navigation product.
+
+## Keyboard shortcuts
+
+These work anywhere outside a text field. The flight keys are listed under Fly.
+
+| Key | Action |
+| --- | --- |
+| / | Search worlds |
+| Space | Play or pause time in Explore |
+| P | Play or pause time, or pause flight |
+| 1 / 2 / 3 | Orbit, Follow, or Free camera |
+| L | Body labels |
+| T | Trajectory lines |
+| C | Cockpit or chase view |
+| H | Hide or show the interface |
+| ? | Controls and help |
+| Esc | Close the open menu or catalog, or bring the interface back |
+
+Hide interface clears every panel for an unobstructed view and leaves one Show interface button. Touch screens reach it from the View menu in Explore and from the flight panel in Spaceship.
 
 ## What is retained
 

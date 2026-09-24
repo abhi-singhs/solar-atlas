@@ -299,7 +299,7 @@ export class Explorer {
     if (!body) return
     const bookmark = { bodyId: body.id, name: `${body.name} / ${this.state.date.slice(0, 10)}`, jd: this.state.jd }
     const bookmarks = this.state.bookmarks.filter(item => item.bodyId !== body.id || item.jd !== this.state.jd)
-    this.publish({ bookmarks: [...bookmarks, bookmark], message: `Saved ${body.name} and the current simulation date.` })
+    this.publish({ bookmarks: [...bookmarks, bookmark], message: `Saved ${body.name} and the current simulation date. Find it under Saved in the catalog.` })
     this.save()
   }
 
