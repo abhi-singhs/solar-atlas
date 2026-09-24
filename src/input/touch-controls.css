@@ -2,9 +2,9 @@
   position: absolute;
   z-index: 13;
   inset-inline: max(12px, env(safe-area-inset-left)) max(12px, env(safe-area-inset-right));
-  bottom: calc(260px + env(safe-area-inset-bottom));
+  bottom: calc(80px + env(safe-area-inset-bottom));
   display: none;
-  grid-template-columns: minmax(96px, 136px) minmax(104px, 136px) minmax(96px, 136px);
+  grid-template-columns: minmax(96px, 136px) minmax(100px, 136px) minmax(96px, 136px);
   align-items: end;
   justify-content: space-between;
   gap: 8px;
@@ -23,6 +23,8 @@
   gap: 8px;
   min-width: 0;
 }
+
+.flight-touch-center { align-self: end; }
 
 .flight-touch-button-row {
   display: flex;
@@ -142,16 +144,6 @@
   pointer-events: none;
 }
 
-.flight-touch-note {
-  min-height: 44px;
-  display: grid;
-  place-content: center;
-  color: var(--cp-text-soft);
-  font-size: 10px;
-  line-height: 1.4;
-  text-align: center;
-}
-
 @media (any-pointer: coarse), (hover: none) {
   .flight-touch { display: grid; }
 }
@@ -166,34 +158,18 @@
   }
 }
 
+@media (min-width: 761px) {
+  .flight-touch { bottom: max(16px, env(safe-area-inset-bottom)); }
+}
+
+/* The compact flight strip sits between the banks in landscape, so the center column clears it. */
 @media (orientation: landscape) {
   .flight-touch {
-    grid-template-columns: 128px 1fr 128px;
-    height: 232px;
+    grid-template-columns: 128px minmax(0, 1fr) 128px;
     bottom: max(8px, env(safe-area-inset-bottom));
   }
-  .flight-touch-bank {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 128px;
-    gap: 4px;
-  }
-  .flight-touch-look { left: auto; right: 0; }
-  .flight-touch-stick { width: 96px; align-self: center; }
-  .flight-touch-center { display: contents; }
-  .flight-touch-center > .flight-touch-button-row {
-    position: absolute;
-    bottom: 152px;
-    width: 128px;
-  }
-  .flight-touch-center > .flight-touch-button-row:first-child { left: 0; }
-  .flight-touch-center > .flight-touch-button-row:last-child { right: 0; }
-  .flight-touch-brake {
-    position: absolute;
-    bottom: 188px;
-    left: 50%;
-    width: 120px;
-    transform: translateX(-50%);
-  }
+  .flight-touch-bank { gap: 4px; align-items: center; }
+  .flight-touch-bank .flight-touch-button-row { align-self: stretch; }
+  .flight-touch-stick { width: 96px; }
+  .flight-touch-center { justify-self: center; width: min(100%, 220px); padding-bottom: 72px; }
 }

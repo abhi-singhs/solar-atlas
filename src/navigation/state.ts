@@ -1,4 +1,5 @@
 import type { Body, CameraPose, Quality, ShipMode } from '../contracts'
+import type { RoutePhase, RouteStop } from '../flight/route'
 
 export interface ViewState {
   ready: boolean
@@ -18,6 +19,7 @@ export interface ViewState {
   speedC: number
   throttleC: number
   warp: boolean
+  warpArmed: boolean
   referenceId: string
   altitudeKm: number
   verticalKmS: number
@@ -33,6 +35,12 @@ export interface ViewState {
   message: string
   fps: number
   bookmarks: Bookmark[]
+  route: RouteStop[]
+  routePhase: RoutePhase
+  routeAutoContinue: boolean
+  routeAutoSpeed: boolean
+  /** Seconds left before auto-continuing, or Infinity while waiting for the pilot. */
+  routeDwell: number
 }
 
 export interface Bookmark {
@@ -55,10 +63,11 @@ export const initialState: ViewState = {
   ready: false, loading: 'Opening the source-backed atlas', selectedId: 'earth', bodies: [],
   date: '', jd: 0, firstJd: 0, lastJd: 1, playing: false, timeScale: 3600,
   observerMode: 'orbit', inShip: false, camera: 'cockpit', shipMode: 'free',
-  speedC: 0, throttleC: 0, warp: false, referenceId: 'earth',
+  speedC: 0, throttleC: 0, warp: false, warpArmed: false, referenceId: 'earth',
   altitudeKm: 0, verticalKmS: 0, separationKm: 0, observerDistanceKm: 0, etaSeconds: Infinity,
   labels: true, paths: false, quality: matchMedia('(pointer: coarse)').matches ? 'low' : 'high',
   exposure: 0, fov: 50, pickingSite: false, message: '', fps: 0, bookmarks: [],
+  route: [], routePhase: 'idle', routeAutoContinue: true, routeAutoSpeed: true, routeDwell: 0,
 }
 
 export type PoseRecord = CameraPose

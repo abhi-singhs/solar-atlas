@@ -208,9 +208,10 @@ describe('touch flight controls', () => {
         expect(box.right).toBeLessThanOrEqual(viewport.width)
         expect(box.bottom).toBeLessThanOrEqual(viewport.height)
         const portrait = viewport.height > viewport.width
+        // The compact flight strip spans the bottom in portrait and sits between the stick banks in landscape.
         const deck = portrait
-          ? { left: 0, right: viewport.width, top: viewport.height - 230, bottom: viewport.height - 38 }
-          : { left: 180, right: viewport.width - 180, top: viewport.height - 180, bottom: viewport.height - 30 }
+          ? { left: 0, right: viewport.width, top: viewport.height - 72, bottom: viewport.height - 12 }
+          : { left: 180, right: viewport.width - 180, top: viewport.height - 72, bottom: viewport.height - 8 }
         expect(box.right <= deck.left || box.x >= deck.right || box.bottom <= deck.top || box.y >= deck.bottom).toBe(true)
       }
     }
