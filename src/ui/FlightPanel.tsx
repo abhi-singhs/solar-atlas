@@ -1,4 +1,6 @@
-import { ArrowDownToLine, ArrowUpFromLine, ChevronDown, ChevronRight, ChevronUp, Eye, EyeOff, LocateFixed, Pause, Play, Rocket, Shield, Square, Warehouse, X } from 'lucide-react'
+import {
+  ArrowDownToLine, ArrowUpFromLine, ChevronDown, ChevronRight, ChevronUp, Eye, EyeOff, LocateFixed, Pause, Play, Rocket, Shield, Square, Volume2, VolumeX, Warehouse, X,
+} from 'lucide-react'
 import { shipDesign } from '../cockpit/ships'
 import { currentStop, pendingCount } from '../flight/route'
 import type { Body, ShipMode } from '../contracts'
@@ -35,6 +37,7 @@ interface FlightPanelProps {
   onTogglePlay: () => void
   onCancel: () => void
   onHide: () => void
+  onMusic: () => void
   hangarOpen: boolean
   onHangar: () => void
   route: RouteActions
@@ -81,7 +84,13 @@ export function FlightPanel(props: FlightPanelProps) {
   if (!expanded) return <section className="flight-panel panel collapsed" aria-label="Spacecraft controls">{summary}{toggle}{actions}</section>
 
   return <section className="flight-panel panel expanded" aria-label="Spacecraft controls">
-    <header className="flight-header">{summary}{toggle}</header>
+    <header className="flight-header">{summary}
+      <button className="icon-button ghost" aria-label="Music" aria-pressed={view.music} aria-keyshortcuts="M"
+        title={view.music ? 'Turn music off (M)' : 'Turn music on (M)'} onClick={props.onMusic}>
+        {view.music ? <Volume2 size={18} /> : <VolumeX size={18} />}
+      </button>
+      {toggle}
+    </header>
     <div className="flight-readout">
       <strong data-testid="actual-speed">{speed(view.speedC)}</strong>
       <small>{distance(view.speedC * C_KM_S)}/s relative to {name(view.referenceId)} center</small>

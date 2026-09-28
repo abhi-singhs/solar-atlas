@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { CircleAlert, CircleHelp, Eye, Info, Orbit, Rocket, Settings, Telescope, TriangleAlert, X } from 'lucide-react'
+import { useSpaceMusic } from './audio/useSpaceMusic'
 import { Explorer } from './navigation/Explorer'
 import { initialState } from './navigation/state'
 import type { Notice, NoticeTone, ViewState } from './navigation/state'
@@ -15,7 +16,7 @@ import { Hangar } from './ui/Hangar'
 import type { RouteActions } from './ui/RoutePanel'
 import { useLatest, useMediaQuery, useShortcuts, useStoredFlag } from './ui/hooks'
 
-type OptionKey = 'labels' | 'paths' | 'quality' | 'exposure' | 'fov' | 'lensFlare' | 'glareHidesStars' | 'shipModel'
+type OptionKey = 'labels' | 'paths' | 'quality' | 'exposure' | 'fov' | 'lensFlare' | 'glareHidesStars' | 'music' | 'musicVolume' | 'shipModel'
 const base = import.meta.env.BASE_URL
 const COMPACT = '(max-width: 760px), (max-height: 540px) and (orientation: landscape)'
 const detectTouch = () => navigator.maxTouchPoints > 0 || matchMedia('(any-pointer: coarse), (hover: none)').matches
@@ -44,6 +45,7 @@ function App() {
   const [exploreHintSeen, dismissExploreHint] = useStoredFlag('solar-atlas-explore-hint')
   const [flightHintSeen, dismissFlightHint] = useStoredFlag('solar-atlas-flight-hint')
   const inShip = useLatest(view.inShip)
+  const music = useSpaceMusic(view, setError)
 
   // The countdown waits for a visible, focused page, so a pause notice is still there when the user comes back.
   useEffect(() => {
@@ -147,6 +149,10 @@ function App() {
     setSpeed(Number(throttle))
   }
   const togglePlay = () => perform(e => e.togglePlay())
+  const setMusic = (on: boolean) => {
+    if (on) music.prime()
+    option('music', on)
+  }
   const toggleCamera = () => perform(e => e.setCamera(view.camera === 'cockpit' ? 'chase' : 'cockpit'))
   const enterShip = () => {
     if (phone) setDetails(false)
@@ -185,6 +191,7 @@ function App() {
     '2': view.inShip ? undefined : () => perform(e => e.observerMode('follow')),
     '3': view.inShip ? undefined : () => perform(e => e.observerMode('free')),
     c: view.inShip ? toggleCamera : undefined,
+    m: view.inShip ? () => setMusic(!view.music) : undefined,
     g: view.inShip ? routeGo : undefined,
     '+': view.inShip ? () => perform(e => e.addStop(view.selectedId)) : undefined,
     '=': view.inShip ? () => perform(e => e.addStop(view.selectedId)) : undefined,
@@ -206,7 +213,8 @@ function App() {
   const notice: Notice | null = error ? { text: error, tone: 'error', id: 0 } : view.notice
   const NoticeIcon = NOTICE_ICON[notice?.tone ?? 'info']
 
-  return <main ref={atlas} className={`atlas ${view.inShip ? 'is-flying' : ''} ${hidden ? 'ui-hidden' : ''} ${hasTouch ? 'has-touch' : ''}`}>
+  return <main ref={atlas} className={`atlas ${view.inShip ? 'is-flying' : ''} ${hidden ? 'ui-hidden' : ''} ${hasTouch ? 'has-touch' : ''}`}
+    data-music={music.running ? 'running' : 'stopped'}>
     <div ref={viewport} className="universe" aria-label="Interactive solar system viewport" tabIndex={0} />
 
     <header className="topbar">
@@ -249,6 +257,7 @@ function App() {
         onBrake={() => { setThrottle('0'); perform(e => e.brake()) }} onCamera={toggleCamera}
         hangarOpen={menu === 'hangar'} onHangar={() => setMenu(value => value === 'hangar' ? null : 'hangar')}
         onLookForward={() => perform(e => e.resetLook())} onTogglePlay={togglePlay} onCancel={() => perform(e => e.cancel())}
+        onMusic={() => setMusic(!view.music)}
         onHide={() => setHidden(true)} route={routeActions} />}
       {view.inShip && menu === 'hangar' && <Hangar selectedId={view.shipModel} onSelect={id => option('shipModel', id)} onClose={() => setMenu(null)} />}
       {view.inShip && engine.current && <TouchControls input={engine.current.input.state} enabled={touchEnabled} onBrake={() => perform(e => e.brake())} />}
@@ -264,7 +273,8 @@ function App() {
       <button className="icon-button ghost" aria-label="Dismiss message" onClick={() => { setError(''); perform(e => e.clearMessage()) }}><X size={14} /></button>
     </div>}
 
-    {modal === 'settings' && <SettingsDialog view={view} onClose={() => setModal(null)} onOption={option} />}
+    {modal === 'settings' && <SettingsDialog view={view} onClose={() => setModal(null)} onOption={option}
+      musicSupported={music.supported} onMusic={setMusic} />}
     {modal === 'help' && <HelpDialog onClose={() => setModal(null)} onSources={() => setModal('sources')} />}
     {modal === 'sources' && <SourcesDialog body={selected} source={source} onClose={() => setModal(null)} />}
   </main>

@@ -27,10 +27,12 @@ function Modal({ title, onClose, children }: { title: string; onClose: () => voi
 interface SettingsProps {
   view: ViewState
   onClose: () => void
-  onOption: <K extends 'quality' | 'exposure' | 'fov' | 'labels' | 'paths' | 'lensFlare' | 'glareHidesStars' | 'shipModel'>(key: K, value: ViewState[K]) => void
+  onOption: <K extends 'quality' | 'exposure' | 'fov' | 'labels' | 'paths' | 'lensFlare' | 'glareHidesStars' | 'musicVolume' | 'shipModel'>(key: K, value: ViewState[K]) => void
+  musicSupported: boolean
+  onMusic: (on: boolean) => void
 }
 
-export function SettingsDialog({ view, onClose, onOption }: SettingsProps) {
+export function SettingsDialog({ view, onClose, onOption, musicSupported, onMusic }: SettingsProps) {
   return <Modal title="Settings" onClose={onClose}>
     <div className="settings-grid">
       <label>Render quality
@@ -65,6 +67,17 @@ export function SettingsDialog({ view, onClose, onOption }: SettingsProps) {
         <label className="check-label"><input type="checkbox" checked={view.glareHidesStars} aria-describedby="glare-note" onChange={event => onOption('glareHidesStars', event.target.checked)} />Sun glare hides stars</label>
         <small id="glare-note">Turn off to keep stars visible with the Sun in view. Daylight inside an atmosphere still hides them.</small>
       </div>
+      <div className="check-setting">
+        <label className="check-label"><input type="checkbox" checked={view.music && musicSupported} disabled={!musicSupported} aria-describedby="music-note"
+          onChange={event => onMusic(event.target.checked)} />Space music <kbd>M</kbd></label>
+        <small id="music-note">{musicSupported
+          ? 'Generated in your browser and played in Spaceship mode. Warp brightens it, landing leaves a quiet drone, and pausing flight fades it out.'
+          : 'This browser does not support the Web Audio API, so it cannot play the generated music.'}</small>
+      </div>
+      <label>Music volume <span className="setting-value">{Math.round(view.musicVolume * 100)}%</span>
+        <input type="range" aria-label="Music volume" min="0" max="1" step=".05" value={view.musicVolume} disabled={!view.music || !musicSupported}
+          onChange={event => onOption('musicVolume', Number(event.target.value))} />
+      </label>
     </div>
   </Modal>
 }
@@ -72,7 +85,7 @@ export function SettingsDialog({ view, onClose, onOption }: SettingsProps) {
 const shortcutGroups: [string, [string[], string][]][] = [
   ['Anywhere', [[['/'], 'Search worlds'], [['?'], 'Open this help'], [['H'], 'Hide or show interface'], [['L'], 'Body labels'], [['T'], 'Trajectories'], [['Esc'], 'Close menus and panels']]],
   ['Explore', [[['Drag'], 'Orbit the body'], [['Scroll'], 'Zoom, or pinch on touch'], [['Space', 'P'], 'Play or pause time'], [['1', '2', '3'], 'Orbit, Follow, Free camera'], [['W', 'S'], 'Free camera forward and back'], [['A', 'D'], 'Free camera sideways'], [['R', 'F'], 'Free camera up and down']]],
-  ['Spaceship', [[['W', 'S'], 'Forward and reverse thrust'], [['Arrows'], 'Pitch and yaw'], [['A', 'D'], 'Yaw'], [['Q', 'E'], 'Roll'], [['R', 'F'], 'Vertical thrust'], [['Space'], 'Brake'], [['P'], 'Pause or resume flight'], [['C'], 'Cockpit or chase view'], [['+'], 'Add the selected body to the route'], [['G'], 'Start, resume, or depart on the route'], [['Drag'], 'Look around from the cockpit']]],
+  ['Spaceship', [[['W', 'S'], 'Forward and reverse thrust'], [['Arrows'], 'Pitch and yaw'], [['A', 'D'], 'Yaw'], [['Q', 'E'], 'Roll'], [['R', 'F'], 'Vertical thrust'], [['Space'], 'Brake'], [['P'], 'Pause or resume flight'], [['C'], 'Cockpit or chase view'], [['M'], 'Space music on or off'], [['+'], 'Add the selected body to the route'], [['G'], 'Start, resume, or depart on the route'], [['Drag'], 'Look around from the cockpit']]],
 ]
 
 export function HelpDialog({ onClose, onSources }: { onClose: () => void; onSources: () => void }) {
@@ -88,7 +101,7 @@ export function HelpDialog({ onClose, onSources }: { onClose: () => void; onSour
     </div>
     <p>On touch screens, hold the Steer or Look pad and drag. Release to center it. The roll, thrust, and vertical buttons act while held. Expand the flight panel for speed and camera controls. Menus do not pass input through to the ship.</p>
     <h3>Explore</h3><p>Drag to orbit a body. Scroll or pinch to zoom. Search the catalog to find all 71 bodies, including those too small to see at their real size. Go to body is an instant camera move, not a simulated journey. The View menu frames the local, inner, or whole solar system and shows or hides labels and trajectories.</p>
-    <h3>Fly</h3><p>Enter Spaceship for cockpit or chase view. Set a speed in c and choose Travel for an assisted transfer. Warp must be enabled before speeds reach or exceed light speed. Brake stops relative motion; Cancel autopilot returns steering to you.</p><p>Ship, near the bottom of the expanded flight panel, opens the hangar. It holds {SHIPS.length} ships: fan tributes to spacecraft from film and TV, and original designs. Switching ships changes the exterior and the cockpit, not the flight model. Settings has the same choice. Bigger ships land with the pilot's eye higher off the ground, so a landed ship reads {meters(Math.min(...eyeHeights))} to {meters(Math.max(...eyeHeights))} of altitude depending on the design.</p><p>Travel, Land, and routes are steering aids, not solved orbits. Arrival times estimate the target's motion, and a ship that parks near a body holds a position rather than a computed orbit. Altitude marked est. uses the catalog radius because no surface geometry is loaded there.</p>
+    <h3>Fly</h3><p>Enter Spaceship for cockpit or chase view. Set a speed in c and choose Travel for an assisted transfer. Warp must be enabled before speeds reach or exceed light speed. Brake stops relative motion; Cancel autopilot returns steering to you.</p><p>Ship, near the bottom of the expanded flight panel, opens the hangar. It holds {SHIPS.length} ships: fan tributes to spacecraft from film and TV, and original designs. Switching ships changes the exterior and the cockpit, not the flight model. Settings has the same choice. Bigger ships land with the pilot's eye higher off the ground, so a landed ship reads {meters(Math.min(...eyeHeights))} to {meters(Math.max(...eyeHeights))} of altitude depending on the design.</p><p>Travel, Land, and routes are steering aids, not solved orbits. Arrival times estimate the target's motion, and a ship that parks near a body holds a position rather than a computed orbit. Altitude marked est. uses the catalog radius because no surface geometry is loaded there.</p><p>Turn on Space music in Settings, with the speaker button in the flight panel, or with M. Your browser generates it while you fly, so it needs no download. Warp adds a high shimmer, landing or hovering leaves a quiet drone, and pausing flight fades it out.</p>
     <h3>Plan a route</h3><p>In Spaceship mode, add destinations with the + button next to each body in the catalog, the Add destination button on the body card, or the + key. The route in the flight panel lists them in order. For each stop, choose whether the ship parks nearby or lands, move stops earlier, or remove them.</p><p>Start route flies to the first stop. After each arrival the ship waits five seconds, takes off if it landed, and heads for the next stop. Turn off Auto-continue to leave each stop yourself with Depart now. Auto speed sets each leg's speed so the cruise takes about 30 seconds. Legs between planets need Warp. You can arm Warp while parked near a body, and it engages once the ship clears the exclusion zone.</p>
     <h3>Land and take off</h3><p>Select a solid body and choose Land for an assisted approach. In Explore mode, Pick site and land lets you tap a visible part of the source mesh and launch an assisted descent there. Close to a body, the safety controller limits speed. Gas and ice giants allow simulated hovering, not surface landing. The Sun cannot be landed on.</p><p>Ground detail is reconstructed. Original planet dimensions, source meshes, and data remain separate. No terrain here is suitable for real navigation.</p>
     <h3>What the clock means</h3><p>c means 299,792.458 km/s per simulated second. Flight defaults to 1x time. Pausing stops the ship and bodies but leaves free-look available. Leave flight before scrubbing time or reversing playback.</p><p>Speed is relative to the reference body's center, not its rotating ground. A landed ship can show nonzero speed because the planet carries it through its rotation.</p>

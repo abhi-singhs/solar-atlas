@@ -67,4 +67,6 @@ Ten ships in the hangar are unofficial fan tributes to spacecraft from film and 
 
 Each tribute is modeled by hand in `src/cockpit/ships/` from three.js primitives. No studio meshes, textures, fonts, logos, insignia, lettering, or registry numbers are copied. Ships longer than 40 m are scaled down, and their cockpits are new interiors made for this app. The MIT license covers this repository's code. It grants no rights in the franchises or their designs.
 
+The Space music soundtrack is original. The browser synthesizes it at runtime from Web Audio oscillators and generated noise, so the app bundles no audio recordings or samples.
+
 React, Three.js, Vite, Lucide, and supporting packages retain their respective open-source licenses in the dependency installation.
