@@ -12,10 +12,11 @@ import { Dock } from './ui/Dock'
 import type { DockMenu } from './ui/Dock'
 import { FlightPanel } from './ui/FlightPanel'
 import { HelpDialog, SettingsDialog, SourcesDialog } from './ui/Dialogs'
+import { Hangar } from './ui/Hangar'
 import type { RouteActions } from './ui/RoutePanel'
 import { useLatest, useMediaQuery, useShortcuts, useStoredFlag } from './ui/hooks'
 
-type OptionKey = 'labels' | 'paths' | 'quality' | 'exposure' | 'fov' | 'lensFlare' | 'glareHidesStars' | 'music' | 'musicVolume'
+type OptionKey = 'labels' | 'paths' | 'quality' | 'exposure' | 'fov' | 'lensFlare' | 'glareHidesStars' | 'music' | 'musicVolume' | 'shipModel'
 const base = import.meta.env.BASE_URL
 const COMPACT = '(max-width: 760px), (max-height: 540px) and (orientation: landscape)'
 const detectTouch = () => navigator.maxTouchPoints > 0 || matchMedia('(any-pointer: coarse), (hover: none)').matches
@@ -208,7 +209,7 @@ function App() {
       ? flightHintSeen ? '' : hasTouch ? 'Hold the Steer and Look pads to fly. Expand the panel for speed and routes.' : 'W/S thrust · arrows steer · Q/E roll · Space brake · C camera'
       : view.observerMode === 'free' && !hasTouch ? 'W/S forward and back · A/D sideways · R/F up and down'
         : exploreHintSeen ? '' : hasTouch ? 'Drag to orbit · pinch to zoom · tap a label to select' : 'Drag to orbit · scroll to zoom · click a label to select'
-  const touchEnabled = !modal && !catalog && !hidden && !(phone && (details || flightExpanded))
+  const touchEnabled = !modal && !catalog && !hidden && menu !== 'hangar' && !(phone && (details || flightExpanded))
   const notice: Notice | null = error ? { text: error, tone: 'error', id: 0 } : view.notice
   const NoticeIcon = NOTICE_ICON[notice?.tone ?? 'info']
 
@@ -226,7 +227,7 @@ function App() {
           route={view.inShip ? { pending: pendingIds, onToggle: id => perform(e => e.toggleStop(id)) } : undefined} />}
       </div>
       <nav className="mode-switch" aria-label="Experience">
-        <button className={!view.inShip ? 'active' : ''} aria-pressed={!view.inShip} onClick={() => perform(e => e.exitShip())} disabled={!view.ready}><Telescope size={16} /><span>Explore</span></button>
+        <button className={!view.inShip ? 'active' : ''} aria-pressed={!view.inShip} onClick={() => { setMenu(null); perform(e => e.exitShip()) }} disabled={!view.ready}><Telescope size={16} /><span>Explore</span></button>
         <button className={view.inShip ? 'active' : ''} aria-pressed={view.inShip} onClick={enterShip} disabled={!view.ready}><Rocket size={16} /><span>Spaceship</span></button>
       </nav>
       <div className="top-actions">
@@ -250,13 +251,15 @@ function App() {
         onFrame={frame => perform(e => e.system(frame))} onOption={option} onHide={() => setHidden(true)} />}
 
       {view.inShip && <FlightPanel view={view} bodies={view.bodies} expanded={flightExpanded} throttle={throttle} canLand={canLand} hoverTarget={hoverTarget}
-        onToggle={() => setFlightExpanded(value => !value)} onThrottleInput={setThrottle} onApplySpeed={applySpeed} onSpeed={setSpeed}
+        onToggle={() => { if (flightExpanded) setMenu(null); setFlightExpanded(value => !value) }} onThrottleInput={setThrottle} onApplySpeed={applySpeed} onSpeed={setSpeed}
         onWarp={() => perform(e => e.setWarp(!view.warp))} onTravel={() => perform(e => e.transfer(view.selectedId))}
         onLandOrTakeoff={() => perform(e => grounded ? e.takeoff() : e.land(view.selectedId))}
         onBrake={() => { setThrottle('0'); perform(e => e.brake()) }} onCamera={toggleCamera}
+        hangarOpen={menu === 'hangar'} onHangar={() => setMenu(value => value === 'hangar' ? null : 'hangar')}
         onLookForward={() => perform(e => e.resetLook())} onTogglePlay={togglePlay} onCancel={() => perform(e => e.cancel())}
         onMusic={() => setMusic(!view.music)}
         onHide={() => setHidden(true)} route={routeActions} />}
+      {view.inShip && menu === 'hangar' && <Hangar selectedId={view.shipModel} onSelect={id => option('shipModel', id)} onClose={() => setMenu(null)} />}
       {view.inShip && engine.current && <TouchControls input={engine.current.input.state} enabled={touchEnabled} onBrake={() => perform(e => e.brake())} />}
 
       {hint && !notice && !catalog && !menu && !(phone && (details || (view.inShip && flightExpanded))) &&

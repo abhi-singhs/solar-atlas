@@ -3,6 +3,8 @@ import type { Body, CameraPose, Dataset, Quat, RenderOptions, Snapshot, SurfaceH
 import { AU_KM, bodyRadius } from '../contracts'
 import { createCockpit, createShip, updateCockpit } from '../cockpit/models'
 import type { CockpitTelemetry } from '../cockpit/models'
+import { disposeTree } from '../cockpit/parts'
+import { DEFAULT_SHIP, shipDesign } from '../cockpit/ships'
 import { createTerrainPatch, createTerrainSurface } from '../terrain'
 import type { TerrainPatch, TerrainPatchState, TerrainSystem } from '../terrain'
 import { AssetStore, localAssetUrl, positionAttribute } from './assets'
@@ -125,8 +127,9 @@ export class SolarRenderer {
   private proxyMaterial = new THREE.MeshBasicMaterial({ color: 0x777777 })
   private proxy = new THREE.Mesh(this.proxyGeometry, this.proxyMaterial)
   private cockpitScene = new THREE.Scene()
-  private cockpit = createCockpit()
-  private ship = createShip()
+  private shipModel = DEFAULT_SHIP
+  private cockpit = createCockpit(DEFAULT_SHIP)
+  private ship = createShip(DEFAULT_SHIP)
   private shipSun = new THREE.DirectionalLight(0xffffff, 2)
   private observer = new ResizeObserver(() => this.resize())
   private lastFrameMs = 0
@@ -179,9 +182,6 @@ export class SolarRenderer {
     }
     this.proxyScene.add(this.proxy)
     this.cockpitScene.add(this.cockpit, this.ship, this.shipSun, new THREE.HemisphereLight(0xd0ddff, 0x252224, .7))
-    const cabinLight = new THREE.PointLight(0xc2d5e2, 2, 5)
-    cabinLight.position.set(0, .2, -.4)
-    this.cockpit.add(cabinLight)
     for (const body of dataset.bodies) {
       const button = document.createElement('button')
       button.textContent = `· ${body.name}`
@@ -280,6 +280,7 @@ export class SolarRenderer {
     this.pose = camera
     this.options = options
     if (this.quality !== options.quality) { this.quality = options.quality; this.resize() }
+    this.setShipModel(options.shipModel)
     this.camera.position.set(0, 0, 0)
     this.camera.quaternion.fromArray(camera.quaternion)
     this.camera.updateMatrixWorld(true)
@@ -803,6 +804,21 @@ export class SolarRenderer {
     this.renderer.render(this.traceScene, this.camera)
   }
 
+  /** Swaps in another ship's cockpit and exterior and frees the previous ones. Unknown ids fall back to the Kestrel. */
+  private setShipModel(id: string | undefined): void {
+    const next = shipDesign(id).id
+    if (next === this.shipModel) return
+    const cockpit = createCockpit(next)
+    const ship = createShip(next)
+    this.cockpitScene.remove(this.cockpit, this.ship)
+    disposeTree(this.cockpit)
+    disposeTree(this.ship)
+    this.cockpit = cockpit
+    this.ship = ship
+    this.shipModel = next
+    this.cockpitScene.add(cockpit, ship)
+  }
+
   /** Places the cockpit and ship around the camera in meters and refreshes their world matrices. */
   private poseShip(camera: CameraPose, options: RenderOptions): void {
     if (!options.shipPose) return
@@ -908,15 +924,7 @@ export class SolarRenderer {
     this.proxyMaterial.dispose()
     this.stars?.dispose()
     this.flare.dispose()
-    this.cockpitScene.traverse(object => {
-      if (object instanceof THREE.Mesh) {
-        object.geometry.dispose()
-        for (const material of Array.isArray(object.material) ? object.material : [object.material]) {
-          for (const value of Object.values(material)) if (value instanceof THREE.Texture) value.dispose()
-          material.dispose()
-        }
-      }
-    })
+    disposeTree(this.cockpitScene)
     this.renderer.dispose()
     this.domElement.remove()
     this.labelLayer.remove()

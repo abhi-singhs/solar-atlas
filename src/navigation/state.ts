@@ -15,6 +15,8 @@ export interface ViewState {
   observerMode: 'orbit' | 'follow' | 'free'
   inShip: boolean
   camera: 'cockpit' | 'chase'
+  /** Ship design id from `src/cockpit/ships`. */
+  shipModel: string
   shipMode: ShipMode
   speedC: number
   throttleC: number
@@ -75,13 +77,14 @@ export interface SavedSettings {
   glareHidesStars?: boolean
   music?: boolean
   musicVolume?: number
+  shipModel?: string
   bookmarks: Bookmark[]
 }
 
 export const initialState: ViewState = {
   ready: false, loading: 'Opening the source-backed atlas', selectedId: 'earth', bodies: [],
   date: '', jd: 0, firstJd: 0, lastJd: 1, playing: false, timeScale: 3600,
-  observerMode: 'orbit', inShip: false, camera: 'cockpit', shipMode: 'free',
+  observerMode: 'orbit', inShip: false, camera: 'cockpit', shipModel: 'kestrel', shipMode: 'free',
   speedC: 0, throttleC: 0, warp: false, warpArmed: false, referenceId: 'earth',
   altitudeKm: 0, altitudeEstimated: false, verticalKmS: 0, separationKm: 0, observerDistanceKm: 0, etaSeconds: Infinity,
   labels: true, paths: false, quality: matchMedia('(pointer: coarse)').matches ? 'low' : 'high',

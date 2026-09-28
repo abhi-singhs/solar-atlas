@@ -18,6 +18,12 @@ Meshes and maps are converted ahead of time, so no modeling tool is a runtime de
 		<td align="center"><sub>Fly in cockpit or chase view</sub></td>
 	</tr>
 	<tr>
+		<td colspan="2"><img src="docs/screenshots/desktop-hangar.png" alt="The hangar beside the flight panel, with thumbnails of all 15 ships"></td>
+	</tr>
+	<tr>
+		<td colspan="2" align="center"><sub>Pick one of 15 ships in the hangar</sub></td>
+	</tr>
+	<tr>
 		<td colspan="2" align="center">
 			<img src="docs/screenshots/phone-earth.png" alt="Earth explorer interface on a phone" width="360"><br>
 			<sub>Responsive phone layout with touch controls</sub>
@@ -53,7 +59,7 @@ The bookmark button on the body card saves the body and the simulation date. Sav
 
 ## Fly
 
-Enter Spaceship to use an original three-dimensional cockpit or the external chase camera. Flight starts at 1x simulation time.
+Enter Spaceship to fly from a three-dimensional cockpit or the external chase camera. Pick the ship in the hangar, described under [Ships](#ships). Flight starts at 1x simulation time.
 
 | Control | Action |
 | --- | --- |
@@ -84,6 +90,36 @@ Select a destination and choose Travel for assisted transfer. The controller ste
 A route strings several destinations into one trip. In Spaceship mode, add a destination with the + button beside each body in the catalog, the Add destination button on the body card, or the + key for the selected body. The Route section of the flight panel lists stops in order. Each stop either parks nearby or lands (hovers on the giant planets), and you can move stops earlier or remove them.
 
 Start route (or G) flies to the first stop. After each arrival the ship waits five seconds, takes off if it landed, and heads for the next stop. Turn off Auto-continue to leave each stop yourself with Depart now. Auto speed sets each leg's commanded speed so the cruise takes about 30 seconds within the current Warp setting. Legs between planets need Warp, and the route tells you when a leg would take more than a few minutes below c. Pause route brakes the ship, Skip stop moves on, and any manual Travel, Land, or Take off pauses the route. Fly again restarts a finished route.
+
+### Ships
+
+Ship, near the bottom of the expanded flight panel, opens the hangar. Pick a card and the new ship swaps in straight away, exterior and cockpit, even mid-transfer or while landed. The hangar stays open so you can compare. Settings has the same list as a Spaceship menu, and the choice is saved with your other settings.
+
+The hangar holds 15 ships:
+
+| Ship | From | Model size | Pilot eye when landed |
+| --- | --- | --- | --- |
+| Millennium Falcon | Star Wars | 34.75 m | 4 m |
+| X-wing | Star Wars | 12.5 m | 2.75 m |
+| TIE fighter | Star Wars | 7.56 m | 3.78 m |
+| USS Enterprise (1966) | Star Trek | 40 m, scaled from 289 m | 9.2 m |
+| Serenity | Firefly | 40 m, scaled from 82 m | 5.8 m |
+| Planet Express Ship | Futurama | 30.2 m | 7 m |
+| Rocinante | The Expanse | 40 m, scaled from 46 m | 5.4 m |
+| Discovery One | 2001: A Space Odyssey | 40 m, scaled from 140 m | 4 m |
+| Viper Mk II | Battlestar Galactica | 8.5 m | 2.75 m |
+| Nostromo | Alien | 40 m, scaled from 244 m | 11 m |
+| Kestrel (default) | Original design | 8.5 m | 3 m |
+| Atomic | Original design | 16 m | 3 m |
+| Needle | Original design | 11.6 m | 2.5 m |
+| Mule | Original design | 24 m | 4 m |
+| Manta | Original design | 18.1 m | 3 m |
+
+The first ten are unofficial fan tributes. Their designs belong to the rights holders listed in `CREDITS.md`, who have not endorsed them. Every ship, tribute or original, is built in code from three.js boxes, cylinders, lathes, and extrusions. No studio meshes, textures, logos, or lettering are used.
+
+Each ship has its own cockpit with the same live instruments: speed and vertical-speed needles, a heading ring, the warp lamp, throttle bars, and three canvas displays. Only the looks change. All ships share one flight model, speed limit, and collision rule.
+
+Model size is the largest dimension, so the TIE fighter's is its wing height. Ships longer than 40 m are scaled down to 40 m so they can still land, and the chase camera pulls back for bigger ships. Landing sets a ship's lowest point on the ground, and the pilot's eye sits that ship's eye height above it. A landed Kestrel reads 3 m of altitude and a landed Nostromo reads 11 m. Collision protection keeps the same clearance from every surface.
 
 Pausing freezes translation while leaving the interface and free-look usable. A hidden tab pauses the simulation instead of applying a large elapsed-time jump. Leave flight before scrubbing or reversing time.
 
@@ -168,7 +204,7 @@ One-year trajectory lines are cached tracks. They are not fabricated complete or
 
 Hipparcos and Tycho-2 positions are ICRS. Stellar aberration, radial velocity, binary orbits, and variability are left out, and variable stars keep one catalog magnitude. Tycho-2 V and B-V are converted from its own VT and BT bands. Tycho-2 stars have no parallax, and their packed directions round by up to 13 arcseconds. The Milky Way map has no parallax either, and it holds only starlight, so the Carina Nebula shows its stars but not its glowing gas. The tone curve, zoom rule, glare, lens flare, and twilight scales are display choices, not a calibrated eye or camera model.
 
-No n-body spacecraft dynamics, fuel accounting, relativistic optics, live ephemeris refresh, multiplayer, VR, or surface walking is included. The ship, cockpit, flight controls, and added terrain are exploration features, not measured scientific data.
+No n-body spacecraft dynamics, fuel accounting, relativistic optics, live ephemeris refresh, multiplayer, VR, or surface walking is included. The ships, cockpits, flight controls, and added terrain are exploration features, not measured scientific data.
 
 ## Develop
 

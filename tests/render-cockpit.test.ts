@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { DirectionalLight, Group, Mesh, MeshBasicMaterial, PerspectiveCamera, Scene } from 'three'
-import { createCockpit, updateCockpit } from '../src/cockpit/models'
+import { createCockpit, createShip, updateCockpit } from '../src/cockpit/models'
 import { SolarRenderer } from '../src/render/SolarRenderer'
 import type { CameraPose, Dataset, RenderOptions, Snapshot } from '../src/contracts'
 
@@ -108,5 +108,64 @@ describe('renderer live cockpit telemetry', () => {
     settings.flightTelemetry = undefined
     host.drawShip(snapshot, pose, settings)
     expect(updateCockpit).not.toHaveBeenCalled()
+  })
+})
+
+describe('renderer ship model swap', () => {
+  interface SwapHost extends Harness { shipModel: string; setShipModel(id: string | undefined): void }
+  function swapHost(): SwapHost {
+    const host = harness() as SwapHost
+    host.ship = createShip()
+    groups.push(host.ship)
+    host.shipModel = 'kestrel'
+    host.cockpitScene.add(host.cockpit, host.ship)
+    return host
+  }
+  const disposals = (root: Group) => {
+    const spies: ReturnType<typeof vi.fn>[] = []
+    root.traverse(object => {
+      if (!(object instanceof Mesh)) return
+      spies.push(vi.spyOn(object.geometry, 'dispose') as never)
+      for (const material of Array.isArray(object.material) ? object.material : [object.material])
+        spies.push(vi.spyOn(material, 'dispose') as never)
+    })
+    return spies
+  }
+
+  it('replaces both groups in the cockpit scene and frees the old geometry and materials', () => {
+    const host = swapHost()
+    const oldCockpit = host.cockpit, oldShip = host.ship
+    const spies = [...disposals(oldCockpit), ...disposals(oldShip)]
+    host.setShipModel('x-wing')
+    groups.push(host.cockpit, host.ship)
+    expect(host.shipModel).toBe('x-wing')
+    expect(host.cockpit).not.toBe(oldCockpit)
+    expect(host.cockpitScene.children).toContain(host.cockpit)
+    expect(host.cockpitScene.children).toContain(host.ship)
+    expect(host.cockpitScene.children).not.toContain(oldCockpit)
+    expect(host.cockpitScene.children).not.toContain(oldShip)
+    expect(spies.length).toBeGreaterThan(0)
+    for (const spy of spies) expect(spy).toHaveBeenCalled()
+  })
+
+  it('keeps the current models for the same id and falls back to the Kestrel for unknown ids', () => {
+    const host = swapHost()
+    const cockpit = host.cockpit
+    host.setShipModel(undefined)
+    host.setShipModel('kestrel')
+    expect(host.cockpit).toBe(cockpit)
+    host.setShipModel('x-wing')
+    groups.push(host.cockpit, host.ship)
+    host.setShipModel('retired-ship')
+    groups.push(host.cockpit, host.ship)
+    expect(host.shipModel).toBe('kestrel')
+  })
+
+  it('drives the instruments of the newly selected cockpit', () => {
+    const host = swapHost()
+    host.setShipModel('x-wing')
+    groups.push(host.cockpit, host.ship)
+    host.drawShip(snapshot, pose, options())
+    expect(updateCockpit).toHaveBeenLastCalledWith(host.cockpit, expect.objectContaining({ targetName: 'Moon' }))
   })
 })

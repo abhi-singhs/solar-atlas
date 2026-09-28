@@ -1,6 +1,7 @@
 import {
-  ArrowDownToLine, ArrowUpFromLine, ChevronDown, ChevronUp, Eye, EyeOff, LocateFixed, Pause, Play, Rocket, Shield, Square, Volume2, VolumeX, X,
+  ArrowDownToLine, ArrowUpFromLine, ChevronDown, ChevronRight, ChevronUp, Eye, EyeOff, LocateFixed, Pause, Play, Rocket, Shield, Square, Volume2, VolumeX, Warehouse, X,
 } from 'lucide-react'
+import { shipDesign } from '../cockpit/ships'
 import { currentStop, pendingCount } from '../flight/route'
 import type { Body, ShipMode } from '../contracts'
 import { C_KM_S } from '../contracts'
@@ -37,6 +38,8 @@ interface FlightPanelProps {
   onCancel: () => void
   onHide: () => void
   onMusic: () => void
+  hangarOpen: boolean
+  onHangar: () => void
   route: RouteActions
 }
 
@@ -123,6 +126,9 @@ export function FlightPanel(props: FlightPanelProps) {
     </div>
     {actions}
     <div className="ship-secondary">
+      <button className="hangar-row" data-hangar-trigger aria-expanded={props.hangarOpen} title="Choose a ship" onClick={props.onHangar}>
+        <Warehouse size={15} /><span>Ship</span><strong>{shipDesign(view.shipModel).name}</strong><ChevronRight size={15} className="chevron" />
+      </button>
       <button onClick={props.onCamera} title="Switch camera (C)" aria-keyshortcuts="C"><Eye size={15} />{view.camera === 'cockpit' ? 'Chase view' : 'Cockpit'}</button>
       <button onClick={props.onLookForward}><LocateFixed size={15} />Look forward</button>
       <button onClick={props.onTogglePlay} title="Pause or resume (P)" aria-keyshortcuts="P">
