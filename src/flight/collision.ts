@@ -79,6 +79,8 @@ export function sweep(
   alpha0: number,
   alpha1: number,
   warp: boolean,
+  /** Distance from the surface that counts as contact, the ship's touchdown height. */
+  clearanceKm = CLEARANCE_KM,
 ): SweptHit | null {
   let nearest: SweptHit | null = null
   for (const body of bodies) {
@@ -96,7 +98,7 @@ export function sweep(
         nearest = { body, fraction, state, normal, zone: true }
       }
     }
-    const interval = sphereInterval(r0, r1, bodyRadius(body) * 1.25 + CLEARANCE_KM)
+    const interval = sphereInterval(r0, r1, bodyRadius(body) * 1.25 + clearanceKm)
     if (!interval || (nearest && interval[0] > nearest.fraction)) continue
     const signedDistance = (t: number): { distance: number; normal: Vector3; state: BodyState } => {
       const state = stateAt(before, after, body.id, alpha0 + (alpha1 - alpha0) * t)!
@@ -107,7 +109,7 @@ export function sweep(
       const radius = hit ? vector(hit.point).length() : bodyRadius(body)
       const normal = hit ? vector(hit.normal).applyQuaternion(q) : relative.clone().normalize()
       if (normal.lengthSq() < 1e-20) normal.set(0, 1, 0)
-      return { distance: local.length() - radius - CLEARANCE_KM, normal, state }
+      return { distance: local.length() - radius - clearanceKm, normal, state }
     }
     const [lo, hi] = interval
     let previous = lo

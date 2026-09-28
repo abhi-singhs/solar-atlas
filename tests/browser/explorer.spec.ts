@@ -184,6 +184,80 @@ test('sun lens flare and star glare settings persist', async ({ page }, testInfo
     .toMatchObject({ lensFlare: false, glareHidesStars: true })
 })
 
+test('hangar swaps every ship in cockpit and chase view and remembers the choice', async ({ page }, testInfo) => {
+  test.setTimeout(180000)
+  const errors: string[] = []
+  page.on('pageerror', error => errors.push(error.message))
+  page.on('console', message => { if (message.type() === 'error') errors.push(message.text()) })
+  const saved = async () => JSON.parse(await page.evaluate(() => localStorage.getItem('solar-atlas-settings-v1') ?? '{}'))
+  const hangar = page.getByRole('group', { name: 'Choose a ship' })
+  const shipRow = page.getByRole('button', { name: /^Ship / })
+  const openHangar = async () => {
+    await setFlightPanel(page, true)
+    if (!await hangar.isVisible()) await shipRow.click()
+    await expect(hangar).toBeVisible()
+  }
+  await openApp(page)
+  await page.getByRole('button', { name: 'Spaceship', exact: true }).click()
+  await openHangar()
+  const cards = hangar.locator('.ship-card')
+  await expect(cards).toHaveCount(15)
+  await expect(hangar.locator('.ship-thumb img')).toHaveCount(15, { timeout: 60000 })
+  await expect(hangar.locator('[data-ship-id="kestrel"]')).toHaveAttribute('aria-pressed', 'true')
+  await expect(hangar.getByRole('region', { name: 'Fan tributes' }).locator('.ship-card')).toHaveCount(10)
+  await expect(hangar.getByRole('region', { name: 'Original designs' }).locator('.ship-card')).toHaveCount(5)
+  await page.screenshot({ path: `artifacts/${testInfo.project.name}-hangar.png` })
+
+  const ids = await cards.evaluateAll(nodes => nodes.map(node => (node as HTMLElement).dataset.shipId!))
+  for (const id of ids) {
+    await hangar.locator(`[data-ship-id="${id}"]`).click()
+    await expect(hangar.locator(`[data-ship-id="${id}"]`)).toHaveAttribute('aria-pressed', 'true')
+    await page.waitForTimeout(120)
+  }
+  await hangar.locator('[data-ship-id="enterprise-1966"]').click()
+  await expect(hangar.getByText('Unofficial fan tribute')).toBeVisible()
+  await expect(hangar.getByText('Star Trek and its ships belong to CBS Studios.', { exact: false })).toBeVisible()
+  await page.keyboard.press('Escape')
+  await expect(hangar).toBeHidden()
+  await expect(shipRow).toContainText('USS Enterprise (1966)')
+
+  await page.getByRole('button', { name: 'Chase view', exact: true }).click()
+  await openHangar()
+  for (const id of ids) {
+    await hangar.locator(`[data-ship-id="${id}"]`).click()
+    await page.waitForTimeout(120)
+  }
+  await hangar.locator('[data-ship-id="millennium-falcon"]').click()
+  await hangar.getByRole('button', { name: 'Close hangar' }).click()
+  await expect(hangar).toBeHidden()
+  await page.waitForTimeout(1000)
+  await page.screenshot({ path: `artifacts/${testInfo.project.name}-ship-falcon-chase.png` })
+  expect(await saved()).toMatchObject({ shipModel: 'millennium-falcon' })
+
+  await page.reload()
+  await expect(page.getByRole('button', { name: 'Find a world' })).toBeVisible({ timeout: 90000 })
+  await page.getByRole('button', { name: 'Settings' }).click()
+  const select = page.getByRole('dialog', { name: 'Settings' }).getByRole('combobox', { name: 'Spaceship' })
+  await expect(select).toHaveValue('millennium-falcon')
+  await select.selectOption('x-wing')
+  await page.getByRole('dialog', { name: 'Settings' }).getByRole('button', { name: 'Close dialog' }).click()
+  expect(await saved()).toMatchObject({ shipModel: 'x-wing' })
+  await page.getByRole('button', { name: 'Spaceship', exact: true }).click()
+  await setFlightPanel(page, true)
+  await expect(shipRow).toContainText('X-wing')
+
+  // A ship removed from a later release falls back to the Kestrel and keeps the other settings.
+  await page.evaluate(() => {
+    const settings = JSON.parse(localStorage.getItem('solar-atlas-settings-v1') ?? '{}')
+    localStorage.setItem('solar-atlas-settings-v1', JSON.stringify({ ...settings, shipModel: 'retired-ship', lensFlare: false }))
+  })
+  await page.reload()
+  await expect(page.getByRole('button', { name: 'Find a world' })).toBeVisible({ timeout: 90000 })
+  await expect(page.locator('.notice')).toContainText('no longer in the hangar')
+  expect(await saved()).toMatchObject({ shipModel: 'kestrel', lensFlare: false })
+  expect(errors).toEqual([])
+})
+
 test('plans a multi-stop route and flies it with a landing stop', async ({ page }, testInfo) => {
   test.setTimeout(testInfo.project.name === 'desktop' ? 300000 : 120000)
   const errors: string[] = []

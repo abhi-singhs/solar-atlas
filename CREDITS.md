@@ -46,6 +46,25 @@ The application exports source geometry into browser-readable assets and adapts 
 
 Reduced-resolution texture variants and mesh detail levels support smaller devices. Full prepared source maps and geometry remain available. Display adaptations do not change authoritative body dimensions or cached state values.
 
-The spacecraft, cockpit geometry, flight controls, and added local terrain are original reconstructed content for this application. They are not mission hardware models, surveyed landscapes, or physical flight predictions.
+The Kestrel, Atomic, Needle, Mule, and Manta spacecraft, every cockpit, the flight controls, and the added local terrain are original reconstructed content for this application. They are not mission hardware models, surveyed landscapes, or physical flight predictions.
+
+## Fan tribute ships
+
+Ten ships in the hangar are unofficial fan tributes to spacecraft from film and television. This project is not affiliated with or endorsed by the rights holders below. The names, designs, and franchises belong to them.
+
+| Ship | Franchise | Rights holder |
+| --- | --- | --- |
+| Millennium Falcon | Star Wars | Lucasfilm Ltd. |
+| X-wing | Star Wars | Lucasfilm Ltd. |
+| TIE fighter | Star Wars | Lucasfilm Ltd. |
+| USS Enterprise (1966) | Star Trek | CBS Studios |
+| Serenity | Firefly | 20th Television |
+| Planet Express Ship | Futurama | 20th Television |
+| Rocinante | The Expanse | Alcon Entertainment |
+| Discovery One | 2001: A Space Odyssey | Turner Entertainment Co. |
+| Viper Mk II | Battlestar Galactica | Universal Content Productions |
+| Nostromo | Alien | 20th Century Studios |
+
+Each tribute is modeled by hand in `src/cockpit/ships/` from three.js primitives. No studio meshes, textures, fonts, logos, insignia, lettering, or registry numbers are copied. Ships longer than 40 m are scaled down, and their cockpits are new interiors made for this app. The MIT license covers this repository's code. It grants no rights in the franchises or their designs.
 
 React, Three.js, Vite, Lucide, and supporting packages retain their respective open-source licenses in the dependency installation.

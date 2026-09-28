@@ -5,6 +5,7 @@ import { loadDataset } from '../simulation/dataset'
 import { SolarRenderer } from '../render/SolarRenderer'
 import { FlightController } from '../flight/FlightController'
 import type { FlightTelemetry } from '../flight/FlightController'
+import { CHASE_PITCH, DEFAULT_SHIP, isShipId, shipDesign, shipProfile } from '../cockpit/ships'
 import {
   addStop, canLandOn, cruiseSeconds, currentStop, DWELL_SECONDS, legSpeedC, markStop, moveStop, removeStop,
   resetRoute, setAction, SLOW_LEG_SECONDS,
@@ -17,7 +18,7 @@ import { initialState } from './state'
 import type { Notice, NoticeTone, SavedSettings, ViewState } from './state'
 
 const SETTINGS_KEY = 'solar-atlas-settings-v1'
-type OptionKey = 'labels' | 'paths' | 'quality' | 'exposure' | 'fov' | 'lensFlare' | 'glareHidesStars'
+type OptionKey = 'labels' | 'paths' | 'quality' | 'exposure' | 'fov' | 'lensFlare' | 'glareHidesStars' | 'shipModel'
 type RouteOption = 'routeAutoContinue' | 'routeAutoSpeed'
 const RUNNING = new Set(['departing', 'enroute', 'dwell'])
 
@@ -85,6 +86,7 @@ export class Explorer {
     })
     this.renderer.setFieldOfView(this.state.fov)
     this.flight = new FlightController(dataset.bodies, this.renderer.surface)
+    this.flight.setShipProfile(shipProfile(this.state.shipModel))
     this.publish({ loading: 'Preparing Earth at its physical scale', bodies: dataset.bodies,
       jd: dataset.firstJd, firstJd: dataset.firstJd, lastJd: dataset.lastJd, date: dataset.jdToUtc(dataset.firstJd) })
     await this.renderer.ensureBody('earth')
@@ -140,7 +142,7 @@ export class Explorer {
       const camera = this.state.inShip ? this.flight.camera(this.state.camera) : this.observer.pose(this.snapshot)
       if (this.state.inShip && this.state.camera === 'chase') {
         const rotation = new Quaternion(...camera.quaternion)
-          .multiply(new Quaternion().setFromAxisAngle(new Vector3(1, 0, 0), -0.17))
+          .multiply(new Quaternion().setFromAxisAngle(new Vector3(1, 0, 0), CHASE_PITCH))
         camera.quaternion = [rotation.x, rotation.y, rotation.z, rotation.w]
       }
       const telemetry = this.state.inShip ? this.flight.telemetry(this.snapshot) : undefined
@@ -149,7 +151,7 @@ export class Explorer {
         selectedId: this.state.selectedId, labels: this.state.labels, paths: this.state.paths,
         quality: this.state.quality, exposure: this.state.exposure, cockpit: this.state.inShip && this.state.camera === 'cockpit',
         chase: this.state.inShip && this.state.camera === 'chase',
-        lensFlare: this.state.lensFlare, glareHidesStars: this.state.glareHidesStars,
+        lensFlare: this.state.lensFlare, glareHidesStars: this.state.glareHidesStars, shipModel: this.state.shipModel,
         shipPose: this.state.inShip ? this.flight.pose() : undefined,
         landingBodyId: telemetry?.landingBodyId,
         flightTelemetry: telemetry,
@@ -524,6 +526,10 @@ export class Explorer {
 
   option<K extends OptionKey>(key: K, value: ViewState[K]): void {
     if (key === 'fov' && typeof value === 'number') this.renderer?.setFieldOfView(value)
+    if (key === 'shipModel') {
+      if (!isShipId(value)) throw new Error(`Unknown spaceship ${String(value)}.`)
+      this.flight?.setShipProfile(shipProfile(value))
+    }
     this.publish({ [key]: value })
     this.save()
   }
@@ -552,7 +558,7 @@ export class Explorer {
   private save(): void {
     const settings: SavedSettings = { version: 1, labels: this.state.labels, paths: this.state.paths,
       quality: this.state.quality, exposure: this.state.exposure, fov: this.state.fov, lensFlare: this.state.lensFlare,
-      glareHidesStars: this.state.glareHidesStars, bookmarks: this.state.bookmarks }
+      glareHidesStars: this.state.glareHidesStars, shipModel: this.state.shipModel, bookmarks: this.state.bookmarks }
     try { localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)) }
     catch (e) { this.publish({ notice: this.note(`Settings could not be saved in this browser: ${e instanceof Error ? e.message : String(e)}`, 'error') }) }
   }
@@ -587,8 +593,19 @@ export class Explorer {
         if (typeof value !== 'boolean') throw new Error(`Saved ${key === 'lensFlare' ? 'lens flare' : 'star glare'} setting is invalid.`)
         return value
       }
+      let shipModel = this.state.shipModel
+      let retiredShip = false
+      if ('shipModel' in parsed) {
+        if (typeof parsed.shipModel !== 'string') throw new Error('Saved spaceship is invalid.')
+        retiredShip = !isShipId(parsed.shipModel)
+        shipModel = retiredShip ? DEFAULT_SHIP : parsed.shipModel
+      }
       this.state = { ...this.state, labels: parsed.labels, paths: parsed.paths, quality: parsed.quality, exposure: parsed.exposure, fov,
-        lensFlare: flag('lensFlare'), glareHidesStars: flag('glareHidesStars'), bookmarks }
+        lensFlare: flag('lensFlare'), glareHidesStars: flag('glareHidesStars'), shipModel, bookmarks }
+      if (retiredShip) {
+        this.state.notice = this.note(`The saved spaceship is no longer in the hangar, so you are flying the ${shipDesign(DEFAULT_SHIP).name}.`)
+        this.save()
+      }
     } catch (e) {
       this.state.notice = this.note(`Using default settings because saved preferences could not be restored: ${e instanceof Error ? e.message : String(e)}`, 'warning')
     }

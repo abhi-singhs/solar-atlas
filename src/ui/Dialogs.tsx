@@ -5,8 +5,11 @@ import type { Body } from '../contracts'
 import type { ViewState } from '../navigation/state'
 import type { Appearance } from './BodyCard'
 import { formatNumber } from './format'
+import { SHIPS } from '../cockpit/ships'
+import { SHIP_GROUPS, meters } from './shipText'
 
 const base = import.meta.env.BASE_URL
+const eyeHeights = SHIPS.map(ship => ship.eyeHeightM)
 
 function Modal({ title, onClose, children }: { title: string; onClose: () => void; children: ReactNode }) {
   const dialog = useRef<HTMLDialogElement>(null)
@@ -24,7 +27,7 @@ function Modal({ title, onClose, children }: { title: string; onClose: () => voi
 interface SettingsProps {
   view: ViewState
   onClose: () => void
-  onOption: <K extends 'quality' | 'exposure' | 'fov' | 'labels' | 'paths' | 'lensFlare' | 'glareHidesStars'>(key: K, value: ViewState[K]) => void
+  onOption: <K extends 'quality' | 'exposure' | 'fov' | 'labels' | 'paths' | 'lensFlare' | 'glareHidesStars' | 'shipModel'>(key: K, value: ViewState[K]) => void
 }
 
 export function SettingsDialog({ view, onClose, onOption }: SettingsProps) {
@@ -41,6 +44,14 @@ export function SettingsDialog({ view, onClose, onOption }: SettingsProps) {
       </label>
       <label>Field of view <span className="setting-value">{view.fov} degrees</span>
         <input type="range" aria-label="Field of view" min="25" max="100" step="1" value={view.fov} onChange={event => onOption('fov', Number(event.target.value))} />
+      </label>
+      <label>Spaceship
+        <select value={view.shipModel} aria-describedby="ship-note" onChange={event => onOption('shipModel', event.target.value)}>
+          {SHIP_GROUPS.map(([title, ships]) => <optgroup key={title} label={title}>
+            {ships.map(ship => <option key={ship.id} value={ship.id}>{ship.franchise ? `${ship.name} (${ship.franchise})` : ship.name}</option>)}
+          </optgroup>)}
+        </select>
+        <small id="ship-note">You can also switch ships from the flight panel. Fan tributes are unofficial and not endorsed by their rights holders.</small>
       </label>
       <label>Interface theme
         <select defaultValue={document.documentElement.dataset.theme ?? 'dark'} onChange={event => document.documentElement.setAttribute('data-theme', event.target.value)}>
@@ -77,7 +88,7 @@ export function HelpDialog({ onClose, onSources }: { onClose: () => void; onSour
     </div>
     <p>On touch screens, hold the Steer or Look pad and drag. Release to center it. The roll, thrust, and vertical buttons act while held. Expand the flight panel for speed and camera controls. Menus do not pass input through to the ship.</p>
     <h3>Explore</h3><p>Drag to orbit a body. Scroll or pinch to zoom. Search the catalog to find all 71 bodies, including those too small to see at their real size. Go to body is an instant camera move, not a simulated journey. The View menu frames the local, inner, or whole solar system and shows or hides labels and trajectories.</p>
-    <h3>Fly</h3><p>Enter Spaceship for cockpit or chase view. Set a speed in c and choose Travel for an assisted transfer. Warp must be enabled before speeds reach or exceed light speed. Brake stops relative motion; Cancel autopilot returns steering to you.</p><p>Travel, Land, and routes are steering aids, not solved orbits. Arrival times estimate the target's motion, and a ship that parks near a body holds a position rather than a computed orbit. Altitude marked est. uses the catalog radius because no surface geometry is loaded there.</p>
+    <h3>Fly</h3><p>Enter Spaceship for cockpit or chase view. Set a speed in c and choose Travel for an assisted transfer. Warp must be enabled before speeds reach or exceed light speed. Brake stops relative motion; Cancel autopilot returns steering to you.</p><p>Ship, near the bottom of the expanded flight panel, opens the hangar. It holds {SHIPS.length} ships: fan tributes to spacecraft from film and TV, and original designs. Switching ships changes the exterior and the cockpit, not the flight model. Settings has the same choice. Bigger ships land with the pilot's eye higher off the ground, so a landed ship reads {meters(Math.min(...eyeHeights))} to {meters(Math.max(...eyeHeights))} of altitude depending on the design.</p><p>Travel, Land, and routes are steering aids, not solved orbits. Arrival times estimate the target's motion, and a ship that parks near a body holds a position rather than a computed orbit. Altitude marked est. uses the catalog radius because no surface geometry is loaded there.</p>
     <h3>Plan a route</h3><p>In Spaceship mode, add destinations with the + button next to each body in the catalog, the Add destination button on the body card, or the + key. The route in the flight panel lists them in order. For each stop, choose whether the ship parks nearby or lands, move stops earlier, or remove them.</p><p>Start route flies to the first stop. After each arrival the ship waits five seconds, takes off if it landed, and heads for the next stop. Turn off Auto-continue to leave each stop yourself with Depart now. Auto speed sets each leg's speed so the cruise takes about 30 seconds. Legs between planets need Warp. You can arm Warp while parked near a body, and it engages once the ship clears the exclusion zone.</p>
     <h3>Land and take off</h3><p>Select a solid body and choose Land for an assisted approach. In Explore mode, Pick site and land lets you tap a visible part of the source mesh and launch an assisted descent there. Close to a body, the safety controller limits speed. Gas and ice giants allow simulated hovering, not surface landing. The Sun cannot be landed on.</p><p>Ground detail is reconstructed. Original planet dimensions, source meshes, and data remain separate. No terrain here is suitable for real navigation.</p>
     <h3>What the clock means</h3><p>c means 299,792.458 km/s per simulated second. Flight defaults to 1x time. Pausing stops the ship and bodies but leaves free-look available. Leave flight before scrubbing time or reversing playback.</p><p>Speed is relative to the reference body's center, not its rotating ground. A landed ship can show nonzero speed because the planet carries it through its rotation.</p>
@@ -102,6 +113,6 @@ export function SourcesDialog({ body, source, onClose }: { body?: Body; source?:
       <a href={`${base}data/orientations.json`} target="_blank" rel="noreferrer">Orientation models and limits <ExternalLink size={14} /></a>
       <a href={`${base}assets/manifest.json`} target="_blank" rel="noreferrer">Ring dimensions and render metadata <ExternalLink size={14} /></a>
     </div>
-    <h3>Limits that matter</h3><p>States cover one cached year. Phobos uses a finer 15-minute track; most other bodies use hourly samples. Interpolation, approximate orientations, and renderer precision introduce error. UTC labels assume the pinned leap-second table. Neither the original Blender scene nor this app is navigation-grade.</p><p>Spacecraft behavior, the cockpit, and added ground detail are original exploration features. Faster-than-light travel is fictional. The application makes no live ephemeris requests.</p>
+    <h3>Limits that matter</h3><p>States cover one cached year. Phobos uses a finer 15-minute track; most other bodies use hourly samples. Interpolation, approximate orientations, and renderer precision introduce error. UTC labels assume the pinned leap-second table. Neither the original Blender scene nor this app is navigation-grade.</p><p>Spacecraft behavior, the cockpits, and added ground detail are original exploration features. The fan tribute ships are unofficial models built from simple shapes in this app. Their designs belong to their rights holders, who have not endorsed them. Faster-than-light travel is fictional. The application makes no live ephemeris requests.</p>
   </Modal>
 }

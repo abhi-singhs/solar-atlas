@@ -64,6 +64,8 @@ export interface RenderOptions {
   lensFlare: boolean
   /** Dim the stars and Milky Way while the Sun is in view. Daylight inside an atmosphere hides them regardless. */
   glareHidesStars: boolean
+  /** Ship design id from `src/cockpit/ships`. Missing or unknown ids draw the Kestrel. */
+  shipModel?: string
   shipPose?: CameraPose
   landingBodyId?: string
   flightTelemetry?: {

@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { Quaternion, Vector3 } from 'three'
 import type { Body, BodyState, CameraPose, Snapshot, SurfaceProvider, Vec3 } from '../src/contracts'
 import { C_KM_S } from '../src/contracts'
-import { FlightController, MAX_FLIGHT_DT_SECONDS, NORMAL_LIMIT_C, WARP_LIMIT_C } from '../src/flight/FlightController'
+import { DEFAULT_SHIP_PROFILE, FlightController, MAX_FLIGHT_DT_SECONDS, NORMAL_LIMIT_C, WARP_LIMIT_C } from '../src/flight/FlightController'
 import type { FlightInput, LandingSurfaceProvider } from '../src/flight/FlightController'
 import { CLEARANCE_KM, sweep } from '../src/flight/collision'
 import { createTerrainPatch, createTerrainSurface } from '../src/terrain'
@@ -678,5 +678,64 @@ describe('landing and takeoff', () => {
     expect(flight.telemetry(snap()).altitudeKm).toBe(1)
     flight.land('missing', snap())
     expect(flight.telemetry(snap()).message).toContain('unavailable')
+  })
+})
+
+describe('ship profiles', () => {
+  const tall = { touchdownKm: 0.008, chaseOffsetKm: [0, 0.03, 0.06] as const }
+
+  it('keeps the Kestrel defaults until a profile is applied', () => {
+    expect(DEFAULT_SHIP_PROFILE).toEqual({ touchdownKm: CLEARANCE_KM, chaseOffsetKm: [0, 0.007, 0.02] })
+    const flight = setup([earth], snap(), pose([0, 0, 2]))
+    const ship = flight.pose()
+    flight.setShipProfile(tall)
+    const offset = vector(flight.camera('chase').position).sub(vector(ship.position))
+    expect(offset.distanceTo(new Vector3(0, 0.03, 0.06))).toBeLessThan(1e-12)
+    expect(flight.camera('cockpit').position).toEqual(ship.position)
+    expect(() => flight.setShipProfile({ ...tall, touchdownKm: 0.013 })).toThrow('12 m')
+    expect(() => flight.setShipProfile({ ...tall, touchdownKm: 0 })).toThrow()
+    expect(() => flight.setShipProfile({ ...tall, chaseOffsetKm: [0, Number.NaN, 0] })).toThrow()
+  })
+
+  it('lands a tall ship with its eye at the profile touchdown height', () => {
+    const flight = setup([earth], snap(), pose([0, 0, 2]))
+    flight.setShipProfile(tall)
+    flight.land('earth', snap())
+    for (let i = 0; i < 4000 && flight.telemetry(snap()).mode !== 'landed'; i++) flight.update(0.1, snap(), input)
+    expect(flight.telemetry(snap()).mode).toBe('landed')
+    expect(flight.telemetry(snap()).altitudeKm).toBeCloseTo(0.008, 7)
+    expect(vector(flight.pose().position).length()).toBeCloseTo(1.008, 7)
+    expect(flight.telemetry(snap()).message).not.toContain('safety stop')
+  })
+
+  it('re-seats a landed ship when the pilot switches to a taller or shorter model', () => {
+    const flight = setup([earth], snap(), pose([0, 0, 2]))
+    flight.land('earth', snap())
+    for (let i = 0; i < 4000 && flight.telemetry(snap()).mode !== 'landed'; i++) flight.update(0.1, snap(), input)
+    expect(flight.telemetry(snap()).altitudeKm).toBeCloseTo(CLEARANCE_KM, 7)
+    flight.setShipProfile(tall)
+    flight.update(0.1, snap(), input)
+    expect(flight.telemetry(snap()).mode).toBe('landed')
+    expect(flight.telemetry(snap()).altitudeKm).toBeCloseTo(0.008, 7)
+    flight.setShipProfile(DEFAULT_SHIP_PROFILE)
+    flight.update(0.1, snap(), input)
+    expect(flight.telemetry(snap()).altitudeKm).toBeCloseTo(CLEARANCE_KM, 7)
+  })
+
+  it('stops a tall ship at its own clearance instead of sinking the hull into the ground', () => {
+    const flight = setup([earth], snap(), pose([0, 0, 1.05]))
+    flight.setShipProfile(tall)
+    flight.setThrottle(0.001)
+    for (let i = 0; i < 200; i++) flight.update(0.05, snap(), { ...input, forward: 1 })
+    expect(vector(flight.pose().position).length()).toBeGreaterThanOrEqual(1 + 0.008 - 1e-6)
+    expect(flight.telemetry(snap()).message).toContain('Surface safety stop')
+  })
+
+  it('passes the touchdown height to the swept collision test', () => {
+    const start = new Vector3(0, 0, 1.02)
+    const end = new Vector3(0, 0, 1.005)
+    const args = [[earth], spheres([earth]), start, end, snap(), snap(), 0, 1, false] as const
+    expect(sweep(...args)).toBeNull()
+    expect(sweep(...args, 0.008)?.fraction).toBeCloseTo((1.02 - 1.008) / 0.015, 6)
   })
 })

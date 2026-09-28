@@ -3,7 +3,8 @@ import { ChevronUp, Compass, EyeOff, Layers3, Maximize, Orbit, Pause, Play } fro
 import type { ViewState } from '../navigation/state'
 import { Popover } from './Popover'
 
-export type DockMenu = 'date' | 'view' | null
+/** Only one popover is open at a time. The hangar belongs to the flight panel but shares this state. */
+export type DockMenu = 'date' | 'view' | 'hangar' | null
 type Frame = 'local' | 'inner' | 'all'
 
 const rates: [number, string][] = [
@@ -30,7 +31,7 @@ interface DockProps {
 
 export function Dock({ view, date, menu, onMenu, ...actions }: DockProps) {
   const [dateInput, setDateInput] = useState('')
-  const toggle = (next: Exclude<DockMenu, null>) => {
+  const toggle = (next: 'date' | 'view') => {
     if (next === 'date' && menu !== 'date') setDateInput(view.date.slice(0, 16))
     onMenu(menu === next ? null : next)
   }
