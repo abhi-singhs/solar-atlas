@@ -32,12 +32,26 @@ export function stageShip(design: ShipDesign, view: PreviewView, aspect: number,
     camera.position.set(design.chaseM[0], design.chaseM[1], design.chaseM[2])
     camera.quaternion.setFromAxisAngle(new THREE.Vector3(1, 0, 0), CHASE_PITCH)
   } else {
+    // Start from the bounding sphere, then pull in until the box corners fill about 86% of the frame.
     const bounds = new THREE.Box3().setFromObject(model, true)
     const sphere = bounds.getBoundingSphere(new THREE.Sphere())
     const direction = new THREE.Vector3(-0.78, 0.42, -0.95).normalize()
     const vertical = THREE.MathUtils.degToRad(fov) / 2
     const horizontal = Math.atan(Math.tan(vertical) * aspect)
-    const distance = sphere.radius / Math.sin(Math.min(vertical, horizontal)) * 0.92
+    let distance = sphere.radius / Math.sin(Math.min(vertical, horizontal))
+    const corners = [0, 1, 2, 3, 4, 5, 6, 7].map(i => new THREE.Vector3(
+      i & 1 ? bounds.max.x : bounds.min.x, i & 2 ? bounds.max.y : bounds.min.y, i & 4 ? bounds.max.z : bounds.min.z))
+    for (let pass = 0; pass < 4; pass++) {
+      camera.position.copy(sphere.center).addScaledVector(direction, distance)
+      camera.lookAt(sphere.center)
+      camera.updateMatrixWorld(true)
+      camera.updateProjectionMatrix()
+      const extent = Math.max(...corners.map(corner => {
+        const p = corner.clone().project(camera)
+        return Math.max(Math.abs(p.x), Math.abs(p.y))
+      }))
+      distance = Math.max(sphere.radius * 1.05, distance * (0.3 + 0.7 * extent / 0.86))
+    }
     camera.position.copy(sphere.center).addScaledVector(direction, distance)
     camera.lookAt(sphere.center)
   }

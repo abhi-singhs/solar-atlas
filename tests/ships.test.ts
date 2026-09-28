@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it } from 'vitest'
 import * as THREE from 'three'
-import { CHASE_PITCH, DEFAULT_SHIP, SHIPS, isShipId, shipDesign } from '../src/cockpit/ships'
+import { CHASE_PITCH, DEFAULT_SHIP, SHIPS, isShipId, shipDesign, shipProfile } from '../src/cockpit/ships'
+import { DEFAULT_SHIP_PROFILE } from '../src/flight/FlightController'
 import type { ShipDesign } from '../src/cockpit/ships'
 import { updateCockpit } from '../src/cockpit/models'
 import { disposeTree } from '../src/cockpit/parts'
@@ -36,6 +37,16 @@ describe('ship registry', () => {
     expect(isShipId('x-wing')).toBe(true)
     expect(isShipId('not-a-ship')).toBe(false)
     expect(isShipId(3)).toBe(false)
+  })
+
+  it('converts each design to a flight profile in kilometers, with the Kestrel matching the flight defaults', () => {
+    expect(shipProfile(DEFAULT_SHIP).touchdownKm).toBeCloseTo(DEFAULT_SHIP_PROFILE.touchdownKm, 12)
+    shipProfile(DEFAULT_SHIP).chaseOffsetKm.forEach((value, i) => expect(value).toBeCloseTo(DEFAULT_SHIP_PROFILE.chaseOffsetKm[i]!, 12))
+    for (const design of SHIPS) {
+      const profile = shipProfile(design.id)
+      expect(profile.touchdownKm).toBeCloseTo(design.eyeHeightM / 1000, 12)
+      expect(profile.chaseOffsetKm.map(km => km * 1000)).toEqual(design.chaseM.map(m => expect.closeTo(m, 9)))
+    }
   })
 
   it.each(SHIPS.map(ship => [ship.id, ship] as const))('%s credits its source and states plausible sizes', (_, design) => {

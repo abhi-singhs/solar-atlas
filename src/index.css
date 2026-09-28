@@ -87,7 +87,7 @@ kbd { font-family: Consolas, "Courier New", Courier, monospace; color: var(--cp-
 .link-button { border: 0; background: transparent; padding: 0; min-height: 32px; gap: 6px; font-size: 12px; color: var(--cp-text-muted); }
 .link-button:hover { background: transparent; color: var(--cp-text); }
 
-.atlas { --edge: 24px; --top: 16px; --bar: 44px; --below-bar: calc(var(--top) + var(--bar) + 16px); --touch-reserve: 16px; position: relative; width: 100%; height: 100dvh; min-height: 300px; overflow: hidden; }
+.atlas { --edge: 24px; --top: 16px; --bar: 44px; --below-bar: calc(var(--top) + var(--bar) + 16px); --touch-reserve: 16px; --flight-width: 300px; position: relative; width: 100%; height: 100dvh; min-height: 300px; overflow: hidden; }
 .atlas.has-touch { --touch-reserve: 300px; }
 .universe { position: absolute; inset: 0; outline: none; touch-action: none; }
 .universe canvas { display: block; }
@@ -188,7 +188,7 @@ kbd { font-family: Consolas, "Courier New", Courier, monospace; color: var(--cp-
 .has-touch.is-flying .hint { bottom: calc(284px + env(safe-area-inset-bottom)); }
 @keyframes hint-in { from { opacity: 0; transform: translate(-50%, 6px); } }
 
-.flight-panel { position: absolute; z-index: 12; top: var(--below-bar); left: var(--edge); width: 300px; max-height: calc(100dvh - var(--below-bar) - var(--touch-reserve)); overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; display: flex; flex-direction: column; gap: 14px; padding: 12px 14px 14px; }
+.flight-panel { position: absolute; z-index: 12; top: var(--below-bar); left: var(--edge); width: var(--flight-width); max-height: calc(100dvh - var(--below-bar) - var(--touch-reserve)); overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; display: flex; flex-direction: column; gap: 14px; padding: 12px 14px 14px; }
 .flight-header { display: flex; align-items: flex-start; gap: 8px; }
 .flight-summary { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
 .ship-status { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 8px; font-size: 13px; font-weight: 600; }
@@ -217,6 +217,36 @@ kbd { font-family: Consolas, "Courier New", Courier, monospace; color: var(--cp-
 .ship-secondary button { justify-content: flex-start; min-height: 34px; padding: 6px 8px; font-size: 12px; color: var(--cp-text-soft); background: transparent; border-color: transparent; }
 .ship-secondary button:hover { color: var(--cp-text); background: var(--cp-surface-soft); border-color: transparent; }
 .ship-secondary .wide-row { grid-column: 1 / -1; color: var(--cp-warning-text); }
+.ship-secondary .hangar-row { grid-column: 1 / -1; gap: 8px; }
+.hangar-row strong { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: right; font-weight: 600; color: var(--cp-text); }
+.hangar-row .chevron { flex-shrink: 0; color: var(--cp-text-muted); transition: transform .2s ease-out; }
+.hangar-row[aria-expanded="true"] { color: var(--cp-accent); background: var(--cp-accent-soft); }
+.hangar-row[aria-expanded="true"] .chevron { transform: rotate(180deg); }
+
+/* The hangar opens beside the flight panel, which scrolls and would clip a nested popover. */
+.hangar { position: absolute; z-index: 22; top: var(--below-bar); left: calc(var(--edge) + var(--flight-width) + 10px); width: min(456px, calc(100% - var(--flight-width) - 2 * var(--edge) - 10px)); max-height: calc(100dvh - var(--below-bar) - var(--edge)); display: flex; flex-direction: column; overflow: hidden; box-shadow: var(--cp-shadow); animation: popover-in .18s cubic-bezier(.16, 1, .3, 1); }
+.hangar-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; padding: 12px 8px 10px 16px; border-bottom: 1px solid var(--cp-border); }
+.hangar-header h2 { margin: 0; font-size: 16px; font-weight: 600; letter-spacing: -.2px; }
+.hangar-header p { margin: 0; font-size: 12px; color: var(--cp-text-muted); }
+.hangar-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; padding: 10px 12px 12px; display: flex; flex-direction: column; gap: 10px; }
+.hangar-group { display: flex; flex-direction: column; gap: 6px; }
+.hangar-group h3 { margin: 0 2px; }
+.hangar-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(124px, 1fr)); gap: 8px; }
+.ship-card { flex-direction: column; align-items: stretch; justify-content: flex-start; gap: 0; min-height: 0; padding: 0; overflow: hidden; text-align: left; border-radius: 10px; background: var(--cp-surface-soft); }
+.ship-card.active { box-shadow: 0 0 0 1px var(--cp-accent); }
+.ship-thumb { display: grid; place-items: center; aspect-ratio: 16 / 10; color: #8aa0b4; background: radial-gradient(120% 90% at 50% 20%, #243444 0%, #101820 62%, #0a0f14 100%); }
+.ship-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; user-select: none; }
+.thumb-loading { width: 38%; height: 3px; border-radius: 2px; background: linear-gradient(90deg, transparent, #5d7890, transparent); background-size: 200% 100%; animation: thumb-sweep 1.2s linear infinite; }
+@keyframes thumb-sweep { from { background-position: 100% 0; } to { background-position: -100% 0; } }
+.ship-card-name { padding: 7px 9px 0; font-size: 12px; font-weight: 600; line-height: 1.3; color: var(--cp-text); overflow-wrap: anywhere; }
+.ship-card-meta { padding: 0 9px 8px; font-size: 11px; line-height: 1.4; color: var(--cp-text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ship-card.active .ship-card-name { color: var(--cp-accent); }
+.hangar-detail { flex-shrink: 0; padding: 10px 16px 12px; border-top: 1px solid var(--cp-border); background: var(--cp-surface-soft); }
+.hangar-detail-title { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; font-size: 13px; }
+.hangar-detail p { margin: 4px 0 0; font-size: 12px; line-height: 1.5; }
+.hangar-detail .hangar-facts { color: var(--cp-text-muted); }
+.hangar-detail .hangar-note { font-size: 11px; color: var(--cp-text-muted); }
+.tribute-tag { padding: 1px 8px; font-size: 10px; font-weight: 600; letter-spacing: .2px; color: var(--cp-accent); background: var(--cp-accent-soft); border-radius: 999px; }
 .route { display: flex; flex-direction: column; gap: 8px; padding-bottom: 14px; border-bottom: 1px solid var(--cp-border); }
 .route-header { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
 .route-header h2 { display: flex; align-items: center; gap: 6px; margin: 0; font-size: 13px; font-weight: 600; letter-spacing: 0; }
@@ -306,7 +336,7 @@ kbd { font-family: Consolas, "Courier New", Courier, monospace; color: var(--cp-
 @media (max-width: 1120px) {
   .atlas { --edge: 16px; }
   .body-card { width: 272px; max-height: calc(100dvh - var(--below-bar) - 200px); }
-  .flight-panel { width: 280px; }
+  .atlas { --flight-width: 280px; }
   .dock { display: grid; grid-template-columns: auto auto minmax(0, 1fr) auto; grid-template-areas: "play date track rate" "view view view view"; row-gap: 6px; }
   .play-button { grid-area: play; }
   .dock-date { grid-area: date; }
@@ -375,6 +405,9 @@ kbd { font-family: Consolas, "Courier New", Courier, monospace; color: var(--cp-
   .hint { bottom: calc(176px + env(safe-area-inset-bottom)); width: max-content; }
 
   .flight-panel { top: auto; bottom: max(12px, env(safe-area-inset-bottom)); left: var(--edge); right: var(--edge); width: auto; max-height: calc(100dvh - var(--row2) - 130px); box-shadow: var(--cp-shadow); }
+  .hangar { top: var(--row2); bottom: max(12px, env(safe-area-inset-bottom)); left: var(--edge); right: var(--edge); width: auto; max-height: none; background: var(--cp-surface); }
+  .hangar-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 6px; }
+  .ship-card { min-height: 0; }
   .ship-actions button { min-height: 42px; }
   .route-stop { min-height: 48px; }
   .route-stop .icon-button { width: 38px; min-width: 38px; min-height: 38px; }
@@ -407,6 +440,8 @@ kbd { font-family: Consolas, "Courier New", Courier, monospace; color: var(--cp-
   .dock-view { padding-top: 4px; }
   .hint:not(.task) { display: none; }
   .flight-panel { top: auto; bottom: max(8px, env(safe-area-inset-bottom)); left: 180px; right: 180px; width: auto; max-height: calc(100dvh - var(--below-bar) - 8px); box-shadow: var(--cp-shadow); }
+  .hangar { top: var(--top); bottom: max(8px, env(safe-area-inset-bottom)); left: 180px; right: 180px; width: auto; max-height: none; background: var(--cp-surface); }
+  .hangar-detail .hangar-note { display: none; }
   .flight-panel.collapsed { flex-wrap: nowrap; gap: 6px; padding: 7px 6px 7px 12px; }
   .flight-panel.collapsed .ship-actions { order: 2; flex: 0 0 auto; display: flex; gap: 6px; }
   .flight-panel.collapsed .ship-actions button { min-height: 40px; padding: 4px 10px; }

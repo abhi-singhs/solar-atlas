@@ -31,6 +31,18 @@ export interface FlightTelemetry {
   landingBodyId?: string
 }
 
+/** Size-dependent flight settings for the selected ship model. */
+export interface ShipProfile {
+  /** Pilot eye above the ground when landed, and the minimum clearance collision protection keeps. */
+  touchdownKm: number
+  /** Chase camera offset from the pilot eye in the ship frame. */
+  chaseOffsetKm: readonly [number, number, number]
+}
+
+export const DEFAULT_SHIP_PROFILE: ShipProfile = { touchdownKm: CLEARANCE_KM, chaseOffsetKm: [0, 0.007, 0.02] }
+/** Tallest supported touchdown height, 12 m. */
+export const MAX_TOUCHDOWN_KM = 0.012
+
 export interface LandingSurfaceProvider extends SurfaceProvider {
   prepareLanding?(bodyId: string, directionLocal: [number, number, number]): void
 }
@@ -80,6 +92,8 @@ export class FlightController {
   private lookYaw = 0
   private lookPitch = 0
   private takeoffHeight = CLEARANCE_KM
+  private touchdownKm = CLEARANCE_KM
+  private chaseOffset = new Vector3(...DEFAULT_SHIP_PROFILE.chaseOffsetKm)
   private guidanceVelocity = new Vector3()
   private guidanceVelocityBodyId = ''
 
@@ -214,7 +228,7 @@ export class FlightController {
     }
     this.attach(snapshot, 0)
     this.mode = 'takeoff'
-    this.takeoffHeight = this.site.hover ? this.hoverHeight(this.catalog.get(this.site.bodyId)!) : CLEARANCE_KM
+    this.takeoffHeight = this.site.hover ? this.hoverHeight(this.catalog.get(this.site.bodyId)!) : this.touchdownKm
     this.throttleC = 0
     this.status('Taking off along the local terrain normal before releasing flight controls.')
   }
@@ -265,8 +279,21 @@ export class FlightController {
   camera(kind: 'cockpit' | 'chase'): CameraPose {
     const look = new Quaternion().setFromEuler(new Euler(this.lookPitch, this.lookYaw, 0, 'YXZ'))
     const quaternion = this.orientation.clone().multiply(look)
-    const offset = kind === 'chase' ? new Vector3(0, 0.007, 0.02).applyQuaternion(this.orientation) : new Vector3()
+    const offset = kind === 'chase' ? this.chaseOffset.clone().applyQuaternion(this.orientation) : new Vector3()
     return { position: tuple(this.position.clone().add(offset)), quaternion: quaternion.toArray() as CameraPose['quaternion'] }
+  }
+
+  /**
+   * Applies a ship model's touchdown height and chase offset. A landed ship re-seats at the new height on the next
+   * update, and a ship taking off never sits below it.
+   */
+  setShipProfile(profile: ShipProfile): void {
+    const { touchdownKm, chaseOffsetKm } = profile
+    if (!Number.isFinite(touchdownKm) || touchdownKm <= 0 || touchdownKm > MAX_TOUCHDOWN_KM || !finiteVector(chaseOffsetKm))
+      throw new Error('A ship profile needs a touchdown height of up to 12 m and a finite chase offset.')
+    this.touchdownKm = touchdownKm
+    this.chaseOffset.set(...chaseOffsetKm)
+    if (this.mode === 'takeoff' && this.site && !this.site.hover) this.takeoffHeight = Math.max(this.takeoffHeight, touchdownKm)
   }
 
   update(dtSimSeconds: number, snapshot: Snapshot, input: FlightInput, renderDtSeconds?: number): void {
@@ -358,7 +385,7 @@ export class FlightController {
       this.velocity.sub(refVelocity).clampLength(0, limit).add(refVelocity)
       previousVelocity.sub(refVelocity).clampLength(0, limit).add(refVelocity)
       const nextPosition = this.position.clone().addScaledVector(previousVelocity.clone().add(this.velocity), h / 2)
-      const collision = sweep(this.bodies, this.surface, this.position, nextPosition, before, snapshot, a0, a1, this.warp)
+      const collision = sweep(this.bodies, this.surface, this.position, nextPosition, before, snapshot, a0, a1, this.warp, this.touchdownKm)
       if (collision) {
         this.position.lerp(nextPosition, Math.max(0, collision.fraction - 1e-12))
         this.position.addScaledVector(collision.normal, 1e-6)
@@ -377,7 +404,7 @@ export class FlightController {
           if (!auto) this.throttleC = 0
           this.warn('Surface safety stop. Collision protection prevents crossing the body.')
           if (this.mode === 'landing' && this.site?.bodyId === collision.body.id) {
-            const goal = this.sitePosition(this.site, finalState, this.site.hover ? this.hoverHeight(collision.body) : CLEARANCE_KM)
+            const goal = this.sitePosition(this.site, finalState, this.site.hover ? this.hoverHeight(collision.body) : this.touchdownKm)
             if (this.position.distanceTo(goal) < 0.01) this.finishLanding(next)
             else {
               this.cancel()
@@ -451,7 +478,7 @@ export class FlightController {
     if (this.mode === 'free' || this.isAttached()) return 0
     if (this.mode === 'takeoff' && this.site) {
       const body = this.catalog.get(this.site.bodyId)!
-      const startHeight = this.site.hover ? this.hoverHeight(body) : CLEARANCE_KM
+      const startHeight = this.site.hover ? this.hoverHeight(body) : this.touchdownKm
       const releaseHeight = startHeight + Math.max(0.03, Math.min(2, bodyRadius(body) * 0.001))
       const offset = LIFTOFF_KM_S / CLIMB_GROWTH
       return Math.max(0, Math.log((releaseHeight - startHeight + offset) / (Math.max(0, this.takeoffHeight - startHeight) + offset)) / CLIMB_GROWTH)
@@ -463,7 +490,7 @@ export class FlightController {
     let targetVelocity = vector(state.velocity)
     if (this.site) {
       const height = this.mode === 'landing'
-        ? (this.site.hover ? this.hoverHeight(body) : CLEARANCE_KM)
+        ? (this.site.hover ? this.hoverHeight(body) : this.touchdownKm)
         : this.siteStandOff(this.site, body)
       goal = this.sitePosition(this.site, state, height)
       if (this.guidanceVelocityBodyId === body.id) targetVelocity = this.guidanceVelocity.clone()
@@ -589,7 +616,7 @@ export class FlightController {
     let goalVelocity = vector(state.velocity)
     if (this.site) {
       const standOff = this.siteStandOff(this.site, body)
-      const height = this.mode === 'landing' ? (this.site.hover ? this.hoverHeight(body) : CLEARANCE_KM) : standOff
+      const height = this.mode === 'landing' ? (this.site.hover ? this.hoverHeight(body) : this.touchdownKm) : standOff
       goal = this.sitePosition(this.site, state, height)
       goalVelocity = this.sitePosition(this.site, finalState, height).sub(goal).multiplyScalar(1 / h)
       const facing = rotation(state).multiply(this.site.localQuaternion)
@@ -695,7 +722,7 @@ export class FlightController {
     const body = this.catalog.get(this.site.bodyId)
     if (!state || !body) return
     const old = this.position.clone()
-    const height = this.site.hover ? this.hoverHeight(body) : CLEARANCE_KM
+    const height = this.site.hover ? this.hoverHeight(body) : this.touchdownKm
     this.position.copy(this.sitePosition(this.site, state, height))
     this.orientation.copy(rotation(state).multiply(this.site.localQuaternion)).normalize()
     this.velocity.copy(dt > 0 ? this.position.clone().sub(old).multiplyScalar(1 / dt) : vector(state.velocity))
@@ -711,7 +738,7 @@ export class FlightController {
     const state = snapshot.states[site.bodyId]
     if (!state) return
     const old = this.position.clone()
-    const startHeight = site.hover ? this.hoverHeight(body) : CLEARANCE_KM
+    const startHeight = site.hover ? this.hoverHeight(body) : this.touchdownKm
     const releaseHeight = startHeight + Math.max(0.03, Math.min(2, bodyRadius(body) * 0.001))
     const climb = LIFTOFF_KM_S + CLIMB_GROWTH * Math.max(0, this.takeoffHeight - startHeight)
     this.takeoffHeight = Math.min(releaseHeight, this.takeoffHeight + h * climb)
