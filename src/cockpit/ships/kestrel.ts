@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { KESTREL_PALETTE, mountInstruments } from '../instruments'
 import { beam, box, cabinLight, glass, light, metal, plate, shipGroup } from '../parts'
-import type { ShipDesign } from './types'
+import type { OriginalShip } from './types'
 
 /**
  * Original "Kestrel" exploration cockpit, not source scientific geometry.
@@ -123,7 +123,7 @@ function buildShip(): THREE.Group {
   return group
 }
 
-export const kestrel: ShipDesign = {
+export const kestrel: OriginalShip = {
   id: 'kestrel',
   name: 'Kestrel',
   kind: 'original',

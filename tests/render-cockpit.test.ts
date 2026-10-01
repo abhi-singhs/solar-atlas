@@ -1,12 +1,18 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { DirectionalLight, Group, Mesh, MeshBasicMaterial, PerspectiveCamera, Scene } from 'three'
-import { createCockpit, createShip, updateCockpit } from '../src/cockpit/models'
+import { BoxGeometry, DirectionalLight, Group, Mesh, MeshBasicMaterial, PerspectiveCamera, Scene } from 'three'
+import { createCockpit, createShip, loadShipModel, updateCockpit } from '../src/cockpit/models'
+import { shipOccluder } from '../src/cockpit/shipLoader'
+import type { ShipSwap } from '../src/cockpit/swap'
 import { SolarRenderer } from '../src/render/SolarRenderer'
 import type { CameraPose, Dataset, RenderOptions, Snapshot } from '../src/contracts'
 
 vi.mock('../src/cockpit/models', async importOriginal => {
   const original = await importOriginal<typeof import('../src/cockpit/models')>()
-  return { ...original, updateCockpit: vi.fn(original.updateCockpit) }
+  return { ...original, updateCockpit: vi.fn(original.updateCockpit), loadShipModel: vi.fn(original.loadShipModel) }
+})
+vi.mock('../src/cockpit/shipLoader', async importOriginal => {
+  const original = await importOriginal<typeof import('../src/cockpit/shipLoader')>()
+  return { ...original, shipOccluder: vi.fn(original.shipOccluder) }
 })
 
 interface Harness {
@@ -112,12 +118,18 @@ describe('renderer live cockpit telemetry', () => {
 })
 
 describe('renderer ship model swap', () => {
-  interface SwapHost extends Harness { shipModel: string; setShipModel(id: string | undefined): void }
+  interface SwapHost extends Harness {
+    shipSwap: ShipSwap<unknown>
+    callbacks: { onShipFailed: ReturnType<typeof vi.fn>; onShipShown: ReturnType<typeof vi.fn> }
+    setShipModel(id: string | undefined): void
+  }
   function swapHost(): SwapHost {
     const host = harness() as SwapHost
     host.ship = createShip()
     groups.push(host.ship)
-    host.shipModel = 'kestrel'
+    host.callbacks = { onShipFailed: vi.fn(), onShipShown: vi.fn() }
+    const factory = (SolarRenderer.prototype as unknown as { createShipSwap(this: SwapHost, id: string): ShipSwap<unknown> }).createShipSwap
+    host.shipSwap = factory.call(host, 'kestrel')
     host.cockpitScene.add(host.cockpit, host.ship)
     return host
   }
@@ -131,14 +143,20 @@ describe('renderer ship model swap', () => {
     })
     return spies
   }
+  const shown = async (host: SwapHost, id: string) => {
+    await vi.waitFor(() => expect(host.shipSwap.current).toBe(id))
+    groups.push(host.cockpit, host.ship)
+  }
 
-  it('replaces both groups in the cockpit scene and frees the old geometry and materials', () => {
+  it('keeps the current ship until the new one loads, then replaces both groups and frees the old ones', async () => {
     const host = swapHost()
     const oldCockpit = host.cockpit, oldShip = host.ship
     const spies = [...disposals(oldCockpit), ...disposals(oldShip)]
-    host.setShipModel('x-wing')
-    groups.push(host.cockpit, host.ship)
-    expect(host.shipModel).toBe('x-wing')
+    host.setShipModel('atomic')
+    expect(host.cockpit).toBe(oldCockpit)
+    expect(host.callbacks.onShipShown).not.toHaveBeenCalled()
+    await shown(host, 'atomic')
+    expect(host.callbacks.onShipShown).toHaveBeenCalledExactlyOnceWith('atomic')
     expect(host.cockpit).not.toBe(oldCockpit)
     expect(host.cockpitScene.children).toContain(host.cockpit)
     expect(host.cockpitScene.children).toContain(host.ship)
@@ -148,23 +166,67 @@ describe('renderer ship model swap', () => {
     for (const spy of spies) expect(spy).toHaveBeenCalled()
   })
 
-  it('keeps the current models for the same id and falls back to the Kestrel for unknown ids', () => {
+  it('keeps the current models for the same id and falls back to the Kestrel for unknown ids', async () => {
     const host = swapHost()
     const cockpit = host.cockpit
     host.setShipModel(undefined)
     host.setShipModel('kestrel')
+    await Promise.resolve()
     expect(host.cockpit).toBe(cockpit)
-    host.setShipModel('x-wing')
-    groups.push(host.cockpit, host.ship)
+    host.setShipModel('atomic')
+    await shown(host, 'atomic')
     host.setShipModel('retired-ship')
-    groups.push(host.cockpit, host.ship)
-    expect(host.shipModel).toBe('kestrel')
+    await shown(host, 'kestrel')
+    expect(loadShipModel).toHaveBeenCalledTimes(2)
   })
 
-  it('drives the instruments of the newly selected cockpit', () => {
+  it('discards a load that a newer pick overtook', async () => {
     const host = swapHost()
-    host.setShipModel('x-wing')
-    groups.push(host.cockpit, host.ship)
+    let finish: (group: Group) => void = () => {}
+    vi.mocked(loadShipModel).mockImplementationOnce(() => new Promise(resolve => { finish = resolve }))
+    host.setShipModel('voyager')
+    host.setShipModel('needle')
+    await shown(host, 'needle')
+    const late = new Group()
+    late.add(new Mesh(undefined, new MeshBasicMaterial()))
+    const [spy] = disposals(late)
+    finish(late)
+    await vi.waitFor(() => expect(spy).toHaveBeenCalled())
+    expect(host.shipSwap.current).toBe('needle')
+    expect(host.cockpitScene.children).not.toContain(late)
+    expect(host.callbacks.onShipShown.mock.calls).toEqual([['needle']])
+  })
+
+  it('reports a failed load once and keeps flying the current ship', async () => {
+    const host = swapHost()
+    const ship = host.ship
+    vi.mocked(loadShipModel).mockRejectedValueOnce(new Error('Could not load the Voyager model: HTTP 404'))
+    host.setShipModel('voyager')
+    await vi.waitFor(() => expect(host.callbacks.onShipFailed).toHaveBeenCalledWith('voyager', 'kestrel', 'Could not load the Voyager model: HTTP 404'))
+    host.setShipModel('voyager')
+    await Promise.resolve()
+    expect(loadShipModel).toHaveBeenCalledTimes(1)
+    expect(host.ship).toBe(ship)
+    expect(host.shipSwap.current).toBe('kestrel')
+    expect(host.callbacks.onShipShown).not.toHaveBeenCalled()
+  })
+
+  it('builds a NASA exterior\'s sun occluder before it goes on screen', async () => {
+    const host = swapHost()
+    const group = new Group()
+    group.add(new Mesh(new BoxGeometry(2, 2, 2), new MeshBasicMaterial()))
+    vi.mocked(loadShipModel).mockResolvedValueOnce(group)
+    const occluder = vi.mocked(shipOccluder)
+    host.setShipModel('voyager')
+    await shown(host, 'voyager')
+    expect(occluder).toHaveBeenCalledWith(group)
+    expect(occluder.mock.invocationCallOrder[0]).toBeLessThan(host.callbacks.onShipShown.mock.invocationCallOrder[0]!)
+  })
+
+  it('drives the instruments of the newly selected cockpit', async () => {
+    const host = swapHost()
+    host.setShipModel('atomic')
+    await shown(host, 'atomic')
     host.drawShip(snapshot, pose, options())
     expect(updateCockpit).toHaveBeenLastCalledWith(host.cockpit, expect.objectContaining({ targetName: 'Moon' }))
   })

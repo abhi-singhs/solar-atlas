@@ -83,10 +83,18 @@ export class Explorer {
       onError: message => this.publish({ notice: this.note(message, 'error') }),
       onProgress: loading => this.publish({ loading }),
       onSurfacePick: (id, hit) => this.positionOverSite(id, hit),
+      // Touchdown height and chase offset follow the hull on screen, which lags the selection while a model loads.
+      onShipShown: id => this.flight?.setShipProfile(shipProfile(id)),
+      onShipFailed: (id, shownId, message) => {
+        if (this.state.shipModel !== id) return
+        this.publish({ shipModel: shownId, notice: this.note(`${message}. You are still flying the ${shipDesign(shownId).name}.`, 'warning') })
+        this.save()
+      },
     })
     this.renderer.setFieldOfView(this.state.fov)
+    // The renderer starts with the default ship and reports the saved one through onShipShown once it has loaded.
     this.flight = new FlightController(dataset.bodies, this.renderer.surface)
-    this.flight.setShipProfile(shipProfile(this.state.shipModel))
+    this.flight.setShipProfile(shipProfile(DEFAULT_SHIP))
     this.publish({ loading: 'Preparing Earth at its physical scale', bodies: dataset.bodies,
       jd: dataset.firstJd, firstJd: dataset.firstJd, lastJd: dataset.lastJd, date: dataset.jdToUtc(dataset.firstJd) })
     await this.renderer.ensureBody('earth')
@@ -528,7 +536,6 @@ export class Explorer {
     if (key === 'fov' && typeof value === 'number') this.renderer?.setFieldOfView(value)
     if (key === 'shipModel') {
       if (!isShipId(value)) throw new Error(`Unknown spaceship ${String(value)}.`)
-      this.flight?.setShipProfile(shipProfile(value))
     }
     this.publish({ [key]: value })
     this.save()

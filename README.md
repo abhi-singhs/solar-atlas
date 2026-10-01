@@ -95,31 +95,37 @@ Start route (or G) flies to the first stop. After each arrival the ship waits fi
 
 Ship, near the bottom of the expanded flight panel, opens the hangar. Pick a card and the new ship swaps in straight away, exterior and cockpit, even mid-transfer or while landed. The hangar stays open so you can compare. Settings has the same list as a Spaceship menu, and the choice is saved with your other settings.
 
-The hangar holds 15 ships:
+The hangar holds 15 ships. The NASA ships are listed by launch year:
 
 | Ship | From | Model size | Pilot eye when landed |
 | --- | --- | --- | --- |
-| Millennium Falcon | Star Wars | 34.75 m | 4 m |
-| X-wing | Star Wars | 12.5 m | 2.75 m |
-| TIE fighter | Star Wars | 7.56 m | 3.78 m |
-| USS Enterprise (1966) | Star Trek | 40 m, scaled from 289 m | 9.2 m |
-| Serenity | Firefly | 40 m, scaled from 82 m | 5.8 m |
-| Planet Express Ship | Futurama | 30.2 m | 7 m |
-| Rocinante | The Expanse | 40 m, scaled from 46 m | 5.4 m |
-| Discovery One | 2001: A Space Odyssey | 40 m, scaled from 140 m | 4 m |
-| Viper Mk II | Battlestar Galactica | 8.5 m | 2.75 m |
-| Nostromo | Alien | 40 m, scaled from 244 m | 11 m |
+| Gemini | NASA, 1965 | 5.77 m | 1.91 m |
+| Apollo Lunar Module | NASA, 1969 | 8.95 m | 5.08 m |
+| Apollo-Soyuz | NASA, 1975 | 20.11 m | 2.4 m |
+| Voyager | NASA, 1977 | 16.42 m | 3.77 m |
+| Hubble | NASA, 1990 | 13.1 m | 5.71 m |
+| Cassini-Huygens | NASA, 1997 | 17.98 m | 2.04 m |
+| ISS | NASA, 1998 | 40 m, scaled from 109 m | 2.89 m |
+| Juno | NASA, 2011 | 19.48 m | 2.8 m |
+| Parker Solar Probe | NASA, 2018 | 6.13 m | 2.44 m |
+| Webb | NASA, 2021 | 21.19 m | 7.23 m |
 | Kestrel (default) | Original design | 8.5 m | 3 m |
 | Atomic | Original design | 16 m | 3 m |
 | Needle | Original design | 11.6 m | 2.5 m |
 | Mule | Original design | 24 m | 4 m |
 | Manta | Original design | 18.1 m | 3 m |
 
-The first ten are unofficial fan tributes. Their designs belong to the rights holders listed in `CREDITS.md`, who have not endorsed them. Every ship, tribute or original, is built in code from three.js boxes, cylinders, lathes, and extrusions. No studio meshes, textures, logos, or lettering are used.
+The NASA exteriors are NASA's own models from [NASA 3D Resources](https://github.com/nasa/NASA-3D-Resources). The source files use whatever units their authors picked. Hubble's is roughly in inches and Gemini's is 2.4 times too big. So `npm run prepare:ships` ignores the file units and scales each model from one real dimension, such as Voyager's 3.7 m dish or Hubble's 13.1 m length. `public/assets/ships/manifest.json` records that dimension, its citation, the pinned source file, and the final size. NASA has not endorsed this app.
+
+NASA's Apollo-Soyuz model is fatter than the real hardware. Scaled to the 11 m Apollo command and service module, its 3.9 m service module comes out about 4.8 m wide.
+
+The cockpits are not NASA's. NASA publishes no interiors, so every cockpit is built in code for this app. The Gemini, Lunar Module, Apollo command module, and ISS Cupola cockpits loosely follow the real cabins. Voyager, Hubble, Cassini, Juno, Parker, and Webb never carried crew, so their pilot pods are invented. Each borrows something from its craft, like Voyager's ten-sided bus and golden record, Parker's heat shield, or Webb's gold mirror segments. The five original ships are built entirely in code from three.js boxes, cylinders, lathes, and extrusions.
+
+A NASA exterior downloads the first time you pick it, between 0.2 and 0.9 MB. Your current ship stays on screen, with its landing height and chase camera, until the new one is ready. If the download fails, you keep the current ship and a notice says why.
 
 Each ship has its own cockpit with the same live instruments: speed and vertical-speed needles, a heading ring, the warp lamp, throttle bars, and three canvas displays. Only the looks change. All ships share one flight model, speed limit, and collision rule.
 
-Model size is the largest dimension, so the TIE fighter's is its wing height. Ships longer than 40 m are scaled down to 40 m so they can still land, and the chase camera pulls back for bigger ships. Landing sets a ship's lowest point on the ground, and the pilot's eye sits that ship's eye height above it. A landed Kestrel reads 3 m of altitude and a landed Nostromo reads 11 m. Collision protection keeps the same clearance from every surface.
+Model size is the largest dimension, so Voyager's comes from its 13 m magnetometer boom rather than its body. Ships longer than 40 m are scaled down to 40 m so they can still land, and the chase camera pulls back for bigger ships. Landing sets a ship's lowest point on the ground, and the pilot's eye sits that ship's eye height above it. A landed Kestrel reads 3 m of altitude and a landed Webb reads 7.23 m, because Webb's spacecraft bus hangs below its sunshield. Collision protection keeps the same clearance from every surface.
 
 Pausing freezes translation while leaving the interface and free-look usable. A hidden tab pauses the simulation instead of applying a large elapsed-time jump. Leave flight before scrubbing or reversing time.
 
@@ -219,6 +225,8 @@ npm run test:browser
 
 Source and rendering contracts live in `src/contracts.ts`. Conversion and export scripts live in `scripts/`. Scientific inputs come from the upstream records listed in `CREDITS.md`; generated output belongs to this app.
 
+`npm run prepare:ships` rebuilds `public/assets/ships/` from `scripts/nasa_ships.json`. It downloads about 19 MB of NASA models into `~/.cache/solar-atlas-ships` and refuses any file that doesn't match its pinned SHA-256. Pass ship ids to rebuild only those, as in `npm run prepare:ships -- voyager`. Two runs produce identical files.
+
 `npm run prepare:stars` rebuilds `public/assets/stars/`. It needs Python with numpy and Pillow. It downloads 266 MB of catalogs from CDS and the Milky Way EXR from NASA SVS into `~/.cache/solar-atlas-stars`, and refuses any file that doesn't match its pinned SHA-256. Pass `-- --offline` to build from the cache alone. Two runs produce identical files.
 
 The browser suite uses installed Google Chrome through Playwright. It exercises desktop and emulated phone viewports. Emulated touch tests do not establish performance on a physical phone. Runs write screenshots and a JSON report to `artifacts/`, which is not tracked.
@@ -237,7 +245,7 @@ The Hipparcos and Tycho-2 star files are CC BY-NC 3.0 IGO, which rules out comme
 
 ## Repository size
 
-`public/` holds about 548 MB of committed meshes, textures, star catalogs, and cached ephemeris. The Blender project the assets are exported from is vendored under `blender/` and adds another 626 MB, including a 374 MB `.blend` file.
+`public/` holds about 553 MB of committed meshes, textures, star catalogs, ship models, and cached ephemeris. The Blender project the assets are exported from is vendored under `blender/` and adds another 626 MB, including a 374 MB `.blend` file.
 
 Meshes, textures, the `.blend`, `states.bin`, and the gzipped ephemeris are stored in Git LFS. Install it before cloning, or you get pointer files instead of assets and the app fails to load:
 

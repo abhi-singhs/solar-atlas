@@ -1,0 +1,102 @@
+{
+  "repository": "https://github.com/nasa/NASA-3D-Resources",
+  "commit": "11ebb4ee043715aefbba6aeec8a61746fad67fa7",
+  "credit": "NASA 3D Resources",
+  "maxSizeM": 40,
+  "maxTriangles": 60000,
+  "maxMeshes": 64,
+  "textureSize": 1024,
+  "ships": [
+    {
+      "id": "gemini",
+      "source": "3D Models/Gemini/Gemini.glb",
+      "sha256": "e580e90ac2eb13d029e262e9d638c32980d7f8a48a6830d272ce080576110758",
+      "reference": { "part": "adapter base diameter", "meters": 3.048, "sourceUnits": 7.22, "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1965-024A" },
+      "forward": "+y",
+      "up": "+z",
+      "eye": [0, 9.6, 0.9]
+    },
+    {
+      "id": "apollo-lm",
+      "source": "3D Models/Apollo Lunar Module/Apollo Lunar Module.glb",
+      "sha256": "379101dfcee399267addf771709107c35e826b0b9e5233272f123e4c8a585c4e",
+      "reference": { "part": "height with landing gear deployed", "meters": 6.99, "sourceUnits": 5.02, "url": "https://www.nasa.gov/wp-content/uploads/static/history/alsj/08_LM_&_SLA_Overview_pp61-68.pdf" },
+      "forward": "+z",
+      "up": "+y",
+      "eye": [0, 3.75, 0.9]
+    },
+    {
+      "id": "apollo-soyuz",
+      "source": "3D Models/Apollo Soyuz/Apollo Soyuz.glb",
+      "sha256": "4d7d37c8ee02c6649b578900fa3533d92b89e125380a2efaa75f5a66e81d43db",
+      "reference": { "part": "Apollo command and service module length", "meters": 11.0, "sourceUnits": 11.84, "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1975-066A" },
+      "forward": "+x",
+      "up": "+z",
+      "eye": [-1.6, 0.2, 0]
+    },
+    {
+      "id": "voyager",
+      "source": "3D Models/Voyager Probe (B)/Voyager Probe (B).glb",
+      "sha256": "bd86ded828dd3f459293aee4ffc3cd0998d8db67439317c8299650a1174c3289",
+      "reference": { "part": "high-gain antenna diameter", "meters": 3.7, "sourceUnits": 3.81, "url": "https://voyager.jpl.nasa.gov/mission/spacecraft/" },
+      "forward": "-y",
+      "up": "+x",
+      "eye": [0, 0.2, 0]
+    },
+    {
+      "id": "hubble",
+      "source": "3D Models/Hubble Space Telescope (A)/Hubble Space Telescope (A).glb",
+      "sha256": "e5ba4de15c7d359ac8fa1ab7e286aff42dec09c0fadae3db99252587f39fa384",
+      "reference": { "part": "length", "meters": 13.1, "sourceUnits": 525.49, "url": "https://science.nasa.gov/mission/hubble/overview/hubble-by-the-numbers/" },
+      "forward": "+y",
+      "up": "+x",
+      "eye": [0, 120, 0]
+    },
+    {
+      "id": "cassini-huygens",
+      "source": "3D Models/Cassini-Huygens (A)/Cassini-Huygens (A).glb",
+      "sha256": "f8bc110e23821021e99b88634843449cc8e98d86d0d8561c612c1cf0404e64e7",
+      "reference": { "part": "high-gain antenna diameter", "meters": 4.0, "sourceUnits": 4.0, "url": "https://solarsystem.nasa.gov/system/downloadable_items/1943_spacecraft.pdf" },
+      "forward": "+y",
+      "up": "-z",
+      "eye": [0, 0.5, 0]
+    },
+    {
+      "id": "iss",
+      "source": "3D Models/International Space Station (ISS) (B)/International Space Station (ISS) (B).glb",
+      "sha256": "2ba4427413b0dd89a33d2acaf962dea8a96a3b1d8dceda05cc7aad547ffd3d16",
+      "reference": { "part": "solar array wingspan", "meters": 109, "sourceUnits": 45.54, "url": "https://www.nasa.gov/international-space-station/space-station-facts-and-figures/" },
+      "forward": "+y",
+      "up": "-x",
+      "eye": [0, 10, 0],
+      "dropNodes": ["bendedtru1", "bendedtru2", "bendedtru3", "bendedtrus", "pCylinder1", "pCylinder2", "pCylinder8"]
+    },
+    {
+      "id": "juno",
+      "source": "3D Models/Juno (A)/Juno (A).glb",
+      "sha256": "13f6bd48ff830a1890b21ef6e0182bb1043926feebb77af9733e7374b050367a",
+      "reference": { "part": "high-gain antenna diameter", "meters": 2.5, "sourceUnits": 2.38, "url": "https://www.missionjuno.swri.edu/spacecraft/juno-spacecraft" },
+      "forward": "-x",
+      "up": "+y",
+      "eye": [0, 0.3, 0]
+    },
+    {
+      "id": "parker-solar-probe",
+      "source": "3D Models/Parker Solar Probe/Parker Solar Probe.glb",
+      "sha256": "4d26e84efd29a78c5d07e474f6272bb111668b58da5a7555e305a65c72ddb1c5",
+      "reference": { "part": "thermal protection system diameter", "meters": 2.3, "sourceUnits": 2.48, "url": "https://parkersolarprobe.jhuapl.edu/Spacecraft/index.php" },
+      "forward": "-z",
+      "up": "+y",
+      "eye": [0, 0, 0]
+    },
+    {
+      "id": "jwst",
+      "source": "3D Models/James Webb Space Telescope (B)/James Webb Space Telescope (B).glb",
+      "sha256": "4958e61e5a564f2efcc32cd516b9d36ea0b9bc644f64dbcfe182ce8a422ae526",
+      "reference": { "part": "sunshield length", "meters": 21.197, "sourceUnits": 21.0, "url": "https://science.nasa.gov/mission/webb/webbs-sunshield/" },
+      "forward": "+z",
+      "up": "+y",
+      "eye": [0, 4, 0.5]
+    }
+  ]
+}

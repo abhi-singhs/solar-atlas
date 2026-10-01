@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs'
+import { readFile } from 'node:fs/promises'
 import { afterEach, describe, expect, it } from 'vitest'
 import * as THREE from 'three'
 import { CHASE_PITCH, DEFAULT_SHIP, SHIPS, isShipId, shipDesign, shipProfile } from '../src/cockpit/ships'
@@ -5,10 +7,36 @@ import { DEFAULT_SHIP_PROFILE } from '../src/flight/FlightController'
 import type { ShipDesign } from '../src/cockpit/ships'
 import { updateCockpit } from '../src/cockpit/models'
 import { disposeTree } from '../src/cockpit/parts'
+import { loadShip } from '../src/cockpit/shipLoader'
+
+interface ManifestShip {
+  file: string
+  sizeM: number
+  canonSizeM?: number
+  eyeHeightM: number
+  triangles: number
+  meshes: number
+  source: { path: string; url: string; sha256: string }
+  reference: { part: string; meters: number; url: string }
+}
+const manifest = JSON.parse(readFileSync('public/assets/ships/manifest.json', 'utf8')) as { commit: string; ships: Record<string, ManifestShip> }
+const config = JSON.parse(readFileSync('scripts/nasa_ships.json', 'utf8')) as { maxTriangles: number; maxMeshes: number }
+const NASA = SHIPS.filter(ship => ship.kind === 'nasa')
 
 const built: THREE.Object3D[] = []
 const keep = <T extends THREE.Object3D>(object: T) => { built.push(object); object.updateMatrixWorld(true); return object }
 afterEach(() => { for (const object of built.splice(0)) disposeTree(object) })
+
+/** Builds an original exterior, or reads a NASA GLB from public/ through the app's loader. Node can't decode images, so textures are stubbed. */
+async function exterior(design: ShipDesign) {
+  return keep(await loadShip(design, {
+    skipTextures: true,
+    fetchModel: async path => {
+      const data = await readFile(`public/${path}`)
+      return data.buffer.slice(data.byteOffset, data.byteOffset + data.byteLength) as ArrayBuffer
+    },
+  }))
+}
 
 const corners = (box: THREE.Box3) => [0, 1, 2, 3, 4, 5, 6, 7].map(i => new THREE.Vector3(
   i & 1 ? box.max.x : box.min.x, i & 2 ? box.max.y : box.min.y, i & 4 ? box.max.z : box.min.z))
@@ -30,11 +58,13 @@ function chaseCamera(design: ShipDesign) {
 describe('ship registry', () => {
   it('lists unique ids with the Kestrel first and as the fallback', () => {
     expect(SHIPS).toHaveLength(15)
+    expect(NASA).toHaveLength(10)
     expect(new Set(SHIPS.map(ship => ship.id)).size).toBe(SHIPS.length)
     expect(SHIPS[0]!.id).toBe(DEFAULT_SHIP)
     expect(shipDesign(undefined).id).toBe(DEFAULT_SHIP)
     expect(shipDesign('not-a-ship').id).toBe(DEFAULT_SHIP)
-    expect(isShipId('x-wing')).toBe(true)
+    expect(isShipId('voyager')).toBe(true)
+    expect(isShipId('x-wing')).toBe(false)
     expect(isShipId('not-a-ship')).toBe(false)
     expect(isShipId(3)).toBe(false)
   })
@@ -49,15 +79,31 @@ describe('ship registry', () => {
     }
   })
 
+  it('lists the NASA ships in launch order, each with a processed model in the manifest', () => {
+    const years = NASA.map(ship => ship.kind === 'nasa' ? ship.launchYear : 0)
+    expect(years).toEqual([...years].sort((a, b) => a - b))
+    expect(Object.keys(manifest.ships).sort()).toEqual(NASA.map(ship => ship.id).sort())
+    expect(manifest.commit).toMatch(/^[0-9a-f]{40}$/)
+  })
+
   it.each(SHIPS.map(ship => [ship.id, ship] as const))('%s credits its source and states plausible sizes', (_, design) => {
     expect(design.name.trim()).not.toBe('')
     expect(design.blurb.trim()).not.toBe('')
-    if (design.kind === 'tribute') {
-      expect(design.franchise?.trim()).toBeTruthy()
-      expect(design.owner?.trim()).toBeTruthy()
+    if (design.kind === 'nasa') {
+      const record = manifest.ships[design.id]!
+      expect(design.model).toBe(`assets/ships/${design.id}.glb`)
+      expect(record.file).toBe(design.model)
+      expect(record.source.path).toContain(`/${design.source}/`)
+      expect(record.source.url).toContain(manifest.commit)
+      expect(record.reference.url).toMatch(/^https:\/\//)
+      expect(design.launchYear).toBeGreaterThanOrEqual(1965)
+      expect(design.sizeM, 'size matches the processed model').toBeCloseTo(record.sizeM, 2)
+      expect(design.eyeHeightM, 'eye height matches the processed model').toBeCloseTo(record.eyeHeightM, 2)
+      expect(design.canonSizeM).toBe(record.canonSizeM)
+      expect(record.triangles).toBeLessThanOrEqual(config.maxTriangles)
+      expect(record.meshes).toBeLessThanOrEqual(config.maxMeshes)
     } else {
-      expect(design.franchise).toBeUndefined()
-      expect(design.owner).toBeUndefined()
+      expect('model' in design).toBe(false)
     }
     expect(design.sizeM).toBeGreaterThan(3)
     expect(design.sizeM).toBeLessThanOrEqual(41)
@@ -69,8 +115,8 @@ describe('ship registry', () => {
 })
 
 describe.each(SHIPS.map(ship => [ship.id, ship] as const))('%s', (_, design) => {
-  it('builds a finite, named, meter-scale exterior that rests on its touchdown height', () => {
-    const ship = keep(design.buildShip())
+  it('builds a finite, named, meter-scale exterior that rests on its touchdown height', async () => {
+    const ship = await exterior(design)
     expect(ship.userData).toMatchObject({ units: 'meters', forward: '-Z', origin: 'pilot eye' })
     for (const mesh of meshes(ship)) {
       expect(mesh.name, 'every exterior mesh has a name').not.toBe('')
@@ -86,8 +132,8 @@ describe.each(SHIPS.map(ship => [ship.id, ship] as const))('%s', (_, design) => 
     expect(largest).toBeLessThanOrEqual(41)
   })
 
-  it('frames the whole hull from the chase camera', () => {
-    const ship = keep(design.buildShip())
+  it('frames the whole hull from the chase camera', async () => {
+    const ship = await exterior(design)
     const bounds = new THREE.Box3().setFromObject(ship, true)
     const camera = chaseCamera(design)
     expect(bounds.clone().expandByScalar(0.5).containsPoint(camera.position), 'camera sits outside the hull').toBe(false)

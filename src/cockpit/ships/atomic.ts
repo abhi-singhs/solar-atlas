@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import { mountInstruments } from '../instruments'
 import type { DisplayPalette } from '../instruments'
 import { beam, box, cabinLight, cylinder, deck, glass, light, metal, matte, plate, shipGroup, sphere, torus, lathe } from '../parts'
-import type { ShipDesign } from './types'
+import type { OriginalShip } from './types'
 
 const ATOMIC_PALETTE: DisplayPalette = {
   background: '#f3e4bd',
@@ -204,7 +204,7 @@ function buildCockpit(): THREE.Group {
   return group
 }
 
-export const atomic: ShipDesign = {
+export const atomic: OriginalShip = {
   id: 'atomic',
   name: 'Atomic',
   kind: 'original',

@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import { mountInstruments } from '../instruments'
 import type { DisplayPalette } from '../instruments'
 import { beam, box, cabinLight, cylinder, deck, glass, light, metal, matte, plate, shipGroup, sphere, torus, lathe } from '../parts'
-import type { ShipDesign } from './types'
+import type { OriginalShip } from './types'
 
 const NEEDLE_PALETTE: DisplayPalette = {
   background: '#030b18',
@@ -212,7 +212,7 @@ function buildCockpit(): THREE.Group {
   return group
 }
 
-export const needle: ShipDesign = {
+export const needle: OriginalShip = {
   id: 'needle',
   name: 'Needle',
   kind: 'original',

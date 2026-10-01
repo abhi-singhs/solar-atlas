@@ -7,7 +7,7 @@ import { updateCockpit } from '../src/cockpit/models'
 interface Result { coverage: number; errors: string[] }
 declare global {
   interface Window {
-    shipFixture: { ids: string[]; render(id: string, view: PreviewView, width?: number, height?: number): Result }
+    shipFixture: { ids: string[]; render(id: string, view: PreviewView, width?: number, height?: number): Promise<Result> }
   }
 }
 
@@ -31,10 +31,10 @@ function coverage(width: number, height: number): number {
 
 window.shipFixture = {
   ids: SHIPS.map(ship => ship.id),
-  render(id, view, width = 960, height = 600) {
+  async render(id, view, width = 960, height = 600) {
     renderer.setSize(width, height)
     const design = shipDesign(id)
-    const stage = stageShip(design, view, width / height)
+    const stage = await stageShip(design, view, width / height)
     if (view === 'cockpit') {
       updateCockpit(stage.model, { speedC: 0.0012, throttleC: 0.01, altitudeKm: 0.42, verticalKmS: -0.001, warp: false,
         mode: 'approach', targetId: 'moon', referenceId: 'earth', targetName: 'Moon', referenceName: 'Earth', headingDeg: 72 })

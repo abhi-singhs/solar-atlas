@@ -9,7 +9,7 @@ import { SHIPS } from '../src/cockpit/ships'
 type View = 'hangar' | 'chase' | 'cockpit'
 declare global {
   interface Window {
-    shipFixture: { ids: string[]; render(id: string, view: View, width?: number, height?: number): { coverage: number; errors: string[] } }
+    shipFixture: { ids: string[]; render(id: string, view: View, width?: number, height?: number): Promise<{ coverage: number; errors: string[] }> }
   }
 }
 
