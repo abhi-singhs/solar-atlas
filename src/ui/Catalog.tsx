@@ -4,6 +4,7 @@ import { BookmarkCheck, Check, Globe2, Plus, Search, X } from 'lucide-react'
 import type { Body } from '../contracts'
 import type { Bookmark } from '../navigation/state'
 import { categories } from './format'
+import { useOutsidePress } from './hooks'
 
 type Filter = 'all' | 'saved' | 'planet' | 'moon' | 'dwarf_planet' | 'small'
 const smallBodies = ['asteroid', 'tno', 'centaur', 'comet', 'dwarf_candidate']
@@ -27,6 +28,8 @@ export function Catalog({ open, bodies, selectedId, bookmarks, onOpen, onClose, 
   const [filter, setFilter] = useState<Filter>('all')
   const input = useRef<HTMLInputElement>(null)
   const list = useRef<HTMLDivElement>(null)
+  const panel = useRef<HTMLElement>(null)
+  useOutsidePress(panel, open, onClose, '[data-catalog-trigger]')
   const needle = query.trim().toLowerCase()
   const parentName = (id: string) => bodies.find(body => body.id === id)?.name ?? id
   const shownBodies = filter === 'saved' ? [] : bodies.filter(body => {
@@ -71,7 +74,7 @@ export function Catalog({ open, bodies, selectedId, bookmarks, onOpen, onClose, 
   }
 
   return <div className="catalog open">
-    <section className="catalog-panel panel" aria-label="Body catalog">
+    <section ref={panel} className="catalog-panel panel" aria-label="Body catalog">
       <label className="search-field">
         <Search size={17} />
         <input ref={input} autoFocus placeholder={route ? 'Search, then + to add a destination' : `Search ${bodies.length} bodies`} aria-label="Search bodies" value={query}
