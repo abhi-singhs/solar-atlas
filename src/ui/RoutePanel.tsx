@@ -69,7 +69,7 @@ export function RoutePanel({ view, bodies, ...actions }: RoutePanelProps) {
       </button>}
       {view.routePhase === 'dwell' && <button onClick={actions.onPause}><Pause size={15} />Pause route</button>}
       {(view.routePhase === 'enroute' || view.routePhase === 'departing') && <button onClick={actions.onSkip}><SkipForward size={15} />Skip stop</button>}
-      <button className={primary ? '' : 'primary'} onClick={actions.onAddDestination} aria-keyshortcuts="+"
+      <button className={primary ? '' : 'primary'} data-catalog-trigger onClick={actions.onAddDestination} aria-keyshortcuts="+"
         title="Add a destination (+ adds the selected body)"><Plus size={15} />Add destination</button>
     </div>
     {view.route.length > 0 && <div className="route-options">

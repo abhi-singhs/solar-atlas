@@ -148,6 +148,51 @@ test('timeline boundaries, bookmarks, shortcuts, and local source links', async 
   expect(new URL(await link.getAttribute('href') ?? '', page.url()).origin).toBe(new URL(page.url()).origin)
 })
 
+test('pressing outside a menu closes it', async ({ page }) => {
+  await openApp(page)
+  // Finds a spot where the 3D viewport is the top element, because each menu covers a different part of the screen.
+  const pressOutside = async () => {
+    const point = await page.evaluate(() => {
+      for (let y = .15; y < .95; y += .05) for (let x = .01; x < .95; x += .04) {
+        const at = { x: innerWidth * x, y: innerHeight * y }
+        if (document.elementFromPoint(at.x, at.y)?.closest('.universe')) return at
+      }
+      return null
+    })
+    expect(point).not.toBeNull()
+    await page.mouse.click(point!.x, point!.y)
+  }
+
+  const catalog = page.getByRole('region', { name: 'Body catalog' })
+  await page.getByRole('button', { name: 'Find a world' }).click()
+  await page.getByRole('textbox', { name: 'Search bodies' }).fill('Mars')
+  await page.getByRole('group', { name: 'Catalog filters' }).getByRole('button', { name: 'Planets' }).click()
+  await expect(catalog).toBeVisible()
+  await pressOutside()
+  await expect(catalog).toBeHidden()
+
+  const date = page.getByRole('group', { name: 'Choose a date' })
+  await page.locator('.date-button').click()
+  await page.getByLabel('UTC date', { exact: true }).click()
+  await expect(date).toBeVisible()
+  await pressOutside()
+  await expect(date).toBeHidden()
+
+  const viewOptions = page.getByRole('group', { name: 'View options' })
+  await page.getByRole('button', { name: 'View', exact: true }).click()
+  await expect(viewOptions).toBeVisible()
+  await pressOutside()
+  await expect(viewOptions).toBeHidden()
+
+  const hangar = page.getByRole('group', { name: 'Choose a ship' })
+  await page.getByRole('button', { name: 'Spaceship', exact: true }).click()
+  await setFlightPanel(page, true)
+  await page.getByRole('button', { name: /^Ship / }).click()
+  await expect(hangar).toBeVisible()
+  await pressOutside()
+  await expect(hangar).toBeHidden()
+})
+
 test('sun lens flare and star glare settings persist', async ({ page }, testInfo) => {
   await openApp(page)
   const dialog = page.getByRole('dialog', { name: 'Settings' })

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Rocket, X } from 'lucide-react'
 import { SHIPS, shipDesign } from '../cockpit/ships'
 import { shipPreviews } from '../cockpit/preview'
-import { useLatest } from './hooks'
+import { useOutsidePress } from './hooks'
 import { SHIP_GROUPS, meters, shipOrigin, shipSize } from './shipText'
 
 interface HangarProps {
@@ -14,7 +14,6 @@ interface HangarProps {
 /** Ship picker that opens beside the flight panel. Picking a ship applies it at once and leaves the hangar open. */
 export function Hangar({ selectedId, onSelect, onClose }: HangarProps) {
   const root = useRef<HTMLElement>(null)
-  const close = useLatest(onClose)
   const [images, setImages] = useState<Record<string, string>>({})
   const [previewsDone, setPreviewsDone] = useState(false)
   const selected = shipDesign(selectedId)
@@ -27,23 +26,18 @@ export function Hangar({ selectedId, onSelect, onClose }: HangarProps) {
     return () => { live = false }
   }, [])
 
+  useOutsidePress(root, true, onClose, '[data-hangar-trigger]')
+
   useEffect(() => {
     const element = root.current
     const opener = document.activeElement instanceof HTMLElement ? document.activeElement : null
     element?.querySelector<HTMLElement>('[aria-pressed="true"]')?.focus({ preventScroll: true })
     element?.querySelector('[aria-pressed="true"]')?.scrollIntoView({ block: 'nearest' })
-    const outside = (event: PointerEvent) => {
-      const target = event.target as Element | null
-      if (element?.contains(target) || target?.closest?.('[data-hangar-trigger]')) return
-      close.current()
-    }
-    document.addEventListener('pointerdown', outside)
     return () => {
-      document.removeEventListener('pointerdown', outside)
       const focus = document.activeElement
       if (opener?.isConnected && (!focus || focus === document.body || element?.contains(focus))) opener.focus({ preventScroll: true })
     }
-  }, [close])
+  }, [])
 
   return <section ref={root} className="hangar panel" role="group" aria-label="Choose a ship">
     <header className="hangar-header">
