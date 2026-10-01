@@ -121,7 +121,7 @@ Each ship has its own cockpit with the same live instruments: speed and vertical
 
 Model size is the largest dimension, so the TIE fighter's is its wing height. Ships longer than 40 m are scaled down to 40 m so they can still land, and the chase camera pulls back for bigger ships. Landing sets a ship's lowest point on the ground, and the pilot's eye sits that ship's eye height above it. A landed Kestrel reads 3 m of altitude and a landed Nostromo reads 11 m. Collision protection keeps the same clearance from every surface.
 
-Pausing freezes translation while leaving the interface and free-look usable. A hidden tab pauses the simulation instead of applying a large elapsed-time jump. Leave flight before scrubbing or reversing time.
+Pausing freezes translation while leaving the interface and free-look usable. By default, a hidden tab or a flight window that loses focus pauses the simulation instead of applying a large elapsed-time jump. Turn off Pause when you switch tabs or windows in Settings to keep the clock, flight, and route running in the background. A hidden tab then advances in small steps on a background timer, about once a second, and catches up when the browser throttles it further. Leave flight before scrubbing or reversing time.
 
 ### Music
 

@@ -1,6 +1,6 @@
 import { Quaternion, Vector3 } from 'three'
 import { DAY_SECONDS } from '../contracts'
-import type { Dataset, Snapshot, SurfaceHit } from '../contracts'
+import type { CameraPose, Dataset, Snapshot, SurfaceHit } from '../contracts'
 import { loadDataset } from '../simulation/dataset'
 import { SolarRenderer } from '../render/SolarRenderer'
 import { FlightController } from '../flight/FlightController'
@@ -18,9 +18,13 @@ import { initialState } from './state'
 import type { Notice, NoticeTone, SavedSettings, ViewState } from './state'
 
 const SETTINGS_KEY = 'solar-atlas-settings-v1'
-type OptionKey = 'labels' | 'paths' | 'quality' | 'exposure' | 'fov' | 'lensFlare' | 'glareHidesStars' | 'music' | 'musicVolume' | 'shipModel'
+type OptionKey = 'labels' | 'paths' | 'quality' | 'exposure' | 'fov' | 'lensFlare' | 'glareHidesStars' | 'music' | 'musicVolume' | 'pauseInBackground' | 'shipModel'
 type RouteOption = 'routeAutoContinue' | 'routeAutoSpeed'
 const RUNNING = new Set(['departing', 'enroute', 'dwell'])
+const FRAME_DT = 0.05
+// Hidden tabs throttle timers to once a second, or once a minute after a few minutes, so each wake catches up in frame-sized steps.
+const BACKGROUND_INTERVAL_MS = 1000
+const MAX_BACKGROUND_CATCH_UP_SECONDS = 90
 
 export class Explorer {
   readonly input: InputController
@@ -35,6 +39,8 @@ export class Explorer {
   private frame = 0
   private disposed = false
   private previousTime = 0
+  private background = 0
+  private previousBackground = 0
   private previousUi = 0
   private fps = 60
   private pointers = new Map<number, { x: number; y: number; downX: number; downY: number }>()
@@ -115,38 +121,16 @@ export class Explorer {
     if (this.disposed || !this.dataset || !this.renderer || !this.observer || !this.snapshot || !this.flight) return
     const elapsed = this.previousTime ? (now - this.previousTime) / 1000 : 0
     this.previousTime = now
-    const dt = Math.max(0, Math.min(elapsed, 0.05))
-    let simulationDt = 0
+    const dt = Math.max(0, Math.min(elapsed, FRAME_DT))
     if (elapsed > 0) this.fps += (1 / elapsed - this.fps) * 0.04
     try {
-      if (this.state.playing) {
-        const previousJd = this.state.jd
-        const next = previousJd + dt * this.state.timeScale / DAY_SECONDS
-        const jd = Math.max(this.dataset.firstJd, Math.min(this.dataset.lastJd, next))
-        simulationDt = (jd - previousJd) * DAY_SECONDS
-        this.state.jd = jd
-        if (next <= this.dataset.firstJd || next >= this.dataset.lastJd) {
-          this.state.playing = false
-          this.state.notice = this.note('Reached the cached dataset boundary. Playback is paused.')
-        }
-      }
-      this.snapshot = this.dataset.evaluate(this.state.jd)
-      if (this.state.inShip) {
-        this.flight.update(simulationDt, this.snapshot, this.input.state, dt)
-        setInputSource(this.input.state, this.pointerLook, null)
-      } else {
+      const telemetry = this.advance(dt)
+      if (!this.state.inShip) {
         this.observer.move(Number(this.keys.has('KeyW')) - Number(this.keys.has('KeyS')),
           Number(this.keys.has('KeyD')) - Number(this.keys.has('KeyA')),
           Number(this.keys.has('KeyR')) - Number(this.keys.has('KeyF')), dt, this.snapshot)
       }
-      const camera = this.state.inShip ? this.flight.camera(this.state.camera) : this.observer.pose(this.snapshot)
-      if (this.state.inShip && this.state.camera === 'chase') {
-        const rotation = new Quaternion(...camera.quaternion)
-          .multiply(new Quaternion().setFromAxisAngle(new Vector3(1, 0, 0), CHASE_PITCH))
-        camera.quaternion = [rotation.x, rotation.y, rotation.z, rotation.w]
-      }
-      const telemetry = this.state.inShip ? this.flight.telemetry(this.snapshot) : undefined
-      if (telemetry) this.advanceRoute(telemetry, simulationDt)
+      const camera = this.cameraPose()
       this.renderer.update(this.snapshot, camera, {
         selectedId: this.state.selectedId, labels: this.state.labels, paths: this.state.paths,
         quality: this.state.quality, exposure: this.state.exposure, cockpit: this.state.inShip && this.state.camera === 'cockpit',
@@ -158,29 +142,99 @@ export class Explorer {
       })
       if (now - this.previousUi >= 100) {
         this.previousUi = now
-        const statePosition = this.snapshot.states[this.state.selectedId].position
-        const observerDistanceKm = new Vector3(...camera.position).distanceTo(new Vector3(...statePosition))
-        const patch: Partial<ViewState> = { date: this.dataset.jdToUtc(this.state.jd), jd: this.state.jd, fps: this.fps,
-          playing: this.state.playing, observerDistanceKm }
-        if (telemetry) {
-          Object.assign(patch, { shipMode: telemetry.mode, speedC: telemetry.speedC, throttleC: telemetry.throttleC,
-            warp: telemetry.warp, warpArmed: telemetry.warpArmed, referenceId: telemetry.referenceId, altitudeKm: telemetry.altitudeKm,
-            altitudeEstimated: telemetry.altitudeEstimated, verticalKmS: telemetry.verticalKmS,
-            separationKm: new Vector3(...this.flight.pose().position).distanceTo(new Vector3(...statePosition)),
-            etaSeconds: telemetry.targetId === this.state.selectedId ? telemetry.etaSeconds : Infinity })
-          // Routine flight status already shows in the flight panel, so only warnings become popups.
-          if (telemetry.message !== this.lastFlightMessage) {
-            this.lastFlightMessage = telemetry.message
-            if (telemetry.warning) patch.notice = this.note(telemetry.message, 'warning')
-          }
-        }
-        this.publish(patch)
+        this.publishFrame(camera, telemetry)
       }
     } catch (e) {
       this.report(e)
       return
     }
     this.frame = requestAnimationFrame(this.tick)
+  }
+
+  /** Advances the clock, the ship and the route by one frame-sized step. */
+  private advance(dt: number): FlightTelemetry | undefined {
+    if (!this.dataset || !this.flight) return undefined
+    let simulationDt = 0
+    if (this.state.playing) {
+      const previousJd = this.state.jd
+      const next = previousJd + dt * this.state.timeScale / DAY_SECONDS
+      const jd = Math.max(this.dataset.firstJd, Math.min(this.dataset.lastJd, next))
+      simulationDt = (jd - previousJd) * DAY_SECONDS
+      this.state.jd = jd
+      if (next <= this.dataset.firstJd || next >= this.dataset.lastJd) {
+        this.state.playing = false
+        this.state.notice = this.note('Reached the cached dataset boundary. Playback is paused.')
+      }
+    }
+    this.snapshot = this.dataset.evaluate(this.state.jd)
+    if (!this.state.inShip) return undefined
+    this.flight.update(simulationDt, this.snapshot, this.input.state, dt)
+    setInputSource(this.input.state, this.pointerLook, null)
+    const telemetry = this.flight.telemetry(this.snapshot)
+    this.advanceRoute(telemetry, simulationDt)
+    return telemetry
+  }
+
+  private cameraPose(): CameraPose {
+    const camera = this.state.inShip ? this.flight!.camera(this.state.camera) : this.observer!.pose(this.snapshot!)
+    if (this.state.inShip && this.state.camera === 'chase') {
+      const rotation = new Quaternion(...camera.quaternion)
+        .multiply(new Quaternion().setFromAxisAngle(new Vector3(1, 0, 0), CHASE_PITCH))
+      camera.quaternion = [rotation.x, rotation.y, rotation.z, rotation.w]
+    }
+    return camera
+  }
+
+  private publishFrame(camera: CameraPose, telemetry: FlightTelemetry | undefined): void {
+    if (!this.dataset || !this.snapshot || !this.flight) return
+    const statePosition = this.snapshot.states[this.state.selectedId].position
+    const observerDistanceKm = new Vector3(...camera.position).distanceTo(new Vector3(...statePosition))
+    const patch: Partial<ViewState> = { date: this.dataset.jdToUtc(this.state.jd), jd: this.state.jd, fps: this.fps,
+      playing: this.state.playing, observerDistanceKm }
+    if (telemetry) {
+      Object.assign(patch, { shipMode: telemetry.mode, speedC: telemetry.speedC, throttleC: telemetry.throttleC,
+        warp: telemetry.warp, warpArmed: telemetry.warpArmed, referenceId: telemetry.referenceId, altitudeKm: telemetry.altitudeKm,
+        altitudeEstimated: telemetry.altitudeEstimated, verticalKmS: telemetry.verticalKmS,
+        separationKm: new Vector3(...this.flight.pose().position).distanceTo(new Vector3(...statePosition)),
+        etaSeconds: telemetry.targetId === this.state.selectedId ? telemetry.etaSeconds : Infinity })
+      // Routine flight status already shows in the flight panel, so only warnings become popups.
+      if (telemetry.message !== this.lastFlightMessage) {
+        this.lastFlightMessage = telemetry.message
+        if (telemetry.warning) patch.notice = this.note(telemetry.message, 'warning')
+      }
+    }
+    this.publish(patch)
+  }
+
+  /** Keeps the simulation going while the tab is hidden and animation frames have stopped. Nothing is rendered. */
+  private backgroundTick = (): void => {
+    if (this.disposed || !document.hidden || !this.dataset || !this.snapshot || !this.flight || !this.observer) return this.stopBackground()
+    const now = performance.now()
+    let remaining = Math.min((now - this.previousBackground) / 1000, MAX_BACKGROUND_CATCH_UP_SECONDS)
+    this.previousBackground = now
+    try {
+      let telemetry: FlightTelemetry | undefined
+      do {
+        const dt = this.state.playing ? Math.min(remaining, FRAME_DT) : 0
+        telemetry = this.advance(dt)
+        remaining -= dt
+      } while (remaining > 0 && this.state.playing)
+      this.publishFrame(this.cameraPose(), telemetry)
+    } catch (e) {
+      this.stopBackground()
+      this.report(e)
+    }
+  }
+
+  private startBackground(): void {
+    if (this.background || !this.dataset) return
+    this.previousBackground = performance.now()
+    this.background = window.setInterval(this.backgroundTick, BACKGROUND_INTERVAL_MS)
+  }
+
+  private stopBackground(): void {
+    window.clearInterval(this.background)
+    this.background = 0
   }
 
   async select(id: string): Promise<void> {
@@ -559,7 +613,7 @@ export class Explorer {
     const settings: SavedSettings = { version: 1, labels: this.state.labels, paths: this.state.paths,
       quality: this.state.quality, exposure: this.state.exposure, fov: this.state.fov, lensFlare: this.state.lensFlare,
       glareHidesStars: this.state.glareHidesStars, music: this.state.music, musicVolume: this.state.musicVolume,
-      shipModel: this.state.shipModel, bookmarks: this.state.bookmarks }
+      pauseInBackground: this.state.pauseInBackground, shipModel: this.state.shipModel, bookmarks: this.state.bookmarks }
     try { localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)) }
     catch (e) { this.publish({ notice: this.note(`Settings could not be saved in this browser: ${e instanceof Error ? e.message : String(e)}`, 'error') }) }
   }
@@ -588,7 +642,7 @@ export class Explorer {
         if (typeof parsed.fov !== 'number' || !Number.isFinite(parsed.fov) || parsed.fov < 25 || parsed.fov > 100) throw new Error('Saved field of view is invalid.')
         fov = parsed.fov
       }
-      const flagNames = { lensFlare: 'lens flare', glareHidesStars: 'star glare', music: 'music' } as const
+      const flagNames = { lensFlare: 'lens flare', glareHidesStars: 'star glare', music: 'music', pauseInBackground: 'background pause' } as const
       const flag = (key: keyof typeof flagNames): boolean => {
         if (!(key in parsed)) return this.state[key]
         const value = (parsed as Record<string, unknown>)[key]
@@ -610,7 +664,8 @@ export class Explorer {
         shipModel = retiredShip ? DEFAULT_SHIP : parsed.shipModel
       }
       this.state = { ...this.state, labels: parsed.labels, paths: parsed.paths, quality: parsed.quality, exposure: parsed.exposure, fov,
-        lensFlare: flag('lensFlare'), glareHidesStars: flag('glareHidesStars'), music: flag('music'), musicVolume, shipModel, bookmarks }
+        lensFlare: flag('lensFlare'), glareHidesStars: flag('glareHidesStars'), music: flag('music'), musicVolume,
+        pauseInBackground: flag('pauseInBackground'), shipModel, bookmarks }
       if (retiredShip) {
         this.state.notice = this.note(`The saved spaceship is no longer in the hangar, so you are flying the ${shipDesign(DEFAULT_SHIP).name}.`)
         this.save()
@@ -676,7 +731,7 @@ export class Explorer {
     this.keys.clear()
     this.pointers.clear()
     setInputSource(this.input.state, this.pointerLook, null)
-    if (this.state.inShip) this.publish({ playing: false, notice: this.note('Flight paused when the window lost focus.') })
+    if (this.state.inShip && this.state.pauseInBackground) this.publish({ playing: false, notice: this.note('Flight paused when the window lost focus.') })
   }
   private visibility = (): void => {
     this.previousTime = 0
@@ -684,8 +739,9 @@ export class Explorer {
       this.keys.clear()
       this.pointers.clear()
       setInputSource(this.input.state, this.pointerLook, null)
-      this.publish({ playing: false, notice: this.note('Simulation paused while this tab was hidden.') })
-    }
+      if (this.state.pauseInBackground) this.publish({ playing: false, notice: this.note('Simulation paused while this tab was hidden.') })
+      else this.startBackground()
+    } else this.stopBackground()
   }
   private resize = (): void => {
     if (this.observer) {
@@ -699,6 +755,7 @@ export class Explorer {
   dispose(): void {
     this.disposed = true
     cancelAnimationFrame(this.frame)
+    this.stopBackground()
     this.input.dispose()
     this.renderer?.dispose()
     this.container.removeEventListener('pointerdown', this.pointerDown)
