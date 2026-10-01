@@ -232,6 +232,77 @@ test('space music toggles from settings, the flight panel, and M, and persists',
   expect(errors).toEqual([])
 })
 
+test('switching tabs or windows pauses by default, and keeps going in the background when turned off', async ({ page }) => {
+  test.setTimeout(240000)
+  const errors: string[] = []
+  page.on('pageerror', error => errors.push(error.message))
+  await openApp(page)
+  const dialog = page.getByRole('dialog', { name: 'Settings' })
+  const pauseAway = dialog.getByRole('checkbox', { name: 'Pause when you switch tabs or windows' })
+  const saved = async () => JSON.parse(await page.evaluate(() => localStorage.getItem('solar-atlas-settings-v1') ?? '{}'))
+  const date = page.locator('.date-button')
+  // Hidden tabs get no animation frames, so frames are held until the tab shows again.
+  const hide = () => page.evaluate(() => {
+    const held: FrameRequestCallback[] = []
+    const original = window.requestAnimationFrame
+    Object.assign(window, { heldFrames: held, originalFrame: original })
+    window.requestAnimationFrame = callback => { held.push(callback); return 0 }
+    Object.defineProperty(document, 'hidden', { configurable: true, get: () => true })
+    document.dispatchEvent(new Event('visibilitychange'))
+  })
+  const show = () => page.evaluate(() => {
+    const state = window as unknown as { heldFrames: FrameRequestCallback[]; originalFrame: typeof requestAnimationFrame }
+    window.requestAnimationFrame = state.originalFrame
+    Object.defineProperty(document, 'hidden', { configurable: true, get: () => false })
+    document.dispatchEvent(new Event('visibilitychange'))
+    for (const callback of state.heldFrames.splice(0)) requestAnimationFrame(callback)
+  })
+
+  await page.getByRole('button', { name: 'Settings' }).click()
+  await expect(pauseAway).toBeChecked()
+  await dialog.getByRole('button', { name: 'Close dialog' }).click()
+  await page.getByRole('button', { name: 'Play simulation' }).click()
+  await hide()
+  await expect(page.getByRole('button', { name: 'Play simulation' })).toBeVisible()
+  await expect(page.locator('.notice')).toContainText('Simulation paused while this tab was hidden.')
+  await show()
+  await expect(page.locator('.notice')).toHaveCount(0, { timeout: 10000 })
+
+  await page.getByRole('button', { name: 'Settings' }).click()
+  await pauseAway.uncheck()
+  await dialog.getByRole('button', { name: 'Close dialog' }).click()
+  expect(await saved()).toMatchObject({ pauseInBackground: false })
+  await page.getByRole('button', { name: 'Play simulation' }).click()
+  await hide()
+  const hiddenAt = await date.textContent()
+  await expect(date).not.toHaveText(hiddenAt ?? '', { timeout: 5000 })
+  await expect(page.getByRole('button', { name: 'Pause simulation' })).toBeVisible()
+  await expect(page.locator('.notice')).toHaveCount(0)
+  await show()
+  await page.getByRole('button', { name: 'Pause simulation' }).click()
+
+  await page.getByRole('button', { name: 'Spaceship', exact: true }).click()
+  await setFlightPanel(page, true)
+  await expect(page.getByRole('button', { name: 'Pause flight', exact: true })).toBeVisible()
+  await page.evaluate(() => window.dispatchEvent(new Event('blur')))
+  await page.waitForTimeout(300)
+  await expect(page.getByRole('button', { name: 'Pause flight', exact: true })).toBeVisible()
+  await expect(page.locator('.notice')).toHaveCount(0)
+
+  await page.reload()
+  await expect(page.getByRole('button', { name: 'Find a world' })).toBeVisible({ timeout: 90000 })
+  await page.getByRole('button', { name: 'Settings' }).click()
+  await expect(pauseAway).not.toBeChecked()
+  await pauseAway.check()
+  await dialog.getByRole('button', { name: 'Close dialog' }).click()
+  expect(await saved()).toMatchObject({ pauseInBackground: true })
+  await page.getByRole('button', { name: 'Spaceship', exact: true }).click()
+  await setFlightPanel(page, true)
+  await page.evaluate(() => window.dispatchEvent(new Event('blur')))
+  await expect(page.getByRole('button', { name: 'Resume flight', exact: true })).toBeVisible()
+  expect(errors).toEqual([])
+})
+
 test('hangar swaps every ship in cockpit and chase view and remembers the choice', async ({ page }, testInfo) => {
   test.setTimeout(180000)
   const errors: string[] = []

@@ -39,6 +39,8 @@ export interface ViewState {
   music: boolean
   /** Music volume from 0 to 1. */
   musicVolume: number
+  /** Pause when the window loses focus or the tab is hidden. When off, a hidden tab keeps advancing at background-timer rate. */
+  pauseInBackground: boolean
   pickingSite: boolean
   notice: Notice | null
   fps: number
@@ -77,6 +79,7 @@ export interface SavedSettings {
   glareHidesStars?: boolean
   music?: boolean
   musicVolume?: number
+  pauseInBackground?: boolean
   shipModel?: string
   bookmarks: Bookmark[]
 }
@@ -89,7 +92,7 @@ export const initialState: ViewState = {
   altitudeKm: 0, altitudeEstimated: false, verticalKmS: 0, separationKm: 0, observerDistanceKm: 0, etaSeconds: Infinity,
   labels: true, paths: false, quality: matchMedia('(pointer: coarse)').matches ? 'low' : 'high',
   exposure: 0, fov: 50, lensFlare: true, glareHidesStars: true,
-  music: false, musicVolume: 0.7, pickingSite: false, notice: null, fps: 0, bookmarks: [],
+  music: false, musicVolume: 0.7, pauseInBackground: true, pickingSite: false, notice: null, fps: 0, bookmarks: [],
   route: [], routePhase: 'idle', routeAutoContinue: true, routeAutoSpeed: true, routeDwell: 0,
 }
 

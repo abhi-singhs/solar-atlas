@@ -27,7 +27,7 @@ function Modal({ title, onClose, children }: { title: string; onClose: () => voi
 interface SettingsProps {
   view: ViewState
   onClose: () => void
-  onOption: <K extends 'quality' | 'exposure' | 'fov' | 'labels' | 'paths' | 'lensFlare' | 'glareHidesStars' | 'musicVolume' | 'shipModel'>(key: K, value: ViewState[K]) => void
+  onOption: <K extends 'quality' | 'exposure' | 'fov' | 'labels' | 'paths' | 'lensFlare' | 'glareHidesStars' | 'musicVolume' | 'pauseInBackground' | 'shipModel'>(key: K, value: ViewState[K]) => void
   musicSupported: boolean
   onMusic: (on: boolean) => void
 }
@@ -66,6 +66,11 @@ export function SettingsDialog({ view, onClose, onOption, musicSupported, onMusi
       <div className="check-setting">
         <label className="check-label"><input type="checkbox" checked={view.glareHidesStars} aria-describedby="glare-note" onChange={event => onOption('glareHidesStars', event.target.checked)} />Sun glare hides stars</label>
         <small id="glare-note">Turn off to keep stars visible with the Sun in view. Daylight inside an atmosphere still hides them.</small>
+      </div>
+      <div className="check-setting">
+        <label className="check-label"><input type="checkbox" checked={view.pauseInBackground} aria-describedby="background-note"
+          onChange={event => onOption('pauseInBackground', event.target.checked)} />Pause when you switch tabs or windows</label>
+        <small id="background-note">Turn off to keep the clock, flight, and route going while you are away. A hidden tab updates about once a second and draws nothing until you return.</small>
       </div>
       <div className="check-setting">
         <label className="check-label"><input type="checkbox" checked={view.music && musicSupported} disabled={!musicSupported} aria-describedby="music-note"

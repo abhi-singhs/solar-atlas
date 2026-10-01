@@ -16,7 +16,7 @@ import { Hangar } from './ui/Hangar'
 import type { RouteActions } from './ui/RoutePanel'
 import { useLatest, useMediaQuery, useShortcuts, useStoredFlag } from './ui/hooks'
 
-type OptionKey = 'labels' | 'paths' | 'quality' | 'exposure' | 'fov' | 'lensFlare' | 'glareHidesStars' | 'music' | 'musicVolume' | 'shipModel'
+type OptionKey = 'labels' | 'paths' | 'quality' | 'exposure' | 'fov' | 'lensFlare' | 'glareHidesStars' | 'music' | 'musicVolume' | 'pauseInBackground' | 'shipModel'
 const base = import.meta.env.BASE_URL
 const COMPACT = '(max-width: 760px), (max-height: 540px) and (orientation: landscape)'
 const detectTouch = () => navigator.maxTouchPoints > 0 || matchMedia('(any-pointer: coarse), (hover: none)').matches
