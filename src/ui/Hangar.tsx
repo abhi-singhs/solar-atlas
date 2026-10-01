@@ -3,7 +3,7 @@ import { Rocket, X } from 'lucide-react'
 import { SHIPS, shipDesign } from '../cockpit/ships'
 import { shipPreviews } from '../cockpit/preview'
 import { useLatest } from './hooks'
-import { SHIP_GROUPS, meters, shipSize } from './shipText'
+import { SHIP_GROUPS, meters, shipOrigin, shipSize } from './shipText'
 
 interface HangarProps {
   selectedId: string
@@ -16,13 +16,14 @@ export function Hangar({ selectedId, onSelect, onClose }: HangarProps) {
   const root = useRef<HTMLElement>(null)
   const close = useLatest(onClose)
   const [images, setImages] = useState<Record<string, string>>({})
-  const [previewFailed, setPreviewFailed] = useState(false)
+  const [previewsDone, setPreviewsDone] = useState(false)
   const selected = shipDesign(selectedId)
 
   useEffect(() => {
     let live = true
     shipPreviews(SHIPS, (id, url) => { if (live) setImages(current => current[id] ? current : { ...current, [id]: url }) })
-      .catch(() => { if (live) setPreviewFailed(true) })
+      .catch(() => undefined)
+      .finally(() => { if (live) setPreviewsDone(true) })
     return () => { live = false }
   }, [])
 
@@ -57,21 +58,21 @@ export function Hangar({ selectedId, onSelect, onClose }: HangarProps) {
             aria-pressed={ship.id === selectedId} data-ship-id={ship.id} title={ship.blurb} onClick={() => onSelect(ship.id)}>
             <span className="ship-thumb" aria-hidden="true">
               {images[ship.id] ? <img src={images[ship.id]} alt="" draggable={false} />
-                : previewFailed ? <Rocket size={28} strokeWidth={1.2} /> : <span className="thumb-loading" />}
+                : previewsDone ? <Rocket size={28} strokeWidth={1.2} /> : <span className="thumb-loading" />}
             </span>
             <span className="ship-card-name">{ship.name}</span>
-            <span className="ship-card-meta">{ship.franchise ?? 'Original design'}</span>
+            <span className="ship-card-meta">{shipOrigin(ship)}</span>
           </button>)}
         </div>
       </section>)}
     </div>
     <footer className="hangar-detail" aria-live="polite">
       <div className="hangar-detail-title"><strong>{selected.name}</strong>
-        {selected.kind === 'tribute' && <span className="tribute-tag">Unofficial fan tribute</span>}</div>
+        {selected.kind === 'nasa' && <span className="ship-tag">{shipOrigin(selected)}</span>}</div>
       <p>{selected.blurb}</p>
       <p className="hangar-facts">Size {shipSize(selected)}. Landed, the pilot's eye sits {meters(selected.eyeHeightM)} above the ground.</p>
-      {selected.kind === 'tribute' && <p className="hangar-note">
-        {selected.franchise} and its ships belong to {selected.owner?.replace(/\.$/, '')}. This model is built from simple shapes in this app and is not endorsed by them.
+      {selected.kind === 'nasa' && <p className="hangar-note">
+        Exterior from the NASA 3D Resources model "{selected.source}". The cockpit is built for this app. NASA does not endorse this app.
       </p>}
     </footer>
   </section>

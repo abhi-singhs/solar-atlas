@@ -1,10 +1,13 @@
 import * as THREE from 'three'
 import type { Body, CameraPose, Dataset, Quat, RenderOptions, Snapshot, SurfaceHit, SurfaceProvider, Vec3 } from '../contracts'
 import { AU_KM, bodyRadius } from '../contracts'
-import { createCockpit, createShip, updateCockpit } from '../cockpit/models'
+import { createCockpit, createShip, loadShipModel, updateCockpit } from '../cockpit/models'
 import type { CockpitTelemetry } from '../cockpit/models'
 import { disposeTree } from '../cockpit/parts'
 import { DEFAULT_SHIP, shipDesign } from '../cockpit/ships'
+import { ShipSwap } from '../cockpit/swap'
+import { occluderBlocks } from '../cockpit/occluder'
+import { shipOccluder } from '../cockpit/shipLoader'
 import { createTerrainPatch, createTerrainSurface } from '../terrain'
 import type { TerrainPatch, TerrainPatchState, TerrainSystem } from '../terrain'
 import { AssetStore, localAssetUrl, positionAttribute } from './assets'
@@ -23,6 +26,10 @@ interface Callbacks {
   onError: (message: string) => void
   onProgress?: (message: string) => void
   onSurfacePick?: (id: string, hit: SurfaceHit) => void
+  /** A ship's cockpit and exterior are now on screen. */
+  onShipShown?: (id: string) => void
+  /** A ship model failed to load. `shownId` is the ship still on screen. */
+  onShipFailed?: (id: string, shownId: string, message: string) => void
 }
 interface Component {
   mesh: THREE.Mesh<THREE.BufferGeometry, THREE.ShaderMaterial>
@@ -127,9 +134,9 @@ export class SolarRenderer {
   private proxyMaterial = new THREE.MeshBasicMaterial({ color: 0x777777 })
   private proxy = new THREE.Mesh(this.proxyGeometry, this.proxyMaterial)
   private cockpitScene = new THREE.Scene()
-  private shipModel = DEFAULT_SHIP
   private cockpit = createCockpit(DEFAULT_SHIP)
   private ship = createShip(DEFAULT_SHIP)
+  private shipSwap = this.createShipSwap(DEFAULT_SHIP)
   private shipSun = new THREE.DirectionalLight(0xffffff, 2)
   private observer = new ResizeObserver(() => this.resize())
   private lastFrameMs = 0
@@ -751,11 +758,27 @@ export class SolarRenderer {
     return open / SUN_SAMPLE_AREA
   }
 
-  /** Cockpit and ship meshes sit in meters around the camera at the origin. */
+  /**
+   * Cockpit and ship meshes sit in meters around the camera at the origin. NASA exteriors carry tens of thousands of
+   * triangles in a few meshes, so they go through their occluder instead of a raycast.
+   */
   private shipBlocks(ray: THREE.Vector3, parts: THREE.Object3D[]): boolean {
     if (!parts.length) return false
+    const raycast: THREE.Object3D[] = []
+    for (const part of parts) {
+      const occluder = shipOccluder(part)
+      if (!occluder) {
+        raycast.push(part)
+        continue
+      }
+      let shown = true
+      for (let object: THREE.Object3D | null = part; object; object = object.parent) if (!object.visible) shown = false
+      const local = new THREE.Ray(new THREE.Vector3(), ray.clone()).applyMatrix4(part.matrixWorld.clone().invert())
+      if (shown && occluderBlocks(occluder, local)) return true
+    }
+    if (!raycast.length) return false
     this.raycaster.set(new THREE.Vector3(), ray)
-    return this.raycaster.intersectObjects(parts, true).some(hit => {
+    return this.raycaster.intersectObjects(raycast, true).some(hit => {
       if (!(hit.object instanceof THREE.Mesh)) return false
       for (let object: THREE.Object3D | null = hit.object; object; object = object.parent) if (!object.visible) return false
       return true
@@ -804,18 +827,46 @@ export class SolarRenderer {
     this.renderer.render(this.traceScene, this.camera)
   }
 
-  /** Swaps in another ship's cockpit and exterior and frees the previous ones. Unknown ids fall back to the Kestrel. */
+  /**
+   * Loads a ship's exterior, then builds its cockpit, so both swap in on the same frame. A NASA exterior's sun occluder
+   * is built here too, so the first chase frame doesn't stall on it.
+   */
+  private createShipSwap(current: string): ShipSwap<{ cockpit: THREE.Group; ship: THREE.Group }> {
+    return new ShipSwap(current,
+      async id => {
+        const ship = await loadShipModel(id)
+        shipOccluder(ship)
+        return { cockpit: createCockpit(id), ship }
+      },
+      (id, parts) => {
+        this.replaceShip(parts.cockpit, parts.ship)
+        if (!this.disposed) this.callbacks.onShipShown?.(id)
+      },
+      parts => { disposeTree(parts.cockpit); disposeTree(parts.ship) },
+      (id, error) => this.callbacks.onShipFailed?.(id, this.shipSwap.current, error instanceof Error ? error.message : String(error)),
+    )
+  }
+
+  /**
+   * Requests another ship. The current cockpit and exterior stay until the new ones are ready. Unknown ids fall back to
+   * the Kestrel.
+   */
   private setShipModel(id: string | undefined): void {
-    const next = shipDesign(id).id
-    if (next === this.shipModel) return
-    const cockpit = createCockpit(next)
-    const ship = createShip(next)
+    if (!this.disposed) this.shipSwap.request(shipDesign(id).id)
+  }
+
+  /** Puts a new cockpit and exterior in the cockpit scene and frees the previous ones. */
+  private replaceShip(cockpit: THREE.Group, ship: THREE.Group): void {
+    if (this.disposed) {
+      disposeTree(cockpit)
+      disposeTree(ship)
+      return
+    }
     this.cockpitScene.remove(this.cockpit, this.ship)
     disposeTree(this.cockpit)
     disposeTree(this.ship)
     this.cockpit = cockpit
     this.ship = ship
-    this.shipModel = next
     this.cockpitScene.add(cockpit, ship)
   }
 
@@ -906,6 +957,7 @@ export class SolarRenderer {
   dispose(): void {
     if (this.disposed) return
     this.disposed = true
+    this.shipSwap.cancel()
     this.observer.disconnect()
     this.container.removeEventListener('pointerdown', this.onPointerDown)
     this.container.removeEventListener('pointerup', this.onPointerUp)

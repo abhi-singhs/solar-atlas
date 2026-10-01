@@ -1,32 +1,32 @@
+import { apolloLm } from './apollo-lm'
+import { apolloSoyuz } from './apollo-soyuz'
 import { atomic } from './atomic'
-import { discoveryOne } from './discovery-one'
-import { enterprise1966 } from './enterprise-1966'
+import { cassiniHuygens } from './cassini-huygens'
+import { gemini } from './gemini'
+import { hubble } from './hubble'
+import { iss } from './iss'
+import { juno } from './juno'
+import { jwst } from './jwst'
 import { kestrel } from './kestrel'
 import { manta } from './manta'
-import { millenniumFalcon } from './millennium-falcon'
 import { mule } from './mule'
 import { needle } from './needle'
-import { nostromo } from './nostromo'
-import { planetExpress } from './planet-express'
-import { rocinante } from './rocinante'
-import { serenity } from './serenity'
-import { tieFighter } from './tie-fighter'
-import { viperMk2 } from './viper-mk2'
-import { xWing } from './x-wing'
+import { parkerSolarProbe } from './parker-solar-probe'
+import { voyager } from './voyager'
 import type { ShipDesign } from './types'
 import type { ShipProfile } from '../../flight/FlightController'
 
-export type { ShipDesign } from './types'
+export type { NasaShip, OriginalShip, ShipDesign } from './types'
 
 export const DEFAULT_SHIP = 'kestrel'
 /** The chase camera looks this far below the ship's forward axis, in radians about +X. */
 export const CHASE_PITCH = -0.17
 
-/** Hangar order. The Kestrel comes first and is the default. */
+/** Hangar order. The Kestrel comes first and is the default, then the NASA ships by launch year. */
 export const SHIPS: readonly ShipDesign[] = [
   kestrel,
-  millenniumFalcon, xWing, tieFighter, enterprise1966, serenity,
-  planetExpress, rocinante, discoveryOne, viperMk2, nostromo,
+  gemini, apolloLm, apolloSoyuz, voyager, hubble,
+  cassiniHuygens, iss, juno, parkerSolarProbe, jwst,
   atomic, needle, mule, manta,
 ]
 

@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import { mountInstruments } from '../instruments'
 import type { DisplayPalette } from '../instruments'
 import { beam, box, cabinLight, cylinder, deck, glass, light, metal, sphere, shipGroup } from '../parts'
-import type { ShipDesign } from './types'
+import type { OriginalShip } from './types'
 
 const MANTA_PALETTE: DisplayPalette = {
   background: '#031316',
@@ -167,7 +167,7 @@ function buildShip(): THREE.Group {
   return group
 }
 
-export const manta: ShipDesign = {
+export const manta: OriginalShip = {
   id: 'manta',
   name: 'Manta',
   kind: 'original',

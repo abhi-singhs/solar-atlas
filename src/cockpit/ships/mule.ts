@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import { mountInstruments } from '../instruments'
 import type { DisplayPalette } from '../instruments'
 import { beam, box, cabinLight, cylinder, glass, light, metal, plate, shipGroup, sphere, torus } from '../parts'
-import type { ShipDesign } from './types'
+import type { OriginalShip } from './types'
 
 type Triple = readonly [number, number, number]
 
@@ -201,7 +201,7 @@ function buildCockpit(): THREE.Group {
   return group
 }
 
-export const mule: ShipDesign = {
+export const mule: OriginalShip = {
   id: 'mule',
   name: 'Mule',
   kind: 'original',

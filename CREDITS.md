@@ -48,24 +48,26 @@ Reduced-resolution texture variants and mesh detail levels support smaller devic
 
 The Kestrel, Atomic, Needle, Mule, and Manta spacecraft, every cockpit, the flight controls, and the added local terrain are original reconstructed content for this application. They are not mission hardware models, surveyed landscapes, or physical flight predictions.
 
-## Fan tribute ships
+## NASA spacecraft models
 
-Ten ships in the hangar are unofficial fan tributes to spacecraft from film and television. This project is not affiliated with or endorsed by the rights holders below. The names, designs, and franchises belong to them.
+The ten NASA ship exteriors come from NASA 3D Resources, <https://github.com/nasa/NASA-3D-Resources>, at commit `11ebb4ee043715aefbba6aeec8a61746fad67fa7`. That repository describes its assets as "free and without copyright." NASA's media usage guidelines, <https://www.nasa.gov/nasa-brand-center/images-and-media/>, allow factual use that does not imply endorsement and ask that NASA be acknowledged as the source. NASA has not endorsed this app. None of the source textures carry the NASA insignia, logotype, or seal. Some carry markings painted on the real hardware, such as U.S. and Soviet flags.
 
-| Ship | Franchise | Rights holder |
+| Ship | NASA 3D Resources model | Real dimension the model is scaled to |
 | --- | --- | --- |
-| Millennium Falcon | Star Wars | Lucasfilm Ltd. |
-| X-wing | Star Wars | Lucasfilm Ltd. |
-| TIE fighter | Star Wars | Lucasfilm Ltd. |
-| USS Enterprise (1966) | Star Trek | CBS Studios |
-| Serenity | Firefly | 20th Television |
-| Planet Express Ship | Futurama | 20th Television |
-| Rocinante | The Expanse | Alcon Entertainment |
-| Discovery One | 2001: A Space Odyssey | Turner Entertainment Co. |
-| Viper Mk II | Battlestar Galactica | Universal Content Productions |
-| Nostromo | Alien | 20th Century Studios |
+| Gemini | [Gemini](https://github.com/nasa/NASA-3D-Resources/blob/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Gemini/Gemini.glb) | adapter base diameter, 3.048 m ([source](https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1965-024A)) |
+| Apollo Lunar Module | [Apollo Lunar Module](https://github.com/nasa/NASA-3D-Resources/blob/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Apollo%20Lunar%20Module/Apollo%20Lunar%20Module.glb) | height with landing gear deployed, 6.99 m ([source](https://www.nasa.gov/wp-content/uploads/static/history/alsj/08_LM_&_SLA_Overview_pp61-68.pdf)) |
+| Apollo-Soyuz | [Apollo Soyuz](https://github.com/nasa/NASA-3D-Resources/blob/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Apollo%20Soyuz/Apollo%20Soyuz.glb) | Apollo command and service module length, 11 m ([source](https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1975-066A)) |
+| Voyager | [Voyager Probe (B)](https://github.com/nasa/NASA-3D-Resources/blob/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Voyager%20Probe%20(B)/Voyager%20Probe%20(B).glb) | high-gain antenna diameter, 3.7 m ([source](https://voyager.jpl.nasa.gov/mission/spacecraft/)) |
+| Hubble | [Hubble Space Telescope (A)](https://github.com/nasa/NASA-3D-Resources/blob/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Hubble%20Space%20Telescope%20(A)/Hubble%20Space%20Telescope%20(A).glb) | length, 13.1 m ([source](https://science.nasa.gov/mission/hubble/overview/hubble-by-the-numbers/)) |
+| Cassini-Huygens | [Cassini-Huygens (A)](https://github.com/nasa/NASA-3D-Resources/blob/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Cassini-Huygens%20(A)/Cassini-Huygens%20(A).glb) | high-gain antenna diameter, 4 m ([source](https://solarsystem.nasa.gov/system/downloadable_items/1943_spacecraft.pdf)) |
+| ISS | [International Space Station (ISS) (B)](https://github.com/nasa/NASA-3D-Resources/blob/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/International%20Space%20Station%20(ISS)%20(B)/International%20Space%20Station%20(ISS)%20(B).glb) | solar array wingspan, 109 m ([source](https://www.nasa.gov/international-space-station/space-station-facts-and-figures/)) |
+| Juno | [Juno (A)](https://github.com/nasa/NASA-3D-Resources/blob/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Juno%20(A)/Juno%20(A).glb) | high-gain antenna diameter, 2.5 m ([source](https://www.missionjuno.swri.edu/spacecraft/juno-spacecraft)) |
+| Parker Solar Probe | [Parker Solar Probe](https://github.com/nasa/NASA-3D-Resources/blob/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Parker%20Solar%20Probe/Parker%20Solar%20Probe.glb) | thermal protection system diameter, 2.3 m ([source](https://parkersolarprobe.jhuapl.edu/Spacecraft/index.php)) |
+| Webb | [James Webb Space Telescope (B)](https://github.com/nasa/NASA-3D-Resources/blob/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/James%20Webb%20Space%20Telescope%20(B)/James%20Webb%20Space%20Telescope%20(B).glb) | sunshield length, 21.197 m ([source](https://science.nasa.gov/mission/webb/webbs-sunshield/)) |
 
-Each tribute is modeled by hand in `src/cockpit/ships/` from three.js primitives. No studio meshes, textures, fonts, logos, insignia, lettering, or registry numbers are copied. Ships longer than 40 m are scaled down, and their cockpits are new interiors made for this app. The MIT license covers this repository's code. It grants no rights in the franchises or their designs.
+`scripts/prepare_ships.mjs` changes every model. It removes animations, cameras, lights, and empty placeholder geometry, plus seven stray meshes floating above the ISS. It rotates each model so the nose points forward, scales it to the dimension above, and caps the ISS at 40 m. It simplifies the Apollo Lunar Module, ISS, and Webb to at most 60,000 triangles, merges draw calls, converts textures to WebP no larger than 1,024 px, and compresses geometry with meshopt. `public/assets/ships/manifest.json` records each source URL and SHA-256, the output SHA-256, and the final size.
+
+The cockpits of these ships are original to this app, not NASA models. Voyager, Hubble, Cassini-Huygens, Juno, Parker Solar Probe, and Webb never carried crew, so their cockpits are invented.
 
 The Space music soundtrack is original. The browser synthesizes it at runtime from Web Audio oscillators and generated noise, so the app bundles no audio recordings or samples.
 

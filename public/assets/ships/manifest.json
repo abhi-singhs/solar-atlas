@@ -1,0 +1,360 @@
+{
+  "generator": "scripts/prepare_ships.mjs",
+  "repository": "https://github.com/nasa/NASA-3D-Resources",
+  "commit": "11ebb4ee043715aefbba6aeec8a61746fad67fa7",
+  "credit": "NASA 3D Resources",
+  "frame": "meters, +Y up, nose toward -Z, pilot eye at the origin",
+  "ships": {
+    "gemini": {
+      "file": "assets/ships/gemini.glb",
+      "source": {
+        "path": "3D Models/Gemini/Gemini.glb",
+        "url": "https://github.com/nasa/NASA-3D-Resources/blob/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Gemini/Gemini.glb",
+        "sha256": "e580e90ac2eb13d029e262e9d638c32980d7f8a48a6830d272ce080576110758",
+        "triangles": 38840
+      },
+      "reference": {
+        "part": "adapter base diameter",
+        "meters": 3.048,
+        "sourceUnits": 7.22,
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1965-024A"
+      },
+      "scale": 0.422161,
+      "sizeM": 5.77,
+      "eyeHeightM": 1.91,
+      "boundsM": {
+        "min": [
+          -1.497,
+          -1.906,
+          -1.778
+        ],
+        "max": [
+          1.549,
+          1.136,
+          3.994
+        ]
+      },
+      "triangles": 38840,
+      "meshes": 10,
+      "textures": 4,
+      "bytes": 310684,
+      "sha256": "4cf8ecf6c7a1aeff521079b98f9450d70cd3db7a82587440064ed3a88e61e9db"
+    },
+    "apollo-lm": {
+      "file": "assets/ships/apollo-lm.glb",
+      "source": {
+        "path": "3D Models/Apollo Lunar Module/Apollo Lunar Module.glb",
+        "url": "https://github.com/nasa/NASA-3D-Resources/blob/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Apollo%20Lunar%20Module/Apollo%20Lunar%20Module.glb",
+        "sha256": "379101dfcee399267addf771709107c35e826b0b9e5233272f123e4c8a585c4e",
+        "triangles": 97588
+      },
+      "reference": {
+        "part": "height with landing gear deployed",
+        "meters": 6.99,
+        "sourceUnits": 5.02,
+        "url": "https://www.nasa.gov/wp-content/uploads/static/history/alsj/08_LM_&_SLA_Overview_pp61-68.pdf"
+      },
+      "scale": 1.39243,
+      "sizeM": 8.95,
+      "eyeHeightM": 5.08,
+      "boundsM": {
+        "min": [
+          -4.474,
+          -5.079,
+          -3.218
+        ],
+        "max": [
+          4.476,
+          1.901,
+          5.731
+        ]
+      },
+      "triangles": 58640,
+      "meshes": 12,
+      "textures": 3,
+      "bytes": 501216,
+      "sha256": "0bac8350d67498b89cb1cce92d17baee7af9464852668ca5e5fa31f2ac047796"
+    },
+    "apollo-soyuz": {
+      "file": "assets/ships/apollo-soyuz.glb",
+      "source": {
+        "path": "3D Models/Apollo Soyuz/Apollo Soyuz.glb",
+        "url": "https://github.com/nasa/NASA-3D-Resources/blob/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Apollo%20Soyuz/Apollo%20Soyuz.glb",
+        "sha256": "4d7d37c8ee02c6649b578900fa3533d92b89e125380a2efaa75f5a66e81d43db",
+        "triangles": 32996
+      },
+      "reference": {
+        "part": "Apollo command and service module length",
+        "meters": 11,
+        "sourceUnits": 11.84,
+        "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1975-066A"
+      },
+      "scale": 0.929054,
+      "sizeM": 20.11,
+      "eyeHeightM": 2.4,
+      "boundsM": {
+        "min": [
+          -4.515,
+          -2.405,
+          -10.209
+        ],
+        "max": [
+          4.436,
+          2.355,
+          9.9
+        ]
+      },
+      "triangles": 32996,
+      "meshes": 17,
+      "textures": 5,
+      "bytes": 239512,
+      "sha256": "0a84427514c33ac7f3f676124f9ca91739076c5f2bad05c87fc3de81cab6a479"
+    },
+    "voyager": {
+      "file": "assets/ships/voyager.glb",
+      "source": {
+        "path": "3D Models/Voyager Probe (B)/Voyager Probe (B).glb",
+        "url": "https://github.com/nasa/NASA-3D-Resources/blob/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Voyager%20Probe%20(B)/Voyager%20Probe%20(B).glb",
+        "sha256": "bd86ded828dd3f459293aee4ffc3cd0998d8db67439317c8299650a1174c3289",
+        "triangles": 20390
+      },
+      "reference": {
+        "part": "high-gain antenna diameter",
+        "meters": 3.7,
+        "sourceUnits": 3.81,
+        "url": "https://voyager.jpl.nasa.gov/mission/spacecraft/"
+      },
+      "scale": 0.971129,
+      "sizeM": 16.42,
+      "eyeHeightM": 3.77,
+      "boundsM": {
+        "min": [
+          -4.087,
+          -3.767,
+          -2.17
+        ],
+        "max": [
+          12.334,
+          3.761,
+          8.55
+        ]
+      },
+      "triangles": 20378,
+      "meshes": 2,
+      "textures": 2,
+      "bytes": 375840,
+      "sha256": "a9832f1fbec815ea2edb65b87a0b5d40b260c87dd6fbd63a7223e1f7efd2a5c0"
+    },
+    "hubble": {
+      "file": "assets/ships/hubble.glb",
+      "source": {
+        "path": "3D Models/Hubble Space Telescope (A)/Hubble Space Telescope (A).glb",
+        "url": "https://github.com/nasa/NASA-3D-Resources/blob/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Hubble%20Space%20Telescope%20(A)/Hubble%20Space%20Telescope%20(A).glb",
+        "sha256": "e5ba4de15c7d359ac8fa1ab7e286aff42dec09c0fadae3db99252587f39fa384",
+        "triangles": 7672
+      },
+      "reference": {
+        "part": "length",
+        "meters": 13.1,
+        "sourceUnits": 525.49,
+        "url": "https://science.nasa.gov/mission/hubble/overview/hubble-by-the-numbers/"
+      },
+      "scale": 0.024929,
+      "sizeM": 13.1,
+      "eyeHeightM": 5.71,
+      "boundsM": {
+        "min": [
+          -6.248,
+          -5.711,
+          -3.477
+        ],
+        "max": [
+          6.249,
+          5.713,
+          9.623
+        ]
+      },
+      "triangles": 7672,
+      "meshes": 5,
+      "textures": 5,
+      "bytes": 216252,
+      "sha256": "677ccee04f76dcb951bf4a0b51a5d8ac7cb420abd8a42fc3e5ca6f904cd34d6d"
+    },
+    "cassini-huygens": {
+      "file": "assets/ships/cassini-huygens.glb",
+      "source": {
+        "path": "3D Models/Cassini-Huygens (A)/Cassini-Huygens (A).glb",
+        "url": "https://github.com/nasa/NASA-3D-Resources/blob/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Cassini-Huygens%20(A)/Cassini-Huygens%20(A).glb",
+        "sha256": "f8bc110e23821021e99b88634843449cc8e98d86d0d8561c612c1cf0404e64e7",
+        "triangles": 25736
+      },
+      "reference": {
+        "part": "high-gain antenna diameter",
+        "meters": 4,
+        "sourceUnits": 4,
+        "url": "https://solarsystem.nasa.gov/system/downloadable_items/1943_spacecraft.pdf"
+      },
+      "scale": 1,
+      "sizeM": 17.98,
+      "eyeHeightM": 2.04,
+      "boundsM": {
+        "min": [
+          -8.983,
+          -2.037,
+          -2.891
+        ],
+        "max": [
+          9,
+          11.069,
+          8.771
+        ]
+      },
+      "triangles": 25724,
+      "meshes": 7,
+      "textures": 3,
+      "bytes": 391572,
+      "sha256": "768159fcbe64e843340e93d03b28730f5b97cc672372924cc4b0c4f051ad2e36"
+    },
+    "iss": {
+      "file": "assets/ships/iss.glb",
+      "source": {
+        "path": "3D Models/International Space Station (ISS) (B)/International Space Station (ISS) (B).glb",
+        "url": "https://github.com/nasa/NASA-3D-Resources/blob/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/International%20Space%20Station%20(ISS)%20(B)/International%20Space%20Station%20(ISS)%20(B).glb",
+        "sha256": "2ba4427413b0dd89a33d2acaf962dea8a96a3b1d8dceda05cc7aad547ffd3d16",
+        "triangles": 174440
+      },
+      "reference": {
+        "part": "solar array wingspan",
+        "meters": 109,
+        "sourceUnits": 45.54,
+        "url": "https://www.nasa.gov/international-space-station/space-station-facts-and-figures/"
+      },
+      "scale": 0.878265,
+      "sizeM": 40,
+      "canonSizeM": 109,
+      "eyeHeightM": 2.89,
+      "boundsM": {
+        "min": [
+          -20.081,
+          -2.887,
+          -13.853
+        ],
+        "max": [
+          19.919,
+          2.485,
+          12.445
+        ]
+      },
+      "triangles": 58160,
+      "meshes": 1,
+      "textures": 0,
+      "bytes": 406984,
+      "sha256": "93dab8218fbf83b880c94ba0e8f34fb10d03593950def8cf5f361ed1f214a917"
+    },
+    "juno": {
+      "file": "assets/ships/juno.glb",
+      "source": {
+        "path": "3D Models/Juno (A)/Juno (A).glb",
+        "url": "https://github.com/nasa/NASA-3D-Resources/blob/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Juno%20(A)/Juno%20(A).glb",
+        "sha256": "13f6bd48ff830a1890b21ef6e0182bb1043926feebb77af9733e7374b050367a",
+        "triangles": 17124
+      },
+      "reference": {
+        "part": "high-gain antenna diameter",
+        "meters": 2.5,
+        "sourceUnits": 2.38,
+        "url": "https://www.missionjuno.swri.edu/spacecraft/juno-spacecraft"
+      },
+      "scale": 1.05042,
+      "sizeM": 19.48,
+      "eyeHeightM": 2.8,
+      "boundsM": {
+        "min": [
+          -9.724,
+          -2.797,
+          -6.422
+        ],
+        "max": [
+          9.754,
+          1.675,
+          12.124
+        ]
+      },
+      "triangles": 17124,
+      "meshes": 9,
+      "textures": 7,
+      "bytes": 877632,
+      "sha256": "d7d5fe4f03dc1d8ebf6b0ef2764f63898a574a55603dceac3992abc17f7ded8b"
+    },
+    "parker-solar-probe": {
+      "file": "assets/ships/parker-solar-probe.glb",
+      "source": {
+        "path": "3D Models/Parker Solar Probe/Parker Solar Probe.glb",
+        "url": "https://github.com/nasa/NASA-3D-Resources/blob/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/Parker%20Solar%20Probe/Parker%20Solar%20Probe.glb",
+        "sha256": "4d26e84efd29a78c5d07e474f6272bb111668b58da5a7555e305a65c72ddb1c5",
+        "triangles": 39257
+      },
+      "reference": {
+        "part": "thermal protection system diameter",
+        "meters": 2.3,
+        "sourceUnits": 2.48,
+        "url": "https://parkersolarprobe.jhuapl.edu/Spacecraft/index.php"
+      },
+      "scale": 0.927419,
+      "sizeM": 6.13,
+      "eyeHeightM": 2.44,
+      "boundsM": {
+        "min": [
+          -2.665,
+          -2.441,
+          -1.373
+        ],
+        "max": [
+          2.665,
+          2.44,
+          4.758
+        ]
+      },
+      "triangles": 39245,
+      "meshes": 6,
+      "textures": 2,
+      "bytes": 482572,
+      "sha256": "6caf7f51f8d79ce89c9eac3b37a532c4bd46ab36a77196eb931c5825c9c0b80a"
+    },
+    "jwst": {
+      "file": "assets/ships/jwst.glb",
+      "source": {
+        "path": "3D Models/James Webb Space Telescope (B)/James Webb Space Telescope (B).glb",
+        "url": "https://github.com/nasa/NASA-3D-Resources/blob/11ebb4ee043715aefbba6aeec8a61746fad67fa7/3D%20Models/James%20Webb%20Space%20Telescope%20(B)/James%20Webb%20Space%20Telescope%20(B).glb",
+        "sha256": "4958e61e5a564f2efcc32cd516b9d36ea0b9bc644f64dbcfe182ce8a422ae526",
+        "triangles": 99239
+      },
+      "reference": {
+        "part": "sunshield length",
+        "meters": 21.197,
+        "sourceUnits": 21,
+        "url": "https://science.nasa.gov/mission/webb/webbs-sunshield/"
+      },
+      "scale": 1.009381,
+      "sizeM": 21.19,
+      "eyeHeightM": 7.23,
+      "boundsM": {
+        "min": [
+          -6.496,
+          -7.229,
+          -9.991
+        ],
+        "max": [
+          6.496,
+          4.012,
+          11.2
+        ]
+      },
+      "triangles": 51650,
+      "meshes": 29,
+      "textures": 0,
+      "bytes": 835848,
+      "sha256": "7288da27ff69fac64f8410bebacd90f41dd208efee26639edcb9a7a0ef29890a"
+    }
+  }
+}

@@ -1,5 +1,7 @@
 import * as THREE from 'three'
 import { disposeTree } from './parts'
+import { loadShip } from './shipLoader'
+import type { LoadShipOptions } from './shipLoader'
 import { CHASE_PITCH } from './ships'
 import type { ShipDesign } from './ships'
 
@@ -15,11 +17,11 @@ export interface ShipStage {
 /**
  * Lights one ship the way the flight renderer does, with a white key light and a cool sky fill, and places a camera.
  * `hangar` frames the exterior from the front left, `chase` uses the design's chase offset, and `cockpit` sits at the
- * pilot's eye.
+ * pilot's eye. NASA exteriors load from their GLB first.
  */
-export function stageShip(design: ShipDesign, view: PreviewView, aspect: number, fov = 50): ShipStage {
+export async function stageShip(design: ShipDesign, view: PreviewView, aspect: number, fov = 50, options?: LoadShipOptions): Promise<ShipStage> {
   const scene = new THREE.Scene()
-  const model = view === 'cockpit' ? design.buildCockpit() : design.buildShip()
+  const model = view === 'cockpit' ? design.buildCockpit() : await loadShip(design, options)
   scene.add(model)
   const sun = new THREE.DirectionalLight(0xffffff, 2)
   sun.position.set(-0.55, 0.65, -0.5)
@@ -67,15 +69,19 @@ let pending: Promise<Map<string, string>> | undefined
 
 /**
  * Renders a hangar thumbnail for each design with a short-lived WebGL context, then frees it. The results are cached
- * for the session. `onImage` fires once per thumbnail, including ones finished before the call. Rejects if WebGL is
- * unavailable, and a later call tries again.
+ * for the session. `onImage` fires once per thumbnail, including ones finished before the call. A ship whose model
+ * fails to load gets no thumbnail. Rejects if WebGL is unavailable. After a rejection or a missing thumbnail, a later
+ * call tries again.
  */
 export function shipPreviews(designs: readonly ShipDesign[], onImage?: Listener, width = 320, height = 200): Promise<Map<string, string>> {
   if (onImage) {
     for (const [id, url] of done) onImage(id, url)
     listeners.add(onImage)
   }
-  pending ??= render(designs, width, height).catch(error => {
+  pending ??= render(designs, width, height).then(images => {
+    if (designs.some(design => !images.has(design.id))) pending = undefined
+    return images
+  }, error => {
     pending = undefined
     throw error
   })
@@ -93,7 +99,9 @@ async function render(designs: readonly ShipDesign[], width: number, height: num
     renderer.toneMapping = THREE.ACESFilmicToneMapping
     for (const design of designs) {
       if (done.has(design.id)) continue
-      const stage = stageShip(design, 'hangar', width / height, 32)
+      // A model that fails to load leaves its card on the placeholder icon; the other thumbnails still render.
+      const stage = await stageShip(design, 'hangar', width / height, 32).catch(() => undefined)
+      if (!stage) continue
       renderer.clear()
       renderer.render(stage.scene, stage.camera)
       stage.dispose()

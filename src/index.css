@@ -247,7 +247,7 @@ kbd { font-family: Consolas, "Courier New", Courier, monospace; color: var(--cp-
 .hangar-detail p { margin: 4px 0 0; font-size: 12px; line-height: 1.5; }
 .hangar-detail .hangar-facts { color: var(--cp-text-muted); }
 .hangar-detail .hangar-note { font-size: 11px; color: var(--cp-text-muted); }
-.tribute-tag { padding: 1px 8px; font-size: 10px; font-weight: 600; letter-spacing: .2px; color: var(--cp-accent); background: var(--cp-accent-soft); border-radius: 999px; }
+.ship-tag { padding: 1px 8px; font-size: 10px; font-weight: 600; letter-spacing: .2px; color: var(--cp-accent); background: var(--cp-accent-soft); border-radius: 999px; }
 .route { display: flex; flex-direction: column; gap: 8px; padding-bottom: 14px; border-bottom: 1px solid var(--cp-border); }
 .route-header { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
 .route-header h2 { display: flex; align-items: center; gap: 6px; margin: 0; font-size: 13px; font-weight: 600; letter-spacing: 0; }
