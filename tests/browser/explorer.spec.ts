@@ -229,6 +229,16 @@ test('sun lens flare and star glare settings persist', async ({ page }, testInfo
     .toMatchObject({ lensFlare: false, glareHidesStars: true })
 })
 
+test('settings closes only when clicking outside the dialog', async ({ page }) => {
+  await openApp(page)
+  await page.getByRole('button', { name: 'Settings' }).click()
+  const dialog = page.getByRole('dialog', { name: 'Settings' })
+  await dialog.getByRole('heading', { name: 'Settings' }).click()
+  await expect(dialog).toBeVisible()
+  await page.mouse.click(4, 4)
+  await expect(dialog).toBeHidden()
+})
+
 test('space music toggles from settings, the flight panel, and M, and persists', async ({ page }) => {
   const errors: string[] = []
   page.on('pageerror', error => errors.push(error.message))
@@ -365,11 +375,12 @@ test('hangar swaps every ship in cockpit and chase view and remembers the choice
   await page.getByRole('button', { name: 'Spaceship', exact: true }).click()
   await openHangar()
   const cards = hangar.locator('.ship-card')
-  await expect(cards).toHaveCount(15)
+  await expect(cards).toHaveCount(16)
   await expect(hangar.locator('.ship-thumb img')).toHaveCount(15, { timeout: 60000 })
   await expect(hangar.locator('[data-ship-id="kestrel"]')).toHaveAttribute('aria-pressed', 'true')
   await expect(hangar.getByRole('region', { name: 'NASA spacecraft' }).locator('.ship-card')).toHaveCount(10)
   await expect(hangar.getByRole('region', { name: 'Original designs' }).locator('.ship-card')).toHaveCount(5)
+  await expect(hangar.getByRole('region', { name: 'No ship' }).locator('.ship-card')).toHaveCount(1)
   await page.screenshot({ path: `artifacts/${testInfo.project.name}-hangar.png` })
 
   const ids = await cards.evaluateAll(nodes => nodes.map(node => (node as HTMLElement).dataset.shipId!))
@@ -378,6 +389,9 @@ test('hangar swaps every ship in cockpit and chase view and remembers the choice
     await expect(hangar.locator(`[data-ship-id="${id}"]`)).toHaveAttribute('aria-pressed', 'true')
     await page.waitForTimeout(120)
   }
+  await hangar.locator('[data-ship-id="none"]').click()
+  await expect(hangar.locator('.hangar-header p')).toHaveText('Flying with no ship')
+  await expect(shipRow).toContainText('None')
   await hangar.locator('[data-ship-id="voyager"]').click()
   await expect(hangar.locator('.ship-tag')).toHaveText('NASA, 1977')
   await expect(hangar.getByText('Exterior from the NASA 3D Resources model "Voyager Probe (B)".', { exact: false })).toBeVisible()

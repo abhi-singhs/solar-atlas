@@ -11,18 +11,23 @@ import { kestrel } from './kestrel'
 import { manta } from './manta'
 import { mule } from './mule'
 import { needle } from './needle'
+import { noShip } from './none'
 import { parkerSolarProbe } from './parker-solar-probe'
 import { voyager } from './voyager'
 import type { ShipDesign } from './types'
 import type { ShipProfile } from '../../flight/FlightController'
 
-export type { NasaShip, OriginalShip, ShipDesign } from './types'
+export type { NasaShip, NoShip, OriginalShip, ShipDesign } from './types'
+export { noShip }
 
 export const DEFAULT_SHIP = 'kestrel'
 /** The chase camera looks this far below the ship's forward axis, in radians about +X. */
 export const CHASE_PITCH = -0.17
 
-/** Hangar order. The Kestrel comes first and is the default, then the NASA ships by launch year. */
+/**
+ * Every real ship. The Kestrel comes first and is the default, then the NASA ships by launch year. The None choice is
+ * not a ship, so it stays out of this list, but `isShipId` and `shipDesign` accept its id.
+ */
 export const SHIPS: readonly ShipDesign[] = [
   kestrel,
   gemini, apolloLm, apolloSoyuz, voyager, hubble,
@@ -30,7 +35,7 @@ export const SHIPS: readonly ShipDesign[] = [
   atomic, needle, mule, manta,
 ]
 
-const byId = new Map(SHIPS.map(ship => [ship.id, ship]))
+const byId = new Map([...SHIPS, noShip].map(ship => [ship.id, ship]))
 
 export const isShipId = (id: unknown): id is string => typeof id === 'string' && byId.has(id)
 

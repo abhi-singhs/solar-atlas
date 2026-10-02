@@ -1,16 +1,13 @@
 import { useState } from 'react'
 import { ChevronUp, Compass, EyeOff, Layers3, Maximize, Orbit, Pause, Play } from 'lucide-react'
 import type { ViewState } from '../navigation/state'
+import { rateLabel as formatRate, TIME_RATES } from './format'
 import { Popover } from './Popover'
 
 /** Only one popover is open at a time. The hangar belongs to the flight panel but shares this state. */
 export type DockMenu = 'date' | 'view' | 'hangar' | null
 type Frame = 'local' | 'inner' | 'all'
 
-const rates: [number, string][] = [
-  [-86400, 'Reverse 1 day/s'], [-3600, 'Reverse 1 hour/s'], [1, 'Real time'], [60, '1 min/s'],
-  [3600, '1 hour/s'], [86400, '1 day/s'], [604800, '1 week/s'],
-]
 const cameraModes = [['orbit', 'Orbit', '1'], ['follow', 'Follow', '2'], ['free', 'Free', '3']] as const
 const frames: [Frame, string, typeof Orbit][] = [['local', 'Local system', Orbit], ['inner', 'Inner system', Compass], ['all', 'Solar system', Maximize]]
 
@@ -39,7 +36,7 @@ export function Dock({ view, date, menu, onMenu, ...actions }: DockProps) {
     actions.onSetUtc(`${dateInput || view.date.slice(0, 16)}:00Z`)
     onMenu(null)
   }
-  const rateLabel = rates.find(([value]) => value === view.timeScale)?.[1] ?? `${view.timeScale.toLocaleString()}x`
+  const rateLabel = formatRate(view.timeScale)
 
   return <section className="dock panel" aria-label="Simulation timeline">
     <button className="play-button" aria-label={view.playing ? 'Pause simulation' : 'Play simulation'} aria-keyshortcuts="Space P"
@@ -68,8 +65,8 @@ export function Dock({ view, date, menu, onMenu, ...actions }: DockProps) {
     <label className="rate-select" title={`Time rate: ${view.timeScale.toLocaleString()}x`}>
       <span className="sr-only">Time rate</span>
       <select aria-label="Time acceleration" value={view.timeScale} onChange={event => actions.onRate(Number(event.target.value))}>
-        {rates.map(([value, label]) => <option value={value} key={value}>{label}</option>)}
-        {!rates.some(([value]) => value === view.timeScale) && <option value={view.timeScale}>{rateLabel}</option>}
+        {TIME_RATES.map(([value, label]) => <option value={value} key={value}>{label}</option>)}
+        {!TIME_RATES.some(([value]) => value === view.timeScale) && <option value={view.timeScale}>{rateLabel}</option>}
       </select>
     </label>
     <div className="dock-view">

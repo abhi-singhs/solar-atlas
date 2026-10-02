@@ -15,14 +15,14 @@ export function createRng(seed: number): Rng {
 }
 
 export const midiHz = (note: number): number => 440 * 2 ** ((note - 69) / 12)
+export const pitchClass = (note: number): number => ((note % 12) + 12) % 12
+const pick = <T>(rng: Rng, items: readonly T[]): T => items[Math.min(items.length - 1, Math.floor(rng() * items.length))]
 
 /** D Lydian pitch classes: D E F# G# A B C#. */
 export const SCALE = [2, 4, 6, 8, 9, 11, 1] as const
 /** D major pentatonic, the chime subset of the scale. */
 export const CHIME_CLASSES = [2, 4, 6, 9, 11] as const
 
-/** D2, A2, and D3. */
-export const DRONE_NOTES = [38, 45, 50] as const
 /** A5, D6, E6, and A6 sit above the pads while the ship is at warp. */
 export const SHIMMER_NOTES = [81, 86, 88, 93] as const
 /** D5 up to A6 in the pentatonic subset. */
@@ -60,9 +60,105 @@ export function nextChime(rng: Rng, previous: number): number {
   return from + step < 0 || from + step > last ? from - step : from + step
 }
 
-/** Seconds until the next chime. About one in six arrives as a quick pair. */
-export function chimeGap(rng: Rng): number {
-  return rng() < 0.18 ? 0.3 + rng() * 0.3 : 2.5 + rng() * 6
+/** Seconds until the next chime. About one in six arrives as a quick pair. `spacing` stretches the other gaps. */
+export function chimeGap(rng: Rng, spacing = 1): number {
+  return rng() < 0.18 ? 0.3 + rng() * 0.3 : (2.5 + rng() * 6) * spacing
+}
+
+/** C#6, the highest note a pad voicing may reach. */
+export const PAD_CEILING = 85
+
+/**
+ * Voices a chord as written about half the time. Otherwise it lifts the top note an octave,
+ * which opens the chord, or leaves out the bass, which thins it over the drone.
+ */
+export function voiceChord(rng: Rng, chord: readonly number[]): number[] {
+  const notes = [...chord].sort((a, b) => a - b)
+  const roll = rng()
+  if (roll < 0.25 && notes[notes.length - 1] + 12 <= PAD_CEILING) notes[notes.length - 1] += 12
+  else if (roll < 0.45 && notes.length > 3) notes.shift()
+  return notes
+}
+
+/**
+ * Three to five chimes that climb or fall through the chime notes belonging to a chord, starting near
+ * the chime at index `from`. Returns indexes into CHIME_NOTES, or an empty run if the chord shares none.
+ */
+export function arpeggio(rng: Rng, chord: readonly number[], from: number): number[] {
+  const classes = new Set(chord.map(pitchClass))
+  const tones = CHIME_NOTES.flatMap((note, i) => classes.has(pitchClass(note)) ? [i] : [])
+  if (tones.length === 0) return []
+  const length = Math.min(tones.length, 3 + Math.min(2, Math.floor(rng() * 3)))
+  let nearest = 0
+  tones.forEach((tone, i) => { if (Math.abs(tone - from) < Math.abs(tones[nearest] - from)) nearest = i })
+  if (rng() < 0.5) {
+    const start = Math.min(nearest, tones.length - length)
+    return tones.slice(start, start + length)
+  }
+  const end = Math.max(nearest, length - 1)
+  return tones.slice(end - length + 1, end + 1).reverse()
+}
+
+/**
+ * A stretch of the score built over one drone root. Every root comes from the same seven notes,
+ * so moving the drone changes the mode while the chords and chimes stay in key.
+ */
+export interface Section {
+  name: string
+  /** Root, fifth, and octave. */
+  drone: readonly [number, number, number]
+  /** Index into CHORDS of the chord built on the drone root, which opens the section. */
+  home: number
+  /** How long each chord may hold, in seconds. */
+  chordSeconds: readonly number[]
+  /** Stretches the long gaps between chimes. Above 1 is sparser. */
+  chimeSpacing: number
+  /** Chance that a chime becomes an arpeggio of the current chord. */
+  arpeggio: number
+}
+
+/** The first section is home. The others are darker (Dorian, Aeolian) or warmer (Ionian). */
+export const SECTIONS: readonly Section[] = [
+  { name: 'D Lydian', drone: [38, 45, 50], home: 0, chordSeconds: [14, 16, 18], chimeSpacing: 1, arpeggio: 0.15 },
+  { name: 'B Dorian', drone: [35, 42, 47], home: 2, chordSeconds: [18, 20, 24], chimeSpacing: 1.5, arpeggio: 0.1 },
+  { name: 'A Ionian', drone: [33, 40, 45], home: 4, chordSeconds: [12, 14, 16], chimeSpacing: 0.7, arpeggio: 0.3 },
+  { name: 'F# Aeolian', drone: [42, 49, 54], home: 3, chordSeconds: [20, 24], chimeSpacing: 2, arpeggio: 0.05 },
+]
+
+/** Chords per section. */
+export const sectionBars = (rng: Rng): number => 3 + Math.min(2, Math.floor(rng() * 3))
+
+/** Always a different section. Home leads to any other, and other sections usually return home. */
+export function nextSection(rng: Rng, previous: number): number {
+  if (previous !== 0 && rng() < 0.65) return 0
+  return pick(rng, SECTIONS.map((_, i) => i).filter(i => i !== 0 && i !== previous))
+}
+
+/** One chord of the score. */
+export interface Bar {
+  /** Index into SECTIONS. */
+  section: number
+  /** Bars left in the section after this one. */
+  left: number
+  /** Index into CHORDS. */
+  chord: number
+  /** The chord as voiced for this bar. */
+  notes: readonly number[]
+  seconds: number
+}
+
+const makeBar = (rng: Rng, section: number, chord: number, left: number): Bar =>
+  ({ section, left, chord, notes: voiceChord(rng, CHORDS[chord]), seconds: pick(rng, SECTIONS[section].chordSeconds) })
+
+/** The score opens at home on Dmaj9. */
+export const firstBar = (rng: Rng): Bar => makeBar(rng, 0, SECTIONS[0].home, sectionBars(rng) - 1)
+
+/** A new section opens on its home chord, unless that chord is already playing. */
+export function nextBar(rng: Rng, previous: Bar): Bar {
+  if (previous.left > 0) return makeBar(rng, previous.section, nextChord(rng, previous.chord), previous.left - 1)
+  const section = nextSection(rng, previous.section)
+  const { home } = SECTIONS[section]
+  return makeBar(rng, section, home === previous.chord ? nextChord(rng, home) : home, sectionBars(rng) - 1)
 }
 
 export interface Mood {

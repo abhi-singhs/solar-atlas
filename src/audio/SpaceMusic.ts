@@ -1,5 +1,5 @@
-import { CHIME_NOTES, CHORDS, DRONE_NOTES, SHIMMER_NOTES, SILENT, chimeGap, createRng, midiHz, nextChime, nextChord } from './score'
-import type { Mood, Rng } from './score'
+import { CHIME_NOTES, CHORDS, SECTIONS, SHIMMER_NOTES, SILENT, arpeggio, chimeGap, createRng, firstBar, midiHz, nextBar, nextChime } from './score'
+import type { Bar, Mood, Rng } from './score'
 
 type Layer = 'drone' | 'pads' | 'chimes' | 'shimmer'
 const LAYERS: readonly Layer[] = ['drone', 'pads', 'chimes', 'shimmer']
@@ -13,7 +13,6 @@ const MIX: Record<Layer, { level: number; dry: number; wet: number }> = {
 const OUTPUT_CEILING = 1.25
 const REVERB_WET = 0.6
 const REVERB_SECONDS = 5.5
-const CHORD_SECONDS = 16
 const PAD_ATTACK = 6
 const PAD_RELEASE = 9
 const PAD_VOICE = 0.06
@@ -21,6 +20,10 @@ const CHIME_VOICE = 0.3
 const CHIME_ATTACK = 0.012
 /** Frequency ratio, share of the chime level, and decay time constant in seconds. The ratios are those of a struck bell. */
 const CHIME_PARTIALS: readonly [number, number, number][] = [[1, 1, 1.4], [2.76, 0.16, 0.45], [5.4, 0.05, 0.2]]
+/** Seconds between arpeggio notes, give or take a fifth. */
+const ARPEGGIO_PULSE = 0.36
+/** Time constant of the drone crossfade between sections, in seconds. */
+const DRONE_FADE = 2.5
 const LOOKAHEAD_SECONDS = 4
 const TICK_MS = 1000
 const SUSPEND_AFTER_MS = 4000
@@ -41,7 +44,8 @@ export interface SpaceMusicOptions {
 
 /**
  * Ambient score for Spaceship mode, synthesized with Web Audio: a low drone, slow pad chords,
- * sparse bell chimes, and a high shimmer for warp, all through a generated reverb.
+ * sparse bell chimes and arpeggios, and a high shimmer for warp, all through a generated reverb.
+ * The score moves through sections, and each one shifts the drone to a new root and sets its own pace.
  * A live AudioContext schedules notes a few seconds ahead and suspends while silent.
  * An OfflineAudioContext renders whatever schedule() queued.
  */
@@ -57,9 +61,16 @@ export class SpaceMusic {
   private readonly padFilter: BiquadFilterNode
   private readonly padWave: PeriodicWave
   private readonly sustained: AudioScheduledSourceNode[] = []
+  /** Two drone banks. One sounds while the other waits silent to take the next section's root. */
+  private readonly drones: { level: GainNode; oscs: OscillatorNode[] }[] = []
+  private droneBank = 0
+  private droneSection = 0
   private mood: Mood = SILENT
-  private chord = 0
+  /** The next bar to schedule, at chordAt. */
+  private bar: Bar
   private chordAt: number
+  /** Scheduled bars from the one sounding now onward, so chimes can follow the chord under them. */
+  private bars: { at: number; bar: Bar }[] = []
   /** When the last chord that actually played stops holding. */
   private chordEnd = -Infinity
   private chime = 4
@@ -107,6 +118,7 @@ export class SpaceMusic {
     this.startDrone()
     this.startShimmer()
 
+    this.bar = firstBar(this.rng)
     this.chordAt = context.currentTime + 0.05
     this.chimeAt = context.currentTime + 2
     if (this.realtime) {
@@ -140,16 +152,35 @@ export class SpaceMusic {
   schedule(until: number): void {
     if (this.disposed) return
     const now = this.context.currentTime
+    while (this.bars.length > 1 && this.bars[1].at <= now) this.bars.shift()
     if (this.chordAt < now) this.chordAt = now + 0.05
     while (this.chordAt < until) {
-      if (audible(this.mood, 'pads')) this.playChord(this.chordAt)
-      this.chord = nextChord(this.rng, this.chord)
-      this.chordAt += CHORD_SECONDS
+      const bar = this.bar
+      if (bar.section !== this.droneSection) this.moveDrone(bar.section, this.chordAt)
+      if (audible(this.mood, 'pads')) this.playChord(this.chordAt, bar)
+      // A chord restarted early after a silent stretch replaces any silent bars queued after it.
+      while (this.bars.length > 0 && this.bars[this.bars.length - 1].at >= this.chordAt) this.bars.pop()
+      this.bars.push({ at: this.chordAt, bar })
+      this.chordAt += bar.seconds
+      this.bar = nextBar(this.rng, bar)
     }
     if (this.chimeAt < now) this.chimeAt = now + 0.05
     while (this.chimeAt < until) {
-      if (audible(this.mood, 'chimes')) this.playChime(this.chimeAt)
-      this.chimeAt += chimeGap(this.rng)
+      const bar = this.barAt(this.chimeAt)
+      const section = SECTIONS[bar.section]
+      const run = this.rng() < section.arpeggio ? arpeggio(this.rng, CHORDS[bar.chord], this.chime) : []
+      const notes = run.length > 0 ? run : [nextChime(this.rng, this.chime)]
+      const pulse = notes.length > 1 ? ARPEGGIO_PULSE * (0.8 + 0.4 * this.rng()) : 0
+      if (audible(this.mood, 'chimes')) {
+        if (notes.length === 1) this.playChime(this.chimeAt, notes[0], 1, (this.rng() * 2 - 1) * 0.7)
+        else {
+          // Runs fade a little as they go and sweep across the stereo field.
+          const side = this.rng() < 0.5 ? -0.6 : 0.6
+          notes.forEach((note, i) => this.playChime(this.chimeAt + i * pulse, note, 0.8 - 0.08 * i, side * (1 - 2 * i / (notes.length - 1))))
+        }
+      }
+      this.chime = notes[notes.length - 1]
+      this.chimeAt += (notes.length - 1) * pulse + chimeGap(this.rng, section.chimeSpacing)
     }
   }
 
@@ -176,6 +207,13 @@ export class SpaceMusic {
 
   private tick = (): void => {
     if (this.mood.master > 0 && this.realtime?.state === 'running') this.schedule(this.context.currentTime + LOOKAHEAD_SECONDS)
+  }
+
+  /** The bar sounding at `time`, or the earliest one queued if `time` comes first. */
+  private barAt(time: number): Bar {
+    let found = this.bars[0]?.bar ?? this.bar
+    for (const entry of this.bars) if (entry.at <= time) found = entry.bar
+    return found
   }
 
   private stateChange = (): void => {
@@ -249,15 +287,32 @@ export class SpaceMusic {
     mix.connect(this.buses.drone)
     this.lfo(0.061, 0.2, mix.gain)
     const voices: [OscillatorType, number, number][] = [['triangle', 0.45, 0], ['sine', 0.16, -3], ['sine', 0.22, 4]]
-    voices.forEach(([type, level, detune], i) => {
-      const osc = this.context.createOscillator()
-      osc.type = type
-      osc.frequency.value = midiHz(DRONE_NOTES[i])
-      osc.detune.value = detune
-      osc.connect(this.gain(level)).connect(mix)
-      osc.start()
-      this.sustained.push(osc)
-    })
+    for (let bank = 0; bank < 2; bank++) {
+      const level = this.gain(bank === this.droneBank ? 1 : 0)
+      level.connect(mix)
+      const oscs = voices.map(([type, voiceLevel, detune], i) => {
+        const osc = this.context.createOscillator()
+        osc.type = type
+        osc.frequency.value = midiHz(SECTIONS[this.droneSection].drone[i])
+        osc.detune.value = detune
+        osc.connect(this.gain(voiceLevel)).connect(level)
+        osc.start()
+        this.sustained.push(osc)
+        return osc
+      })
+      this.drones.push({ level, oscs })
+    }
+  }
+
+  /** Retunes the silent drone bank to a section's root at `at`, then crossfades to it, so the pitch never glides. */
+  private moveDrone(section: number, at: number): void {
+    const from = this.drones[this.droneBank]
+    this.droneBank = 1 - this.droneBank
+    this.droneSection = section
+    const to = this.drones[this.droneBank]
+    SECTIONS[section].drone.forEach((note, i) => to.oscs[i].frequency.setValueAtTime(midiHz(note), at))
+    approach(from.level.gain, 0, at, DRONE_FADE)
+    approach(to.level.gain, 1, at, DRONE_FADE)
   }
 
   private startShimmer(): void {
@@ -286,9 +341,9 @@ export class SpaceMusic {
     this.sustained.push(source)
   }
 
-  private playChord(at: number): void {
-    const notes = CHORDS[this.chord]
-    const hold = at + CHORD_SECONDS
+  private playChord(at: number, bar: Bar): void {
+    const notes = bar.notes
+    const hold = at + bar.seconds
     const end = hold + PAD_RELEASE
     notes.forEach((note, i) => {
       const voice = this.gain(0)
@@ -313,11 +368,11 @@ export class SpaceMusic {
     this.chordEnd = hold
   }
 
-  private playChime(at: number): void {
-    this.chime = nextChime(this.rng, this.chime)
-    const frequency = midiHz(CHIME_NOTES[this.chime])
-    const level = CHIME_VOICE * (0.55 + 0.45 * this.rng())
-    const pan = this.panner((this.rng() * 2 - 1) * 0.7)
+  /** Strikes the chime at `index` in CHIME_NOTES. `accent` scales its level. */
+  private playChime(at: number, index: number, accent: number, panning: number): void {
+    const frequency = midiHz(CHIME_NOTES[index])
+    const level = CHIME_VOICE * accent * (0.55 + 0.45 * this.rng())
+    const pan = this.panner(panning)
     pan.connect(this.buses.chimes)
     CHIME_PARTIALS.forEach(([ratio, share, decay], i) => {
       const osc = this.context.createOscillator()

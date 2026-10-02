@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
-import { CircleAlert, CircleHelp, Eye, Info, Orbit, Rocket, Settings, Telescope, TriangleAlert, X } from 'lucide-react'
+import { CircleAlert, CircleHelp, Eye, Info, Orbit, Rocket, Settings, Share2, Telescope, TriangleAlert, X } from 'lucide-react'
 import { useSpaceMusic } from './audio/useSpaceMusic'
 import { Explorer } from './navigation/Explorer'
+import { parseShareLink } from './navigation/share'
+import type { SharedJourney } from './navigation/share'
 import { initialState } from './navigation/state'
 import type { Notice, NoticeTone, ViewState } from './navigation/state'
 import { TouchControls } from './input/TouchControls'
@@ -14,6 +16,7 @@ import { FlightPanel } from './ui/FlightPanel'
 import { HelpDialog, SettingsDialog, SourcesDialog } from './ui/Dialogs'
 import { Hangar } from './ui/Hangar'
 import type { RouteActions } from './ui/RoutePanel'
+import { BeginJourneyDialog, ShareDialog } from './ui/ShareDialog'
 import { useLatest, useMediaQuery, useShortcuts, useStoredFlag } from './ui/hooks'
 
 type OptionKey = 'labels' | 'paths' | 'quality' | 'exposure' | 'fov' | 'lensFlare' | 'glareHidesStars' | 'music' | 'musicVolume' | 'pauseInBackground' | 'shipModel'
@@ -32,13 +35,16 @@ function App() {
   const engine = useRef<Explorer | null>(null)
   const phone = useMediaQuery(COMPACT)
   const [hasTouch] = useState(detectTouch)
+  const [link] = useState(() => parseShareLink(window.location.search))
   const [view, setView] = useState<ViewState>(initialState)
   const [catalog, setCatalog] = useState(false)
   const [details, setDetails] = useState(() => !matchMedia(COMPACT).matches)
   const [flightExpanded, setFlightExpanded] = useState(() => !matchMedia(COMPACT).matches)
-  const [modal, setModal] = useState<'settings' | 'help' | 'sources' | null>(null)
+  const [modal, setModal] = useState<'settings' | 'help' | 'sources' | 'share' | null>(null)
   const [menu, setMenu] = useState<DockMenu>(null)
-  const [hidden, setHidden] = useState(false)
+  const [hidden, setHidden] = useState(() => link.journey?.uiHidden ?? false)
+  const [awaitingBegin, setAwaitingBegin] = useState(() => link.journey?.mode === 'ship' && Boolean(link.journey.route?.length))
+  const [shared, setShared] = useState<SharedJourney | null>(null)
   const [appearance, setAppearance] = useState<Record<string, Appearance>>({})
   const [error, setError] = useState('')
   const [throttle, setThrottle] = useState('0.01')
@@ -86,9 +92,9 @@ function App() {
     if (!viewport.current) return
     const controller = new Explorer(viewport.current, setView)
     engine.current = controller
-    controller.start().catch(e => setError(e instanceof Error ? e.message : String(e)))
+    controller.start(link.journey, link.problems).catch(e => setError(e instanceof Error ? e.message : String(e)))
     return () => { controller.dispose(); engine.current = null }
-  }, [])
+  }, [link])
 
   useEffect(() => {
     const abort = new AbortController()
@@ -165,6 +171,21 @@ function App() {
     if (phone) { setCatalog(false); setDetails(false) }
   }
   const openCatalog = () => { setHidden(false); setMenu(null); setCatalog(true) }
+  const openShare = () => {
+    const journey = engine.current?.shareSnapshot()
+    if (!journey) return
+    setShared(journey)
+    setMenu(null)
+    setModal('share')
+  }
+  // Settled on the first ready render. If validation dropped every stop, the screen must not appear later for a route the user builds.
+  if (awaitingBegin && view.ready && !(view.inShip && view.route.length > 0)) setAwaitingBegin(false)
+  const begin = awaitingBegin && view.ready
+  const beginJourney = () => {
+    setAwaitingBegin(false)
+    if (view.music) music.prime()
+    perform(e => e.routeGo())
+  }
   const pendingIds = new Set(view.route.filter(stop => stop.status === 'pending').map(stop => stop.bodyId))
   const routeGo = () => perform(e => e.routeGo())
   const routeActions: RouteActions = {
@@ -209,7 +230,7 @@ function App() {
       ? flightHintSeen ? '' : hasTouch ? 'Hold the Steer and Look pads to fly. Expand the panel for speed and routes.' : 'W/S thrust · arrows steer · Q/E roll · Space brake · C camera'
       : view.observerMode === 'free' && !hasTouch ? 'W/S forward and back · A/D sideways · R/F up and down'
         : exploreHintSeen ? '' : hasTouch ? 'Drag to orbit · pinch to zoom · tap a label to select' : 'Drag to orbit · scroll to zoom · click a label to select'
-  const touchEnabled = !modal && !catalog && !hidden && menu !== 'hangar' && !(phone && (details || flightExpanded))
+  const touchEnabled = !modal && !begin && !catalog && !hidden && menu !== 'hangar' && !(phone && (details || flightExpanded))
   const notice: Notice | null = error ? { text: error, tone: 'error', id: 0 } : view.notice
   const NoticeIcon = NOTICE_ICON[notice?.tone ?? 'info']
 
@@ -231,6 +252,7 @@ function App() {
         <button className={view.inShip ? 'active' : ''} aria-pressed={view.inShip} onClick={enterShip} disabled={!view.ready}><Rocket size={16} /><span>Spaceship</span></button>
       </nav>
       <div className="top-actions">
+        <button className="icon-button" title="Share this journey" aria-label="Share" onClick={openShare} disabled={!view.ready}><Share2 size={19} /></button>
         <button className="icon-button" title="Controls and help (?)" aria-label="Help" aria-keyshortcuts="?" onClick={() => setModal('help')}><CircleHelp size={19} /></button>
         <button className="icon-button" title="Settings" aria-label="Settings" onClick={() => setModal('settings')}><Settings size={19} /></button>
       </div>
@@ -277,6 +299,10 @@ function App() {
       musicSupported={music.supported} onMusic={setMusic} />}
     {modal === 'help' && <HelpDialog onClose={() => setModal(null)} onSources={() => setModal('sources')} />}
     {modal === 'sources' && <SourcesDialog body={selected} source={source} onClose={() => setModal(null)} />}
+    {modal === 'share' && shared && <ShareDialog journey={shared} bodies={view.bodies} onClose={() => setModal(null)} />}
+    {begin && !modal && <BeginJourneyDialog bodies={view.bodies} onBegin={beginJourney} onClose={() => setAwaitingBegin(false)}
+      journey={{ mode: 'ship', bodyId: view.selectedId, utc: view.date, route: view.route, camera: view.camera, warp: view.warp || view.warpArmed,
+        settings: { shipModel: view.shipModel, music: view.music, musicVolume: view.musicVolume } }} />}
   </main>
 }
 

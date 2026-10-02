@@ -2,10 +2,10 @@ import { readFileSync } from 'node:fs'
 import { readFile } from 'node:fs/promises'
 import { afterEach, describe, expect, it } from 'vitest'
 import * as THREE from 'three'
-import { CHASE_PITCH, DEFAULT_SHIP, SHIPS, isShipId, shipDesign, shipProfile } from '../src/cockpit/ships'
+import { CHASE_PITCH, DEFAULT_SHIP, SHIPS, isShipId, noShip, shipDesign, shipProfile } from '../src/cockpit/ships'
 import { DEFAULT_SHIP_PROFILE } from '../src/flight/FlightController'
 import type { ShipDesign } from '../src/cockpit/ships'
-import { updateCockpit } from '../src/cockpit/models'
+import { createCockpit, createShip, loadShipModel, updateCockpit } from '../src/cockpit/models'
 import { disposeTree } from '../src/cockpit/parts'
 import { loadShip } from '../src/cockpit/shipLoader'
 
@@ -111,6 +111,32 @@ describe('ship registry', () => {
     expect(design.eyeHeightM).toBeGreaterThanOrEqual(1.5)
     expect(design.eyeHeightM).toBeLessThanOrEqual(12)
     expect(design.chaseM.every(Number.isFinite)).toBe(true)
+  })
+})
+
+describe('None', () => {
+  it('resolves by id but stays out of the ship list', () => {
+    expect(isShipId('none')).toBe(true)
+    expect(shipDesign('none')).toBe(noShip)
+    expect(noShip.kind).toBe('none')
+    expect(SHIPS).not.toContain(noShip)
+  })
+
+  it('builds an empty exterior and cockpit through every entry point', async () => {
+    for (const group of [noShip.buildShip(), noShip.buildCockpit(), createShip('none'), createCockpit('none'),
+      await loadShip(noShip), await loadShipModel('none')]) {
+      keep(group)
+      expect(group.userData).toMatchObject({ units: 'meters', forward: '-Z', origin: 'pilot eye' })
+      expect(group.children).toEqual([])
+    }
+    const cockpit = keep(noShip.buildCockpit())
+    expect(() => updateCockpit(cockpit, { speedC: 0.004, throttleC: 0.01, altitudeKm: 1, verticalKmS: 0, warp: false,
+      mode: 'free', targetId: 'moon', referenceId: 'earth', headingDeg: 90 })).not.toThrow()
+  })
+
+  it('lands at the default clearance and keeps the chase camera at the pilot eye', () => {
+    expect(shipProfile('none').touchdownKm).toBeCloseTo(DEFAULT_SHIP_PROFILE.touchdownKm, 12)
+    expect(shipProfile('none').chaseOffsetKm).toEqual([0, 0, 0])
   })
 })
 

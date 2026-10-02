@@ -2,6 +2,13 @@ import { Matrix4, Quaternion, Vector3 } from 'three'
 import { AU_KM, bodyRadius } from '../contracts'
 import type { Body, CameraPose, Snapshot, Vec3 } from '../contracts'
 
+export interface Framing {
+  targetId: string
+  theta: number
+  phi: number
+  distanceKm: number
+}
+
 export class Observer {
   targetId = 'earth'
   mode: 'orbit' | 'follow' | 'free' = 'orbit'
@@ -62,6 +69,23 @@ export class Observer {
     this.distance = range
     this.phi = 1.05
     this.theta = -1.2
+  }
+
+  /** The orbit framing a share link carries. A free camera's own offset is not included. */
+  framing(): Framing {
+    return { targetId: this.targetId, theta: this.theta, phi: this.phi, distanceKm: this.distance }
+  }
+
+  /** Restores a shared framing with the same limits that dragging and zooming use. */
+  frame(framing: Framing, snapshot: Snapshot): void {
+    const body = this.bodies.get(framing.targetId)
+    if (!body || !snapshot.states[framing.targetId]) throw new Error(`Cannot frame unavailable body ${framing.targetId}.`)
+    this.targetId = body.id
+    this.minimumDistance = bodyRadius(body) * 1.012
+    this.center = [...snapshot.states[body.id].position]
+    this.theta = Number.isFinite(framing.theta) ? framing.theta : this.theta
+    this.phi = Math.max(-1.54, Math.min(1.54, Number.isFinite(framing.phi) ? framing.phi : this.phi))
+    this.distance = Math.max(this.minimumDistance, Math.min(600 * AU_KM, Number.isFinite(framing.distanceKm) ? framing.distanceKm : this.distance))
   }
 
   drag(dx: number, dy: number): void {

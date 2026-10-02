@@ -9,9 +9,11 @@
     <title>Solar atlas | A system to explore</title>
     <script>
       (() => {
-        const param = new URLSearchParams(window.location.search).get("scoutTheme");
-        const theme =
-          param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        const query = new URLSearchParams(window.location.search);
+        // scoutTheme is a test hook. theme comes from share links.
+        const param = query.get("scoutTheme") || query.get("theme");
+        const theme = param === "dark" || param === "light" ? param
+          : window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
         document.documentElement.setAttribute("data-theme", theme);
       })();
     </script>

@@ -1,11 +1,10 @@
 import { describe, expect, it } from 'vitest'
 import {
-  CHIME_CLASSES, CHIME_NOTES, CHORDS, DRONE_NOTES, GROUNDED_LEVEL, SCALE, SHIMMER_NOTES, SILENT,
-  chimeGap, createRng, midiHz, musicMood, nextChime, nextChord, sameMood,
+  CHIME_CLASSES, CHIME_NOTES, CHORDS, GROUNDED_LEVEL, PAD_CEILING, SCALE, SECTIONS, SHIMMER_NOTES, SILENT,
+  arpeggio, chimeGap, createRng, firstBar, midiHz, musicMood, nextBar, nextChime, nextChord, pitchClass, sameMood, voiceChord,
 } from '../src/audio/score'
-import type { MoodInput } from '../src/audio/score'
+import type { Bar, MoodInput } from '../src/audio/score'
 
-const pitchClass = (note: number) => ((note % 12) + 12) % 12
 const flight: MoodInput = { music: true, musicVolume: 1, inShip: true, playing: true, shipMode: 'free', warp: false, speedC: 0.01 }
 
 describe('space music score', () => {
@@ -24,7 +23,7 @@ describe('space music score', () => {
 
   it('keeps every note inside D Lydian and the chimes inside its pentatonic subset', () => {
     const scale = new Set<number>(SCALE)
-    for (const note of [...CHORDS.flat(), ...DRONE_NOTES, ...SHIMMER_NOTES]) expect(scale.has(pitchClass(note))).toBe(true)
+    for (const note of [...CHORDS.flat(), ...SECTIONS.flatMap(section => section.drone), ...SHIMMER_NOTES]) expect(scale.has(pitchClass(note))).toBe(true)
     for (const note of CHIME_NOTES) expect((CHIME_CLASSES as readonly number[]).includes(pitchClass(note))).toBe(true)
     expect(CHIME_CLASSES.every(value => scale.has(value))).toBe(true)
   })
@@ -57,12 +56,88 @@ describe('space music score', () => {
     }
   })
 
-  it('spaces chimes between 0.3 and 8.5 seconds', () => {
+  it('spaces chimes between 0.3 and 8.5 seconds, stretched by the section', () => {
     const rng = createRng(3)
     const gaps = Array.from({ length: 1000 }, () => chimeGap(rng))
     expect(Math.min(...gaps)).toBeGreaterThanOrEqual(0.3)
     expect(Math.max(...gaps)).toBeLessThanOrEqual(8.5)
     expect(gaps.filter(gap => gap < 1).length).toBeGreaterThan(100)
+    const sparse = Array.from({ length: 1000 }, () => chimeGap(rng, 2))
+    expect(Math.min(...sparse)).toBeGreaterThanOrEqual(0.3)
+    expect(Math.max(...sparse)).toBeLessThanOrEqual(17)
+    expect(Math.max(...sparse)).toBeGreaterThan(8.5)
+  })
+
+  it('varies chord voicings without leaving the chord', () => {
+    const rng = createRng(8)
+    const kinds = new Set<string>()
+    for (let i = 0; i < 600; i++) {
+      const chord = CHORDS[i % CHORDS.length]
+      const notes = voiceChord(rng, chord)
+      expect(notes.length).toBeGreaterThanOrEqual(chord.length - 1)
+      expect(Math.max(...notes)).toBeLessThanOrEqual(PAD_CEILING)
+      for (const note of notes) expect(chord.map(pitchClass)).toContain(pitchClass(note))
+      kinds.add(notes.length < chord.length ? 'thin' : notes.join() === chord.join() ? 'written' : 'lifted')
+    }
+    expect(kinds).toEqual(new Set(['written', 'lifted', 'thin']))
+  })
+
+  it('runs arpeggios of three to five chimes through the current chord', () => {
+    const rng = createRng(9)
+    const lengths = new Set<number>()
+    for (let i = 0; i < 600; i++) {
+      const chord = CHORDS[i % CHORDS.length]
+      const run = arpeggio(rng, chord, i % CHIME_NOTES.length)
+      expect(run.length).toBeGreaterThanOrEqual(3)
+      expect(run.length).toBeLessThanOrEqual(5)
+      lengths.add(run.length)
+      for (const index of run) expect(chord.map(pitchClass)).toContain(pitchClass(CHIME_NOTES[index]))
+      const direction = Math.sign(run[1] - run[0])
+      expect(direction).not.toBe(0)
+      for (let j = 1; j < run.length; j++) expect(Math.sign(run[j] - run[j - 1])).toBe(direction)
+    }
+    expect(lengths).toEqual(new Set([3, 4, 5]))
+    expect(arpeggio(rng, [56, 68], 0)).toEqual([])
+  })
+
+  it('builds each section on a different drone root with its home chord on that root', () => {
+    for (const section of SECTIONS) {
+      const [root, fifth, octave] = section.drone
+      expect(fifth - root).toBe(7)
+      expect(octave - root).toBe(12)
+      expect(pitchClass(CHORDS[section.home][0])).toBe(pitchClass(root))
+      expect(section.chordSeconds.every(seconds => seconds >= 12 && seconds <= 24)).toBe(true)
+    }
+    expect(new Set(SECTIONS.map(section => pitchClass(section.drone[0]))).size).toBe(SECTIONS.length)
+  })
+
+  it('moves through sections of three to five chords and keeps returning home', () => {
+    const rng = createRng(10)
+    const bars: Bar[] = [firstBar(rng)]
+    expect(bars[0]).toMatchObject({ section: 0, chord: SECTIONS[0].home })
+    for (let i = 0; i < 3000; i++) bars.push(nextBar(rng, bars[bars.length - 1]))
+    const runs: Bar[][] = []
+    for (const bar of bars) {
+      if (runs.length > 0 && runs[runs.length - 1][0].section === bar.section) runs[runs.length - 1].push(bar)
+      else runs.push([bar])
+    }
+    for (const run of runs.slice(0, -1)) {
+      expect(run.length).toBeGreaterThanOrEqual(3)
+      expect(run.length).toBeLessThanOrEqual(5)
+      run.forEach((bar, i) => expect(bar.left).toBe(run.length - 1 - i))
+    }
+    for (let i = 1; i < runs.length; i++) {
+      const previous = runs[i - 1][runs[i - 1].length - 1].chord
+      const { home } = SECTIONS[runs[i][0].section]
+      if (previous !== home) expect(runs[i][0].chord).toBe(home)
+    }
+    for (let i = 1; i < bars.length; i++) expect(bars[i].chord).not.toBe(bars[i - 1].chord)
+    for (const bar of bars) expect(SECTIONS[bar.section].chordSeconds).toContain(bar.seconds)
+    expect(new Set(runs.map(run => run[0].section)).size).toBe(SECTIONS.length)
+    // Other sections return home 65% of the time, so home opens 0.65 / 1.65 of all sections.
+    const home = runs.filter(run => run[0].section === 0).length
+    expect(home / runs.length).toBeGreaterThan(0.35)
+    expect(new Set(bars.map(bar => bar.seconds)).size).toBeGreaterThan(4)
   })
 })
 

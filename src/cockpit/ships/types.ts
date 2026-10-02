@@ -36,4 +36,10 @@ export interface NasaShip extends ShipBase {
   source: string
 }
 
-export type ShipDesign = OriginalShip | NasaShip
+/** No ship at all. Both builders return empty groups, so flight draws no exterior, cockpit or instruments. */
+export interface NoShip extends ShipBase {
+  kind: 'none'
+  buildShip(): THREE.Group
+}
+
+export type ShipDesign = OriginalShip | NasaShip | NoShip

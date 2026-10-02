@@ -230,4 +230,21 @@ describe('renderer ship model swap', () => {
     host.drawShip(snapshot, pose, options())
     expect(updateCockpit).toHaveBeenLastCalledWith(host.cockpit, expect.objectContaining({ targetName: 'Moon' }))
   })
+
+  it('swaps to None with no meshes on screen, keeps drawing, and swaps back to a ship', async () => {
+    const host = swapHost()
+    const spies = [...disposals(host.cockpit), ...disposals(host.ship)]
+    host.setShipModel('none')
+    await shown(host, 'none')
+    expect(host.callbacks.onShipShown).toHaveBeenCalledExactlyOnceWith('none')
+    for (const spy of spies) expect(spy).toHaveBeenCalled()
+    const drawn: Mesh[] = []
+    host.cockpitScene.traverse(object => { if (object instanceof Mesh) drawn.push(object) })
+    expect(drawn).toEqual([])
+    for (const chase of [false, true]) host.drawShip(snapshot, pose, { ...options(), cockpit: !chase, chase })
+    expect(host.renderer.render).toHaveBeenCalledWith(host.cockpitScene, host.camera)
+    host.setShipModel('atomic')
+    await shown(host, 'atomic')
+    expect(host.cockpit.getObjectByName('speed-gauge-needle')).toBeDefined()
+  })
 })
