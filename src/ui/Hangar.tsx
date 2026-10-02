@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Rocket, X } from 'lucide-react'
+import { Ban, Rocket, X } from 'lucide-react'
 import { SHIPS, shipDesign } from '../cockpit/ships'
 import { shipPreviews } from '../cockpit/preview'
 import { useOutsidePress } from './hooks'
@@ -41,7 +41,7 @@ export function Hangar({ selectedId, onSelect, onClose }: HangarProps) {
 
   return <section ref={root} className="hangar panel" role="group" aria-label="Choose a ship">
     <header className="hangar-header">
-      <div><h2>Hangar</h2><p>Flying the {selected.name}</p></div>
+      <div><h2>Hangar</h2><p>{selected.kind === 'none' ? 'Flying with no ship' : `Flying the ${selected.name}`}</p></div>
       <button className="icon-button ghost" aria-label="Close hangar" title="Close (Esc)" onClick={onClose}><X size={18} /></button>
     </header>
     <div className="hangar-body">
@@ -51,7 +51,8 @@ export function Hangar({ selectedId, onSelect, onClose }: HangarProps) {
           {ships.map(ship => <button key={ship.id} className={`ship-card ${ship.id === selectedId ? 'active' : ''}`}
             aria-pressed={ship.id === selectedId} data-ship-id={ship.id} title={ship.blurb} onClick={() => onSelect(ship.id)}>
             <span className="ship-thumb" aria-hidden="true">
-              {images[ship.id] ? <img src={images[ship.id]} alt="" draggable={false} />
+              {ship.kind === 'none' ? <Ban size={28} strokeWidth={1.2} />
+                : images[ship.id] ? <img src={images[ship.id]} alt="" draggable={false} />
                 : previewsDone ? <Rocket size={28} strokeWidth={1.2} /> : <span className="thumb-loading" />}
             </span>
             <span className="ship-card-name">{ship.name}</span>
@@ -64,7 +65,9 @@ export function Hangar({ selectedId, onSelect, onClose }: HangarProps) {
       <div className="hangar-detail-title"><strong>{selected.name}</strong>
         {selected.kind === 'nasa' && <span className="ship-tag">{shipOrigin(selected)}</span>}</div>
       <p>{selected.blurb}</p>
-      <p className="hangar-facts">Size {shipSize(selected)}. Landed, the pilot's eye sits {meters(selected.eyeHeightM)} above the ground.</p>
+      {selected.kind === 'none'
+        ? <p className="hangar-facts">Landed, the camera sits {meters(selected.eyeHeightM)} above the ground. Chase view keeps that viewpoint and tilts it slightly down.</p>
+        : <p className="hangar-facts">Size {shipSize(selected)}. Landed, the pilot's eye sits {meters(selected.eyeHeightM)} above the ground.</p>}
       {selected.kind === 'nasa' && <p className="hangar-note">
         Exterior from the NASA 3D Resources model "{selected.source}". The cockpit is built for this app. NASA does not endorse this app.
       </p>}

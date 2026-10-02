@@ -16,13 +16,27 @@ export function speed(c: number): string {
 }
 export function duration(seconds: number): string {
   if (!Number.isFinite(seconds) || seconds < 0) return 'Set a speed'
-  if (seconds > 86400) return `${number.format(seconds / 86400)} days`
-  if (seconds > 3600) return `${number.format(seconds / 3600)} hours`
-  if (seconds > 60) return `${number.format(seconds / 60)} min`
-  return `${number.format(seconds)} s`
+  const rounded = Math.round(seconds)
+  if (rounded >= 3600) {
+    const totalMinutes = Math.round(seconds / 60)
+    const hours = Math.floor(totalMinutes / 60)
+    const minutes = totalMinutes % 60
+    return `${number.format(hours)} h ${minutes} min`
+  }
+  if (rounded >= 60) {
+    const minutes = Math.floor(rounded / 60)
+    return `${minutes} min ${rounded % 60} s`
+  }
+  return `${rounded} s`
 }
 export const categories: Record<string, string> = {
   star: 'Star', planet: 'Planet', dwarf_planet: 'Dwarf planet',
   dwarf_candidate: 'Dwarf-planet candidate', moon: 'Moon', asteroid: 'Asteroid',
   tno: 'Trans-Neptunian object', centaur: 'Centaur', comet: 'Comet',
 }
+/** Time rates offered in the dock, in simulated seconds per second. */
+export const TIME_RATES: [number, string][] = [
+  [-86400, 'Reverse 1 day/s'], [-3600, 'Reverse 1 hour/s'], [1, 'Real time'], [60, '1 min/s'],
+  [3600, '1 hour/s'], [86400, '1 day/s'], [604800, '1 week/s'],
+]
+export const rateLabel = (value: number): string => TIME_RATES.find(([rate]) => rate === value)?.[1] ?? `${value.toLocaleString()}x`

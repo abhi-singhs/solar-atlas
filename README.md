@@ -115,6 +115,8 @@ The hangar holds 15 ships. The NASA ships are listed by launch year:
 | Mule | Original design | 24 m | 4 m |
 | Manta | Original design | 18.1 m | 3 m |
 
+None, at the bottom of the hangar, draws no ship and no cockpit, so only space is on screen. Flight works the same, and the flight panel still shows speed, range, and altitude. A landed camera sits 3 m above the ground, the flight controller's default clearance. Chase view has no hull to follow, so it stays at the pilot eye and tilts down about 10 degrees.
+
 The NASA exteriors are NASA's own models from [NASA 3D Resources](https://github.com/nasa/NASA-3D-Resources). The source files use whatever units their authors picked. Hubble's is roughly in inches and Gemini's is 2.4 times too big. So `npm run prepare:ships` ignores the file units and scales each model from one real dimension, such as Voyager's 3.7 m dish or Hubble's 13.1 m length. `public/assets/ships/manifest.json` records that dimension, its citation, the pinned source file, and the final size. NASA has not endorsed this app.
 
 NASA's Apollo-Soyuz model is fatter than the real hardware. Scaled to the 11 m Apollo command and service module, its 3.9 m service module comes out about 4.8 m wide.
@@ -133,11 +135,56 @@ Pausing freezes translation while leaving the interface and free-look usable. By
 
 Space music plays an ambient soundtrack while you fly. Turn it on in Settings, with the speaker button at the top of the expanded flight panel, or with M. It starts off, and Settings remembers the choice and the volume.
 
-Nothing is downloaded. Your browser synthesizes the music with the Web Audio API: a low drone on D, slow pad chords in D Lydian, and sparse bell chimes, all through a generated reverb. The chord changes every 16 seconds and a random walk picks the chimes, so there is no loop to notice.
+Nothing is downloaded. Your browser synthesizes the music with the Web Audio API. A low drone, slow pad chords, and sparse bell chimes all run through a generated reverb. Every note comes from the same seven, D E F# G# A B C#, so nothing sounds out of key.
+
+The score moves through sections of three to five chords. Each section puts the drone on a new root. The notes stay the same, but the mode changes. D Lydian is home and sounds bright. B Dorian is darker, A Ionian is warm and settled, and F# Aeolian is the darkest. Each section also sets its own pace. A Ionian changes chord every 12 to 16 seconds and rings the most chimes. F# Aeolian holds each chord for 20 or 24 seconds and leaves long silences between chimes. After a section away, the score usually comes back to D Lydian.
+
+Within a section, a chord sometimes lifts its top note an octave or drops its bass. Some chimes turn into short arpeggios that climb or fall through the chord underneath. A random walk picks the other chimes, so there is no loop to notice.
 
 The mix follows the ship. Faster flight opens the filter on the pads. Warp adds a high shimmer. Landing or hovering leaves only a quieter drone. Pausing flight, hiding the tab, or leaving Spaceship mode fades the music out, and the audio stops a few seconds later.
 
 Browsers play sound only after you interact with the page. If music was on during your last visit, it starts with your first click or key press.
+
+## Share a journey
+
+The share button in the top bar, left of Help, makes a link to what you see. In Explore the link holds the selected body, the date, the time rate, whether time is playing, the camera mode, and the camera framing. In Spaceship mode it holds where the ship starts, the date, the route with each stop's Land or Park nearby choice, Auto-continue, Auto speed, the camera, Warp, and the commanded speed. Both kinds carry the ship, labels, trajectories, exposure, field of view, lens flare, star glare, music, music volume, and theme.
+
+The dialog lists what the link holds and has two switches. Open with the interface hidden gives the recipient the bare scene with a single Show interface button. Space music turns music on or off for the recipient. Copy link puts the link on the clipboard. Where the browser has a share sheet, as most phones do, Share opens it.
+
+A link with a route opens on a Begin journey screen once the atlas loads. The ship waits at the start, paused, until the recipient picks Begin journey. That click starts the route, and it also counts as the click browsers need before they play sound. Look around first closes the screen and leaves the route in the flight panel for Start route.
+
+Share a route that has already flown and the link starts where the route started, on the date it started, not where the ship is now.
+
+Settings from a link last for that visit. They never replace the recipient's saved settings. If the recipient changes a setting, the app saves that one setting as usual. The link leaves out render quality and Pause when you switch tabs or windows, which depend on the device, and saved viewpoints, which are personal. A free camera link reopens on the orbit framing around the body, without the offset you flew the free camera to.
+
+### Link format
+
+Links are plain query parameters, so you can write one by hand. `v=1` is required, and without it the app ignores the rest. The app checks each parameter on its own. A bad one gets dropped, the rest still apply, and a warning lists what the app ignored.
+
+| Parameter | Values | Mode |
+| --- | --- | --- |
+| `v` | `1` | Both |
+| `mode` | `explore` or `ship`. Without it, a link with a `route` opens in Spaceship mode and any other link in Explore. | Both |
+| `body` | A body ID such as `mars`. The selected body in Explore, or where the ship starts. | Both |
+| `t` | A UTC date inside the cached year: `2027-01-15T06:00:00Z`, `2027-01-15T06:00`, or `2027-01-15` | Both |
+| `cam` | `orbit`, `follow`, or `free` | Explore |
+| `view` | `theta,phi,distance` in radians and km, then an optional body ID when the camera circles a different body, as the system frames do | Explore |
+| `rate` | Simulated seconds per second, nonzero, up to 604,800 in either direction | Explore |
+| `play` | `1` or `0` | Explore |
+| `route` | Up to 12 body IDs in order, separated by commas. `~land` lands or hovers, as in `moon~land,mars`. | Spaceship |
+| `continue`, `autospeed` | `1` or `0` for Auto-continue and Auto speed | Spaceship |
+| `look` | `cockpit` or `chase` | Spaceship |
+| `warp` | `1` or `0` | Spaceship |
+| `throttle` | Commanded speed in c, below 1 unless `warp=1` allows up to 1,000 | Spaceship |
+| `ship` | A ship ID such as `voyager`, `jwst`, or `parker-solar-probe`. `none` draws no ship or cockpit. | Both |
+| `labels`, `paths`, `flare`, `glare`, `music` | `1` or `0` | Both |
+| `ev` | Exposure from -4 to 6 | Both |
+| `fov` | Field of view from 25 to 100 degrees | Both |
+| `vol` | Music volume from 0 to 1 | Both |
+| `theme` | `dark` or `light` | Both |
+| `ui` | `hidden` starts with the interface hidden | Both |
+
+This link flies a Voyager from Earth to a Moon landing and on to Mars, with music and no interface: `?v=1&mode=ship&body=earth&route=moon~land,mars&warp=1&ship=voyager&music=1&ui=hidden`. A parameter missing from a hand-written link keeps the recipient's own setting. Links from the share dialog write every setting.
 
 ## Land
 

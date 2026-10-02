@@ -78,4 +78,10 @@ describe('scientific readouts', () => {
     expect(distance(AU_KM)).toBe('1.000 AU')
     expect(duration(Infinity)).toBe('Set a speed')
   })
+  it('formats durations without decimal units', () => {
+    expect(duration(3996)).toBe('1 h 7 min')
+    expect(duration(150.4)).toBe('2 min 30 s')
+    expect(duration(3599.6)).toBe('1 h 0 min')
+    expect(duration(59.6)).toBe('1 min 0 s')
+  })
 })

@@ -6,19 +6,22 @@ import type { ViewState } from '../navigation/state'
 import type { Appearance } from './BodyCard'
 import { formatNumber } from './format'
 import { SHIPS } from '../cockpit/ships'
+import { EXPOSURE_EV, FOV_DEGREES, MUSIC_VOLUME } from '../navigation/limits'
 import { SHIP_GROUPS, meters } from './shipText'
 
 const base = import.meta.env.BASE_URL
 const eyeHeights = SHIPS.map(ship => ship.eyeHeightM)
 
-function Modal({ title, onClose, children }: { title: string; onClose: () => void; children: ReactNode }) {
+/** A modal dialog. Mark one child with `data-autofocus` to focus it instead of the close button. */
+export function Modal({ title, onClose, closeOnBackdrop = false, children }: { title: string; onClose: () => void; closeOnBackdrop?: boolean; children: ReactNode }) {
   const dialog = useRef<HTMLDialogElement>(null)
   useEffect(() => {
     const element = dialog.current
     element?.showModal()
+    element?.querySelector<HTMLElement>('[data-autofocus]')?.focus()
     return () => element?.close()
   }, [])
-  return <dialog ref={dialog} onCancel={onClose} className="modal" aria-label={title}>
+  return <dialog ref={dialog} closedby={closeOnBackdrop ? 'any' : 'closerequest'} onCancel={onClose} onClose={onClose} className="modal" aria-label={title}>
     <header><h2>{title}</h2><button className="icon-button ghost" aria-label="Close dialog" onClick={onClose}><X size={20} /></button></header>
     <div className="modal-content">{children}</div>
   </dialog>
@@ -33,7 +36,7 @@ interface SettingsProps {
 }
 
 export function SettingsDialog({ view, onClose, onOption, musicSupported, onMusic }: SettingsProps) {
-  return <Modal title="Settings" onClose={onClose}>
+  return <Modal title="Settings" onClose={onClose} closeOnBackdrop>
     <div className="settings-grid">
       <label>Render quality
         <select value={view.quality} onChange={event => onOption('quality', event.target.value === 'high' ? 'high' : 'low')}>
@@ -42,10 +45,10 @@ export function SettingsDialog({ view, onClose, onOption, musicSupported, onMusi
         <small>Running at {Math.round(view.fps)} fps. Physical dimensions stay identical. Lower quality uses smaller textures.</small>
       </label>
       <label>Exposure compensation <span className="setting-value">{view.exposure} EV</span>
-        <input type="range" min="-4" max="6" step=".25" value={view.exposure} onChange={event => onOption('exposure', Number(event.target.value))} />
+        <input type="range" min={EXPOSURE_EV.min} max={EXPOSURE_EV.max} step=".25" value={view.exposure} onChange={event => onOption('exposure', Number(event.target.value))} />
       </label>
       <label>Field of view <span className="setting-value">{view.fov} degrees</span>
-        <input type="range" aria-label="Field of view" min="25" max="100" step="1" value={view.fov} onChange={event => onOption('fov', Number(event.target.value))} />
+        <input type="range" aria-label="Field of view" min={FOV_DEGREES.min} max={FOV_DEGREES.max} step="1" value={view.fov} onChange={event => onOption('fov', Number(event.target.value))} />
       </label>
       <label>Spaceship
         <select value={view.shipModel} aria-describedby="ship-note" onChange={event => onOption('shipModel', event.target.value)}>
@@ -80,7 +83,7 @@ export function SettingsDialog({ view, onClose, onOption, musicSupported, onMusi
           : 'This browser does not support the Web Audio API, so it cannot play the generated music.'}</small>
       </div>
       <label>Music volume <span className="setting-value">{Math.round(view.musicVolume * 100)}%</span>
-        <input type="range" aria-label="Music volume" min="0" max="1" step=".05" value={view.musicVolume} disabled={!view.music || !musicSupported}
+        <input type="range" aria-label="Music volume" min={MUSIC_VOLUME.min} max={MUSIC_VOLUME.max} step=".05" value={view.musicVolume} disabled={!view.music || !musicSupported}
           onChange={event => onOption('musicVolume', Number(event.target.value))} />
       </label>
     </div>
@@ -106,8 +109,9 @@ export function HelpDialog({ onClose, onSources }: { onClose: () => void; onSour
     </div>
     <p>On touch screens, hold the Steer or Look pad and drag. Release to center it. The roll, thrust, and vertical buttons act while held. Expand the flight panel for speed and camera controls. Menus do not pass input through to the ship.</p>
     <h3>Explore</h3><p>Drag to orbit a body. Scroll or pinch to zoom. Search the catalog to find all 71 bodies, including those too small to see at their real size. Go to body is an instant camera move, not a simulated journey. The View menu frames the local, inner, or whole solar system and shows or hides labels and trajectories.</p>
-    <h3>Fly</h3><p>Enter Spaceship for cockpit or chase view. Set a speed in c and choose Travel for an assisted transfer. Warp must be enabled before speeds reach or exceed light speed. Brake stops relative motion; Cancel autopilot returns steering to you.</p><p>Ship, near the bottom of the expanded flight panel, opens the hangar. It holds {SHIPS.length} ships: real NASA spacecraft and original designs. Switching ships changes the exterior and the cockpit, not the flight model. Settings has the same choice. Bigger ships land with the pilot's eye higher off the ground, so a landed ship reads {meters(Math.min(...eyeHeights))} to {meters(Math.max(...eyeHeights))} of altitude depending on the design.</p><p>Travel, Land, and routes are steering aids, not solved orbits. Arrival times estimate the target's motion, and a ship that parks near a body holds a position rather than a computed orbit. Altitude marked est. uses the catalog radius because no surface geometry is loaded there.</p><p>Turn on Space music in Settings, with the speaker button in the flight panel, or with M. Your browser generates it while you fly, so it needs no download. Warp adds a high shimmer, landing or hovering leaves a quiet drone, and pausing flight fades it out.</p>
+    <h3>Fly</h3><p>Enter Spaceship for cockpit or chase view. Set a speed in c and choose Travel for an assisted transfer. Warp must be enabled before speeds reach or exceed light speed. Brake stops relative motion; Cancel autopilot returns steering to you.</p><p>Ship, near the bottom of the expanded flight panel, opens the hangar. It holds {SHIPS.length} ships: real NASA spacecraft and original designs. Switching ships changes the exterior and the cockpit, not the flight model. Pick None to fly with no ship or cockpit on screen. Settings has the same choice. Bigger ships land with the pilot's eye higher off the ground, so a landed ship reads {meters(Math.min(...eyeHeights))} to {meters(Math.max(...eyeHeights))} of altitude depending on the design.</p><p>Travel, Land, and routes are steering aids, not solved orbits. Arrival times estimate the target's motion, and a ship that parks near a body holds a position rather than a computed orbit. Altitude marked est. uses the catalog radius because no surface geometry is loaded there.</p><p>Turn on Space music in Settings, with the speaker button in the flight panel, or with M. Your browser generates it while you fly, so it needs no download. Warp adds a high shimmer, landing or hovering leaves a quiet drone, and pausing flight fades it out.</p>
     <h3>Plan a route</h3><p>In Spaceship mode, add destinations with the + button next to each body in the catalog, the Add destination button on the body card, or the + key. The route in the flight panel lists them in order. For each stop, choose whether the ship parks nearby or lands, move stops earlier, or remove them.</p><p>Start route flies to the first stop. After each arrival the ship waits five seconds, takes off if it landed, and heads for the next stop. Turn off Auto-continue to leave each stop yourself with Depart now. Auto speed sets each leg's speed so the cruise takes about 30 seconds. Legs between planets need Warp. You can arm Warp while parked near a body, and it engages once the ship clears the exclusion zone.</p>
+    <h3>Share a journey</h3><p>The share button in the top bar makes a link to this view. In Spaceship mode the link holds your route, and it opens on a Begin journey screen that starts the route with one click. The link also carries the ship, the display settings, music, and whether the interface starts hidden. Those settings last for one visit and never replace the recipient's saved settings.</p>
     <h3>Land and take off</h3><p>Select a solid body and choose Land for an assisted approach. In Explore mode, Pick site and land lets you tap a visible part of the source mesh and launch an assisted descent there. Close to a body, the safety controller limits speed. Gas and ice giants allow simulated hovering, not surface landing. The Sun cannot be landed on.</p><p>Ground detail is reconstructed. Original planet dimensions, source meshes, and data remain separate. No terrain here is suitable for real navigation.</p>
     <h3>What the clock means</h3><p>c means 299,792.458 km/s per simulated second. Flight defaults to 1x time. Pausing stops the ship and bodies but leaves free-look available. Leave flight before scrubbing time or reversing playback.</p><p>Speed is relative to the reference body's center, not its rotating ground. A landed ship can show nonzero speed because the planet carries it through its rotation.</p>
     <h3>What the images mean</h3><p>Some maps combine observations with reconstructed coverage. Weather maps are static composites, not forecasts. Unknown poles and phases remain unconstrained. Trajectory lines show the cached year, not invented complete orbits.</p>

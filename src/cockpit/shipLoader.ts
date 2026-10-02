@@ -67,12 +67,12 @@ export function shipOccluder(group: THREE.Object3D): Occluder | undefined {
 }
 
 /**
- * Builds a ship exterior in meters, +Y up, nose toward -Z, origin at the pilot eye. Original ships build in code. NASA
- * ships fetch their GLB once per session and parse a fresh copy on every call, so disposing one copy never frees
- * geometry or textures that another copy still uses.
+ * Builds a ship exterior in meters, +Y up, nose toward -Z, origin at the pilot eye. Original ships build in code, and
+ * the None choice builds an empty group. NASA ships fetch their GLB once per session and parse a fresh copy on every
+ * call, so disposing one copy never frees geometry or textures that another copy still uses.
  */
 export async function loadShip(design: ShipDesign, options: LoadShipOptions = {}): Promise<THREE.Group> {
-  if (design.kind === 'original') return design.buildShip()
+  if (design.kind !== 'nasa') return design.buildShip()
   try {
     const bytes = await modelBytes(design.model, options.fetchModel ?? fetchModel)
     return await parseNasaShip(design, bytes, options.skipTextures)

@@ -8,7 +8,7 @@ import { musicMood, SILENT } from '../src/audio/score'
 import type { Mood, MoodInput } from '../src/audio/score'
 
 interface Segment { at: number; mood: Mood }
-interface RenderRequest { seconds: number; segments: Segment[]; windows: [number, number][]; seed?: number }
+interface RenderRequest { seconds: number; segments: Segment[]; windows: [number, number][]; seed?: number; sampleRate?: number }
 interface WindowStats { finite: boolean; peak: number; rms: number; brightness: number }
 declare global {
   interface Window { musicFixture: { render(request: RenderRequest): Promise<WindowStats[]> } }
@@ -89,4 +89,26 @@ describe('space music synthesis', () => {
     expect(change(first, second)).toBeLessThan(1e-6)
     expect(change(first, other)).toBeGreaterThan(1e-3)
   })
+
+  // The home section lasts at most 90 seconds and any other at most 120, so five minutes crosses at least two changes.
+  const long = (mood: Mood) => render({
+    seconds: 300, segments: [{ at: 0, mood }], sampleRate: 22050,
+    windows: Array.from({ length: 14 }, (_, i): [number, number] => [20 + i * 20, 40 + i * 20]),
+  })
+
+  it('stays audible and below full scale through section changes', async () => {
+    const windows = await long(cruise)
+    for (const stats of windows) {
+      expect(stats.finite).toBe(true)
+      expect(stats.peak).toBeLessThan(0.9)
+      expect(stats.rms).toBeGreaterThan(0.015)
+    }
+  }, 60000)
+
+  // With only the drone playing, brightness tracks its pitch. Every other root sits at least three semitones from D.
+  it('moves the drone to a new root between sections', async () => {
+    const windows = await long(musicMood({ ...flight, shipMode: 'landed' }))
+    const brightness = windows.map(stats => stats.brightness)
+    expect(Math.max(...brightness) / Math.min(...brightness)).toBeGreaterThan(1.2)
+  }, 60000)
 })

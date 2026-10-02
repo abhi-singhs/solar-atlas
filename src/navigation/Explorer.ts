@@ -3,7 +3,7 @@ import { DAY_SECONDS } from '../contracts'
 import type { CameraPose, Dataset, Snapshot, SurfaceHit } from '../contracts'
 import { loadDataset } from '../simulation/dataset'
 import { SolarRenderer } from '../render/SolarRenderer'
-import { FlightController } from '../flight/FlightController'
+import { FlightController, NORMAL_LIMIT_C } from '../flight/FlightController'
 import type { FlightTelemetry } from '../flight/FlightController'
 import { CHASE_PITCH, DEFAULT_SHIP, isShipId, shipDesign, shipProfile } from '../cockpit/ships'
 import {
@@ -13,12 +13,18 @@ import {
 import type { RouteStop, StopAction } from '../flight/route'
 import { duration } from '../ui/format'
 import { InputController, setInputSource } from '../input/controls'
+import { EXPOSURE_EV, FOV_DEGREES, inRange, MAX_TIME_SCALE, MUSIC_VOLUME } from './limits'
 import { Observer } from './observer'
+import type { SharedJourney } from './share'
 import { initialState } from './state'
 import type { Notice, NoticeTone, SavedSettings, ViewState } from './state'
 
 const SETTINGS_KEY = 'solar-atlas-settings-v1'
-type OptionKey = 'labels' | 'paths' | 'quality' | 'exposure' | 'fov' | 'lensFlare' | 'glareHidesStars' | 'music' | 'musicVolume' | 'pauseInBackground' | 'shipModel'
+/** Settings the user changes through `option()`. These are the ones saved between visits. */
+const SAVED_KEYS = ['labels', 'paths', 'quality', 'exposure', 'fov', 'lensFlare', 'glareHidesStars', 'music', 'musicVolume', 'pauseInBackground', 'shipModel'] as const
+type OptionKey = typeof SAVED_KEYS[number]
+type Preferences = Pick<ViewState, OptionKey>
+const preferences = (state: ViewState): Preferences => Object.fromEntries(SAVED_KEYS.map(key => [key, state[key]])) as Preferences
 type RouteOption = 'routeAutoContinue' | 'routeAutoSpeed'
 const RUNNING = new Set(['departing', 'enroute', 'dwell'])
 const FRAME_DT = 0.05
@@ -31,6 +37,8 @@ export class Explorer {
   private readonly container: HTMLElement
   private readonly notify: (state: ViewState) => void
   private state: ViewState = { ...initialState, bookmarks: [] }
+  /** What localStorage holds. A share link changes `state` for one visit and leaves this alone. */
+  private saved: Preferences = preferences(this.state)
   private dataset?: Dataset
   private renderer?: SolarRenderer
   private observer?: Observer
@@ -54,6 +62,8 @@ export class Explorer {
   private routeLeg = { key: -1, arrivals: 0 }
   private routeToken = 0
   private launching = false
+  /** Where and when the current route began, so a shared route replays from its start rather than from where the ship is now. */
+  private routeOrigin: { bodyId: string; jd: number } | null = null
 
   constructor(container: HTMLElement, notify: (state: ViewState) => void) {
     this.container = container
@@ -73,14 +83,21 @@ export class Explorer {
     document.addEventListener('visibilitychange', this.visibility)
   }
 
-  async start(): Promise<void> {
+  /** Loads the dataset and opens on Earth, or on a shared journey once its bodies and date check out against the dataset. */
+  async start(shared: SharedJourney | null = null, linkProblems: readonly string[] = []): Promise<void> {
     const dataset = await loadDataset(message => this.publish({ loading: message }))
     if (this.disposed) return
     this.dataset = dataset
+    const problems = [...linkProblems]
+    const journey = shared && this.checkJourney(shared, dataset, problems)
+    const startId = journey?.bodyId ?? 'earth'
+    const startJd = journey?.jd ?? dataset.firstJd
+    // Shared settings last for this visit. `saved` keeps the recipient's own preferences for localStorage.
+    if (journey) this.state = { ...this.state, ...journey.settings }
     this.observer = new Observer(dataset.bodies)
     this.observer.aspect = this.container.clientWidth / Math.max(1, this.container.clientHeight)
-    this.snapshot = dataset.evaluate(dataset.firstJd)
-    this.observer.focus('earth', this.snapshot)
+    this.snapshot = dataset.evaluate(startJd)
+    this.observer.focus(startId, this.snapshot)
     this.renderer = new SolarRenderer(this.container, dataset, {
       onSelect: id => {
         if (this.state.pickingSite || performance.now() - this.lastSitePick < 250) return
@@ -93,7 +110,12 @@ export class Explorer {
       onShipShown: id => this.flight?.setShipProfile(shipProfile(id)),
       onShipFailed: (id, shownId, message) => {
         if (this.state.shipModel !== id) return
-        this.publish({ shipModel: shownId, notice: this.note(`${message}. You are still flying the ${shipDesign(shownId).name}.`, 'warning') })
+        const shown = shipDesign(shownId)
+        const still = shown.kind === 'none' ? 'You are still flying with no ship.' : `You are still flying the ${shown.name}.`
+        this.publish({ shipModel: shownId, notice: this.note(`${message}. ${still}`, 'warning') })
+        // A shared ship that fails to load must not replace the recipient's saved one.
+        if (this.saved.shipModel !== id) return
+        this.saved = { ...this.saved, shipModel: shownId }
         this.save()
       },
     })
@@ -101,15 +123,100 @@ export class Explorer {
     // The renderer starts with the default ship and reports the saved one through onShipShown once it has loaded.
     this.flight = new FlightController(dataset.bodies, this.renderer.surface)
     this.flight.setShipProfile(shipProfile(DEFAULT_SHIP))
-    this.publish({ loading: 'Preparing Earth at its physical scale', bodies: dataset.bodies,
-      jd: dataset.firstJd, firstJd: dataset.firstJd, lastJd: dataset.lastJd, date: dataset.jdToUtc(dataset.firstJd) })
-    await this.renderer.ensureBody('earth')
+    this.publish({ loading: `Preparing ${this.body(startId).name} at its physical scale`, bodies: dataset.bodies, selectedId: startId,
+      jd: startJd, firstJd: dataset.firstJd, lastJd: dataset.lastJd, date: dataset.jdToUtc(startJd) })
+    await this.renderer.ensureBody(startId)
     if (this.disposed) return
+    const warnings: string[] = []
     const validBookmarks = this.state.bookmarks.filter(b => dataset.bodies.some(body => body.id === b.bodyId) &&
       b.jd >= dataset.firstJd && b.jd <= dataset.lastJd)
-    if (validBookmarks.length !== this.state.bookmarks.length) this.publish({ notice: this.note('Some saved viewpoints no longer match this dataset and were removed.', 'warning') })
-    this.publish({ ready: true, bookmarks: validBookmarks })
+    if (validBookmarks.length !== this.state.bookmarks.length) warnings.push('Some saved viewpoints no longer match this dataset and were removed.')
+    if (journey) {
+      try {
+        await this.applyJourney(journey, problems)
+      } catch (e) {
+        problems.push(e instanceof Error ? e.message.replace(/\.$/, '') : String(e))
+      }
+      if (this.disposed) return
+    }
+    if (problems.length) warnings.push(`Parts of this shared link were ignored: ${problems.join('; ')}.`)
+    this.publish({ ready: true, bookmarks: validBookmarks, ...(warnings.length ? { notice: this.note(warnings.join(' '), 'warning') } : {}) })
     this.frame = requestAnimationFrame(this.tick)
+  }
+
+  /** Drops the parts of a shared journey that name bodies or dates this dataset does not have. */
+  private checkJourney(journey: SharedJourney, dataset: Dataset, problems: string[]): SharedJourney & { jd?: number } {
+    const known = (id: string) => dataset.bodies.some(body => body.id === id)
+    const checked: SharedJourney & { jd?: number } = { ...journey }
+    if (journey.bodyId && !known(journey.bodyId)) {
+      problems.push(`body=${journey.bodyId}, which is not in the catalog`)
+      delete checked.bodyId
+    }
+    if (journey.utc) {
+      try { checked.jd = dataset.utcToJd(journey.utc) }
+      catch { problems.push(`t=${journey.utc}, which is outside the cached 2026-2027 interval`) }
+    }
+    if (journey.framing?.targetId && !known(journey.framing.targetId)) {
+      problems.push(`view centered on ${journey.framing.targetId}, which is not in the catalog`)
+      delete checked.framing
+    }
+    if (journey.route) {
+      checked.route = journey.route.filter(stop => {
+        if (!known(stop.bodyId)) problems.push(`route stop ${stop.bodyId}, which is not in the catalog`)
+        return known(stop.bodyId)
+      })
+    }
+    return checked
+  }
+
+  /** Runs after the start body has loaded. Ship journeys with a route wait, paused, for the Begin journey screen. */
+  private async applyJourney(journey: SharedJourney, problems: string[]): Promise<void> {
+    if (!this.observer || !this.snapshot) return
+    if (journey.mode === 'explore') {
+      if (journey.framing) this.observer.frame({ ...journey.framing, targetId: journey.framing.targetId ?? this.state.selectedId }, this.snapshot)
+      if (journey.observerMode) this.observer.mode = journey.observerMode
+      this.publish({ observerMode: this.observer.mode, timeScale: journey.timeScale ?? this.state.timeScale, playing: journey.playing ?? false })
+      return
+    }
+    await this.enterShip()
+    if (this.disposed || !this.state.inShip) return
+    if (journey.camera) this.setCamera(journey.camera)
+    // Warp first, because the throttle limit depends on it.
+    if (journey.warp) this.setWarp(true)
+    if (journey.throttleC !== undefined) this.setThrottle(journey.throttleC)
+    for (const stop of journey.route ?? []) {
+      try { this.addStop(stop.bodyId, stop.action, false) }
+      catch (e) { problems.push(e instanceof Error ? e.message.replace(/\.$/, '') : String(e)) }
+    }
+    if (journey.routeAutoContinue !== undefined) this.setRouteOption('routeAutoContinue', journey.routeAutoContinue)
+    if (journey.routeAutoSpeed !== undefined) this.setRouteOption('routeAutoSpeed', journey.routeAutoSpeed)
+    // Setup messages such as "Warp armed" describe this setup, not a flight event, so they stay out of the popups.
+    this.syncFlightMessage()
+    if (this.state.route.length) this.publish({ playing: false })
+  }
+
+  /** The current view as a shareable journey, or null before the atlas is ready. Theme and interface visibility belong to the app. */
+  shareSnapshot(): SharedJourney | null {
+    if (!this.dataset || !this.observer || !this.state.ready) return null
+    const s = this.state
+    const settings = { shipModel: s.shipModel, labels: s.labels, paths: s.paths, exposure: s.exposure, fov: s.fov,
+      lensFlare: s.lensFlare, glareHidesStars: s.glareHidesStars, music: s.music, musicVolume: s.musicVolume }
+    if (!s.inShip) {
+      return { mode: 'explore', bodyId: s.selectedId, utc: this.shareUtc(s.jd), observerMode: s.observerMode,
+        framing: this.observer.framing(), timeScale: s.timeScale, playing: s.playing, settings }
+    }
+    const origin = s.route.length && this.routeOrigin ? this.routeOrigin : { bodyId: s.referenceId, jd: s.jd }
+    const warp = s.warp || s.warpArmed
+    return { mode: 'ship', bodyId: origin.bodyId, utc: this.shareUtc(origin.jd),
+      route: s.route.map(({ bodyId, action }) => ({ bodyId, action })), routeAutoContinue: s.routeAutoContinue, routeAutoSpeed: s.routeAutoSpeed,
+      camera: s.camera, warp, throttleC: warp ? s.throttleC : Math.min(s.throttleC, NORMAL_LIMIT_C), settings }
+  }
+
+  /** Whole-second UTC, kept a second inside the cached interval so truncation can never push it outside. */
+  private shareUtc(jd: number): string {
+    const second = 1 / DAY_SECONDS
+    const safe = Math.min(this.dataset!.lastJd - second, Math.max(this.dataset!.firstJd + second, jd))
+    return `${this.dataset!.jdToUtc(safe).slice(0, 19)}Z`
   }
 
   private publish(patch: Partial<ViewState>): void {
@@ -169,7 +276,8 @@ export class Explorer {
       const jd = Math.max(this.dataset.firstJd, Math.min(this.dataset.lastJd, next))
       simulationDt = (jd - previousJd) * DAY_SECONDS
       this.state.jd = jd
-      if (next <= this.dataset.firstJd || next >= this.dataset.lastJd) {
+      // A zero-length first frame does not move the clock, so a journey that starts on the first cached date keeps playing.
+      if (dt > 0 && (next <= this.dataset.firstJd || next >= this.dataset.lastJd)) {
         this.state.playing = false
         this.state.notice = this.note('Reached the cached dataset boundary. Playback is paused.')
       }
@@ -266,6 +374,7 @@ export class Explorer {
     if (this.state.inShip) this.exitShip()
     this.observer.system(this.snapshot, kind)
     this.publish({ observerMode: 'orbit', paths: true })
+    this.saved = { ...this.saved, paths: true }
   }
 
   observerMode(mode: ViewState['observerMode']): void {
@@ -287,7 +396,7 @@ export class Explorer {
   }
 
   setTimeScale(value: number): void {
-    if (!Number.isFinite(value) || value === 0 || Math.abs(value) > 604800) throw new Error('Invalid time acceleration.')
+    if (!Number.isFinite(value) || value === 0 || Math.abs(value) > MAX_TIME_SCALE) throw new Error('Invalid time acceleration.')
     if (this.state.inShip && value !== 1) throw new Error('Spaceship flight uses 1x time. Leave flight to accelerate the timeline.')
     this.publish({ timeScale: value })
   }
@@ -403,7 +512,9 @@ export class Explorer {
 
   removeStop(key: number): void {
     const active = key === this.routeLeg.key && RUNNING.has(this.state.routePhase)
-    this.publish({ route: removeStop(this.state.route, key) })
+    const route = removeStop(this.state.route, key)
+    if (!route.length) this.routeOrigin = null
+    this.publish({ route })
     if (active) this.continueAfterChange()
   }
 
@@ -420,6 +531,7 @@ export class Explorer {
 
   clearRoute(): void {
     if (RUNNING.has(this.state.routePhase)) this.pauseRoute()
+    this.routeOrigin = null
     this.publish({ route: [], routePhase: 'idle', routeDwell: 0 })
   }
 
@@ -432,6 +544,9 @@ export class Explorer {
   async startRoute(): Promise<void> {
     if (!this.state.route.length) throw new Error('Add a destination before starting a route.')
     if (!currentStop(this.state.route)) this.publish({ route: resetRoute(this.state.route) })
+    if (this.state.route.every(stop => stop.status === 'pending')) {
+      this.routeOrigin = { bodyId: this.state.inShip ? this.state.referenceId : this.state.selectedId, jd: this.state.jd }
+    }
     if (!this.state.inShip) await this.enterShip()
     await this.launchLeg()
   }
@@ -592,6 +707,7 @@ export class Explorer {
       if (!isShipId(value)) throw new Error(`Unknown spaceship ${String(value)}.`)
     }
     this.publish({ [key]: value })
+    this.saved = { ...this.saved, [key]: value }
     this.save()
   }
 
@@ -617,10 +733,7 @@ export class Explorer {
   }
 
   private save(): void {
-    const settings: SavedSettings = { version: 1, labels: this.state.labels, paths: this.state.paths,
-      quality: this.state.quality, exposure: this.state.exposure, fov: this.state.fov, lensFlare: this.state.lensFlare,
-      glareHidesStars: this.state.glareHidesStars, music: this.state.music, musicVolume: this.state.musicVolume,
-      pauseInBackground: this.state.pauseInBackground, shipModel: this.state.shipModel, bookmarks: this.state.bookmarks }
+    const settings: SavedSettings = { version: 1, ...this.saved, bookmarks: this.state.bookmarks }
     try { localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)) }
     catch (e) { this.publish({ notice: this.note(`Settings could not be saved in this browser: ${e instanceof Error ? e.message : String(e)}`, 'error') }) }
   }
@@ -634,8 +747,8 @@ export class Explorer {
         !('labels' in parsed) || typeof parsed.labels !== 'boolean' ||
         !('paths' in parsed) || typeof parsed.paths !== 'boolean' ||
         !('quality' in parsed) || (parsed.quality !== 'low' && parsed.quality !== 'high') ||
-        !('exposure' in parsed) || typeof parsed.exposure !== 'number' || !Number.isFinite(parsed.exposure) ||
-        parsed.exposure < -4 || parsed.exposure > 6 || !('bookmarks' in parsed) || !Array.isArray(parsed.bookmarks)) {
+        !('exposure' in parsed) || typeof parsed.exposure !== 'number' || !inRange(parsed.exposure, EXPOSURE_EV) ||
+        !('bookmarks' in parsed) || !Array.isArray(parsed.bookmarks)) {
         throw new Error('Saved settings have an unsupported format.')
       }
       const bookmarks = parsed.bookmarks.map((item: unknown) => {
@@ -646,7 +759,7 @@ export class Explorer {
       })
       let fov = this.state.fov
       if ('fov' in parsed) {
-        if (typeof parsed.fov !== 'number' || !Number.isFinite(parsed.fov) || parsed.fov < 25 || parsed.fov > 100) throw new Error('Saved field of view is invalid.')
+        if (typeof parsed.fov !== 'number' || !inRange(parsed.fov, FOV_DEGREES)) throw new Error('Saved field of view is invalid.')
         fov = parsed.fov
       }
       const flagNames = { lensFlare: 'lens flare', glareHidesStars: 'star glare', music: 'music', pauseInBackground: 'background pause' } as const
@@ -658,7 +771,7 @@ export class Explorer {
       }
       let musicVolume = this.state.musicVolume
       if ('musicVolume' in parsed) {
-        if (typeof parsed.musicVolume !== 'number' || !Number.isFinite(parsed.musicVolume) || parsed.musicVolume < 0 || parsed.musicVolume > 1) {
+        if (typeof parsed.musicVolume !== 'number' || !inRange(parsed.musicVolume, MUSIC_VOLUME)) {
           throw new Error('Saved music volume is invalid.')
         }
         musicVolume = parsed.musicVolume
@@ -673,6 +786,7 @@ export class Explorer {
       this.state = { ...this.state, labels: parsed.labels, paths: parsed.paths, quality: parsed.quality, exposure: parsed.exposure, fov,
         lensFlare: flag('lensFlare'), glareHidesStars: flag('glareHidesStars'), music: flag('music'), musicVolume,
         pauseInBackground: flag('pauseInBackground'), shipModel, bookmarks }
+      this.saved = preferences(this.state)
       if (retiredShip) {
         this.state.notice = this.note(`The saved spaceship is no longer in the hangar, so you are flying the ${shipDesign(DEFAULT_SHIP).name}.`)
         this.save()

@@ -16,12 +16,12 @@ export function createCockpit(id?: string): THREE.Group {
 
 /**
  * Builds an original ship's exterior in meters, +Y up, nose -Z, origin at the pilot eye. The lowest point sits at the
- * design's touchdown height below the eye. Scale by 0.001 in a kilometer scene. Defaults to the Kestrel. NASA ships
- * load from a file, so use `loadShipModel` for them.
+ * design's touchdown height below the eye. Scale by 0.001 in a kilometer scene. Defaults to the Kestrel. The None
+ * choice returns an empty group. NASA ships load from a file, so use `loadShipModel` for them.
  */
 export function createShip(id?: string): THREE.Group {
   const design = shipDesign(id)
-  if (design.kind !== 'original') throw new Error(`The ${design.name} exterior loads from a file. Use loadShipModel.`)
+  if (design.kind === 'nasa') throw new Error(`The ${design.name} exterior loads from a file. Use loadShipModel.`)
   return design.buildShip()
 }
 
